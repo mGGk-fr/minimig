@@ -1,9 +1,0 @@
-
-Summary:
-    Program space        used  7DFEh ( 32254) of  8000h bytes   ( 98.4%)
-    Data space           used   5A6h (  1446) of   600h bytes   ( 94.1%)
-    EEPROM space         used     0h (     0) of   100h bytes   (  0.0%)
-    External data memory None available
-    ID Location space    used     0h (     0) of     8h nibbles (  0.0%)
-    Configuration bits   used     0h (     0) of     7h words   (  0.0%)
-
