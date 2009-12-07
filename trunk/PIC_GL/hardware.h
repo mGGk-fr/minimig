@@ -7,17 +7,19 @@
 
 // FPGA firmware revision
 //#define	PYQ090405	PYQ090405
-#define	PYQ090911	PYQ090911
+#define	PGL091207	PGL091207
 
 // Define Command header
 #if	defined(PYQ090405)
 	#define	FPGA_CMD_HDR0	0xAA
 	#define	FPGA_CMD_HDR1	0x55
 	#define FPGA_REV 		PYQ090405
-#elif	defined(PYQ090911)
+	#define	PIC_REV			PYQ090405
+#elif	defined(PGL091207)
 	#define	FPGA_CMD_HDR0	0xAA
 	#define	FPGA_CMD_HDR1	0x67
 	#define FPGA_REV 		PYQ090911
+	#define	PIC_REV			PGL091207
 #endif
 
 

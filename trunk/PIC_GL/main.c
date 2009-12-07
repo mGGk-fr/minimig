@@ -78,6 +78,8 @@ WriteTrack errors:
 2009-11-30	- Code cleaned a bit, string replaced with constants 
 2009-12-04	- HDD Detection added
 2009-12-05	- Boot Wait before key read replaced with wait function
+2009-12-97	- Pic version changed to PGLYYMMDD
+			- Added FPGA version to display
 */
 
 #include <pic18.h>
@@ -97,7 +99,7 @@ WriteTrack errors:
 // Enable / Disable debug output
 //#define DEBUG_MAIN
 
-const char version[] = { "$VER:" DEF_TO_STRING(FPGA_REV) "\0" };
+const char version[] = { "$VER:" DEF_TO_STRING(PIC_REV) "\0" };
 
 void HandleFpga(void);
 
@@ -123,7 +125,7 @@ void main(void)
 	printf("Minimig by Dennis van Weeren\r\n");
 	printf("Bug fixes, mods and extensions by Jakub Bednarski\r\n");
 	printf("SDHC, FAT16/32, Dir, LFN, HDD support by Goran Ljubojevic\r\n\r\n");
-	printf("Version %s\r\n\r\n", version+5);
+	printf("FPGA Rev. " DEF_TO_STRING(FPGA_REV) ", PIC Rev. %s\r\n\r\n", version+5);
 
 	// Load Config form eeprom
 	LoadConfiguration();
