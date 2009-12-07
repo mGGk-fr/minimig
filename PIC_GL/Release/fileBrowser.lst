@@ -1,0 +1,1594 @@
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:00 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	text,global,reloc=2,class=CODE,delta=1
+     4                           	psect	const,global,class=CODE,delta=1
+     5                           	psect	bigbss,global,class=BIGRAM,space=1,delta=
+      +                          1
+     6                           	psect	bss,global,class=RAM,space=1,delta=1
+     7                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     8                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+     9  000000                     
+    10  000000                     
+    11  000000                     
+    12  000000                     
+    13  000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  000000                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000                     
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000                     
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000                     
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                     
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97  000000                     
+    98                           
+    99                           	psect	text
+   100                           ;pic18fxx2.h: 21: static volatile near unsigned 
+      +                          char TOSU @ 0xFFF;
+   101                           ;pic18fxx2.h: 22: static volatile near unsigned 
+      +                          char TOSH @ 0xFFE;
+   102                           ;pic18fxx2.h: 23: static volatile near unsigned 
+      +                          char TOSL @ 0xFFD;
+   103                           ;pic18fxx2.h: 24: static volatile near unsigned 
+      +                          char STKPTR @ 0xFFC;
+   104                           ;pic18fxx2.h: 25: static volatile near unsigned 
+      +                          char PCLATU @ 0xFFB;
+   105                           ;pic18fxx2.h: 26: static volatile near unsigned 
+      +                          char PCLATH @ 0xFFA;
+   106                           ;pic18fxx2.h: 27: static volatile near unsigned 
+      +                          char PCL @ 0xFF9;
+   107                           ;pic18fxx2.h: 28: static volatile far unsigned c
+      +                          har * TBLPTR @ 0xFF6;
+   108                           ;pic18fxx2.h: 29: static volatile near unsigned 
+      +                          char TBLPTRU @ 0xFF8;
+   109                           ;pic18fxx2.h: 30: static volatile near unsigned 
+      +                          char TBLPTRH @ 0xFF7;
+   110                           ;pic18fxx2.h: 31: static volatile near unsigned 
+      +                          char TBLPTRL @ 0xFF6;
+   111                           ;pic18fxx2.h: 32: static volatile near unsigned 
+      +                          char TABLAT @ 0xFF5;
+   112                           ;pic18fxx2.h: 33: static volatile near unsigned 
+      +                          char PRODH @ 0xFF4;
+   113                           ;pic18fxx2.h: 34: static volatile near unsigned 
+      +                          char PRODL @ 0xFF3;
+   114                           ;pic18fxx2.h: 35: static volatile near unsigned 
+      +                          char INTCON @ 0xFF2;
+   115                           ;pic18fxx2.h: 36: static near unsigned char INTC
+      +                          ON2 @ 0xFF1;
+   116                           ;pic18fxx2.h: 37: static volatile near unsigned 
+      +                          char INTCON3 @ 0xFF0;
+   117                           ;pic18fxx2.h: 38: static volatile near unsigned 
+      +                          char INDF0 @ 0xFEF;
+   118                           ;pic18fxx2.h: 39: static volatile near unsigned 
+      +                          char POSTINC0 @ 0xFEE;
+   119                           ;pic18fxx2.h: 40: static volatile near unsigned 
+      +                          char POSTDEC0 @ 0xFED;
+   120                           ;pic18fxx2.h: 41: static volatile near unsigned 
+      +                          char PREINC0 @ 0xFEC;
+   121                           ;pic18fxx2.h: 42: static volatile near unsigned 
+      +                          char PLUSW0 @ 0xFEB;
+   122                           ;pic18fxx2.h: 43: static volatile near unsigned 
+      +                          char FSR0H @ 0xFEA;
+   123                           ;pic18fxx2.h: 44: static volatile near unsigned 
+      +                          char FSR0L @ 0xFE9;
+   124                           ;pic18fxx2.h: 45: static volatile near unsigned 
+      +                          char WREG @ 0xFE8;
+   125                           ;pic18fxx2.h: 46: static volatile near unsigned 
+      +                          char INDF1 @ 0xFE7;
+   126                           ;pic18fxx2.h: 47: static volatile near unsigned 
+      +                          char POSTINC1 @ 0xFE6;
+   127                           ;pic18fxx2.h: 48: static volatile near unsigned 
+      +                          char POSTDEC1 @ 0xFE5;
+   128                           ;pic18fxx2.h: 49: static volatile near unsigned 
+      +                          char PREINC1 @ 0xFE4;
+   129                           ;pic18fxx2.h: 50: static volatile near unsigned 
+      +                          char PLUSW1 @ 0xFE3;
+   130                           ;pic18fxx2.h: 51: static volatile near unsigned 
+      +                          char FSR1H @ 0xFE2;
+   131                           ;pic18fxx2.h: 52: static volatile near unsigned 
+      +                          char FSR1L @ 0xFE1;
+   132                           ;pic18fxx2.h: 53: static near unsigned char BSR 
+      +                          @ 0xFE0;
+   133                           ;pic18fxx2.h: 54: static volatile near unsigned 
+      +                          char INDF2 @ 0xFDF;
+   134                           ;pic18fxx2.h: 55: static volatile near unsigned 
+      +                          char POSTINC2 @ 0xFDE;
+   135                           ;pic18fxx2.h: 56: static volatile near unsigned 
+      +                          char POSTDEC2 @ 0xFDD;
+   136                           ;pic18fxx2.h: 57: static volatile near unsigned 
+      +                          char PREINC2 @ 0xFDC;
+   137                           ;pic18fxx2.h: 58: static volatile near unsigned 
+      +                          char PLUSW2 @ 0xFDB;
+   138                           ;pic18fxx2.h: 59: static volatile near unsigned 
+      +                          char FSR2H @ 0xFDA;
+   139                           ;pic18fxx2.h: 60: static volatile near unsigned 
+      +                          char FSR2L @ 0xFD9;
+   140                           ;pic18fxx2.h: 61: static volatile near unsigned 
+      +                          char STATUS @ 0xFD8;
+   141                           ;pic18fxx2.h: 62: static volatile near unsigned 
+      +                          int TMR0 @ 0xFD6;
+   142                           ;pic18fxx2.h: 63: static volatile near unsigned 
+      +                          char TMR0H @ 0xFD7;
+   143                           ;pic18fxx2.h: 64: static volatile near unsigned 
+      +                          char TMR0L @ 0xFD6;
+   144                           ;pic18fxx2.h: 65: static near unsigned char T0CO
+      +                          N @ 0xFD5;
+   145                           ;pic18fxx2.h: 66: static volatile near unsigned 
+      +                          char OSCCON @ 0xFD3;
+   146                           ;pic18fxx2.h: 67: static volatile near unsigned 
+      +                          char LVDCON @ 0xFD2;
+   147                           ;pic18fxx2.h: 68: static near unsigned char WDTC
+      +                          ON @ 0xFD1;
+   148                           ;pic18fxx2.h: 69: static volatile near unsigned 
+      +                          char RCON @ 0xFD0;
+   149                           ;pic18fxx2.h: 70: static volatile near unsigned 
+      +                          int TMR1 @ 0xFCE;
+   150                           ;pic18fxx2.h: 71: static volatile near unsigned 
+      +                          char TMR1H @ 0xFCF;
+   151                           ;pic18fxx2.h: 72: static volatile near unsigned 
+      +                          char TMR1L @ 0xFCE;
+   152                           ;pic18fxx2.h: 73: static near unsigned char T1CO
+      +                          N @ 0xFCD;
+   153                           ;pic18fxx2.h: 74: static volatile near unsigned 
+      +                          char TMR2 @ 0xFCC;
+   154                           ;pic18fxx2.h: 75: static volatile near unsigned 
+      +                          char PR2 @ 0xFCB;
+   155                           ;pic18fxx2.h: 76: static near unsigned char T2CO
+      +                          N @ 0xFCA;
+   156                           ;pic18fxx2.h: 77: static volatile near unsigned 
+      +                          char SSPBUF @ 0xFC9;
+   157                           ;pic18fxx2.h: 78: static volatile near unsigned 
+      +                          char SSPADD @ 0xFC8;
+   158                           ;pic18fxx2.h: 79: static volatile near unsigned 
+      +                          char SSPSTAT @ 0xFC7;
+   159                           ;pic18fxx2.h: 80: static volatile near unsigned 
+      +                          char SSPCON1 @ 0xFC6;
+   160                           ;pic18fxx2.h: 81: static volatile near unsigned 
+      +                          char SSPCON2 @ 0xFC5;
+   161                           ;pic18fxx2.h: 82: static volatile near unsigned 
+      +                          int ADRES @ 0xFC3;
+   162                           ;pic18fxx2.h: 83: static volatile near unsigned 
+      +                          char ADRESH @ 0xFC4;
+   163                           ;pic18fxx2.h: 84: static volatile near unsigned 
+      +                          char ADRESL @ 0xFC3;
+   164                           ;pic18fxx2.h: 85: static volatile near unsigned 
+      +                          char ADCON0 @ 0xFC2;
+   165                           ;pic18fxx2.h: 86: static near unsigned char ADCO
+      +                          N1 @ 0xFC1;
+   166                           ;pic18fxx2.h: 87: static volatile near unsigned 
+      +                          int CCPR1 @ 0xFBE;
+   167                           ;pic18fxx2.h: 88: static volatile near unsigned 
+      +                          char CCPR1H @ 0xFBF;
+   168                           ;pic18fxx2.h: 89: static volatile near unsigned 
+      +                          char CCPR1L @ 0xFBE;
+   169                           ;pic18fxx2.h: 90: static volatile near unsigned 
+      +                          char CCP1CON @ 0xFBD;
+   170                           ;pic18fxx2.h: 91: static volatile near unsigned 
+      +                          int CCPR2 @ 0xFBB;
+   171                           ;pic18fxx2.h: 92: static volatile near unsigned 
+      +                          char CCPR2H @ 0xFBC;
+   172                           ;pic18fxx2.h: 93: static volatile near unsigned 
+      +                          char CCPR2L @ 0xFBB;
+   173                           ;pic18fxx2.h: 94: static volatile near unsigned 
+      +                          char CCP2CON @ 0xFBA;
+   174                           ;pic18fxx2.h: 95: static volatile near unsigned 
+      +                          int TMR3 @ 0xFB2;
+   175                           ;pic18fxx2.h: 96: static volatile near unsigned 
+      +                          char TMR3H @ 0xFB3;
+   176                           ;pic18fxx2.h: 97: static volatile near unsigned 
+      +                          char TMR3L @ 0xFB2;
+   177                           ;pic18fxx2.h: 98: static near unsigned char T3CO
+      +                          N @ 0xFB1;
+   178                           ;pic18fxx2.h: 99: static near unsigned char SPBR
+      +                          G @ 0xFAF;
+   179                           ;pic18fxx2.h: 100: static volatile near unsigned
+      +                           char RCREG @ 0xFAE;
+   180                           ;pic18fxx2.h: 101: static volatile near unsigned
+      +                           char TXREG @ 0xFAD;
+   181                           ;pic18fxx2.h: 102: static volatile near unsigned
+      +                           char TXSTA @ 0xFAC;
+   182                           ;pic18fxx2.h: 103: static volatile near unsigned
+      +                           char RCSTA @ 0xFAB;
+   183                           ;pic18fxx2.h: 104: static volatile near unsigned
+      +                           char EEADR @ 0xFA9;
+   184                           ;pic18fxx2.h: 105: static volatile near unsigned
+      +                           char EEDATA @ 0xFA8;
+   185                           ;pic18fxx2.h: 106: static volatile near unsigned
+      +                           char EECON2 @ 0xFA7;
+   186                           ;pic18fxx2.h: 107: static volatile near unsigned
+      +                           char EECON1 @ 0xFA6;
+   187                           ;pic18fxx2.h: 108: static near unsigned char IPR
+      +                          2 @ 0xFA2;
+   188                           ;pic18fxx2.h: 109: static volatile near unsigned
+      +                           char PIR2 @ 0xFA1;
+   189                           ;pic18fxx2.h: 110: static near unsigned char PIE
+      +                          2 @ 0xFA0;
+   190                           ;pic18fxx2.h: 111: static near unsigned char IPR
+      +                          1 @ 0xF9F;
+   191                           ;pic18fxx2.h: 112: static volatile near unsigned
+      +                           char PIR1 @ 0xF9E;
+   192                           ;pic18fxx2.h: 113: static near unsigned char PIE
+      +                          1 @ 0xF9D;
+   193                           ;pic18fxx2.h: 114: static volatile near unsigned
+      +                           char TRISC @ 0xF94;
+   194                           ;pic18fxx2.h: 115: static volatile near unsigned
+      +                           char TRISB @ 0xF93;
+   195                           ;pic18fxx2.h: 116: static volatile near unsigned
+      +                           char TRISA @ 0xF92;
+   196                           ;pic18fxx2.h: 117: static volatile near unsigned
+      +                           char LATC @ 0xF8B;
+   197                           ;pic18fxx2.h: 118: static volatile near unsigned
+      +                           char LATB @ 0xF8A;
+   198                           ;pic18fxx2.h: 119: static volatile near unsigned
+      +                           char LATA @ 0xF89;
+   199                           ;pic18fxx2.h: 120: static volatile near unsigned
+      +                           char PORTC @ 0xF82;
+   200  000072                     _PrintDir:
+   201                           ;	_i assigned to ?a_ScrollDir+2
+   202  000000                     _ScrollDir$i	set	?a_ScrollDir+2
+   203                           ;	_rc assigned to ?a_ScrollDir+1
+   204  000000                     _ScrollDir$rc	set	?a_ScrollDir+1
+   205                           ;	_seekmode assigned to ?a_ScrollDir+0
+   206  000000                     _ScrollDir$seekmode	set	?a_ScrollDir
+   207                           ;       param _mode assigned to ?_ScrollDir+2
+   208  000000                     _ScrollDir$mode	set	?_ScrollDir+2
+   209                           ;       param _type assigned to ?_ScrollDir+0
+   210  000000                     _ScrollDir$type	set	?_ScrollDir
+   211                           ;	_s assigned to ?a_PrintDir+1
+   212  000000                     _PrintDir$s	set	?a_PrintDir+1
+   213                           ;	_i assigned to ?a_PrintDir+0
+   214  000000                     _PrintDir$i	set	?a_PrintDir
+   215                           ; errata NOP at function entry point
+   216  000072  FFFF               	dw	65535
+   217  000074                     f3912:
+   218  000000                     
+   219                           ;fileBrowser.c: 41: unsigned char i;
+   220  000074  0101               	movlb	_directory shr (0+8)
+   221  000076  5300               	movf	_directory& (0+255),f,b
+   222                           ;fileBrowser.c: 47: {
+   223  000078  0100               	movlb	__Lparam shr (0+8)
+   224  00007A  E10A               	bnz	L2
+   225  00007C  0EC6               	movlw	low u19
+   226  00007E  6F5D               	movwf	?_OsdWrite^(__Lparam& (0+65280)),b
+   227  000080  0E0E               	movlw	high u19
+   228  000082  6F5E               	movwf	(?_OsdWrite+1)^(__Lparam& (0+65280)),b
+   229  000084  0E01               	movlw	1
+   230  000086  6F5F               	movwf	(?_OsdWrite+2)^(__Lparam& (0+65280)),b
+   231  000088  0E00               	movlw	0
+   232  00008A  ECE8  F037         	call	_OsdWrite
+   233                           ;fileBrowser.c: 49: return;
+   234  00008E  D06D               	goto	l14
+   235                           ;fileBrowser.c: 50: }
+   236  000090                     L2:
+   237  000090  6B46               	clrf	?a_PrintDir^(__Lparam& (0+65280)),b
+   238  000092                     l16:
+   239                           ;fileBrowser.c: 53: {
+   240  000092  0100               	movlb	__Lparam shr (0+8)
+   241  000094  0E47               	movlw	low (?a_PrintDir+1)
+   242  000096  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+   243  000098  0E00               	movlw	high (?a_PrintDir+1)
+   244  00009A  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+   245  00009C  0E20               	movlw	32
+   246  00009E  6FE2               	movwf	(?_memset+2)^(__Lparam& (0+65280)),b
+   247  0000A0  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   248  0000A2  0E16               	movlw	22
+   249  0000A4  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   250  0000A6  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   251  0000A8  EC70  F03E         	call	_memset	;wreg free
+   252                           ;fileBrowser.c: 56: s[sizeof(s)-1] = 0;
+   253  0000AC  0100               	movlb	__Lparam shr (0+8)
+   254  0000AE  6B5C               	clrf	(?a_PrintDir+22)^(__Lparam& (0+65280)),b
+   255                           ;fileBrowser.c: 59: if (directory[i].name[0])
+   256  0000B0  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   257  0000B2  0D1F               	mullw	31
+   258  0000B4  0E00               	movlw	low _directory
+   259  0000B6  24F3               	addwf	prodl,w,c
+   260  0000B8  6EE9               	movwf	fsr0l,c
+   261  0000BA  0E01               	movlw	high _directory
+   262  0000BC  20F4               	addwfc	prodh,w,c
+   263  0000BE  6EEA               	movwf	fsr0h,c
+   264  0000C0  50EF               	movf	indf0,w,c
+   265  0000C2  E03E               	bz	l19
+   266                           ;fileBrowser.c: 60: {
+   267  0000C4  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   268  0000C6  0D1F               	mullw	31
+   269  0000C8  0E00               	movlw	low _directory
+   270  0000CA  24F3               	addwf	prodl,w,c
+   271  0000CC  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   272  0000CE  0E01               	movlw	high _directory
+   273  0000D0  20F4               	addwfc	prodh,w,c
+   274  0000D2  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   275  0000D4  0E7F               	movlw	low _currentDir
+   276  0000D6  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   277  0000D8  0E02               	movlw	high _currentDir
+   278  0000DA  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   279  0000DC  0E01               	movlw	1
+   280  0000DE  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   281  0000E0  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   282                           ;fileBrowser.c: 65: if(directory[i].attributes &
+      +                           (1 << 4))
+   283  0000E4  0100               	movlb	__Lparam shr (0+8)
+   284  0000E6  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   285  0000E8  0D1F               	mullw	31
+   286  0000EA  0E0C               	movlw	low (_directory+12)
+   287  0000EC  24F3               	addwf	prodl,w,c
+   288  0000EE  6EE9               	movwf	fsr0l,c
+   289  0000F0  0E01               	movlw	high (_directory+12)
+   290  0000F2  20F4               	addwfc	prodh,w,c
+   291  0000F4  6EEA               	movwf	fsr0h,c
+   292  0000F6  50EF               	movf	indf0,w,c
+   293  0000F8  6E00               	movwf	btemp,c
+   294  0000FA  A800               	btfss	btemp,4,c
+   295  0000FC  D002               	goto	l20
+   296                           ;fileBrowser.c: 66: { s[0]='D'; }
+   297  0000FE  0E44               	movlw	68
+   298  000100  6F47               	movwf	(?a_PrintDir+1)^(__Lparam& (0+65280)),b
+   299  000102                     l20:
+   300                           ;fileBrowser.c: 69: if(longFilename[0])
+   301  000102  0103               	movlb	_longFilename shr (0+8)
+   302  000104  537F               	movf	_longFilename& (0+255),f,b
+   303                           ;fileBrowser.c: 70: { strncpy(&s[3],longFilename
+      +                          ,17); }
+   304  000106  0100               	movlb	__Lparam shr (0+8)
+   305  000108  0E4A               	movlw	low (?a_PrintDir+4)
+   306  00010A  6F5D               	movwf	?_strncpy^(__Lparam& (0+65280)),b
+   307  00010C  0E00               	movlw	high (?a_PrintDir+4)
+   308  00010E  6F5E               	movwf	(?_strncpy+1)^(__Lparam& (0+65280)),b
+   309  000110  E00A               	bz	L3
+   310  000112  0E7F               	movlw	low _longFilename
+   311  000114  6F5F               	movwf	(?_strncpy+2)^(__Lparam& (0+65280)),b
+   312  000116  0E03               	movlw	high _longFilename
+   313  000118  6F60               	movwf	(?_strncpy+3)^(__Lparam& (0+65280)),b
+   314  00011A  0E11               	movlw	17
+   315  00011C  6F61               	movwf	(?_strncpy+4)^(__Lparam& (0+65280)),b
+   316  00011E  6B62               	clrf	(?_strncpy+5)^(__Lparam& (0+65280)),b
+   317  000120  EC4A  F03D         	call	_strncpy	;wreg free
+   318  000124  D00D               	goto	l19
+   319                           ;fileBrowser.c: 71: else
+   320  000126                     L3:
+   321  000126  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   322  000128  0D1F               	mullw	31
+   323  00012A  0E00               	movlw	low _directory
+   324  00012C  24F3               	addwf	prodl,w,c
+   325  00012E  6F5F               	movwf	(?_strncpy+2)^(__Lparam& (0+65280)),b
+   326  000130  0E01               	movlw	high _directory
+   327  000132  20F4               	addwfc	prodh,w,c
+   328  000134  6F60               	movwf	(?_strncpy+3)^(__Lparam& (0+65280)),b
+   329  000136  0E0C               	movlw	12
+   330  000138  6F61               	movwf	(?_strncpy+4)^(__Lparam& (0+65280)),b
+   331  00013A  6B62               	clrf	(?_strncpy+5)^(__Lparam& (0+65280)),b
+   332  00013C  EC4A  F03D         	call	_strncpy	;wreg free
+   333  000140                     l19:
+   334                           ;fileBrowser.c: 73: }
+   335  000140  0100               	movlb	__Lparam shr (0+8)
+   336  000142  0E47               	movlw	low (?a_PrintDir+1)
+   337  000144  6F5D               	movwf	?_OsdWrite^(__Lparam& (0+65280)),b
+   338  000146  0E00               	movlw	high (?a_PrintDir+1)
+   339  000148  6F5E               	movwf	(?_OsdWrite+1)^(__Lparam& (0+65280)),b
+   340  00014A  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   341  00014C  0103               	movlb	_dirptr shr (0+8)
+   342  00014E  197E               	xorwf	_dirptr& (0+255),w,b
+   343  000150  0E00               	movlw	0
+   344  000152  B4D8               	btfsc	status,2,c
+   345  000154  0E01               	movlw	1
+   346  000156  0100               	movlb	__Lparam shr (0+8)
+   347  000158  6F5F               	movwf	(?_OsdWrite+2)^(__Lparam& (0+65280)),b
+   348  00015A  5146               	movf	?a_PrintDir^(__Lparam& (0+65280)),w
+   349  00015C  ECE8  F037         	call	_OsdWrite
+   350  000160  0100               	movlb	__Lparam shr (0+8)
+   351  000162  2B46               	incf	?a_PrintDir^(__Lparam& (0+65280)),f,b
+   352  000164  0E07               	movlw	7
+   353  000166  6546               	cpfsgt	?a_PrintDir^(__Lparam& (0+65280)),b
+   354  000168  D794               	goto	l16
+   355                           ;fileBrowser.c: 76: }
+   356  00016A                     l14:
+   357  00016A  0012               	return	
+   358  00016C  FFFF               	dw	65535	; Nop inserted for errata
+   359  00016E  D782               	goto	f3912
+   360  000170                     __end_of_PrintDir:
+   361                           ;fileBrowser.c: 90: void ScrollDir(const unsigne
+      +                          d char *type, unsigned char mode)
+   362                           ;fileBrowser.c: 91: {
+   363  000170  004B               	dw	?_ScrollDir
+   364  000172                     _ScrollDir:
+   365                           ; errata NOP at function entry point
+   366  000172  FFFF               	dw	65535
+   367  000174                     f3982:
+   368  000000                     
+   369                           ;fileBrowser.c: 92: unsigned char i;
+   370  000174  0100               	movlb	__Lparam shr (0+8)
+   371  000176  514D               	movf	(?_ScrollDir+2)^(__Lparam& (0+65280)),w
+   372  000178  E164               	bnz	l24
+   373                           ;fileBrowser.c: 97: {
+   374  00017A  0103               	movlb	_dirptr shr (0+8)
+   375  00017C  6B7E               	clrf	_dirptr& (0+255),b
+   376                           ;fileBrowser.c: 102: memset(directory,0,sizeof(d
+      +                          irectory));
+   377  00017E  0100               	movlb	__Lparam shr (0+8)
+   378  000180  0E00               	movlw	low _directory
+   379  000182  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+   380  000184  0E01               	movlw	high _directory
+   381  000186  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+   382  000188  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+   383  00018A  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   384  00018C  0EF8               	movlw	248
+   385  00018E  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   386  000190  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   387  000192  EC70  F03E         	call	_memset	;wreg free
+   388                           ;fileBrowser.c: 105: i = 0;
+   389  000196  0100               	movlb	__Lparam shr (0+8)
+   390  000198  6B50               	clrf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),b
+   391                           ;fileBrowser.c: 106: seekmode = 0;
+   392  00019A  6B4E               	clrf	?a_ScrollDir^(__Lparam& (0+65280)),b
+   393                           ;fileBrowser.c: 109: while (i < 8)
+   394  00019C  D04D               	goto	l25
+   395  00019E                     l26:
+   396                           ;fileBrowser.c: 110: {
+   397  00019E  0100               	movlb	__Lparam shr (0+8)
+   398  0001A0  0E9E               	movlw	low _file
+   399  0001A2  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   400  0001A4  0E02               	movlw	high _file
+   401  0001A6  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   402  0001A8  0E7F               	movlw	low _currentDir
+   403  0001AA  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   404  0001AC  0E02               	movlw	high _currentDir
+   405  0001AE  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   406  0001B0  514E               	movf	?a_ScrollDir^(__Lparam& (0+65280)),w
+   407  0001B2  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   408  0001B4  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   409  0001B8  6E00               	movwf	btemp,c
+   410  0001BA  C000  F002         	movff	btemp,btemp+2
+   411  0001BE  6A03               	clrf	btemp+3,c
+   412  0001C0  5003               	movf	btemp+3,w,c
+   413  0001C2  1002               	iorwf	btemp+2,w,c
+   414  0001C4  E101 D206          	bz	l23
+   415                           ;fileBrowser.c: 113: { break; }
+   416                           ;fileBrowser.c: 115: seekmode = 2;
+   417  0001C8  0E02               	movlw	2
+   418  0001CA  0100               	movlb	__Lparam shr (0+8)
+   419  0001CC  6F4E               	movwf	?a_ScrollDir^(__Lparam& (0+65280)),b
+   420                           ;fileBrowser.c: 118: if ((file.attributes & (1 <
+      +                          < 4)) || (type[0]=='*') || (strncmp(&file.name[8
+      +                          ],type,3)==0))
+   421  0001CE  0102               	movlb	(_file+12) shr (0+8)
+   422  0001D0  B9AA               	btfsc	(_file+12)& (0+255),4,b
+   423  0001D2  D023               	goto	u120
+   424  0001D4  C04B  FFF6         	movff	?_ScrollDir,tblptrl
+   425  0001D8  C04C  FFF7         	movff	?_ScrollDir+1,tblptrh
+   426  0001DC  0E05               	movlw	(high __ramtop+-1)
+   427  0001DE  64F7               	cpfsgt	tblptrh,c
+   428  0001E0  D004               	bra	u97
+   429  0001E2  0008               	tblrd		*
+   430  0001E4  FFFF               	dw	65535	; Nop inserted for errata
+   431  0001E6  50F5               	movf	tablat,w,c
+   432  0001E8  D005               	bra	u90
+   433  0001EA                     u97:
+   434  0001EA  CFF6 FFE9          	movff	tblptrl,fsr0l
+   435  0001EE  CFF7 FFEA          	movff	tblptrh,fsr0h
+   436  0001F2  50EF               	movf	indf0,w,c
+   437  0001F4                     u90:
+   438  0001F4  0A2A               	xorlw	42
+   439  0001F6  E011               	bz	u120
+   440  0001F8  0100               	movlb	__Lparam shr (0+8)
+   441  0001FA  0EA6               	movlw	low (_file+8)
+   442  0001FC  6F51               	movwf	?_strncmp^(__Lparam& (0+65280)),b
+   443  0001FE  0E02               	movlw	high (_file+8)
+   444  000200  6F52               	movwf	(?_strncmp+1)^(__Lparam& (0+65280)),b
+   445  000202  C04B  F053         	movff	?_ScrollDir,?_strncmp+2
+   446  000206  C04C  F054         	movff	?_ScrollDir+1,?_strncmp+3
+   447  00020A  0E03               	movlw	3
+   448  00020C  6F55               	movwf	(?_strncmp+4)^(__Lparam& (0+65280)),b
+   449  00020E  6B56               	clrf	(?_strncmp+5)^(__Lparam& (0+65280)),b
+   450  000210  EC7C  F03C         	call	_strncmp	;wreg free
+   451  000214  5001               	movf	btemp+1,w,c
+   452  000216  1000               	iorwf	btemp,w,c
+   453  000218  E10F               	bnz	l25
+   454  00021A                     u120:
+   455                           ;fileBrowser.c: 119: {
+   456  00021A  EE02  F09E         	lfsr	0,_file
+   457  00021E  0100               	movlb	__Lparam shr (0+8)
+   458  000220  5150               	movf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),w
+   459  000222  0D1F               	mullw	31
+   460  000224  0E00               	movlw	low _directory
+   461  000226  24F3               	addwf	prodl,w,c
+   462  000228  6EE1               	movwf	fsr1l,c
+   463  00022A  0E01               	movlw	high _directory
+   464  00022C  20F4               	addwfc	prodh,w,c
+   465  00022E  6EE2               	movwf	fsr1h,c
+   466  000230  0E1F               	movlw	31
+   467  000232  ECFF  F03E         	call	structcopy
+   468                           ;fileBrowser.c: 121: i++;
+   469  000236  2B50               	incf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),f,b
+   470  000238                     l25:
+   471  000238  0E07               	movlw	7
+   472  00023A  0100               	movlb	__Lparam shr (0+8)
+   473  00023C  6550               	cpfsgt	(?a_ScrollDir+2)^(__Lparam& (0+65280)),b
+   474  00023E  D7AF               	goto	l26
+   475  000240  D1C9               	goto	l23
+   476                           ;fileBrowser.c: 122: }
+   477  000242                     l24:
+   478                           ;fileBrowser.c: 126: else if (2 == mode)
+   479  000242  0100               	movlb	__Lparam shr (0+8)
+   480  000244  514D               	movf	(?_ScrollDir+2)^(__Lparam& (0+65280)),w
+   481  000246  0A02               	xorlw	2
+   482  000248  E179               	bnz	l31
+   483                           ;fileBrowser.c: 127: {
+   484  00024A  0E06               	movlw	6
+   485  00024C  0103               	movlb	_dirptr shr (0+8)
+   486  00024E  657E               	cpfsgt	_dirptr& (0+255),b
+   487  000250  D066               	goto	l32
+   488                           ;fileBrowser.c: 131: {
+   489  000252  EE01  F0D9         	lfsr	0,_directory+217
+   490  000256  EE12  F09E         	lfsr	1,_file
+   491  00025A  0E1F               	movlw	31
+   492  00025C  ECFF  F03E         	call	structcopy
+   493  000260                     l35:
+   494                           ;fileBrowser.c: 135: do
+   495                           ;fileBrowser.c: 136: {
+   496  000260  0100               	movlb	__Lparam shr (0+8)
+   497  000262  0E9E               	movlw	low _file
+   498  000264  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   499  000266  0E02               	movlw	high _file
+   500  000268  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   501  00026A  0E7F               	movlw	low _currentDir
+   502  00026C  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   503  00026E  0E02               	movlw	high _currentDir
+   504  000270  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   505  000272  0E02               	movlw	2
+   506  000274  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   507  000276  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   508  00027A  0100               	movlb	__Lparam shr (0+8)
+   509  00027C  6F4F               	movwf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),b
+   510                           ;fileBrowser.c: 140: if ((file.attributes & (1 <
+      +                          < 4)) && rc)
+   511  00027E  0102               	movlb	(_file+12) shr (0+8)
+   512  000280  A9AA               	btfss	(_file+12)& (0+255),4,b
+   513  000282  D003               	goto	l36
+   514  000284  0100               	movlb	__Lparam shr (0+8)
+   515  000286  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   516  000288  E126               	bnz	l34
+   517                           ;fileBrowser.c: 141: { break; }
+   518  00028A                     l36:
+   519                           ;fileBrowser.c: 142: }
+   520  00028A  C04B  FFF6         	movff	?_ScrollDir,tblptrl
+   521  00028E  C04C  FFF7         	movff	?_ScrollDir+1,tblptrh
+   522  000292  0E05               	movlw	(high __ramtop+-1)
+   523  000294  64F7               	cpfsgt	tblptrh,c
+   524  000296  D004               	bra	u207
+   525  000298  0008               	tblrd		*
+   526  00029A  FFFF               	dw	65535	; Nop inserted for errata
+   527  00029C  50F5               	movf	tablat,w,c
+   528  00029E  D005               	bra	u200
+   529  0002A0                     u207:
+   530  0002A0  CFF6 FFE9          	movff	tblptrl,fsr0l
+   531  0002A4  CFF7 FFEA          	movff	tblptrh,fsr0h
+   532  0002A8  50EF               	movf	indf0,w,c
+   533  0002AA                     u200:
+   534  0002AA  0A2A               	xorlw	42
+   535  0002AC  0100               	movlb	__Lparam shr (0+8)
+   536  0002AE  E014               	bz	L4
+   537  0002B0  0EA6               	movlw	low (_file+8)
+   538  0002B2  6F51               	movwf	?_strncmp^(__Lparam& (0+65280)),b
+   539  0002B4  0E02               	movlw	high (_file+8)
+   540  0002B6  6F52               	movwf	(?_strncmp+1)^(__Lparam& (0+65280)),b
+   541  0002B8  C04B  F053         	movff	?_ScrollDir,?_strncmp+2
+   542  0002BC  C04C  F054         	movff	?_ScrollDir+1,?_strncmp+3
+   543  0002C0  0E03               	movlw	3
+   544  0002C2  6F55               	movwf	(?_strncmp+4)^(__Lparam& (0+65280)),b
+   545  0002C4  6B56               	clrf	(?_strncmp+5)^(__Lparam& (0+65280)),b
+   546  0002C6  EC7C  F03C         	call	_strncmp	;wreg free
+   547  0002CA  5001               	movf	btemp+1,w,c
+   548  0002CC  1000               	iorwf	btemp,w,c
+   549  0002CE  E003               	bz	l34
+   550  0002D0  0100               	movlb	__Lparam shr (0+8)
+   551  0002D2  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   552  0002D4  E1C5               	bnz	l35
+   553  0002D6                     l34:
+   554                           ;fileBrowser.c: 146: if (rc)
+   555  0002D6  0100               	movlb	__Lparam shr (0+8)
+   556  0002D8                     L4:
+   557  0002D8  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   558  0002DA  E101 D17B          	bz	l23
+   559                           ;fileBrowser.c: 147: {
+   560  0002DE  6AD9               	clrf	fsr2l,c
+   561  0002E0                     l38:
+   562                           ;fileBrowser.c: 150: { directory[i] = directory[
+      +                          i+1]; }
+   563  0002E0  50D9               	movf	fsr2l,w,c
+   564  0002E2  0D1F               	mullw	31
+   565  0002E4  0E1F               	movlw	low (_directory+31)
+   566  0002E6  24F3               	addwf	prodl,w,c
+   567  0002E8  6EE9               	movwf	fsr0l,c
+   568  0002EA  0E01               	movlw	high (_directory+31)
+   569  0002EC  20F4               	addwfc	prodh,w,c
+   570  0002EE  6EEA               	movwf	fsr0h,c
+   571  0002F0  50D9               	movf	fsr2l,w,c
+   572  0002F2  0D1F               	mullw	31
+   573  0002F4  0E00               	movlw	low _directory
+   574  0002F6  24F3               	addwf	prodl,w,c
+   575  0002F8  6EE1               	movwf	fsr1l,c
+   576  0002FA  0E01               	movlw	high _directory
+   577  0002FC  20F4               	addwfc	prodh,w,c
+   578  0002FE  6EE2               	movwf	fsr1h,c
+   579  000300  0E1F               	movlw	31
+   580  000302  ECFF  F03E         	call	structcopy
+   581  000306  2AD9               	incf	fsr2l,f,c
+   582  000308  0E06               	movlw	6
+   583  00030A  64D9               	cpfsgt	fsr2l,c
+   584  00030C  D7E9               	goto	l38
+   585                           ;fileBrowser.c: 152: directory[8-1] = file;
+   586  00030E  EE02  F09E         	lfsr	0,_file
+   587  000312  EE11  F0D9         	lfsr	1,_directory+217
+   588  000316  0E1F               	movlw	31
+   589  000318  ECFF  F03E         	call	structcopy
+   590                           ;fileBrowser.c: 153: }
+   591  00031C  D15B               	goto	l23
+   592  00031E                     l32:
+   593                           ;fileBrowser.c: 155: else
+   594  00031E  0103               	movlb	_dirptr shr (0+8)
+   595  000320  2B7E               	incf	_dirptr& (0+255),f,b
+   596                           ;fileBrowser.c: 159: if (0 == directory[dirptr].
+      +                          name[0])
+   597  000322  C37E  FFE8         	movff	_dirptr,wreg
+   598  000326  0D1F               	mullw	31
+   599  000328  0E00               	movlw	low _directory
+   600  00032A  24F3               	addwf	prodl,w,c
+   601  00032C  6EE9               	movwf	fsr0l,c
+   602  00032E  0E01               	movlw	high _directory
+   603  000330  20F4               	addwfc	prodh,w,c
+   604  000332  6EEA               	movwf	fsr0h,c
+   605  000334  50EF               	movf	indf0,w,c
+   606  000336  E001 D14D          	bnz	l23
+   607  00033A  D06D               	goto	l45
+   608                           ;fileBrowser.c: 160: { dirptr--; }
+   609                           ;fileBrowser.c: 161: }
+   610  00033C                     l31:
+   611                           ;fileBrowser.c: 163: else if (3 == mode)
+   612  00033C  0100               	movlb	__Lparam shr (0+8)
+   613  00033E  514D               	movf	(?_ScrollDir+2)^(__Lparam& (0+65280)),w
+   614  000340  0A03               	xorlw	3
+   615  000342  E16D               	bnz	l44
+   616                           ;fileBrowser.c: 164: {
+   617  000344  0103               	movlb	_dirptr shr (0+8)
+   618  000346  537E               	movf	_dirptr& (0+255),f,b
+   619  000348  E166               	bnz	l45
+   620                           ;fileBrowser.c: 168: {
+   621  00034A  EE01  F000         	lfsr	0,_directory
+   622  00034E  EE12  F09E         	lfsr	1,_file
+   623  000352  0E1F               	movlw	31
+   624  000354  ECFF  F03E         	call	structcopy
+   625  000358                     l48:
+   626                           ;fileBrowser.c: 172: do
+   627                           ;fileBrowser.c: 173: {
+   628  000358  0100               	movlb	__Lparam shr (0+8)
+   629  00035A  0E9E               	movlw	low _file
+   630  00035C  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   631  00035E  0E02               	movlw	high _file
+   632  000360  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   633  000362  0E7F               	movlw	low _currentDir
+   634  000364  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   635  000366  0E02               	movlw	high _currentDir
+   636  000368  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   637  00036A  0E03               	movlw	3
+   638  00036C  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   639  00036E  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   640  000372  0100               	movlb	__Lparam shr (0+8)
+   641  000374  6F4F               	movwf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),b
+   642                           ;fileBrowser.c: 177: if ((file.attributes & (1 <
+      +                          < 4)) && rc)
+   643  000376  0102               	movlb	(_file+12) shr (0+8)
+   644  000378  A9AA               	btfss	(_file+12)& (0+255),4,b
+   645  00037A  D003               	goto	l49
+   646  00037C  0100               	movlb	__Lparam shr (0+8)
+   647  00037E  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   648  000380  E126               	bnz	l47
+   649                           ;fileBrowser.c: 178: { break; }
+   650  000382                     l49:
+   651                           ;fileBrowser.c: 179: }
+   652  000382  C04B  FFF6         	movff	?_ScrollDir,tblptrl
+   653  000386  C04C  FFF7         	movff	?_ScrollDir+1,tblptrh
+   654  00038A  0E05               	movlw	(high __ramtop+-1)
+   655  00038C  64F7               	cpfsgt	tblptrh,c
+   656  00038E  D004               	bra	u347
+   657  000390  0008               	tblrd		*
+   658  000392  FFFF               	dw	65535	; Nop inserted for errata
+   659  000394  50F5               	movf	tablat,w,c
+   660  000396  D005               	bra	u340
+   661  000398                     u347:
+   662  000398  CFF6 FFE9          	movff	tblptrl,fsr0l
+   663  00039C  CFF7 FFEA          	movff	tblptrh,fsr0h
+   664  0003A0  50EF               	movf	indf0,w,c
+   665  0003A2                     u340:
+   666  0003A2  0A2A               	xorlw	42
+   667  0003A4  0100               	movlb	__Lparam shr (0+8)
+   668  0003A6  E014               	bz	L5
+   669  0003A8  0EA6               	movlw	low (_file+8)
+   670  0003AA  6F51               	movwf	?_strncmp^(__Lparam& (0+65280)),b
+   671  0003AC  0E02               	movlw	high (_file+8)
+   672  0003AE  6F52               	movwf	(?_strncmp+1)^(__Lparam& (0+65280)),b
+   673  0003B0  C04B  F053         	movff	?_ScrollDir,?_strncmp+2
+   674  0003B4  C04C  F054         	movff	?_ScrollDir+1,?_strncmp+3
+   675  0003B8  0E03               	movlw	3
+   676  0003BA  6F55               	movwf	(?_strncmp+4)^(__Lparam& (0+65280)),b
+   677  0003BC  6B56               	clrf	(?_strncmp+5)^(__Lparam& (0+65280)),b
+   678  0003BE  EC7C  F03C         	call	_strncmp	;wreg free
+   679  0003C2  5001               	movf	btemp+1,w,c
+   680  0003C4  1000               	iorwf	btemp,w,c
+   681  0003C6  E003               	bz	l47
+   682  0003C8  0100               	movlb	__Lparam shr (0+8)
+   683  0003CA  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   684  0003CC  E1C5               	bnz	l48
+   685  0003CE                     l47:
+   686                           ;fileBrowser.c: 183: if (rc)
+   687  0003CE  0100               	movlb	__Lparam shr (0+8)
+   688  0003D0                     L5:
+   689  0003D0  514F               	movf	(?a_ScrollDir+1)^(__Lparam& (0+65280)),w
+   690  0003D2  E101 D0FF          	bz	l23
+   691                           ;fileBrowser.c: 184: {
+   692  0003D6  0E07               	movlw	7
+   693  0003D8  6ED9               	movwf	fsr2l,c
+   694  0003DA                     l51:
+   695                           ;fileBrowser.c: 187: { directory[i] = directory[
+      +                          i-1]; }
+   696  0003DA  50D9               	movf	fsr2l,w,c
+   697  0003DC  0D1F               	mullw	31
+   698  0003DE  0EE1               	movlw	low (_directory+-31)
+   699  0003E0  24F3               	addwf	prodl,w,c
+   700  0003E2  6EE9               	movwf	fsr0l,c
+   701  0003E4  0E00               	movlw	high (_directory+-31)
+   702  0003E6  20F4               	addwfc	prodh,w,c
+   703  0003E8  6EEA               	movwf	fsr0h,c
+   704  0003EA  50D9               	movf	fsr2l,w,c
+   705  0003EC  0D1F               	mullw	31
+   706  0003EE  0E00               	movlw	low _directory
+   707  0003F0  24F3               	addwf	prodl,w,c
+   708  0003F2  6EE1               	movwf	fsr1l,c
+   709  0003F4  0E01               	movlw	high _directory
+   710  0003F6  20F4               	addwfc	prodh,w,c
+   711  0003F8  6EE2               	movwf	fsr1h,c
+   712  0003FA  0E1F               	movlw	31
+   713  0003FC  ECFF  F03E         	call	structcopy
+   714  000400  06D9               	decf	fsr2l,f,c
+   715  000402  50D9               	movf	fsr2l,w,c
+   716  000404  E1EA               	bnz	l51
+   717                           ;fileBrowser.c: 189: directory[0] = file;
+   718  000406  EE02  F09E         	lfsr	0,_file
+   719  00040A  EE11  F000         	lfsr	1,_directory
+   720  00040E  0E1F               	movlw	31
+   721  000410  ECFF  F03E         	call	structcopy
+   722                           ;fileBrowser.c: 190: }
+   723  000414  D0DF               	goto	l23
+   724  000416                     l45:
+   725                           ;fileBrowser.c: 192: else
+   726  000416  0103               	movlb	_dirptr shr (0+8)
+   727  000418  0E01               	movlw	1
+   728  00041A  077E               	decf	_dirptr& (0+255),f,b
+   729                           ;fileBrowser.c: 196: }
+   730  00041C  D0DB               	goto	l23
+   731  00041E                     l44:
+   732                           ;fileBrowser.c: 198: else if (mode >= 32)
+   733  00041E  0E1F               	movlw	31
+   734  000420  0100               	movlb	__Lparam shr (0+8)
+   735  000422  654D               	cpfsgt	(?_ScrollDir+2)^(__Lparam& (0+65280)),b
+   736  000424  D0D7               	goto	l23
+   737                           ;fileBrowser.c: 199: {
+   738  000426  6B50               	clrf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),b
+   739                           ;fileBrowser.c: 204: if (directory[0].name[0])
+   740  000428  0101               	movlb	_directory shr (0+8)
+   741  00042A  5300               	movf	_directory& (0+255),f,b
+   742  00042C  E101 D0D2          	bz	l23
+   743                           ;fileBrowser.c: 205: {
+   744  000430  EE01  F000         	lfsr	0,_directory
+   745  000434  EE12  F09E         	lfsr	1,_file
+   746  000438  0E1F               	movlw	31
+   747  00043A  ECFF  F03E         	call	structcopy
+   748                           ;fileBrowser.c: 210: seekmode = 2;
+   749  00043E  0E02               	movlw	2
+   750  000440  0100               	movlb	__Lparam shr (0+8)
+   751  000442  6F4E               	movwf	?a_ScrollDir^(__Lparam& (0+65280)),b
+   752                           ;fileBrowser.c: 213: while (i<8)
+   753  000444  D0C3               	goto	l58
+   754  000446                     l59:
+   755                           ;fileBrowser.c: 214: {
+   756  000446  0100               	movlb	__Lparam shr (0+8)
+   757  000448  0E9E               	movlw	low _file
+   758  00044A  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   759  00044C  0E02               	movlw	high _file
+   760  00044E  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   761  000450  0E7F               	movlw	low _currentDir
+   762  000452  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   763  000454  0E02               	movlw	high _currentDir
+   764  000456  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   765  000458  514E               	movf	?a_ScrollDir^(__Lparam& (0+65280)),w
+   766  00045A  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   767  00045C  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   768  000460  6E00               	movwf	btemp,c
+   769  000462  C000  F002         	movff	btemp,btemp+2
+   770  000466  6A03               	clrf	btemp+3,c
+   771  000468  5003               	movf	btemp+3,w,c
+   772  00046A  1002               	iorwf	btemp+2,w,c
+   773  00046C  E001 D0AC          	bnz	l61
+   774                           ;fileBrowser.c: 216: {
+   775  000470  0E02               	movlw	2
+   776  000472  0100               	movlb	__Lparam shr (0+8)
+   777  000474  6F4E               	movwf	?a_ScrollDir^(__Lparam& (0+65280)),b
+   778                           ;fileBrowser.c: 221: if (file.entry==directory[0
+      +                          ].entry)
+   779  000476  EE02  F0AB         	lfsr	0,_file+13
+   780  00047A  0101               	movlb	(_directory+13) shr (0+8)
+   781  00047C  52EE               	movf	postinc0,f,c
+   782  00047E  510E               	movf	(_directory+14)& (0+255),w,b
+   783  000480  18ED               	xorwf	postdec0,w,c
+   784  000482  C10D  FFE8         	movff	_directory+13,wreg
+   785  000486  B4D8               	btfsc	status,2,c
+   786  000488  18EF               	xorwf	indf0,w,c
+   787  00048A  E108               	bnz	l62
+   788                           ;fileBrowser.c: 222: {
+   789  00048C  0100               	movlb	__Lparam shr (0+8)
+   790  00048E  514D               	movf	(?_ScrollDir+2)^(__Lparam& (0+65280)),w
+   791  000490  0101               	movlb	_directory shr (0+8)
+   792  000492  6300               	cpfseq	_directory& (0+255),b
+   793  000494  D09F               	goto	l23
+   794                           ;fileBrowser.c: 225: { dirptr = 0; }
+   795  000496  0103               	movlb	_dirptr shr (0+8)
+   796  000498  6B7E               	clrf	_dirptr& (0+255),b
+   797                           ;fileBrowser.c: 227: return;
+   798  00049A  D09C               	goto	l23
+   799  00049C                     l62:
+   800                           ;fileBrowser.c: 228: }
+   801  00049C  C29E  FFE8         	movff	_file,wreg
+   802  0004A0  0100               	movlb	__Lparam shr (0+8)
+   803  0004A2  634D               	cpfseq	(?_ScrollDir+2)^(__Lparam& (0+65280)),b
+   804  0004A4  D093               	goto	l58
+   805  0004A6  0102               	movlb	(_file+12) shr (0+8)
+   806  0004A8  B9AA               	btfsc	(_file+12)& (0+255),4,b
+   807  0004AA  D023               	goto	u540
+   808  0004AC  C04B  FFF6         	movff	?_ScrollDir,tblptrl
+   809  0004B0  C04C  FFF7         	movff	?_ScrollDir+1,tblptrh
+   810  0004B4  0E05               	movlw	(high __ramtop+-1)
+   811  0004B6  64F7               	cpfsgt	tblptrh,c
+   812  0004B8  D004               	bra	u497
+   813  0004BA  0008               	tblrd		*
+   814  0004BC  FFFF               	dw	65535	; Nop inserted for errata
+   815  0004BE  50F5               	movf	tablat,w,c
+   816  0004C0  D005               	bra	u490
+   817  0004C2                     u497:
+   818  0004C2  CFF6 FFE9          	movff	tblptrl,fsr0l
+   819  0004C6  CFF7 FFEA          	movff	tblptrh,fsr0h
+   820  0004CA  50EF               	movf	indf0,w,c
+   821  0004CC                     u490:
+   822  0004CC  0A2A               	xorlw	42
+   823  0004CE  E011               	bz	u540
+   824  0004D0  0100               	movlb	__Lparam shr (0+8)
+   825  0004D2  0EA6               	movlw	low (_file+8)
+   826  0004D4  6F51               	movwf	?_strncmp^(__Lparam& (0+65280)),b
+   827  0004D6  0E02               	movlw	high (_file+8)
+   828  0004D8  6F52               	movwf	(?_strncmp+1)^(__Lparam& (0+65280)),b
+   829  0004DA  C04B  F053         	movff	?_ScrollDir,?_strncmp+2
+   830  0004DE  C04C  F054         	movff	?_ScrollDir+1,?_strncmp+3
+   831  0004E2  0E03               	movlw	3
+   832  0004E4  6F55               	movwf	(?_strncmp+4)^(__Lparam& (0+65280)),b
+   833  0004E6  6B56               	clrf	(?_strncmp+5)^(__Lparam& (0+65280)),b
+   834  0004E8  EC7C  F03C         	call	_strncmp	;wreg free
+   835  0004EC  5001               	movf	btemp+1,w,c
+   836  0004EE  1000               	iorwf	btemp,w,c
+   837  0004F0  E16D               	bnz	l58
+   838  0004F2                     u540:
+   839                           ;fileBrowser.c: 233: {
+   840  0004F2  0103               	movlb	_dirptr shr (0+8)
+   841  0004F4  6B7E               	clrf	_dirptr& (0+255),b
+   842                           ;fileBrowser.c: 237: memset(directory, 0, sizeof
+      +                          (directory));
+   843  0004F6  0100               	movlb	__Lparam shr (0+8)
+   844  0004F8  0E00               	movlw	low _directory
+   845  0004FA  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+   846  0004FC  0E01               	movlw	high _directory
+   847  0004FE  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+   848  000500  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+   849  000502  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   850  000504  0EF8               	movlw	248
+   851  000506  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   852  000508  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   853  00050A  EC70  F03E         	call	_memset	;wreg free
+   854                           ;fileBrowser.c: 240: directory[i] = file;
+   855  00050E  EE02  F09E         	lfsr	0,_file
+   856  000512  0100               	movlb	__Lparam shr (0+8)
+   857  000514  5150               	movf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),w
+   858  000516  0D1F               	mullw	31
+   859  000518  0E00               	movlw	low _directory
+   860  00051A  24F3               	addwf	prodl,w,c
+   861  00051C  6EE1               	movwf	fsr1l,c
+   862  00051E  0E01               	movlw	high _directory
+   863  000520  20F4               	addwfc	prodh,w,c
+   864  000522  6EE2               	movwf	fsr1h,c
+   865  000524  0E1F               	movlw	31
+   866  000526  ECFF  F03E         	call	structcopy
+   867  00052A  D048               	goto	L1
+   868                           ;fileBrowser.c: 241: i++;
+   869                           ;fileBrowser.c: 244: while (i<8)
+   870  00052C                     l66:
+   871                           ;fileBrowser.c: 245: {
+   872  00052C  0100               	movlb	__Lparam shr (0+8)
+   873  00052E  0E9E               	movlw	low _file
+   874  000530  6F5D               	movwf	?_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,b
+   875  000532  0E02               	movlw	high _file
+   876  000534  6F5E               	movwf	(?_GetDirectoryEntry+1)^(__Lparam& (0+652
+      +                          80)),b
+   877  000536  0E7F               	movlw	low _currentDir
+   878  000538  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   879  00053A  0E02               	movlw	high _currentDir
+   880  00053C  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   881  00053E  0E02               	movlw	2
+   882  000540  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   883  000542  ECA4  F015         	call	_GetDirectoryEntry	;wreg free
+   884  000546  6E00               	movwf	btemp,c
+   885  000548  C000  F002         	movff	btemp,btemp+2
+   886  00054C  6A03               	clrf	btemp+3,c
+   887  00054E  5003               	movf	btemp+3,w,c
+   888  000550  1002               	iorwf	btemp+2,w,c
+   889  000552  E040               	bz	l23
+   890                           ;fileBrowser.c: 247: {
+   891                           ;fileBrowser.c: 250: }
+   892  000554  0102               	movlb	(_file+12) shr (0+8)
+   893  000556  B9AA               	btfsc	(_file+12)& (0+255),4,b
+   894  000558  D023               	goto	u600
+   895  00055A  C04B  FFF6         	movff	?_ScrollDir,tblptrl
+   896  00055E  C04C  FFF7         	movff	?_ScrollDir+1,tblptrh
+   897  000562  0E05               	movlw	(high __ramtop+-1)
+   898  000564  64F7               	cpfsgt	tblptrh,c
+   899  000566  D004               	bra	u577
+   900  000568  0008               	tblrd		*
+   901  00056A  FFFF               	dw	65535	; Nop inserted for errata
+   902  00056C  50F5               	movf	tablat,w,c
+   903  00056E  D005               	bra	u570
+   904  000570                     u577:
+   905  000570  CFF6 FFE9          	movff	tblptrl,fsr0l
+   906  000574  CFF7 FFEA          	movff	tblptrh,fsr0h
+   907  000578  50EF               	movf	indf0,w,c
+   908  00057A                     u570:
+   909  00057A  0A2A               	xorlw	42
+   910  00057C  E011               	bz	u600
+   911  00057E  0100               	movlb	__Lparam shr (0+8)
+   912  000580  0EA6               	movlw	low (_file+8)
+   913  000582  6F51               	movwf	?_strncmp^(__Lparam& (0+65280)),b
+   914  000584  0E02               	movlw	high (_file+8)
+   915  000586  6F52               	movwf	(?_strncmp+1)^(__Lparam& (0+65280)),b
+   916  000588  C04B  F053         	movff	?_ScrollDir,?_strncmp+2
+   917  00058C  C04C  F054         	movff	?_ScrollDir+1,?_strncmp+3
+   918  000590  0E03               	movlw	3
+   919  000592  6F55               	movwf	(?_strncmp+4)^(__Lparam& (0+65280)),b
+   920  000594  6B56               	clrf	(?_strncmp+5)^(__Lparam& (0+65280)),b
+   921  000596  EC7C  F03C         	call	_strncmp	;wreg free
+   922  00059A  5001               	movf	btemp+1,w,c
+   923  00059C  1000               	iorwf	btemp,w,c
+   924  00059E  E10F               	bnz	l65
+   925  0005A0                     u600:
+   926                           ;fileBrowser.c: 254: {
+   927  0005A0  EE02  F09E         	lfsr	0,_file
+   928  0005A4  0100               	movlb	__Lparam shr (0+8)
+   929  0005A6  5150               	movf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),w
+   930  0005A8  0D1F               	mullw	31
+   931  0005AA  0E00               	movlw	low _directory
+   932  0005AC  24F3               	addwf	prodl,w,c
+   933  0005AE  6EE1               	movwf	fsr1l,c
+   934  0005B0  0E01               	movlw	high _directory
+   935  0005B2  20F4               	addwfc	prodh,w,c
+   936  0005B4  6EE2               	movwf	fsr1h,c
+   937  0005B6  0E1F               	movlw	31
+   938  0005B8  ECFF  F03E         	call	structcopy
+   939  0005BC                     L1:
+   940                           ;fileBrowser.c: 256: i++;
+   941  0005BC  2B50               	incf	(?a_ScrollDir+2)^(__Lparam& (0+65280)),f,b
+   942  0005BE                     l65:
+   943  0005BE  0E07               	movlw	7
+   944  0005C0  0100               	movlb	__Lparam shr (0+8)
+   945  0005C2  6550               	cpfsgt	(?a_ScrollDir+2)^(__Lparam& (0+65280)),b
+   946  0005C4  D7B3               	goto	l66
+   947  0005C6  D002               	goto	l58
+   948                           ;fileBrowser.c: 257: }
+   949  0005C8                     l61:
+   950                           ;fileBrowser.c: 261: else
+   951  0005C8  0100               	movlb	__Lparam shr (0+8)
+   952  0005CA  6B4E               	clrf	?a_ScrollDir^(__Lparam& (0+65280)),b
+   953  0005CC                     l58:
+   954  0005CC  0E07               	movlw	7
+   955  0005CE  0100               	movlb	__Lparam shr (0+8)
+   956  0005D0  6550               	cpfsgt	(?a_ScrollDir+2)^(__Lparam& (0+65280)),b
+   957  0005D2  D739               	goto	l59
+   958                           ;fileBrowser.c: 265: }
+   959  0005D4                     l23:
+   960  0005D4  0012               	return	
+   961  0005D6  FFFF               	dw	65535	; Nop inserted for errata
+   962  0005D8  D5CD               	goto	f3982
+   963  0005DA                     __end_of_ScrollDir:
+   964                           
+   965                           	psect	const
+   966  000EC6                     u19:
+   967  000EC6  20                 	db	32
+   968  000EC7  20                 	db	32
+   969  000EC8  20                 	db	32
+   970  000EC9  4E                 	db	78	;'N'
+   971  000ECA  6F                 	db	111	;'o'
+   972  000ECB  20                 	db	32
+   973  000ECC  66                 	db	102	;'f'
+   974  000ECD  69                 	db	105	;'i'
+   975  000ECE  6C                 	db	108	;'l'
+   976  000ECF  65                 	db	101	;'e'
+   977  000ED0  73                 	db	115	;'s'
+   978  000ED1  21                 	db	33
+   979  000ED2  00                 	db	0
+   980  000000                     
+   981  000000                     
+   982  000000                     
+   983  000000                     
+   984  000000                     
+   985  000000                     
+   986  000000                     
+   987  000000                     
+   988  000000                     
+   989  000000                     
+   990  000000                     
+   991  000000                     
+   992  000000                     
+   993  000000                     
+   994  000000                     
+   995  000000                     
+   996  000000                     
+   997  000000                     
+   998  000000                     
+   999  000000                     
+  1000  000000                     
+  1001  000000                     
+  1002  000000                     
+  1003  000000                     
+  1004  000000                     
+  1005  000000                     
+  1006  000000                     
+  1007  000000                     
+  1008  000000                     
+  1009  000000                     
+  1010  000000                     
+  1011  000000                     
+  1012  000000                     
+  1013  000000                     
+  1014  000000                     
+  1015  000000                     
+  1016  000000                     
+  1017  000000                     
+  1018  000000                     
+  1019  000000                     
+  1020  000000                     
+  1021  000000                     
+  1022  000000                     
+  1023  000000                     
+  1024  000000                     
+  1025  000000                     
+  1026  000000                     
+  1027  000000                     
+  1028  000000                     
+  1029  000000                     
+  1030  000000                     
+  1031  000000                     
+  1032  000000                     
+  1033  000000                     
+  1034  000000                     
+  1035  000000                     
+  1036  000000                     
+  1037  000000                     
+  1038  000000                     
+  1039  000000                     
+  1040  000000                     
+  1041  000000                     
+  1042  000000                     
+  1043  000000                     
+  1044  000000                     
+  1045  000000                     
+  1046  000000                     
+  1047  000000                     
+  1048  000000                     
+  1049  000000                     
+  1050  000000                     
+  1051  000000                     
+  1052  000000                     
+  1053  000000                     
+  1054  000000                     
+  1055  000000                     
+  1056  000000                     
+  1057  000000                     
+  1058  000000                     
+  1059  000000                     
+  1060  000000                     
+  1061  000000                     
+  1062  000000                     
+  1063  000000                     
+  1064  000000                     
+  1065  000000                     
+  1066  000000                     
+  1067  000000                     
+  1068  000000                     
+  1069  000000                     
+  1070  000000                     
+  1071  000000                     
+  1072  000000                     
+  1073  000000                     
+  1074  000000                     
+  1075  000000                     
+  1076  000000                     
+  1077  000000                     
+  1078  000000                     
+  1079  000000                     
+  1080  000000                     
+  1081  000000                     
+  1082  000000                     
+  1083  000000                     
+  1084  000000                     
+  1085  000000                     
+  1086  000000                     
+  1087  000000                     
+  1088  000000                     
+  1089  000000                     
+  1090  000000                     
+  1091  000000                     
+  1092  000000                     
+  1093  000000                     
+  1094  000000                     
+  1095  000000                     
+  1096  000000                     
+  1097  000000                     
+  1098  000000                     
+  1099  000000                     
+  1100  000000                     
+  1101  000000                     
+  1102  000000                     
+  1103  000000                     
+  1104  000000                     
+  1105  000000                     
+  1106  000000                     
+  1107  000000                     
+  1108  000000                     
+  1109  000000                     
+  1110  000000                     
+  1111  000000                     
+  1112  000000                     
+  1113  000000                     
+  1114  000000                     
+  1115  000000                     
+  1116  000000                     
+  1117  000000                     
+  1118  000000                     
+  1119  000000                     
+  1120  000000                     
+  1121  000000                     
+  1122  000000                     
+  1123  000000                     
+  1124  000000                     
+  1125  000000                     
+  1126  000000                     
+  1127  000000                     
+  1128  000000                     
+  1129  000000                     
+  1130  000000                     
+  1131  000000                     
+  1132  000000                     
+  1133  000000                     
+  1134  000000                     
+  1135  000000                     
+  1136  000000                     
+  1137  000000                     
+  1138  000000                     
+  1139  000000                     
+  1140  000000                     
+  1141  000000                     
+  1142  000000                     
+  1143  000000                     
+  1144  000000                     
+  1145  000000                     
+  1146  000000                     
+  1147  000000                     
+  1148  000000                     
+  1149  000000                     
+  1150  000000                     
+  1151  000000                     
+  1152  000000                     
+  1153  000000                     
+  1154  000000                     
+  1155  000000                     
+  1156  000000                     
+  1157  000000                     
+  1158  000000                     
+  1159  000000                     
+  1160  000000                     
+  1161  000000                     
+  1162  000000                     
+  1163  000000                     
+  1164  000000                     
+  1165  000000                     
+  1166  000000                     
+  1167  000000                     
+  1168  000000                     
+  1169  000000                     
+  1170  000000                     
+  1171  000000                     
+  1172  000000                     
+  1173  000000                     
+  1174  000000                     
+  1175  000000                     
+  1176  000000                     
+  1177  000000                     
+  1178  000000                     
+  1179  000000                     
+  1180  000000                     
+  1181  000000                     
+  1182  000000                     
+  1183  000000                     
+  1184  000000                     
+  1185  000000                     
+  1186  000000                     
+  1187  000000                     
+  1188  000000                     
+  1189  000000                     
+  1190  000000                     
+  1191  000000                     
+  1192  000000                     
+  1193  000000                     
+  1194  000000                     
+  1195  000000                     
+  1196  000000                     
+  1197  000000                     
+  1198  000000                     
+  1199  000000                     
+  1200  000000                     
+  1201  000000                     
+  1202  000000                     
+  1203  000000                     
+  1204  000000                     
+  1205  000000                     
+  1206  000000                     
+  1207  000000                     
+  1208  000000                     
+  1209  000000                     
+  1210  000000                     
+  1211  000000                     
+  1212  000000                     
+  1213  000000                     
+  1214  000000                     
+  1215  000000                     
+  1216  000000                     
+  1217  000000                     
+  1218  000000                     
+  1219  000000                     
+  1220  000000                     
+  1221  000000                     
+  1222  000000                     
+  1223  000000                     
+  1224  000000                     
+  1225  000000                     
+  1226  000000                     
+  1227  000000                     
+  1228  000000                     
+  1229  000000                     
+  1230  000000                     
+  1231  000000                     
+  1232  000000                     
+  1233  000000                     
+  1234  000000                     
+  1235  000000                     
+  1236  000000                     
+  1237  000000                     
+  1238  000000                     
+  1239  000000                     
+  1240  000000                     
+  1241  000000                     
+  1242  000000                     
+  1243  000000                     
+  1244  000000                     
+  1245  000000                     
+  1246  000000                     
+  1247  000000                     
+  1248  000000                     
+  1249  000000                     
+  1250  000000                     
+  1251  000000                     
+  1252  000000                     
+  1253  000000                     
+  1254  000000                     
+  1255  000000                     
+  1256  000000                     
+  1257  000000                     
+  1258  000000                     
+  1259  000000                     
+  1260  000000                     
+  1261  000000                     
+  1262  000000                     
+  1263  000000                     
+  1264  000000                     
+  1265  000000                     
+  1266  000000                     
+  1267  000000                     
+  1268  000000                     
+  1269  000000                     
+  1270  000000                     
+  1271  000000                     
+  1272  000000                     
+  1273  000000                     
+  1274  000000                     
+  1275  000000                     
+  1276  000000                     
+  1277  000000                     
+  1278  000000                     
+  1279  000000                     
+  1280  000000                     
+  1281  000000                     
+  1282  000000                     
+  1283  000000                     
+  1284  000000                     
+  1285  000000                     
+  1286  000000                     
+  1287  000000                     
+  1288  000000                     
+  1289  000000                     
+  1290  000000                     
+  1291  000000                     
+  1292  000000                     
+  1293  000000                     
+  1294  000000                     
+  1295  000000                     
+  1296  000000                     
+  1297  000000                     
+  1298  000000                     
+  1299  000000                     
+  1300  000000                     
+  1301  000000                     
+  1302  000000                     
+  1303  000000                     
+  1304  000000                     
+  1305  000000                     
+  1306  000000                     
+  1307  000000                     
+  1308  000000                     
+  1309  000000                     
+  1310  000000                     
+  1311  000000                     
+  1312  000000                     
+  1313  000000                     
+  1314  000000                     
+  1315  000000                     
+  1316  000000                     
+  1317  000000                     
+  1318  000000                     
+  1319  000000                     
+  1320  000000                     
+  1321  000000                     
+  1322  000000                     
+  1323  000000                     
+  1324  000000                     
+  1325  000000                     
+  1326  000000                     
+  1327  000000                     
+  1328  000000                     
+  1329  000000                     
+  1330  000000                     
+  1331  000000                     
+  1332  000000                     
+  1333  000000                     
+  1334  000000                     
+  1335  000000                     
+  1336  000000                     
+  1337  000000                     
+  1338  000000                     
+  1339  000000                     
+  1340  000000                     
+  1341  000000                     
+  1342  000000                     
+  1343  000000                     
+  1344  000000                     
+  1345  000000                     
+  1346  000000                     
+  1347  000000                     
+  1348  000000                     
+  1349  000000                     
+  1350  000000                     
+  1351  000000                     
+  1352  000000                     
+  1353  000000                     
+  1354  000000                     
+  1355  000000                     
+  1356  000000                     
+  1357  000000                     
+  1358  000000                     
+  1359  000000                     
+  1360  000000                     
+  1361                           
+  1362                           	psect	bigbss
+  1363  00037E                     _dirptr:
+  1364  00037E                     	ds	1
+  1365  000000                     
+  1366  000000                     
+  1367  000000                     
+  1368  000000                     
+  1369  000000                     
+  1370  000000                     
+  1371  000000                     
+  1372                           
+  1373                           	psect	bss
+  1374  000100                     _directory:
+  1375  000100                     	ds	248
+  1376                           
+  1377                           	psect	temp
+  1378  000000                     btemp:
+  1379  000000                     	ds	4
+  1380                           tblptrh	equ	0xFF7
+  1381                           tblptrl	equ	0xFF6
+  1382                           tablat	equ	0xFF5
+  1383                           prodh	equ	0xFF4
+  1384                           prodl	equ	0xFF3
+  1385                           indf0	equ	0xFEF
+  1386                           postinc0	equ	0xFEE
+  1387                           postdec0	equ	0xFED
+  1388                           fsr0h	equ	0xFEA
+  1389                           fsr0l	equ	0xFE9
+  1390                           wreg	equ	0xFE8
+  1391                           fsr1h	equ	0xFE2
+  1392                           fsr1l	equ	0xFE1
+  1393                           fsr2l	equ	0xFD9
+  1394                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:00 2009
+
+          _OsdWrite 6FD0           ?_OsdWrite 005D  
+          _PrintDir 0072                  l20 0102  
+                l14 016A                  l23 05D4  
+                l31 033C                  l32 031E  
+                l24 0242                  l16 0092  
+                l25 0238                  l34 02D6  
+                l26 019E                  l51 03DA  
+                l35 0260                  l19 0140  
+                l44 041E                  l36 028A  
+                l61 05C8                  l45 0416  
+                l62 049C                  l38 02E0  
+         _ScrollDir 0172                  l47 03CE  
+                l48 0358                  l65 05BE  
+                l49 0382                  l66 052C  
+                l58 05CC                  l59 0446  
+                u19 0EC6                  u90 01F4  
+                u97 01EA   __end_of_ScrollDir 05DA  
+        ?_ScrollDir 004B                 u200 02AA  
+               u120 021A                 u207 02A0  
+               u340 03A2                 u600 05A0  
+               u347 0398                 u540 04F2  
+               u570 057A                 u490 04CC  
+               u577 0570                 u497 04C2  
+               wreg 000FE8   _GetDirectoryEntry 2B48  
+              f3912 0074                f3982 0174  
+        ?a_PrintDir 0046                _file 029E  
+              fsr0h 000FEA                indf0 000FEF  
+              fsr0l 000FE9                fsr1l 000FE1  
+              fsr2l 000FD9                btemp 0000  
+              prodh 000FF4                prodl 000FF3  
+?_GetDirectoryEntry 005D             ?_memset 00E0  
+       ?a_ScrollDir 004E           structcopy 7DFE  
+         _directory 0100          used_btemp0 0001  
+        used_btemp1 0001          used_btemp2 0001  
+        used_btemp3 0001               tablat 000FF5  
+             status 000FD8             __Lparam 0037  
+  __end_of_PrintDir 0170             __ramtop 0600  
+           _strncmp 78F8             _strncpy 7A94  
+          ?_strncmp 0051            ?_strncpy 005D  
+           postdec0 000FED             postinc0 000FEE  
+            _dirptr 037E              _memset 7CE0  
+      _longFilename 037F              tblptrh 000FF7  
+            tblptrl 000FF6          _currentDir 027F  

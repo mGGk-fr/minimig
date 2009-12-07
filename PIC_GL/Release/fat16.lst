@@ -1,0 +1,2946 @@
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:00 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	const,global,class=CODE,delta=1
+     4                           	psect	text,global,reloc=2,class=CODE,delta=1
+     5                           	psect	bss,global,class=RAM,space=1,delta=1
+     6                           	psect	bigbss,global,class=BIGRAM,space=1,delta=
+      +                          1
+     7                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     8                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+     9  000000                     
+    10  000000                     
+    11  000000                     
+    12  000000                     
+    13  000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  000000                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000                     
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000                     
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000                     
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                     
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97  000000                     
+    98                           
+    99                           	psect	const
+   100                           ;stdio.h: 12: typedef int ptrdiff_t;
+   101                           ;stdio.h: 13: typedef unsigned size_t;
+   102                           ;stdio.h: 14: typedef unsigned short wchar_t;
+   103                           ;stdarg.h: 20: typedef void * va_list[1];
+   104                           ;stdarg.h: 23: extern void * __va_start(void);
+   105                           ;stdio.h: 27: extern int errno;
+   106                           ;stdio.h: 58: struct __prbuf
+   107                           ;stdio.h: 59: {
+   108                           ;stdio.h: 60: char * ptr;
+   109                           ;stdio.h: 61: void (* func)(char);
+   110                           ;stdio.h: 62: };
+   111                           ;conio.h: 17: extern int errno;
+   112                           ;conio.h: 20: extern void init_uart(void);
+   113                           ;conio.h: 22: extern char getch(void);
+   114                           ;conio.h: 23: extern char getche(void);
+   115                           ;conio.h: 24: extern void putch(char);
+   116                           ;conio.h: 25: extern void ungetch(char);
+   117                           ;conio.h: 27: extern bit kbhit(void);
+   118                           ;conio.h: 31: extern char * cgets(char *);
+   119                           ;conio.h: 32: extern void cputs(const char *);
+   120                           ;stdio.h: 103: extern int cprintf(char *, ...);
+   121                           ;stdio.h: 108: extern int _doprnt(struct __prbuf
+      +                           *, const register char *, register va_list);
+   122                           ;stdio.h: 195: extern char * gets(char *);
+   123                           ;stdio.h: 196: extern int puts(const char *);
+   124                           ;stdio.h: 197: extern int scanf(const char *, ..
+      +                          .);
+   125                           ;stdio.h: 198: extern int sscanf(const char *, c
+      +                          onst char *, ...);
+   126                           ;stdio.h: 199: extern int vprintf(const char *, 
+      +                          va_list);
+   127                           ;stdio.h: 200: extern int vsprintf(char *, const
+      +                           char *, va_list);
+   128                           ;stdio.h: 201: extern int vscanf(const char *, v
+      +                          a_list ap);
+   129                           ;stdio.h: 202: extern int vsscanf(const char *, 
+      +                          const char *, va_list);
+   130                           ;stdio.h: 206: extern int sprintf(char *, const 
+      +                          char *, ...);
+   131                           ;stdio.h: 207: extern int printf(const char *, .
+      +                          ..);
+   132                           ;string.h: 28: extern void * memcpy(void *, cons
+      +                          t void *, size_t);
+   133                           ;string.h: 29: extern void * memmove(void *, con
+      +                          st void *, size_t);
+   134                           ;string.h: 30: extern void * memset(void *, int,
+      +                           size_t);
+   135                           ;string.h: 41: extern char * strcat(char *, cons
+      +                          t char *);
+   136                           ;string.h: 42: extern char * strcpy(char *, cons
+      +                          t char *);
+   137                           ;string.h: 43: extern char * strncat(char *, con
+      +                          st char *, size_t);
+   138                           ;string.h: 44: extern char * strncpy(char *, con
+      +                          st char *, size_t);
+   139                           ;string.h: 45: extern char * strdup(const char *
+      +                          );
+   140                           ;string.h: 46: extern char * strtok(char *, cons
+      +                          t char *);
+   141                           ;string.h: 49: extern int memcmp(const void *, c
+      +                          onst void *, size_t);
+   142                           ;string.h: 50: extern int strcmp(const char *, c
+      +                          onst char *);
+   143                           ;string.h: 51: extern int stricmp(const char *, 
+      +                          const char *);
+   144                           ;string.h: 52: extern int strncmp(const char *, 
+      +                          const char *, size_t);
+   145                           ;string.h: 53: extern int strnicmp(const char *,
+      +                           const char *, size_t);
+   146                           ;string.h: 54: extern size_t strcoll(char *, siz
+      +                          e_t, char *);
+   147                           ;string.h: 55: extern const void * memchr(const 
+      +                          void *, int, size_t);
+   148                           ;string.h: 56: extern size_t strcspn(const char 
+      +                          *, const char *);
+   149                           ;string.h: 57: extern const char * strpbrk(const
+      +                           char *, const char *);
+   150                           ;string.h: 58: extern size_t strspn(const char *
+      +                          , const char *);
+   151                           ;string.h: 59: extern const char * strstr(const 
+      +                          char *, const char *);
+   152                           ;string.h: 60: extern const char * stristr(const
+      +                           char *, const char *);
+   153                           ;string.h: 61: extern char * strerror(int);
+   154                           ;string.h: 62: extern size_t strlen(const char *
+      +                          );
+   155                           ;string.h: 63: extern const char * strchr(const 
+      +                          char *, int);
+   156                           ;string.h: 64: extern const char * strichr(const
+      +                           char *, int);
+   157                           ;string.h: 65: extern const char * strrchr(const
+      +                           char *, int);
+   158                           ;string.h: 66: extern const char * strrichr(cons
+      +                          t char *, int);
+   159                           ;mmc.h: 80: extern unsigned char MMC_DIRECT_TRAN
+      +                          SFER_MODE;
+   160                           ;mmc.h: 84: unsigned char MMC_Init(void);
+   161                           ;mmc.h: 85: unsigned char MMC_Read(unsigned long
+      +                           lba, unsigned char *ReadData);
+   162                           ;mmc.h: 86: unsigned char MMC_Write(unsigned lon
+      +                          g lba, unsigned char *WriteData);
+   163                           ;fat16.h: 49: struct PRIMARY_Partition
+   164                           ;fat16.h: 50: {
+   165                           ;fat16.h: 51: unsigned char Status;
+   166                           ;fat16.h: 52: unsigned char CHSFirstBlock[3];
+   167                           ;fat16.h: 53: unsigned char Type;
+   168                           ;fat16.h: 54: unsigned char CHSLastBlock[3];
+   169                           ;fat16.h: 55: unsigned long LBAFirst;
+   170                           ;fat16.h: 56: unsigned long LBABlocks;
+   171                           ;fat16.h: 57: };
+   172                           ;fat16.h: 61: struct MBR_Disk
+   173                           ;fat16.h: 62: {
+   174                           ;fat16.h: 63: unsigned char bootCode[440];
+   175                           ;fat16.h: 64: unsigned long diskSignature;
+   176                           ;fat16.h: 65: unsigned short reserved;
+   177                           ;fat16.h: 66: struct PRIMARY_Partition partition
+      +                          s[4];
+   178                           ;fat16.h: 67: unsigned short signature;
+   179                           ;fat16.h: 68: };
+   180                           ;fat16.h: 72: struct FAT16_ExtBiosParams
+   181                           ;fat16.h: 73: {
+   182                           ;fat16.h: 74: unsigned char physicalDriveNo;
+   183                           ;fat16.h: 75: unsigned char reserved;
+   184                           ;fat16.h: 76: unsigned char extBootSignature;
+   185                           ;fat16.h: 77: unsigned long ID;
+   186                           ;fat16.h: 78: unsigned char volumeLabel[11];
+   187                           ;fat16.h: 79: unsigned char FATFileSystemType[8]
+      +                          ;
+   188                           ;fat16.h: 80: unsigned char OsBootCode[448];
+   189                           ;fat16.h: 81: };
+   190                           ;fat16.h: 85: struct FAT32_ExtBiosParams
+   191                           ;fat16.h: 86: {
+   192                           ;fat16.h: 87: unsigned long sectorsPerFAT;
+   193                           ;fat16.h: 88: unsigned short flags;
+   194                           ;fat16.h: 89: unsigned short version;
+   195                           ;fat16.h: 90: unsigned long rootDirCluster;
+   196                           ;fat16.h: 91: unsigned short fsInformationSector
+      +                          ;
+   197                           ;fat16.h: 92: unsigned short bootSectorCopy;
+   198                           ;fat16.h: 93: unsigned char reserved1[12];
+   199                           ;fat16.h: 94: unsigned char physicalDriveNo;
+   200  000ED3                     _charLFNPos:
+   201  000ED3  01                 	db	1
+   202  000ED4  03                 	db	3
+   203  000ED5  05                 	db	5
+   204  000ED6  07                 	db	7
+   205  000ED7  09                 	db	9
+   206  000ED8  0E                 	db	14
+   207  000ED9  10                 	db	16
+   208  000EDA  12                 	db	18
+   209  000EDB  14                 	db	20
+   210  000EDC  16                 	db	22
+   211  000EDD  18                 	db	24
+   212  000EDE  1C                 	db	28
+   213  000EDF  1E                 	db	30
+   214                           
+   215                           	psect	text
+   216                           ;fat16.c: 65: static const unsigned char charLFN
+      +                          Pos[] = { 1, 3, 5, 7, 9, 14, 16, 18, 20, 22, 24,
+      +                           28, 30 };
+   217                           ;fat16.c: 69: unsigned char FindDrive(void)
+   218                           ;fat16.c: 70: {
+   219  0025FA                     _FindDrive:
+   220                           ;       param _file assigned to ?_FileWrite+0
+   221  000000                     _FileWrite$file	set	?_FileWrite
+   222                           ;       param _file assigned to ?_FileRead+0
+   223  000000                     _FileRead$file	set	?_FileRead
+   224                           ;	_lba assigned to ?a_GetLBA+0
+   225  000000                     _GetLBA$lba	set	?a_GetLBA
+   226                           ;       param _file assigned to ?_GetLBA+0
+   227  000000                     _GetLBA$file	set	?_GetLBA
+   228                           ;	_fatSectorLba assigned to ?a_GetNextClusterInd
+      +                          exFromFAT+2
+   229  000000                     _GetNextClusterIndexFromFAT$fatSectorLba	set	?a_
+      +                          GetNextClusterIndexFromFAT+2
+   230                           ;	_index assigned to ?a_GetNextClusterIndexFromF
+      +                          AT+0
+   231  000000                     _GetNextClusterIndexFromFAT$index	set	?a_GetNext
+      +                          ClusterIndexFromFAT
+   232                           ;       param _file assigned to ?_GetNextCluster
+      +                          IndexFromFAT+0
+   233  000000                     _GetNextClusterIndexFromFAT$file	set	?_GetNextCl
+      +                          usterIndexFromFAT
+   234                           ;	_clusterNo assigned to ?a_FileSeek+4
+   235  000000                     _FileSeek$clusterNo	set	?a_FileSeek+4
+   236                           ;	_currentClusterNo assigned to ?a_FileSeek+0
+   237  000000                     _FileSeek$currentClusterNo	set	?a_FileSeek
+   238                           ;       param _sector assigned to ?_FileSeek+2
+   239  000000                     _FileSeek$sector	set	?_FileSeek+2
+   240                           ;       param _file assigned to ?_FileSeek+0
+   241  000000                     _FileSeek$file	set	?_FileSeek
+   242                           ;       param _file assigned to ?_FileNextSector
+      +                          +0
+   243  000000                     _FileNextSector$file	set	?_FileNextSector
+   244                           ;	_char_offset assigned to ?a_ProcessDirEntry+0
+   245  000000                     _ProcessDirEntry$char_offset	set	?a_ProcessDirEn
+      +                          try
+   246                           ;       param _dirEntry assigned to ?_ProcessDir
+      +                          Entry+2
+   247  000000                     _ProcessDirEntry$dirEntry	set	?_ProcessDirEntry+
+      +                          2
+   248                           ;       param _file assigned to ?_ProcessDirEntr
+      +                          y+0
+   249  000000                     _ProcessDirEntry$file	set	?_ProcessDirEntry
+   250                           ;	_entryStart assigned to ?a_FindPreviousDirecto
+      +                          ryEntry+2
+   251  000000                     _FindPreviousDirectoryEntry$entryStart	set	?a_Fi
+      +                          ndPreviousDirectoryEntry+2
+   252                           ;	_entrySectorOffset assigned to ?a_FindPrevious
+      +                          DirectoryEntry+0
+   253  000000                     _FindPreviousDirectoryEntry$entrySectorOffset	se
+      +                          t	?a_FindPreviousDirectoryEntry
+   254                           ;       param _mode assigned to ?_FindPreviousDi
+      +                          rectoryEntry+4
+   255  000000                     _FindPreviousDirectoryEntry$mode	set	?_FindPrevi
+      +                          ousDirectoryEntry+4
+   256                           ;       param _dir assigned to ?_FindPreviousDir
+      +                          ectoryEntry+2
+   257  000000                     _FindPreviousDirectoryEntry$dir	set	?_FindPrevio
+      +                          usDirectoryEntry+2
+   258                           ;       param _file assigned to ?_FindPreviousDi
+      +                          rectoryEntry+0
+   259  000000                     _FindPreviousDirectoryEntry$file	set	?_FindPrevi
+      +                          ousDirectoryEntry
+   260                           ;	_entryOffset assigned to ?a_GetDirectoryEntry+
+      +                          1
+   261  000000                     _GetDirectoryEntry$entryOffset	set	?a_GetDirecto
+      +                          ryEntry+1
+   262                           ;	_rc assigned to ?a_GetDirectoryEntry+0
+   263  000000                     _GetDirectoryEntry$rc	set	?a_GetDirectoryEntry
+   264                           ;       param _mode assigned to ?_GetDirectoryEn
+      +                          try+4
+   265  000000                     _GetDirectoryEntry$mode	set	?_GetDirectoryEntry+
+      +                          4
+   266                           ;       param _dir assigned to ?_GetDirectoryEnt
+      +                          ry+2
+   267  000000                     _GetDirectoryEntry$dir	set	?_GetDirectoryEntry+2
+   268                           ;       param _file assigned to ?_GetDirectoryEn
+      +                          try+0
+   269  000000                     _GetDirectoryEntry$file	set	?_GetDirectoryEntry
+   270                           ;       param _dir assigned to ?_OpenDirectory+2
+   271  000000                     _OpenDirectory$dir	set	?_OpenDirectory+2
+   272                           ;       param _file assigned to ?_OpenDirectory+
+      +                          0
+   273  000000                     _OpenDirectory$file	set	?_OpenDirectory
+   274                           ;       param _dir assigned to ?_OpenRootDirecto
+      +                          ry+0
+   275  000000                     _OpenRootDirectory$dir	set	?_OpenRootDirectory
+   276                           ;       param _name assigned to ?_Open+2
+   277  000000                     _Open$name	set	?_Open+2
+   278                           ;       param _file assigned to ?_Open+0
+   279  000000                     _Open$file	set	?_Open
+   280                           ;	_fatsize assigned to ?a_FindDrive+4
+   281  000000                     _FindDrive$fatsize	set	?a_FindDrive+4
+   282                           ;	_boot assigned to ?a_FindDrive+2
+   283  000000                     _FindDrive$boot	set	?a_FindDrive+2
+   284                           ;	_mbr assigned to ?a_FindDrive+0
+   285  000000                     _FindDrive$mbr	set	?a_FindDrive
+   286                           ; errata NOP at function entry point
+   287  0025FA  FFFF               	dw	65535
+   288  0025FC                     f72:
+   289  000000                     
+   290                           ;fat16.c: 71: unsigned long fatsize;
+   291  0025FC  0100               	movlb	__Lparam shr (0+8)
+   292  0025FE  0EFF               	movlw	low _secbuf
+   293  002600  6F40               	movwf	?a_FindDrive^(__Lparam& (0+65280)),b
+   294  002602  0E03               	movlw	high _secbuf
+   295  002604  6F41               	movwf	(?a_FindDrive+1)^(__Lparam& (0+65280)),b
+   296                           ;fat16.c: 75: struct FAT_Boot_Sector *boot = (st
+      +                          ruct FAT_Boot_Sector *)secbuf;
+   297  002606  0EFF               	movlw	low _secbuf
+   298  002608  6F42               	movwf	(?a_FindDrive+2)^(__Lparam& (0+65280)),b
+   299  00260A  0E03               	movlw	high _secbuf
+   300  00260C  6F43               	movwf	(?a_FindDrive+3)^(__Lparam& (0+65280)),b
+   301                           ;fat16.c: 78: if (!MMC_Read(0,secbuf))
+   302  00260E  6BEF               	clrf	?_MMC_Read^(__Lparam& (0+65280)),b
+   303  002610  6BF0               	clrf	(?_MMC_Read+1)^(__Lparam& (0+65280)),b
+   304  002612  6BF1               	clrf	(?_MMC_Read+2)^(__Lparam& (0+65280)),b
+   305  002614  6BF2               	clrf	(?_MMC_Read+3)^(__Lparam& (0+65280)),b
+   306  002616  0EFF               	movlw	low _secbuf
+   307  002618  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+   308  00261A  0E03               	movlw	high _secbuf
+   309  00261C  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+   310  00261E  ECED  F035         	call	_MMC_Read	;wreg free
+   311  002622  6E00               	movwf	btemp,c
+   312  002624  C000  F002         	movff	btemp,btemp+2
+   313  002628  6A03               	clrf	btemp+3,c
+   314  00262A  5003               	movf	btemp+3,w,c
+   315  00262C  1002               	iorwf	btemp+2,w,c
+   316  00262E  E06E               	bz	u80
+   317                           ;fat16.c: 79: {
+   318                           ;fat16.c: 84: }
+   319                           ; _mbr loaded to fsr1
+   320  002630  C040  FFE1         	movff	?a_FindDrive,fsr1l
+   321  002634  C041  FFE2         	movff	?a_FindDrive+1,fsr1h
+   322  002638  EE01 F0FE          	lfsr	0,510
+   323  00263C  50E1               	movf	fsr1l,w,c
+   324  00263E  26E9               	addwf	fsr0l,f,c
+   325  002640  50E2               	movf	fsr1h,w,c
+   326  002642  22EA               	addwfc	fsr0h,f,c
+   327  002644  52EE               	movf	postinc0,f,c
+   328  002646  50ED               	movf	postdec0,w,c
+   329  002648  0AAA               	xorlw	170
+   330  00264A  0E55               	movlw	85
+   331  00264C  B4D8               	btfsc	status,2,c
+   332  00264E  18EF               	xorwf	indf0,w,c
+   333  002650  E017               	bz	l18
+   334  002652  D05C               	goto	u80
+   335                           ;fat16.c: 88: {
+   336                           ;fat16.c: 93: }
+   337  002654                     l20:
+   338                           ;fat16.c: 99: case 0x06:
+   339  002654  0E10               	movlw	16
+   340  002656  D001               	goto	L1
+   341                           ;fat16.c: 103: selectedPartiton.partStart = mbr-
+      +                          >partitions[0].LBAFirst;
+   342                           ;fat16.c: 104: break;
+   343  002658                     l22:
+   344                           ;fat16.c: 107: case 0x0c:
+   345  002658  0E20               	movlw	32
+   346  00265A                     L1:
+   347  00265A  CFE8 F262          	movff	wreg,_selectedPartiton
+   348                           ;fat16.c: 111: selectedPartiton.partStart = mbr-
+      +                          >partitions[0].LBAFirst;
+   349  00265E  EE01 F0C6          	lfsr	0,454
+   350  002662  50E1               	movf	fsr1l,w,c
+   351  002664  26E9               	addwf	fsr0l,f,c
+   352  002666  50E2               	movf	fsr1h,w,c
+   353  002668  22EA               	addwfc	fsr0h,f,c
+   354  00266A  CFEE F263          	movff	postinc0,_selectedPartiton+1
+   355  00266E  CFEE F264          	movff	postinc0,_selectedPartiton+2
+   356  002672  CFEE F265          	movff	postinc0,_selectedPartiton+3
+   357  002676  CFED F266          	movff	postdec0,_selectedPartiton+4
+   358  00267A  52ED               	movf	postdec0,f,c
+   359  00267C  52ED               	movf	postdec0,f,c
+   360                           ;fat16.c: 112: break;
+   361  00267E  D010               	goto	l17
+   362                           ;fat16.c: 114: default:
+   363                           ;fat16.c: 118: return(0);
+   364  002680                     l18:
+   365  002680  EE01 F0C2          	lfsr	0,450
+   366  002684  50E1               	movf	fsr1l,w,c
+   367  002686  26E9               	addwf	fsr0l,f,c
+   368  002688  50E2               	movf	fsr1h,w,c
+   369  00268A  22EA               	addwfc	fsr0h,f,c
+   370  00268C  50EF               	movf	indf0,w,c
+   371  00268E  0A04               	xorlw	4
+   372  002690  E0E1               	bz	l20
+   373  002692  0A02               	xorlw	2
+   374  002694  E0DF               	bz	l20
+   375  002696  0A0D               	xorlw	13
+   376  002698  E0DF               	bz	l22
+   377  00269A  0A07               	xorlw	7
+   378  00269C  E0DD               	bz	l22
+   379  00269E  D036               	goto	u80
+   380  0026A0                     l17:
+   381                           ;fat16.c: 122: if (!MMC_Read(selectedPartiton.pa
+      +                          rtStart, secbuf))
+   382  0026A0  C263  F0EF         	movff	_selectedPartiton+1,?_MMC_Read
+   383  0026A4  C264  F0F0         	movff	_selectedPartiton+2,?_MMC_Read+1
+   384  0026A8  C265  F0F1         	movff	_selectedPartiton+3,?_MMC_Read+2
+   385  0026AC  C266  F0F2         	movff	_selectedPartiton+4,?_MMC_Read+3
+   386  0026B0  0100               	movlb	__Lparam shr (0+8)
+   387  0026B2  0EFF               	movlw	low _secbuf
+   388  0026B4  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+   389  0026B6  0E03               	movlw	high _secbuf
+   390  0026B8  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+   391  0026BA  ECED  F035         	call	_MMC_Read	;wreg free
+   392  0026BE  6E00               	movwf	btemp,c
+   393  0026C0  C000  F002         	movff	btemp,btemp+2
+   394  0026C4  6A03               	clrf	btemp+3,c
+   395  0026C6  5003               	movf	btemp+3,w,c
+   396  0026C8  1002               	iorwf	btemp+2,w,c
+   397  0026CA  E020               	bz	u80
+   398                           ;fat16.c: 123: {
+   399                           ;fat16.c: 128: }
+   400                           ; _boot loaded to fsr1
+   401  0026CC  C042  FFE1         	movff	?a_FindDrive+2,fsr1l
+   402  0026D0  C043  FFE2         	movff	?a_FindDrive+3,fsr1h
+   403  0026D4  50E7               	movf	indf1,w,c
+   404  0026D6  0AE9               	xorlw	-23
+   405  0026D8  E003               	bz	l25
+   406  0026DA  50E7               	movf	indf1,w,c
+   407  0026DC  0AEB               	xorlw	-21
+   408  0026DE  E116               	bnz	u80
+   409                           ;fat16.c: 132: {
+   410  0026E0                     l25:
+   411                           ;fat16.c: 137: }
+   412  0026E0  EE00 F00B          	lfsr	0,11
+   413  0026E4  50E1               	movf	fsr1l,w,c
+   414  0026E6  26E9               	addwf	fsr0l,f,c
+   415  0026E8  50E2               	movf	fsr1h,w,c
+   416  0026EA  22EA               	addwfc	fsr0h,f,c
+   417  0026EC  52EE               	movf	postinc0,f,c
+   418  0026EE  50ED               	movf	postdec0,w,c
+   419  0026F0  0A02               	xorlw	2
+   420  0026F2  0E00               	movlw	0
+   421  0026F4  B4D8               	btfsc	status,2,c
+   422  0026F6  18EF               	xorwf	indf0,w,c
+   423  0026F8  E109               	bnz	u80
+   424                           ;fat16.c: 141: {
+   425                           ;fat16.c: 146: }
+   426  0026FA  EE00 F015          	lfsr	0,21
+   427  0026FE  50E1               	movf	fsr1l,w,c
+   428  002700  26E9               	addwf	fsr0l,f,c
+   429  002702  50E2               	movf	fsr1h,w,c
+   430  002704  22EA               	addwfc	fsr0h,f,c
+   431  002706  50EF               	movf	indf0,w,c
+   432  002708  0AF8               	xorlw	-8
+   433  00270A  E002               	bz	l27
+   434  00270C                     u80:
+   435                           ;fat16.c: 150: {
+   436  00270C  0E00               	movlw	0
+   437  00270E  D148               	goto	l14
+   438  002710                     l27:
+   439                           ;fat16.c: 155: }
+   440  002710  EE00 F00D          	lfsr	0,13
+   441  002714  50E1               	movf	fsr1l,w,c
+   442  002716  26E9               	addwf	fsr0l,f,c
+   443  002718  50E2               	movf	fsr1h,w,c
+   444  00271A  22EA               	addwfc	fsr0h,f,c
+   445  00271C  CFEF F27A          	movff	indf0,_selectedPartiton+24
+   446                           ;fat16.c: 160: selectedPartiton.clusterMask = ~(
+      +                          selectedPartiton.clusterSize-1);
+   447  002720  C27A  F000         	movff	_selectedPartiton+24,btemp
+   448  002724  0EFF               	movlw	255
+   449  002726  2400               	addwf	btemp,w,c
+   450  002728  6E02               	movwf	btemp+2,c
+   451  00272A  6A03               	clrf	btemp+3,c
+   452  00272C  0EFF               	movlw	255
+   453  00272E  2203               	addwfc	btemp+3,f,c
+   454  002730  1C02               	comf	btemp+2,w,c
+   455  002732  6E04               	movwf	btemp+4,c
+   456  002734  1C03               	comf	btemp+3,w,c
+   457  002736  6E05               	movwf	btemp+5,c
+   458  002738  6A06               	clrf	btemp+6,c
+   459  00273A  BE05               	btfsc	btemp+5,7,c
+   460  00273C  0606               	decf	btemp+6,f,c
+   461  00273E  5006               	movf	btemp+6,w,c
+   462  002740  6E07               	movwf	btemp+7,c
+   463  002742  C004  F27B         	movff	btemp+4,_selectedPartiton+25
+   464  002746  C005  F27C         	movff	btemp+5,_selectedPartiton+26
+   465  00274A  C006  F27D         	movff	btemp+6,_selectedPartiton+27
+   466  00274E  C007  F27E         	movff	btemp+7,_selectedPartiton+28
+   467                           ;fat16.c: 165: selectedPartiton.rootDirEntries =
+      +                           boot->maxRootEntries;
+   468  002752  EE00 F011          	lfsr	0,17
+   469  002756  50E1               	movf	fsr1l,w,c
+   470  002758  26E9               	addwf	fsr0l,f,c
+   471  00275A  50E2               	movf	fsr1h,w,c
+   472  00275C  22EA               	addwfc	fsr0h,f,c
+   473  00275E  CFEE F000          	movff	postinc0,btemp
+   474  002762  CFED F001          	movff	postdec0,btemp+1
+   475  002766  C000  F277         	movff	btemp,_selectedPartiton+21
+   476  00276A  C001  F278         	movff	btemp+1,_selectedPartiton+22
+   477                           ;fat16.c: 168: selectedPartiton.fatStart = selec
+      +                          tedPartiton.partStart + boot->reservedSectorCoun
+      +                          t;
+   478  00276E  EE00 F00E          	lfsr	0,14
+   479  002772  50E1               	movf	fsr1l,w,c
+   480  002774  26E9               	addwf	fsr0l,f,c
+   481  002776  50E2               	movf	fsr1h,w,c
+   482  002778  22EA               	addwfc	fsr0h,f,c
+   483  00277A  CFEE F000          	movff	postinc0,btemp
+   484  00277E  CFED F001          	movff	postdec0,btemp+1
+   485  002782  6A02               	clrf	btemp+2,c
+   486  002784  6A03               	clrf	btemp+3,c
+   487  002786  C263  FFE8         	movff	_selectedPartiton+1,wreg
+   488  00278A  2400               	addwf	btemp,w,c
+   489  00278C  CFE8 F267          	movff	wreg,_selectedPartiton+5
+   490  002790  C264  FFE8         	movff	_selectedPartiton+2,wreg
+   491  002794  2001               	addwfc	btemp+1,w,c
+   492  002796  CFE8 F268          	movff	wreg,_selectedPartiton+6
+   493  00279A  C265  FFE8         	movff	_selectedPartiton+3,wreg
+   494  00279E  2002               	addwfc	btemp+2,w,c
+   495  0027A0  CFE8 F269          	movff	wreg,_selectedPartiton+7
+   496  0027A4  C266  FFE8         	movff	_selectedPartiton+4,wreg
+   497  0027A8  2003               	addwfc	btemp+3,w,c
+   498  0027AA  CFE8 F26A          	movff	wreg,_selectedPartiton+8
+   499                           ;fat16.c: 169: selectedPartiton.fatNo = boot->no
+      +                          OfFATs;
+   500  0027AE  EE00 F010          	lfsr	0,16
+   501  0027B2  50E1               	movf	fsr1l,w,c
+   502  0027B4  26E9               	addwf	fsr0l,f,c
+   503  0027B6  50E2               	movf	fsr1h,w,c
+   504  0027B8  22EA               	addwfc	fsr0h,f,c
+   505  0027BA  CFEF F279          	movff	indf0,_selectedPartiton+23
+   506                           ;fat16.c: 172: if (0x10 == selectedPartiton.fatT
+      +                          ype)
+   507  0027BE  C262  FFE8         	movff	_selectedPartiton,wreg
+   508  0027C2  0A10               	xorlw	16
+   509  0027C4  E16E               	bnz	l28
+   510                           ;fat16.c: 173: {
+   511  0027C6  EE00 F016          	lfsr	0,22
+   512  0027CA  50E1               	movf	fsr1l,w,c
+   513  0027CC  26E9               	addwf	fsr0l,f,c
+   514  0027CE  50E2               	movf	fsr1h,w,c
+   515  0027D0  22EA               	addwfc	fsr0h,f,c
+   516  0027D2  CFEE F000          	movff	postinc0,btemp
+   517  0027D6  CFED F001          	movff	postdec0,btemp+1
+   518  0027DA  5000               	movf	btemp,w,c
+   519  0027DC  0100               	movlb	__Lparam shr (0+8)
+   520  0027DE  6F44               	movwf	(?a_FindDrive+4)^(__Lparam& (0+65280)),b
+   521  0027E0  5001               	movf	btemp+1,w,c
+   522  0027E2  6F45               	movwf	(?a_FindDrive+5)^(__Lparam& (0+65280)),b
+   523  0027E4  6B46               	clrf	(?a_FindDrive+6)^(__Lparam& (0+65280)),b
+   524  0027E6  6B47               	clrf	(?a_FindDrive+7)^(__Lparam& (0+65280)),b
+   525                           ;fat16.c: 176: selectedPartiton.rootDirCluster =
+      +                           0;
+   526  0027E8  EE02  F06F         	lfsr	0,_selectedPartiton+13
+   527  0027EC  6AEE               	clrf	postinc0,c
+   528  0027EE  6AEE               	clrf	postinc0,c
+   529  0027F0  6AEE               	clrf	postinc0,c
+   530  0027F2  6AEE               	clrf	postinc0,c
+   531                           ;fat16.c: 178: selectedPartiton.rootDirStart = s
+      +                          electedPartiton.fatStart + (selectedPartiton.fat
+      +                          No * fatsize);
+   532  0027F4  C044  F004         	movff	?a_FindDrive+4,btemp+4
+   533  0027F8  C045  F005         	movff	?a_FindDrive+5,btemp+5
+   534  0027FC  C046  F006         	movff	?a_FindDrive+6,btemp+6
+   535  002800  C047  F007         	movff	?a_FindDrive+7,btemp+7
+   536  002804  C279  F000         	movff	_selectedPartiton+23,btemp
+   537  002808  6A01               	clrf	btemp+1,c
+   538  00280A  6A02               	clrf	btemp+2,c
+   539  00280C  6A03               	clrf	btemp+3,c
+   540  00280E  ECB1  F01F         	call	llmul
+   541  002812  C267  FFE8         	movff	_selectedPartiton+5,wreg
+   542  002816  2400               	addwf	btemp,w,c
+   543  002818  CFE8 F273          	movff	wreg,_selectedPartiton+17
+   544  00281C  C268  FFE8         	movff	_selectedPartiton+6,wreg
+   545  002820  2001               	addwfc	btemp+1,w,c
+   546  002822  CFE8 F274          	movff	wreg,_selectedPartiton+18
+   547  002826  C269  FFE8         	movff	_selectedPartiton+7,wreg
+   548  00282A  2002               	addwfc	btemp+2,w,c
+   549  00282C  CFE8 F275          	movff	wreg,_selectedPartiton+19
+   550  002830  C26A  FFE8         	movff	_selectedPartiton+8,wreg
+   551  002834  2003               	addwfc	btemp+3,w,c
+   552  002836  CFE8 F276          	movff	wreg,_selectedPartiton+20
+   553                           ;fat16.c: 180: dirsize = ((selectedPartiton.root
+      +                          DirEntries<<5)+511)>>9;
+   554  00283A  EE02  F077         	lfsr	0,_selectedPartiton+21
+   555  00283E  CFEE F000          	movff	postinc0,btemp
+   556  002842  CFED F001          	movff	postdec0,btemp+1
+   557  002846  0E05               	movlw	5
+   558  002848                     u105:
+   559  002848  90D8               	bcf	status,0,c
+   560  00284A  3600               	rlcf	btemp,f,c
+   561  00284C  3601               	rlcf	btemp+1,f,c
+   562  00284E  2EE8               	decfsz	wreg,f,c
+   563  002850  D7FB               	goto	u105
+   564  002852  0600               	decf	btemp,f,c
+   565  002854  0E01               	movlw	1
+   566  002856  2201               	addwfc	btemp+1,f,c
+   567  002858  0E09               	movlw	9
+   568  00285A  6E02               	movwf	btemp+2,c
+   569  00285C                     u115:
+   570  00285C  90D8               	bcf	status,0,c
+   571  00285E  3201               	rrcf	btemp+1,f,c
+   572  002860  3200               	rrcf	btemp,f,c
+   573  002862  2E02               	decfsz	btemp+2,f,c
+   574  002864  D7FB               	goto	u115
+   575  002866  5000               	movf	btemp,w,c
+   576  002868  6E04               	movwf	btemp+4,c
+   577  00286A  5001               	movf	btemp+1,w,c
+   578  00286C  6E05               	movwf	btemp+5,c
+   579  00286E  6A06               	clrf	btemp+6,c
+   580  002870  6A07               	clrf	btemp+7,c
+   581                           ;fat16.c: 182: selectedPartiton.dataStart = sele
+      +                          ctedPartiton.rootDirStart + dirsize;
+   582  002872  0E04               	movlw	low (btemp+4)
+   583  002874  6EE9               	movwf	fsr0l,c
+   584  002876  0E00               	movlw	high (btemp+4)
+   585  002878  6EEA               	movwf	fsr0h,c
+   586  00287A  0102               	movlb	(_selectedPartiton+17) shr (0+8)
+   587  00287C  50EE               	movf	postinc0,w,c
+   588  00287E  2573               	addwf	(_selectedPartiton+17)& (0+255),w,b
+   589  002880  CFE8 F26B          	movff	wreg,_selectedPartiton+9
+   590  002884  50EE               	movf	postinc0,w,c
+   591  002886  2174               	addwfc	(_selectedPartiton+18)& (0+255),w,b
+   592  002888  CFE8 F26C          	movff	wreg,_selectedPartiton+10
+   593  00288C  50EE               	movf	postinc0,w,c
+   594  00288E  2175               	addwfc	(_selectedPartiton+19)& (0+255),w,b
+   595  002890  CFE8 F26D          	movff	wreg,_selectedPartiton+11
+   596  002894  50ED               	movf	postdec0,w,c
+   597  002896  2176               	addwfc	(_selectedPartiton+20)& (0+255),w,b
+   598  002898  CFE8 F26E          	movff	wreg,_selectedPartiton+12
+   599  00289C  52ED               	movf	postdec0,f,c
+   600  00289E  52ED               	movf	postdec0,f,c
+   601                           ;fat16.c: 183: }
+   602  0028A0  D078               	goto	l29
+   603  0028A2                     l28:
+   604                           ;fat16.c: 184: else
+   605  0028A2  EE00 F024          	lfsr	0,36
+   606  0028A6  50E1               	movf	fsr1l,w,c
+   607  0028A8  26E9               	addwf	fsr0l,f,c
+   608  0028AA  50E2               	movf	fsr1h,w,c
+   609  0028AC  22EA               	addwfc	fsr0h,f,c
+   610  0028AE  CFEE F044          	movff	postinc0,?a_FindDrive+4
+   611  0028B2  CFEE F045          	movff	postinc0,?a_FindDrive+5
+   612  0028B6  CFEE F046          	movff	postinc0,?a_FindDrive+6
+   613  0028BA  CFEE F047          	movff	postinc0,?a_FindDrive+7
+   614                           ;fat16.c: 188: selectedPartiton.dataStart = sele
+      +                          ctedPartiton.fatStart + (selectedPartiton.fatNo 
+      +                          * fatsize);
+   615  0028BE  C044  F004         	movff	?a_FindDrive+4,btemp+4
+   616  0028C2  C045  F005         	movff	?a_FindDrive+5,btemp+5
+   617  0028C6  C046  F006         	movff	?a_FindDrive+6,btemp+6
+   618  0028CA  C047  F007         	movff	?a_FindDrive+7,btemp+7
+   619  0028CE  C279  F000         	movff	_selectedPartiton+23,btemp
+   620  0028D2  6A01               	clrf	btemp+1,c
+   621  0028D4  6A02               	clrf	btemp+2,c
+   622  0028D6  6A03               	clrf	btemp+3,c
+   623  0028D8  ECB1  F01F         	call	llmul
+   624  0028DC  C267  FFE8         	movff	_selectedPartiton+5,wreg
+   625  0028E0  2400               	addwf	btemp,w,c
+   626  0028E2  CFE8 F26B          	movff	wreg,_selectedPartiton+9
+   627  0028E6  C268  FFE8         	movff	_selectedPartiton+6,wreg
+   628  0028EA  2001               	addwfc	btemp+1,w,c
+   629  0028EC  CFE8 F26C          	movff	wreg,_selectedPartiton+10
+   630  0028F0  C269  FFE8         	movff	_selectedPartiton+7,wreg
+   631  0028F4  2002               	addwfc	btemp+2,w,c
+   632  0028F6  CFE8 F26D          	movff	wreg,_selectedPartiton+11
+   633  0028FA  C26A  FFE8         	movff	_selectedPartiton+8,wreg
+   634  0028FE  2003               	addwfc	btemp+3,w,c
+   635  002900  CFE8 F26E          	movff	wreg,_selectedPartiton+12
+   636                           ;fat16.c: 190: selectedPartiton.rootDirCluster =
+      +                           boot->extParams.fat32Ext.rootDirCluster;
+   637  002904  EE00 F02C          	lfsr	0,44
+   638  002908  50E1               	movf	fsr1l,w,c
+   639  00290A  26E9               	addwf	fsr0l,f,c
+   640  00290C  50E2               	movf	fsr1h,w,c
+   641  00290E  22EA               	addwfc	fsr0h,f,c
+   642  002910  CFEE F26F          	movff	postinc0,_selectedPartiton+13
+   643  002914  CFEE F270          	movff	postinc0,_selectedPartiton+14
+   644  002918  CFEE F271          	movff	postinc0,_selectedPartiton+15
+   645  00291C  CFED F272          	movff	postdec0,_selectedPartiton+16
+   646  002920  52ED               	movf	postdec0,f,c
+   647  002922  52ED               	movf	postdec0,f,c
+   648                           ;fat16.c: 192: selectedPartiton.rootDirStart = s
+      +                          electedPartiton.dataStart + (selectedPartiton.ro
+      +                          otDirCluster-2)* selectedPartiton.clusterSize;
+   649  002924  C26F  F000         	movff	_selectedPartiton+13,btemp
+   650  002928  C270  F001         	movff	_selectedPartiton+14,btemp+1
+   651  00292C  C271  F002         	movff	_selectedPartiton+15,btemp+2
+   652  002930  C272  F003         	movff	_selectedPartiton+16,btemp+3
+   653  002934  0EFE               	movlw	254
+   654  002936  2400               	addwf	btemp,w,c
+   655  002938  6E04               	movwf	btemp+4,c
+   656  00293A  0EFF               	movlw	255
+   657  00293C  2001               	addwfc	btemp+1,w,c
+   658  00293E  6E05               	movwf	btemp+5,c
+   659  002940  0EFF               	movlw	255
+   660  002942  2002               	addwfc	btemp+2,w,c
+   661  002944  6E06               	movwf	btemp+6,c
+   662  002946  0EFF               	movlw	255
+   663  002948  2003               	addwfc	btemp+3,w,c
+   664  00294A  6E07               	movwf	btemp+7,c
+   665  00294C  C004  F000         	movff	btemp+4,btemp
+   666  002950  C005  F001         	movff	btemp+5,btemp+1
+   667  002954  C006  F002         	movff	btemp+6,btemp+2
+   668  002958  C007  F003         	movff	btemp+7,btemp+3
+   669  00295C  C27A  F004         	movff	_selectedPartiton+24,btemp+4
+   670  002960  6A05               	clrf	btemp+5,c
+   671  002962  6A06               	clrf	btemp+6,c
+   672  002964  6A07               	clrf	btemp+7,c
+   673  002966  ECB1  F01F         	call	llmul
+   674  00296A  C26B  FFE8         	movff	_selectedPartiton+9,wreg
+   675  00296E  2400               	addwf	btemp,w,c
+   676  002970  CFE8 F273          	movff	wreg,_selectedPartiton+17
+   677  002974  C26C  FFE8         	movff	_selectedPartiton+10,wreg
+   678  002978  2001               	addwfc	btemp+1,w,c
+   679  00297A  CFE8 F274          	movff	wreg,_selectedPartiton+18
+   680  00297E  C26D  FFE8         	movff	_selectedPartiton+11,wreg
+   681  002982  2002               	addwfc	btemp+2,w,c
+   682  002984  CFE8 F275          	movff	wreg,_selectedPartiton+19
+   683  002988  C26E  FFE8         	movff	_selectedPartiton+12,wreg
+   684  00298C  2003               	addwfc	btemp+3,w,c
+   685  00298E  CFE8 F276          	movff	wreg,_selectedPartiton+20
+   686  002992                     l29:
+   687                           ;fat16.c: 193: }
+   688  002992  0100               	movlb	__Lparam shr (0+8)
+   689  002994  0E7F               	movlw	low _currentDir
+   690  002996  6F48               	movwf	?_OpenRootDirectory^(__Lparam& (0+65280))
+      +                          ,b
+   691  002998  0E02               	movlw	high _currentDir
+   692  00299A  6F49               	movwf	(?_OpenRootDirectory+1)^(__Lparam& (0+652
+      +                          80)),b
+   693  00299C  D85B               	call	_OpenRootDirectory	;wreg free
+   694                           ;fat16.c: 211: return(1);
+   695  00299E  0E01               	movlw	1
+   696                           ;fat16.c: 212: }
+   697  0029A0                     l14:
+   698  0029A0  0012               	return	
+   699  0029A2  FFFF               	dw	65535	; Nop inserted for errata
+   700  0029A4  D62B               	goto	f72
+   701  0029A6                     __end_of_FindDrive:
+   702                           ;fat16.c: 216: unsigned char Open(struct fileTYP
+      +                          E *file, const unsigned char *name)
+   703                           ;fat16.c: 217: {
+   704  0029A6  0049               	dw	?_Open
+   705  0029A8                     _Open:
+   706                           ; errata NOP at function entry point
+   707  0029A8  FFFF               	dw	65535
+   708  0029AA                     f102:
+   709  000000                     
+   710                           ;fat16.c: 218: unsigned char i;
+   711  0029AA  C049  F05D         	movff	?_Open,?_GetDirectoryEntry
+   712  0029AE  C04A  F05E         	movff	?_Open+1,?_GetDirectoryEntry+1
+   713  0029B2  0100               	movlb	__Lparam shr (0+8)
+   714  0029B4  0E7F               	movlw	low _currentDir
+   715  0029B6  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   716  0029B8  0E02               	movlw	high _currentDir
+   717  0029BA  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   718  0029BC  6B61               	clrf	(?_GetDirectoryEntry+4)^(__Lparam& (0+6528
+      +                          0)),b
+   719  0029BE  D8C4               	call	_GetDirectoryEntry	;wreg free
+   720  0029C0  6E00               	movwf	btemp,c
+   721  0029C2  C000  F002         	movff	btemp,btemp+2
+   722  0029C6  6A03               	clrf	btemp+3,c
+   723  0029C8  5003               	movf	btemp+3,w,c
+   724  0029CA  1002               	iorwf	btemp+2,w,c
+   725  0029CC  E03E               	bz	l31
+   726  0029CE                     l34:
+   727                           ;fat16.c: 225: {
+   728                           ;fat16.c: 227: {
+   729  0029CE  6AD9               	clrf	fsr2l,c
+   730  0029D0                     l35:
+   731                           ;fat16.c: 233: {
+   732  0029D0  50D9               	movf	fsr2l,w,c
+   733  0029D2  0100               	movlb	__Lparam shr (0+8)
+   734  0029D4  254B               	addwf	(?_Open+2)^(__Lparam& (0+65280)),w
+   735  0029D6  6E00               	movwf	btemp,c
+   736  0029D8  0E00               	movlw	0
+   737  0029DA  214C               	addwfc	(?_Open+3)^(__Lparam& (0+65280)),w
+   738  0029DC  6E01               	movwf	btemp+1,c
+   739  0029DE  C000  FFF6         	movff	btemp,tblptrl
+   740  0029E2  C001  FFF7         	movff	btemp+1,tblptrh
+   741  0029E6  0E05               	movlw	(high __ramtop+-1)
+   742  0029E8  64F7               	cpfsgt	tblptrh,c
+   743  0029EA  D004               	bra	u137
+   744  0029EC  0008               	tblrd		*
+   745  0029EE  FFFF               	dw	65535	; Nop inserted for errata
+   746  0029F0  50F5               	movf	tablat,w,c
+   747  0029F2  D005               	bra	u130
+   748  0029F4                     u137:
+   749  0029F4  CFF6 FFE9          	movff	tblptrl,fsr0l
+   750  0029F8  CFF7 FFEA          	movff	tblptrh,fsr0h
+   751  0029FC  50EF               	movf	indf0,w,c
+   752  0029FE                     u130:
+   753  0029FE  6E00               	movwf	btemp,c
+   754  002A00  50D9               	movf	fsr2l,w,c
+   755  002A02  2549               	addwf	?_Open^(__Lparam& (0+65280)),w
+   756  002A04  6EE9               	movwf	fsr0l,c
+   757  002A06  0E00               	movlw	0
+   758  002A08  214A               	addwfc	(?_Open+1)^(__Lparam& (0+65280)),w
+   759  002A0A  6EEA               	movwf	fsr0h,c
+   760  002A0C  50EF               	movf	indf0,w,c
+   761  002A0E  1800               	xorwf	btemp,w,c
+   762  002A10  E104               	bnz	l36
+   763                           ;fat16.c: 235: { break; }
+   764  002A12  2AD9               	incf	fsr2l,f,c
+   765  002A14  0E0A               	movlw	10
+   766  002A16  64D9               	cpfsgt	fsr2l,c
+   767  002A18  D7DB               	goto	l35
+   768  002A1A                     l36:
+   769                           ;fat16.c: 236: }
+   770  002A1A  50D9               	movf	fsr2l,w,c
+   771  002A1C  0A0B               	xorlw	11
+   772  002A1E  E102               	bnz	l39
+   773                           ;fat16.c: 239: {
+   774  002A20  0E01               	movlw	1
+   775  002A22  D014               	goto	l30
+   776  002A24                     l39:
+   777                           ;fat16.c: 244: }
+   778  002A24  C049  F05D         	movff	?_Open,?_GetDirectoryEntry
+   779  002A28  C04A  F05E         	movff	?_Open+1,?_GetDirectoryEntry+1
+   780  002A2C  0100               	movlb	__Lparam shr (0+8)
+   781  002A2E  0E7F               	movlw	low _currentDir
+   782  002A30  6F5F               	movwf	(?_GetDirectoryEntry+2)^(__Lparam& (0+652
+      +                          80)),b
+   783  002A32  0E02               	movlw	high _currentDir
+   784  002A34  6F60               	movwf	(?_GetDirectoryEntry+3)^(__Lparam& (0+652
+      +                          80)),b
+   785  002A36  0E02               	movlw	2
+   786  002A38  6F61               	movwf	(?_GetDirectoryEntry+4)^(__Lparam& (0+652
+      +                          80)),b
+   787  002A3A  D886               	call	_GetDirectoryEntry	;wreg free
+   788  002A3C  6E00               	movwf	btemp,c
+   789  002A3E  C000  F002         	movff	btemp,btemp+2
+   790  002A42  6A03               	clrf	btemp+3,c
+   791  002A44  5003               	movf	btemp+3,w,c
+   792  002A46  1002               	iorwf	btemp+2,w,c
+   793  002A48  E1C2               	bnz	l34
+   794  002A4A                     l31:
+   795                           ;fat16.c: 247: }
+   796  002A4A  0E00               	movlw	0
+   797                           ;fat16.c: 254: }
+   798  002A4C                     l30:
+   799  002A4C  0012               	return	
+   800  002A4E  FFFF               	dw	65535	; Nop inserted for errata
+   801  002A50  D7AC               	goto	f102
+   802  002A52                     __end_of_Open:
+   803                           ;fat16.c: 258: void OpenRootDirectory(struct fil
+      +                          eTYPE *dir)
+   804                           ;fat16.c: 259: {
+   805  002A52  0048               	dw	?_OpenRootDirectory
+   806  002A54                     _OpenRootDirectory:
+   807                           ; errata NOP at function entry point
+   808  002A54  FFFF               	dw	65535
+   809  002A56                     f122:
+   810  000000                     
+   811                           ;fat16.c: 261: memset(dir,0,sizeof(dir));
+   812  002A56  C048  F0E0         	movff	?_OpenRootDirectory,?_memset
+   813  002A5A  C049  F0E1         	movff	?_OpenRootDirectory+1,?_memset+1
+   814  002A5E  0100               	movlb	__Lparam shr (0+8)
+   815  002A60  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+   816  002A62  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   817  002A64  0E02               	movlw	2
+   818  002A66  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   819  002A68  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   820  002A6A  EC70  F03E         	call	_memset	;wreg free
+   821                           ;fat16.c: 262: dir->name[0] = '/';
+   822                           ; _dir loaded to fsr2
+   823  002A6E  C048  FFD9         	movff	?_OpenRootDirectory,fsr2l
+   824  002A72  C049  FFDA         	movff	?_OpenRootDirectory+1,fsr2h
+   825  002A76  0E2F               	movlw	47
+   826  002A78  6EDF               	movwf	indf2,c
+   827                           ;fat16.c: 263: dir->attributes = (1 << 4);
+   828  002A7A  EE00 F00C          	lfsr	0,12
+   829  002A7E  50D9               	movf	fsr2l,w,c
+   830  002A80  26E9               	addwf	fsr0l,f,c
+   831  002A82  50DA               	movf	fsr2h,w,c
+   832  002A84  22EA               	addwfc	fsr0h,f,c
+   833  002A86  0E10               	movlw	16
+   834  002A88  6EEF               	movwf	indf0,c
+   835                           ;fat16.c: 264: dir->firstCluster = selectedParti
+      +                          ton.rootDirCluster;
+   836  002A8A  EE00 F01B          	lfsr	0,27
+   837  002A8E  50D9               	movf	fsr2l,w,c
+   838  002A90  26E9               	addwf	fsr0l,f,c
+   839  002A92  50DA               	movf	fsr2h,w,c
+   840  002A94  22EA               	addwfc	fsr0h,f,c
+   841  002A96  C26F  FFEE         	movff	_selectedPartiton+13,postinc0
+   842  002A9A  C270  FFEE         	movff	_selectedPartiton+14,postinc0
+   843  002A9E  C271  FFEE         	movff	_selectedPartiton+15,postinc0
+   844  002AA2  C272  FFEE         	movff	_selectedPartiton+16,postinc0
+   845                           ;fat16.c: 265: dir->cluster = dir->firstCluster;
+   846  002AA6  EE10 F01B          	lfsr	1,27
+   847  002AAA  50D9               	movf	fsr2l,w,c
+   848  002AAC  26E1               	addwf	fsr1l,f,c
+   849  002AAE  50DA               	movf	fsr2h,w,c
+   850  002AB0  22E2               	addwfc	fsr1h,f,c
+   851  002AB2  EE00 F017          	lfsr	0,23
+   852  002AB6  50D9               	movf	fsr2l,w,c
+   853  002AB8  26E9               	addwf	fsr0l,f,c
+   854  002ABA  50DA               	movf	fsr2h,w,c
+   855  002ABC  22EA               	addwfc	fsr0h,f,c
+   856  002ABE  CFE6 FFEE          	movff	postinc1,postinc0
+   857  002AC2  CFE6 FFEE          	movff	postinc1,postinc0
+   858  002AC6  CFE6 FFEE          	movff	postinc1,postinc0
+   859  002ACA  CFE5 FFED          	movff	postdec1,postdec0
+   860  002ACE  52ED               	movf	postdec0,f,c
+   861  002AD0  52ED               	movf	postdec0,f,c
+   862                           ;fat16.c: 266: }
+   863  002AD2  0012               	return	
+   864  002AD4  FFFF               	dw	65535	; Nop inserted for errata
+   865  002AD6  D7BF               	goto	f122
+   866  002AD8                     __end_of_OpenRootDirectory:
+   867                           ;fat16.c: 270: void OpenDirectory(struct fileTYP
+      +                          E *file, struct fileTYPE *dir)
+   868                           ;fat16.c: 271: {
+   869  002AD8  0046               	dw	?_OpenDirectory
+   870  002ADA                     _OpenDirectory:
+   871                           ; errata NOP at function entry point
+   872  002ADA  FFFF               	dw	65535
+   873  002ADC                     f142:
+   874  000000                     
+   875                           ;fat16.c: 273: memcpy(dir, file, sizeof(struct f
+      +                          ileTYPE));
+   876  002ADC  C048  F0E0         	movff	?_OpenDirectory+2,?_memcpy
+   877  002AE0  C049  F0E1         	movff	?_OpenDirectory+3,?_memcpy+1
+   878  002AE4  C046  F0E2         	movff	?_OpenDirectory,?_memcpy+2
+   879  002AE8  C047  F0E3         	movff	?_OpenDirectory+1,?_memcpy+3
+   880  002AEC  0E1F               	movlw	31
+   881  002AEE  0100               	movlb	__Lparam shr (0+8)
+   882  002AF0  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+   883  002AF2  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+   884  002AF4  ECC6  F03D         	call	_memcpy	;wreg free
+   885                           ;fat16.c: 276: dir->cluster = dir->firstCluster;
+   886                           ; _dir loaded to fsr2
+   887  002AF8  C048  FFD9         	movff	?_OpenDirectory+2,fsr2l
+   888  002AFC  C049  FFDA         	movff	?_OpenDirectory+3,fsr2h
+   889  002B00  EE10 F01B          	lfsr	1,27
+   890  002B04  50D9               	movf	fsr2l,w,c
+   891  002B06  26E1               	addwf	fsr1l,f,c
+   892  002B08  50DA               	movf	fsr2h,w,c
+   893  002B0A  22E2               	addwfc	fsr1h,f,c
+   894  002B0C  EE00 F017          	lfsr	0,23
+   895  002B10  50D9               	movf	fsr2l,w,c
+   896  002B12  26E9               	addwf	fsr0l,f,c
+   897  002B14  50DA               	movf	fsr2h,w,c
+   898  002B16  22EA               	addwfc	fsr0h,f,c
+   899  002B18  CFE6 FFEE          	movff	postinc1,postinc0
+   900  002B1C  CFE6 FFEE          	movff	postinc1,postinc0
+   901  002B20  CFE6 FFEE          	movff	postinc1,postinc0
+   902  002B24  CFE5 FFED          	movff	postdec1,postdec0
+   903  002B28  52ED               	movf	postdec0,f,c
+   904  002B2A  52ED               	movf	postdec0,f,c
+   905                           ;fat16.c: 277: dir->sector = 0;
+   906  002B2C  EE00 F00F          	lfsr	0,15
+   907  002B30  50D9               	movf	fsr2l,w,c
+   908  002B32  26E9               	addwf	fsr0l,f,c
+   909  002B34  50DA               	movf	fsr2h,w,c
+   910  002B36  22EA               	addwfc	fsr0h,f,c
+   911  002B38  6AEE               	clrf	postinc0,c
+   912  002B3A  6AEE               	clrf	postinc0,c
+   913  002B3C  6AEE               	clrf	postinc0,c
+   914  002B3E  6AED               	clrf	postdec0,c
+   915                           ;fat16.c: 282: }
+   916  002B40  0C00               	retlw	0
+   917  002B42  FFFF               	dw	65535	; Nop inserted for errata
+   918  002B44  D7CB               	goto	f142
+   919  002B46                     __end_of_OpenDirectory:
+   920                           ;fat16.c: 286: unsigned char GetDirectoryEntry(s
+      +                          truct fileTYPE *file, struct fileTYPE *dir, unsi
+      +                          gned char mode)
+   921                           ;fat16.c: 287: {
+   922  002B46  005D               	dw	?_GetDirectoryEntry
+   923  002B48                     _GetDirectoryEntry:
+   924                           ; errata NOP at function entry point
+   925  002B48  FFFF               	dw	65535
+   926  002B4A                     f162:
+   927  000000                     
+   928                           ;fat16.c: 288: short entryOffset;
+   929  002B4A  D01F               	goto	l44
+   930  002B4C                     l45:
+   931                           ;fat16.c: 292: {
+   932                           ;fat16.c: 294: file->entry++;
+   933  002B4C  0100               	movlb	__Lparam shr (0+8)
+   934  002B4E  EE00 F00D          	lfsr	0,13
+   935  002B52  515D               	movf	?_GetDirectoryEntry^(__Lparam& (0+65280)),
+      +                          w
+   936  002B54  26E9               	addwf	fsr0l,f,c
+   937  002B56  515E               	movf	(?_GetDirectoryEntry+1)^(__Lparam& (0+6528
+      +                          0)),w
+   938  002B58  22EA               	addwfc	fsr0h,f,c
+   939  002B5A  2AEE               	incf	postinc0,f,c
+   940  002B5C  0E00               	movlw	0
+   941  002B5E  22ED               	addwfc	postdec0,f,c
+   942                           ;fat16.c: 295: break;
+   943  002B60  D026               	goto	l43
+   944  002B62                     l47:
+   945                           ;fat16.c: 298: case 1:
+   946  002B62  C05D  F065         	movff	?_GetDirectoryEntry,?_FindPreviousDirecto
+      +                          ryEntry
+   947  002B66  C05E  F066         	movff	?_GetDirectoryEntry+1,?_FindPreviousDirec
+      +                          toryEntry+1
+   948  002B6A  C05F  F067         	movff	?_GetDirectoryEntry+2,?_FindPreviousDirec
+      +                          toryEntry+2
+   949  002B6E  C060  F068         	movff	?_GetDirectoryEntry+3,?_FindPreviousDirec
+      +                          toryEntry+3
+   950  002B72  0100               	movlb	__Lparam shr (0+8)
+   951  002B74  5161               	movf	(?_GetDirectoryEntry+4)^(__Lparam& (0+6528
+      +                          0)),w
+   952  002B76  6F69               	movwf	(?_FindPreviousDirectoryEntry+4)^(__Lpara
+      +                          m& (0+65280)),b
+   953  002B78  D8BB               	call	_FindPreviousDirectoryEntry	;wreg free
+   954  002B7A  6E00               	movwf	btemp,c
+   955  002B7C  C000  F002         	movff	btemp,btemp+2
+   956  002B80  6A03               	clrf	btemp+3,c
+   957  002B82  5003               	movf	btemp+3,w,c
+   958  002B84  1002               	iorwf	btemp+2,w,c
+   959  002B86  E113               	bnz	l43
+   960  002B88  D0AE               	goto	u230
+   961                           ;fat16.c: 306: break;
+   962  002B8A                     l44:
+   963  002B8A  0100               	movlb	__Lparam shr (0+8)
+   964  002B8C  5161               	movf	(?_GetDirectoryEntry+4)^(__Lparam& (0+6528
+      +                          0)),w
+   965  002B8E  E006               	bz	l50
+   966  002B90  0A01               	xorlw	1
+   967  002B92  E0E7               	bz	l47
+   968  002B94  0A03               	xorlw	3
+   969  002B96  E0DA               	bz	l45
+   970  002B98  0A01               	xorlw	1
+   971  002B9A  E0E3               	bz	l47
+   972                           ;fat16.c: 300: { return(0); }
+   973                           ;fat16.c: 301: break;
+   974  002B9C                     l50:
+   975                           ;fat16.c: 304: default:
+   976                           ;fat16.c: 305: file->entry = 0;
+   977  002B9C  0100               	movlb	__Lparam shr (0+8)
+   978  002B9E  EE00 F00D          	lfsr	0,13
+   979  002BA2  515D               	movf	?_GetDirectoryEntry^(__Lparam& (0+65280)),
+      +                          w
+   980  002BA4  26E9               	addwf	fsr0l,f,c
+   981  002BA6  515E               	movf	(?_GetDirectoryEntry+1)^(__Lparam& (0+6528
+      +                          0)),w
+   982  002BA8  22EA               	addwfc	fsr0h,f,c
+   983  002BAA  6AEE               	clrf	postinc0,c
+   984  002BAC  6AED               	clrf	postdec0,c
+   985  002BAE                     l43:
+   986                           ;fat16.c: 310: memset(longFilename,0,128);
+   987  002BAE  0100               	movlb	__Lparam shr (0+8)
+   988  002BB0  0E7F               	movlw	low _longFilename
+   989  002BB2  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+   990  002BB4  0E03               	movlw	high _longFilename
+   991  002BB6  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+   992  002BB8  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+   993  002BBA  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   994  002BBC  0E80               	movlw	128
+   995  002BBE  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   996  002BC0  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   997  002BC2  EC70  F03E         	call	_memset	;wreg free
+   998                           ;fat16.c: 313: if(!FileSeek(dir, file->entry >> 
+      +                          4))
+   999  002BC6  C05F  F0D9         	movff	?_GetDirectoryEntry+2,?_FileSeek
+  1000  002BCA  C060  F0DA         	movff	?_GetDirectoryEntry+3,?_FileSeek+1
+  1001  002BCE  0100               	movlb	__Lparam shr (0+8)
+  1002  002BD0  EE00 F00D          	lfsr	0,13
+  1003  002BD4  515D               	movf	?_GetDirectoryEntry^(__Lparam& (0+65280)),
+      +                          w
+  1004  002BD6  26E9               	addwf	fsr0l,f,c
+  1005  002BD8  515E               	movf	(?_GetDirectoryEntry+1)^(__Lparam& (0+6528
+      +                          0)),w
+  1006  002BDA  22EA               	addwfc	fsr0h,f,c
+  1007  002BDC  CFEE F000          	movff	postinc0,btemp
+  1008  002BE0  CFED F001          	movff	postdec0,btemp+1
+  1009  002BE4  0E04               	movlw	4
+  1010  002BE6  6E02               	movwf	btemp+2,c
+  1011  002BE8                     u195:
+  1012  002BE8  90D8               	bcf	status,0,c
+  1013  002BEA  3201               	rrcf	btemp+1,f,c
+  1014  002BEC  3200               	rrcf	btemp,f,c
+  1015  002BEE  2E02               	decfsz	btemp+2,f,c
+  1016  002BF0  D7FB               	goto	u195
+  1017  002BF2  5000               	movf	btemp,w,c
+  1018  002BF4  6FDB               	movwf	(?_FileSeek+2)^(__Lparam& (0+65280)),b
+  1019  002BF6  5001               	movf	btemp+1,w,c
+  1020  002BF8  6FDC               	movwf	(?_FileSeek+3)^(__Lparam& (0+65280)),b
+  1021  002BFA  6BDD               	clrf	(?_FileSeek+4)^(__Lparam& (0+65280)),b
+  1022  002BFC  6BDE               	clrf	(?_FileSeek+5)^(__Lparam& (0+65280)),b
+  1023  002BFE  DBB3               	call	_FileSeek	;wreg free
+  1024  002C00  6E00               	movwf	btemp,c
+  1025  002C02  C000  F002         	movff	btemp,btemp+2
+  1026  002C06  6A03               	clrf	btemp+3,c
+  1027  002C08  5003               	movf	btemp+3,w,c
+  1028  002C0A  1002               	iorwf	btemp+2,w,c
+  1029  002C0C  E06C               	bz	u230
+  1030  002C0E  D027               	goto	l53
+  1031  002C10                     l56:
+  1032                           ;fat16.c: 330: else if(1 == rc)
+  1033  002C10  0100               	movlb	__Lparam shr (0+8)
+  1034  002C12  0562               	decf	?a_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,w
+  1035  002C14  E102               	bnz	l57
+  1036                           ;fat16.c: 331: { return(1); }
+  1037  002C16  0E01               	movlw	1
+  1038  002C18  D067               	goto	l42
+  1039  002C1A                     l57:
+  1040                           ;fat16.c: 334: file->entry++;
+  1041                           ; _file loaded to fsr1
+  1042  002C1A  C05D  FFE1         	movff	?_GetDirectoryEntry,fsr1l
+  1043  002C1E  C05E  FFE2         	movff	?_GetDirectoryEntry+1,fsr1h
+  1044  002C22  EE00 F00D          	lfsr	0,13
+  1045  002C26  50E1               	movf	fsr1l,w,c
+  1046  002C28  26E9               	addwf	fsr0l,f,c
+  1047  002C2A  50E2               	movf	fsr1h,w,c
+  1048  002C2C  22EA               	addwfc	fsr0h,f,c
+  1049  002C2E  2AEE               	incf	postinc0,f,c
+  1050  002C30  0E00               	movlw	0
+  1051  002C32  22ED               	addwfc	postdec0,f,c
+  1052                           ;fat16.c: 337: if(!(file->entry & 0xF))
+  1053  002C34  EE00 F00D          	lfsr	0,13
+  1054  002C38  50E1               	movf	fsr1l,w,c
+  1055  002C3A  26E9               	addwf	fsr0l,f,c
+  1056  002C3C  50E2               	movf	fsr1h,w,c
+  1057  002C3E  22EA               	addwfc	fsr0h,f,c
+  1058  002C40  CFEE F000          	movff	postinc0,btemp
+  1059  002C44  CFED F001          	movff	postdec0,btemp+1
+  1060  002C48  0E0F               	movlw	15
+  1061  002C4A  1600               	andwf	btemp,f,c
+  1062  002C4C  6A01               	clrf	btemp+1,c
+  1063  002C4E  5001               	movf	btemp+1,w,c
+  1064  002C50  1000               	iorwf	btemp,w,c
+  1065  002C52  E105               	bnz	l53
+  1066                           ;fat16.c: 338: { FileNextSector(dir); }
+  1067  002C54  C05F  F065         	movff	?_GetDirectoryEntry+2,?_FileNextSector
+  1068  002C58  C060  F066         	movff	?_GetDirectoryEntry+3,?_FileNextSector+1
+  1069  002C5C  DB44               	call	_FileNextSector	;wreg free
+  1070                           ;fat16.c: 314: { return(0); }
+  1071  002C5E                     l53:
+  1072                           ;fat16.c: 317: while(1)
+  1073                           ;fat16.c: 318: {
+  1074  002C5E  C05F  F0F5         	movff	?_GetDirectoryEntry+2,?_GetLBA
+  1075  002C62  C060  F0F6         	movff	?_GetDirectoryEntry+3,?_GetLBA+1
+  1076  002C66  ECFE  F01A         	call	_GetLBA	;wreg free
+  1077  002C6A  C000  F0EF         	movff	btemp,?_MMC_Read
+  1078  002C6E  C001  F0F0         	movff	btemp+1,?_MMC_Read+1
+  1079  002C72  C002  F0F1         	movff	btemp+2,?_MMC_Read+2
+  1080  002C76  C003  F0F2         	movff	btemp+3,?_MMC_Read+3
+  1081  002C7A  0100               	movlb	__Lparam shr (0+8)
+  1082  002C7C  0EFF               	movlw	low _secbuf
+  1083  002C7E  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+  1084  002C80  0E03               	movlw	high _secbuf
+  1085  002C82  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+  1086  002C84  ECED  F035         	call	_MMC_Read	;wreg free
+  1087  002C88  6E00               	movwf	btemp,c
+  1088  002C8A  C000  F002         	movff	btemp,btemp+2
+  1089  002C8E  6A03               	clrf	btemp+3,c
+  1090  002C90  5003               	movf	btemp+3,w,c
+  1091  002C92  1002               	iorwf	btemp+2,w,c
+  1092  002C94  E028               	bz	u230
+  1093                           ;fat16.c: 321: { return(0); }
+  1094                           ;fat16.c: 324: entryOffset = (file->entry & 0xF)
+      +                           << 5;
+  1095  002C96  0100               	movlb	__Lparam shr (0+8)
+  1096  002C98  EE00 F00D          	lfsr	0,13
+  1097  002C9C  515D               	movf	?_GetDirectoryEntry^(__Lparam& (0+65280)),
+      +                          w
+  1098  002C9E  26E9               	addwf	fsr0l,f,c
+  1099  002CA0  515E               	movf	(?_GetDirectoryEntry+1)^(__Lparam& (0+6528
+      +                          0)),w
+  1100  002CA2  22EA               	addwfc	fsr0h,f,c
+  1101  002CA4  CFEE F000          	movff	postinc0,btemp
+  1102  002CA8  CFED F001          	movff	postdec0,btemp+1
+  1103  002CAC  0E0F               	movlw	15
+  1104  002CAE  1600               	andwf	btemp,f,c
+  1105  002CB0  0E00               	movlw	0
+  1106  002CB2  1601               	andwf	btemp+1,f,c
+  1107  002CB4  0E05               	movlw	5
+  1108  002CB6                     u225:
+  1109  002CB6  90D8               	bcf	status,0,c
+  1110  002CB8  3600               	rlcf	btemp,f,c
+  1111  002CBA  3601               	rlcf	btemp+1,f,c
+  1112  002CBC  2EE8               	decfsz	wreg,f,c
+  1113  002CBE  D7FB               	goto	u225
+  1114  002CC0  C000  F063         	movff	btemp,?a_GetDirectoryEntry+1
+  1115  002CC4  C001  F064         	movff	btemp+1,?a_GetDirectoryEntry+2
+  1116                           ;fat16.c: 327: rc = ProcessDirEntry(file, (union
+      +                           FAT_directoryEntry *)(secbuf + entryOffset));
+  1117  002CC8  C05D  F065         	movff	?_GetDirectoryEntry,?_ProcessDirEntry
+  1118  002CCC  C05E  F066         	movff	?_GetDirectoryEntry+1,?_ProcessDirEntry+1
+  1119  002CD0  0EFF               	movlw	low _secbuf
+  1120  002CD2  2563               	addwf	(?a_GetDirectoryEntry+1)^(__Lparam& (0+65
+      +                          280)),w
+  1121  002CD4  6F67               	movwf	(?_ProcessDirEntry+2)^(__Lparam& (0+65280
+      +                          )),b
+  1122  002CD6  0E03               	movlw	high _secbuf
+  1123  002CD8  2164               	addwfc	(?a_GetDirectoryEntry+2)^(__Lparam& (0+6
+      +                          5280)),w
+  1124  002CDA  6F68               	movwf	(?_ProcessDirEntry+3)^(__Lparam& (0+65280
+      +                          )),b
+  1125  002CDC  D98F               	call	_ProcessDirEntry	;wreg free
+  1126  002CDE  0100               	movlb	__Lparam shr (0+8)
+  1127  002CE0  6F62               	movwf	?a_GetDirectoryEntry^(__Lparam& (0+65280)
+      +                          ),b
+  1128                           ;fat16.c: 328: if(!rc)
+  1129  002CE2  5162               	movf	?a_GetDirectoryEntry^(__Lparam& (0+65280))
+      +                          ,w
+  1130  002CE4  E195               	bnz	l56
+  1131  002CE6                     u230:
+  1132                           ;fat16.c: 329: { return (0); }
+  1133  002CE6  0E00               	movlw	0
+  1134                           ;fat16.c: 343: }
+  1135  002CE8                     l42:
+  1136  002CE8  0012               	return	
+  1137  002CEA  FFFF               	dw	65535	; Nop inserted for errata
+  1138  002CEC  D72E               	goto	f162
+  1139  002CEE                     __end_of_GetDirectoryEntry:
+  1140                           ;fat16.c: 350: unsigned char FindPreviousDirecto
+      +                          ryEntry(struct fileTYPE *file, struct fileTYPE *
+      +                          dir, unsigned char mode)
+  1141                           ;fat16.c: 351: {
+  1142  002CEE  0065               	dw	?_FindPreviousDirectoryEntry
+  1143  002CF0                     _FindPreviousDirectoryEntry:
+  1144                           ; errata NOP at function entry point
+  1145  002CF0  FFFF               	dw	65535
+  1146  002CF2                     f222:
+  1147  000000                     
+  1148                           ;fat16.c: 352: unsigned short entryStart;
+  1149  002CF2  0100               	movlb	__Lparam shr (0+8)
+  1150  002CF4  EE00 F00D          	lfsr	0,13
+  1151  002CF8  5165               	movf	?_FindPreviousDirectoryEntry^(__Lparam& (0
+      +                          +65280)),w
+  1152  002CFA  26E9               	addwf	fsr0l,f,c
+  1153  002CFC  5166               	movf	(?_FindPreviousDirectoryEntry+1)^(__Lparam
+      +                          & (0+65280)),w
+  1154  002CFE  22EA               	addwfc	fsr0h,f,c
+  1155  002D00  50EE               	movf	postinc0,w,c
+  1156  002D02  10ED               	iorwf	postdec0,w,c
+  1157  002D04  E105               	bnz	l61
+  1158                           ;fat16.c: 357: {
+  1159  002D06  5169               	movf	(?_FindPreviousDirectoryEntry+4)^(__Lparam
+      +                          & (0+65280)),w
+  1160  002D08  0A03               	xorlw	3
+  1161  002D0A  E001 D15C          	bnz	u470
+  1162  002D0E  D171               	goto	L3
+  1163                           ;fat16.c: 360: { return(0); }
+  1164                           ;fat16.c: 361: else
+  1165  002D10                     l61:
+  1166                           ;fat16.c: 363: }
+  1167  002D10  0100               	movlb	__Lparam shr (0+8)
+  1168  002D12  EE00 F00D          	lfsr	0,13
+  1169  002D16  5165               	movf	?_FindPreviousDirectoryEntry^(__Lparam& (0
+      +                          +65280)),w
+  1170  002D18  26E9               	addwf	fsr0l,f,c
+  1171  002D1A  5166               	movf	(?_FindPreviousDirectoryEntry+1)^(__Lparam
+      +                          & (0+65280)),w
+  1172  002D1C  22EA               	addwfc	fsr0h,f,c
+  1173  002D1E  CFEE F06C          	movff	postinc0,?a_FindPreviousDirectoryEntry+2
+  1174  002D22  CFED F06D          	movff	postdec0,?a_FindPreviousDirectoryEntry+3
+  1175                           ;fat16.c: 369: if(!FileSeek(dir, file->entry >> 
+      +                          4))
+  1176  002D26  C067  F0D9         	movff	?_FindPreviousDirectoryEntry+2,?_FileSeek
+  1177  002D2A  C068  F0DA         	movff	?_FindPreviousDirectoryEntry+3,?_FileSeek
+      +                          +1
+  1178  002D2E  EE00 F00D          	lfsr	0,13
+  1179  002D32  5165               	movf	?_FindPreviousDirectoryEntry^(__Lparam& (0
+      +                          +65280)),w
+  1180  002D34  26E9               	addwf	fsr0l,f,c
+  1181  002D36  5166               	movf	(?_FindPreviousDirectoryEntry+1)^(__Lparam
+      +                          & (0+65280)),w
+  1182  002D38  22EA               	addwfc	fsr0h,f,c
+  1183  002D3A  CFEE F000          	movff	postinc0,btemp
+  1184  002D3E  CFED F001          	movff	postdec0,btemp+1
+  1185  002D42  0E04               	movlw	4
+  1186  002D44  6E02               	movwf	btemp+2,c
+  1187  002D46                     u285:
+  1188  002D46  90D8               	bcf	status,0,c
+  1189  002D48  3201               	rrcf	btemp+1,f,c
+  1190  002D4A  3200               	rrcf	btemp,f,c
+  1191  002D4C  2E02               	decfsz	btemp+2,f,c
+  1192  002D4E  D7FB               	goto	u285
+  1193  002D50  5000               	movf	btemp,w,c
+  1194  002D52  6FDB               	movwf	(?_FileSeek+2)^(__Lparam& (0+65280)),b
+  1195  002D54  5001               	movf	btemp+1,w,c
+  1196  002D56  6FDC               	movwf	(?_FileSeek+3)^(__Lparam& (0+65280)),b
+  1197  002D58  6BDD               	clrf	(?_FileSeek+4)^(__Lparam& (0+65280)),b
+  1198  002D5A  6BDE               	clrf	(?_FileSeek+5)^(__Lparam& (0+65280)),b
+  1199  002D5C  DB04               	call	_FileSeek	;wreg free
+  1200  002D5E  6E00               	movwf	btemp,c
+  1201  002D60  C000  F002         	movff	btemp,btemp+2
+  1202  002D64  6A03               	clrf	btemp+3,c
+  1203  002D66  5003               	movf	btemp+3,w,c
+  1204  002D68  1002               	iorwf	btemp+2,w,c
+  1205  002D6A  E101 D142          	bz	L3
+  1206                           ;fat16.c: 370: { return(0); }
+  1207  002D6E                     l67:
+  1208                           ;fat16.c: 373: do
+  1209                           ;fat16.c: 374: {
+  1210                           ; _file loaded to fsr1
+  1211  002D6E  C065  FFE1         	movff	?_FindPreviousDirectoryEntry,fsr1l
+  1212  002D72  C066  FFE2         	movff	?_FindPreviousDirectoryEntry+1,fsr1h
+  1213  002D76  EE00 F00D          	lfsr	0,13
+  1214  002D7A  50E1               	movf	fsr1l,w,c
+  1215  002D7C  26E9               	addwf	fsr0l,f,c
+  1216  002D7E  50E2               	movf	fsr1h,w,c
+  1217  002D80  22EA               	addwfc	fsr0h,f,c
+  1218  002D82  06EE               	decf	postinc0,f,c
+  1219  002D84  0E00               	movlw	0
+  1220  002D86  5AED               	subwfb	postdec0,f,c
+  1221                           ;fat16.c: 379: entrySectorOffset = file->entry &
+      +                           0xF;
+  1222  002D88  EE00 F00D          	lfsr	0,13
+  1223  002D8C  50E1               	movf	fsr1l,w,c
+  1224  002D8E  26E9               	addwf	fsr0l,f,c
+  1225  002D90  50E2               	movf	fsr1h,w,c
+  1226  002D92  22EA               	addwfc	fsr0h,f,c
+  1227  002D94  CFEE F000          	movff	postinc0,btemp
+  1228  002D98  CFED F001          	movff	postdec0,btemp+1
+  1229  002D9C  0E0F               	movlw	15
+  1230  002D9E  1400               	andwf	btemp,w,c
+  1231  002DA0  0100               	movlb	__Lparam shr (0+8)
+  1232  002DA2  6F6A               	movwf	?a_FindPreviousDirectoryEntry^(__Lparam& 
+      +                          (0+65280)),b
+  1233  002DA4  6B6B               	clrf	(?a_FindPreviousDirectoryEntry+1)^(__Lpara
+      +                          m& (0+65280)),b
+  1234                           ;fat16.c: 382: if(0xF == entrySectorOffset)
+  1235  002DA6  516A               	movf	?a_FindPreviousDirectoryEntry^(__Lparam& (
+      +                          0+65280)),w
+  1236  002DA8  0A0F               	xorlw	15
+  1237  002DAA  116B               	iorwf	(?a_FindPreviousDirectoryEntry+1)^(__Lpar
+      +                          am& (0+65280)),w
+  1238  002DAC  E17E               	bnz	l68
+  1239                           ;fat16.c: 383: {
+  1240  002DAE  EE00 F00D          	lfsr	0,13
+  1241  002DB2  50E1               	movf	fsr1l,w,c
+  1242  002DB4  26E9               	addwf	fsr0l,f,c
+  1243  002DB6  50E2               	movf	fsr1h,w,c
+  1244  002DB8  22EA               	addwfc	fsr0h,f,c
+  1245  002DBA  CFEE F000          	movff	postinc0,btemp
+  1246  002DBE  CFED F001          	movff	postdec0,btemp+1
+  1247  002DC2  0E04               	movlw	4
+  1248  002DC4  6E02               	movwf	btemp+2,c
+  1249  002DC6                     u315:
+  1250  002DC6  90D8               	bcf	status,0,c
+  1251  002DC8  3201               	rrcf	btemp+1,f,c
+  1252  002DCA  3200               	rrcf	btemp,f,c
+  1253  002DCC  2E02               	decfsz	btemp+2,f,c
+  1254  002DCE  D7FB               	goto	u315
+  1255  002DD0  6A02               	clrf	btemp+2,c
+  1256  002DD2  6A03               	clrf	btemp+3,c
+  1257  002DD4  EE00 F00F          	lfsr	0,15
+  1258  002DD8  5167               	movf	(?_FindPreviousDirectoryEntry+2)^(__Lparam
+      +                          & (0+65280)),w
+  1259  002DDA  26E9               	addwf	fsr0l,f,c
+  1260  002DDC  5168               	movf	(?_FindPreviousDirectoryEntry+3)^(__Lparam
+      +                          & (0+65280)),w
+  1261  002DDE  22EA               	addwfc	fsr0h,f,c
+  1262  002DE0  C000  FFEE         	movff	btemp,postinc0
+  1263  002DE4  C001  FFEE         	movff	btemp+1,postinc0
+  1264  002DE8  C002  FFEE         	movff	btemp+2,postinc0
+  1265  002DEC  C003  FFED         	movff	btemp+3,postdec0
+  1266  002DF0  52ED               	movf	postdec0,f,c
+  1267  002DF2  52ED               	movf	postdec0,f,c
+  1268                           ;fat16.c: 388: if(~selectedPartiton.clusterMask 
+      +                          == (dir->sector & ~selectedPartiton.clusterMask)
+      +                          )
+  1269  002DF4  C27B  F000         	movff	_selectedPartiton+25,btemp
+  1270  002DF8  C27C  F001         	movff	_selectedPartiton+26,btemp+1
+  1271  002DFC  C27D  F002         	movff	_selectedPartiton+27,btemp+2
+  1272  002E00  C27E  F003         	movff	_selectedPartiton+28,btemp+3
+  1273  002E04  1E00               	comf	btemp,f,c
+  1274  002E06  1E01               	comf	btemp+1,f,c
+  1275  002E08  1E02               	comf	btemp+2,f,c
+  1276  002E0A  1E03               	comf	btemp+3,f,c
+  1277  002E0C  EE00 F00F          	lfsr	0,15
+  1278  002E10  5167               	movf	(?_FindPreviousDirectoryEntry+2)^(__Lparam
+      +                          & (0+65280)),w
+  1279  002E12  26E9               	addwf	fsr0l,f,c
+  1280  002E14  5168               	movf	(?_FindPreviousDirectoryEntry+3)^(__Lparam
+      +                          & (0+65280)),w
+  1281  002E16  22EA               	addwfc	fsr0h,f,c
+  1282  002E18  C27B  F004         	movff	_selectedPartiton+25,btemp+4
+  1283  002E1C  C27C  F005         	movff	_selectedPartiton+26,btemp+5
+  1284  002E20  C27D  F006         	movff	_selectedPartiton+27,btemp+6
+  1285  002E24  C27E  F007         	movff	_selectedPartiton+28,btemp+7
+  1286  002E28  1E04               	comf	btemp+4,f,c
+  1287  002E2A  1E05               	comf	btemp+5,f,c
+  1288  002E2C  1E06               	comf	btemp+6,f,c
+  1289  002E2E  1E07               	comf	btemp+7,f,c
+  1290  002E30  50EE               	movf	postinc0,w,c
+  1291  002E32  1404               	andwf	btemp+4,w,c
+  1292  002E34  6E08               	movwf	btemp+8,c
+  1293  002E36  50EE               	movf	postinc0,w,c
+  1294  002E38  1405               	andwf	btemp+5,w,c
+  1295  002E3A  6E09               	movwf	btemp+9,c
+  1296  002E3C  50EE               	movf	postinc0,w,c
+  1297  002E3E  1406               	andwf	btemp+6,w,c
+  1298  002E40  6E0A               	movwf	btemp+10,c
+  1299  002E42  50ED               	movf	postdec0,w,c
+  1300  002E44  1407               	andwf	btemp+7,w,c
+  1301  002E46  6E0B               	movwf	btemp+11,c
+  1302  002E48  52ED               	movf	postdec0,f,c
+  1303  002E4A  52ED               	movf	postdec0,f,c
+  1304  002E4C  1803               	xorwf	btemp+3,w,c
+  1305  002E4E  E108               	bnz	u325
+  1306  002E50  5002               	movf	btemp+2,w,c
+  1307  002E52  180A               	xorwf	btemp+10,w,c
+  1308  002E54  E105               	bnz	u325
+  1309  002E56  5001               	movf	btemp+1,w,c
+  1310  002E58  1809               	xorwf	btemp+9,w,c
+  1311  002E5A  E102               	bnz	u325
+  1312  002E5C  5000               	movf	btemp,w,c
+  1313  002E5E  1808               	xorwf	btemp+8,w,c
+  1314  002E60                     u325:
+  1315  002E60  E124               	bnz	l68
+  1316                           ;fat16.c: 389: {
+  1317  002E62  C067  F0D9         	movff	?_FindPreviousDirectoryEntry+2,?_FileSeek
+  1318  002E66  C068  F0DA         	movff	?_FindPreviousDirectoryEntry+3,?_FileSeek
+      +                          +1
+  1319  002E6A  EE00 F00D          	lfsr	0,13
+  1320  002E6E  5165               	movf	?_FindPreviousDirectoryEntry^(__Lparam& (0
+      +                          +65280)),w
+  1321  002E70  26E9               	addwf	fsr0l,f,c
+  1322  002E72  5166               	movf	(?_FindPreviousDirectoryEntry+1)^(__Lparam
+      +                          & (0+65280)),w
+  1323  002E74  22EA               	addwfc	fsr0h,f,c
+  1324  002E76  CFEE F000          	movff	postinc0,btemp
+  1325  002E7A  CFED F001          	movff	postdec0,btemp+1
+  1326  002E7E  0E04               	movlw	4
+  1327  002E80  6E02               	movwf	btemp+2,c
+  1328  002E82                     u335:
+  1329  002E82  90D8               	bcf	status,0,c
+  1330  002E84  3201               	rrcf	btemp+1,f,c
+  1331  002E86  3200               	rrcf	btemp,f,c
+  1332  002E88  2E02               	decfsz	btemp+2,f,c
+  1333  002E8A  D7FB               	goto	u335
+  1334  002E8C  5000               	movf	btemp,w,c
+  1335  002E8E  6FDB               	movwf	(?_FileSeek+2)^(__Lparam& (0+65280)),b
+  1336  002E90  5001               	movf	btemp+1,w,c
+  1337  002E92  6FDC               	movwf	(?_FileSeek+3)^(__Lparam& (0+65280)),b
+  1338  002E94  6BDD               	clrf	(?_FileSeek+4)^(__Lparam& (0+65280)),b
+  1339  002E96  6BDE               	clrf	(?_FileSeek+5)^(__Lparam& (0+65280)),b
+  1340  002E98  DA66               	call	_FileSeek	;wreg free
+  1341  002E9A  6E00               	movwf	btemp,c
+  1342  002E9C  C000  F002         	movff	btemp,btemp+2
+  1343  002EA0  6A03               	clrf	btemp+3,c
+  1344  002EA2  5003               	movf	btemp+3,w,c
+  1345  002EA4  1002               	iorwf	btemp+2,w,c
+  1346  002EA6  E101 D0A4          	bz	L3
+  1347                           ;fat16.c: 392: { return(0); }
+  1348  002EAA                     l68:
+  1349                           ;fat16.c: 393: }
+  1350  002EAA  C067  F0F5         	movff	?_FindPreviousDirectoryEntry+2,?_GetLBA
+  1351  002EAE  C068  F0F6         	movff	?_FindPreviousDirectoryEntry+3,?_GetLBA+1
+  1352  002EB2  DBA4               	call	_GetLBA	;wreg free
+  1353  002EB4  C000  F0EF         	movff	btemp,?_MMC_Read
+  1354  002EB8  C001  F0F0         	movff	btemp+1,?_MMC_Read+1
+  1355  002EBC  C002  F0F1         	movff	btemp+2,?_MMC_Read+2
+  1356  002EC0  C003  F0F2         	movff	btemp+3,?_MMC_Read+3
+  1357  002EC4  0100               	movlb	__Lparam shr (0+8)
+  1358  002EC6  0EFF               	movlw	low _secbuf
+  1359  002EC8  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+  1360  002ECA  0E03               	movlw	high _secbuf
+  1361  002ECC  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+  1362  002ECE  ECED  F035         	call	_MMC_Read	;wreg free
+  1363  002ED2  6E00               	movwf	btemp,c
+  1364  002ED4  C000  F002         	movff	btemp,btemp+2
+  1365  002ED8  6A03               	clrf	btemp+3,c
+  1366  002EDA  5003               	movf	btemp+3,w,c
+  1367  002EDC  1002               	iorwf	btemp+2,w,c
+  1368  002EDE  E101 D088          	bz	L3
+  1369                           ;fat16.c: 398: { return(0); }
+  1370                           ;fat16.c: 401: dirEntry = (union FAT_directoryEn
+      +                          try *)(secbuf + (entrySectorOffset << 5));
+  1371  002EE2  C06A  F000         	movff	?a_FindPreviousDirectoryEntry,btemp
+  1372  002EE6  C06B  F001         	movff	?a_FindPreviousDirectoryEntry+1,btemp+1
+  1373  002EEA  0E05               	movlw	5
+  1374  002EEC                     u365:
+  1375  002EEC  90D8               	bcf	status,0,c
+  1376  002EEE  3600               	rlcf	btemp,f,c
+  1377  002EF0  3601               	rlcf	btemp+1,f,c
+  1378  002EF2  2EE8               	decfsz	wreg,f,c
+  1379  002EF4  D7FB               	goto	u365
+  1380  002EF6  0EFF               	movlw	low _secbuf
+  1381  002EF8  2400               	addwf	btemp,w,c
+  1382  002EFA  6ED9               	movwf	fsr2l,c
+  1383  002EFC  0E03               	movlw	high _secbuf
+  1384  002EFE  2001               	addwfc	btemp+1,w,c
+  1385  002F00  6EDA               	movwf	fsr2h,c
+  1386                           ;fat16.c: 412: if(0x00 == dirEntry->entry.shortN
+      +                          ame.name[0])
+  1387  002F02  50DF               	movf	indf2,w,c
+  1388  002F04  E076               	bz	L3
+  1389                           ;fat16.c: 413: { return(0); }
+  1390                           ; _file loaded to fsr1
+  1391  002F06  C065  FFE1         	movff	?_FindPreviousDirectoryEntry,fsr1l
+  1392  002F0A  C066  FFE2         	movff	?_FindPreviousDirectoryEntry+1,fsr1h
+  1393                           ;fat16.c: 416: if(0xE5 == dirEntry->entry.shortN
+      +                          ame.name[0])
+  1394  002F0E  50DF               	movf	indf2,w,c
+  1395  002F10  0AE5               	xorlw	-27
+  1396  002F12  E05B               	bz	l65
+  1397                           ;fat16.c: 417: { continue; }
+  1398                           ;fat16.c: 420: if (0 == (dirEntry->entry.attribu
+      +                          tes & ((1 << 1) | (1 << 2) | (1 << 3))) )
+  1399  002F14  EE00 F00B          	lfsr	0,11
+  1400  002F18  50D9               	movf	fsr2l,w,c
+  1401  002F1A  26E9               	addwf	fsr0l,f,c
+  1402  002F1C  50DA               	movf	fsr2h,w,c
+  1403  002F1E  22EA               	addwfc	fsr0h,f,c
+  1404  002F20  50EF               	movf	indf0,w,c
+  1405  002F22  0B0E               	andlw	14
+  1406  002F24  E140               	bnz	l74
+  1407                           ;fat16.c: 421: {
+  1408  002F26  0100               	movlb	__Lparam shr (0+8)
+  1409  002F28  0569               	decf	(?_FindPreviousDirectoryEntry+4)^(__Lparam
+      +                          & (0+65280)),w
+  1410  002F2A  E127               	bnz	l75
+  1411                           ;fat16.c: 423: {
+  1412  002F2C  EE00 F00D          	lfsr	0,13
+  1413  002F30  50E1               	movf	fsr1l,w,c
+  1414  002F32  26E9               	addwf	fsr0l,f,c
+  1415  002F34  50E2               	movf	fsr1h,w,c
+  1416  002F36  22EA               	addwfc	fsr0h,f,c
+  1417  002F38  CFEE F000          	movff	postinc0,btemp
+  1418  002F3C  CFED F001          	movff	postdec0,btemp+1
+  1419  002F40  5000               	movf	btemp,w,c
+  1420  002F42  5D6C               	subwf	(?a_FindPreviousDirectoryEntry+2)^(__Lpar
+      +                          am& (0+65280)),w
+  1421  002F44  6E02               	movwf	btemp+2,c
+  1422  002F46  5001               	movf	btemp+1,w,c
+  1423  002F48  596D               	subwfb	(?a_FindPreviousDirectoryEntry+3)^(__Lpa
+      +                          ram& (0+65280)),w
+  1424  002F4A  6E03               	movwf	btemp+3,c
+  1425  002F4C  0402               	decf	btemp+2,w,c
+  1426  002F4E  1003               	iorwf	btemp+3,w,c
+  1427  002F50  E10A               	bnz	l76
+  1428                           ;fat16.c: 426: {
+  1429  002F52  EE00 F00D          	lfsr	0,13
+  1430  002F56  50E1               	movf	fsr1l,w,c
+  1431  002F58  26E9               	addwf	fsr0l,f,c
+  1432  002F5A  50E2               	movf	fsr1h,w,c
+  1433  002F5C  22EA               	addwfc	fsr0h,f,c
+  1434  002F5E  2AEE               	incf	postinc0,f,c
+  1435  002F60  0E00               	movlw	0
+  1436  002F62  22ED               	addwfc	postdec0,f,c
+  1437  002F64  D030               	goto	u470
+  1438                           ;fat16.c: 428: return(1);
+  1439  002F66                     l76:
+  1440                           ;fat16.c: 429: }
+  1441  002F66  EE00 F00D          	lfsr	0,13
+  1442  002F6A  50E1               	movf	fsr1l,w,c
+  1443  002F6C  26E9               	addwf	fsr0l,f,c
+  1444  002F6E  50E2               	movf	fsr1h,w,c
+  1445  002F70  22EA               	addwfc	fsr0h,f,c
+  1446  002F72  50EE               	movf	postinc0,w,c
+  1447  002F74  10ED               	iorwf	postdec0,w,c
+  1448  002F76  E117               	bnz	l74
+  1449  002F78  D026               	goto	u470
+  1450                           ;fat16.c: 433: { return (1); }
+  1451                           ;fat16.c: 434: }
+  1452  002F7A                     l75:
+  1453                           ;fat16.c: 435: else
+  1454  002F7A  EE00 F00D          	lfsr	0,13
+  1455  002F7E  50E1               	movf	fsr1l,w,c
+  1456  002F80  26E9               	addwf	fsr0l,f,c
+  1457  002F82  50E2               	movf	fsr1h,w,c
+  1458  002F84  22EA               	addwfc	fsr0h,f,c
+  1459  002F86  50EE               	movf	postinc0,w,c
+  1460  002F88  10ED               	iorwf	postdec0,w,c
+  1461  002F8A  E01D               	bz	u470
+  1462                           ;fat16.c: 439: { return (1); }
+  1463                           ;fat16.c: 440: else
+  1464  002F8C  0E01               	movlw	1
+  1465  002F8E  0100               	movlb	__Lparam shr (0+8)
+  1466  002F90  6F69               	movwf	(?_FindPreviousDirectoryEntry+4)^(__Lpara
+      +                          m& (0+65280)),b
+  1467                           ;fat16.c: 444: entryStart = file->entry;
+  1468  002F92  EE00 F00D          	lfsr	0,13
+  1469  002F96  50E1               	movf	fsr1l,w,c
+  1470  002F98  26E9               	addwf	fsr0l,f,c
+  1471  002F9A  50E2               	movf	fsr1h,w,c
+  1472  002F9C  22EA               	addwfc	fsr0h,f,c
+  1473  002F9E  CFEE F06C          	movff	postinc0,?a_FindPreviousDirectoryEntry+2
+  1474  002FA2  CFED F06D          	movff	postdec0,?a_FindPreviousDirectoryEntry+3
+  1475  002FA6                     l74:
+  1476                           ;fat16.c: 445: }
+  1477  002FA6  EE00 F00B          	lfsr	0,11
+  1478  002FAA  50D9               	movf	fsr2l,w,c
+  1479  002FAC  26E9               	addwf	fsr0l,f,c
+  1480  002FAE  50DA               	movf	fsr2h,w,c
+  1481  002FB0  22EA               	addwfc	fsr0h,f,c
+  1482  002FB2  50EF               	movf	indf0,w,c
+  1483  002FB4  0A0F               	xorlw	15
+  1484  002FB6  E109               	bnz	l65
+  1485  002FB8  50DF               	movf	indf2,w,c
+  1486  002FBA  6E00               	movwf	btemp,c
+  1487  002FBC  AC00               	btfss	btemp,6,c
+  1488  002FBE  D005               	goto	l65
+  1489                           ;fat16.c: 452: {
+  1490  002FC0  0100               	movlb	__Lparam shr (0+8)
+  1491  002FC2  0569               	decf	(?_FindPreviousDirectoryEntry+4)^(__Lparam
+      +                          & (0+65280)),w
+  1492  002FC4  E102               	bnz	l65
+  1493  002FC6                     u470:
+  1494                           ;fat16.c: 455: { return(1); }
+  1495  002FC6  0E01               	movlw	1
+  1496  002FC8  D015               	goto	l60
+  1497  002FCA                     l65:
+  1498                           ;fat16.c: 456: }
+  1499  002FCA  EE00 F00D          	lfsr	0,13
+  1500  002FCE  50E1               	movf	fsr1l,w,c
+  1501  002FD0  26E9               	addwf	fsr0l,f,c
+  1502  002FD2  50E2               	movf	fsr1h,w,c
+  1503  002FD4  22EA               	addwfc	fsr0h,f,c
+  1504  002FD6  50EE               	movf	postinc0,w,c
+  1505  002FD8  10ED               	iorwf	postdec0,w,c
+  1506  002FDA  E001 D6C8          	bnz	l67
+  1507                           ;fat16.c: 461: file->entry = entryStart;
+  1508  002FDE  EE00 F00D          	lfsr	0,13
+  1509  002FE2  50E1               	movf	fsr1l,w,c
+  1510  002FE4  26E9               	addwf	fsr0l,f,c
+  1511  002FE6  50E2               	movf	fsr1h,w,c
+  1512  002FE8  22EA               	addwfc	fsr0h,f,c
+  1513  002FEA  C06C  FFEE         	movff	?a_FindPreviousDirectoryEntry+2,postinc0
+  1514  002FEE  C06D  FFED         	movff	?a_FindPreviousDirectoryEntry+3,postdec0
+  1515  002FF2                     L3:
+  1516                           ;fat16.c: 462: return (0);
+  1517  002FF2  0E00               	movlw	0
+  1518                           ;fat16.c: 463: }
+  1519  002FF4                     l60:
+  1520  002FF4  0012               	return	
+  1521  002FF6  FFFF               	dw	65535	; Nop inserted for errata
+  1522  002FF8  D67C               	goto	f222
+  1523  002FFA                     __end_of_FindPreviousDirectoryEntry:
+  1524                           ;fat16.c: 471: unsigned char ProcessDirEntry(str
+      +                          uct fileTYPE *file, union FAT_directoryEntry * d
+      +                          irEntry)
+  1525                           ;fat16.c: 472: {
+  1526  002FFA  0065               	dw	?_ProcessDirEntry
+  1527  002FFC                     _ProcessDirEntry:
+  1528                           ; errata NOP at function entry point
+  1529  002FFC  FFFF               	dw	65535
+  1530  002FFE                     f232:
+  1531  000000                     
+  1532                           ;_dirEntry stored from fsr1
+  1533                           ;_dirEntry stored from fsr1
+  1534                           ;fat16.c: 473: short i;
+  1535                           ; _dirEntry loaded to fsr1
+  1536  002FFE  C067  FFE1         	movff	?_ProcessDirEntry+2,fsr1l
+  1537  003002  C068  FFE2         	movff	?_ProcessDirEntry+3,fsr1h
+  1538  003006  50E7               	movf	indf1,w,c
+  1539  003008  E102               	bnz	l84
+  1540                           ;fat16.c: 478: {
+  1541  00300A  0E00               	movlw	0
+  1542  00300C  D168               	goto	l83
+  1543  00300E                     l84:
+  1544                           ;fat16.c: 483: }
+  1545  00300E  50E7               	movf	indf1,w,c
+  1546  003010  0AE5               	xorlw	-27
+  1547  003012  E101 D163          	bz	l85
+  1548                           ;fat16.c: 487: {
+  1549  003016  EE00 F00B          	lfsr	0,11
+  1550  00301A  50E1               	movf	fsr1l,w,c
+  1551  00301C  26E9               	addwf	fsr0l,f,c
+  1552  00301E  50E2               	movf	fsr1h,w,c
+  1553  003020  22EA               	addwfc	fsr0h,f,c
+  1554  003022  50EF               	movf	indf0,w,c
+  1555  003024  0A0F               	xorlw	15
+  1556  003026  E151               	bnz	l86
+  1557                           ;fat16.c: 490: {
+  1558  003028  0E0D               	movlw	13
+  1559  00302A  6E02               	movwf	btemp+2,c
+  1560  00302C  6A03               	clrf	btemp+3,c
+  1561  00302E  50E7               	movf	indf1,w,c
+  1562  003030  0B3F               	andlw	63
+  1563  003032  6E00               	movwf	btemp,c
+  1564  003034  6A01               	clrf	btemp+1,c
+  1565  003036  0EFF               	movlw	255
+  1566  003038  0600               	decf	btemp,f,c
+  1567  00303A  2201               	addwfc	btemp+1,f,c
+  1568  00303C  ECA5  F03E         	call	awmul
+  1569  003040  C004  F069         	movff	btemp+4,?a_ProcessDirEntry
+  1570  003044  C005  F06A         	movff	btemp+5,?a_ProcessDirEntry+1
+  1571                           ;_dirEntry stored from fsr1
+  1572  003048  CFE1 F067          	movff	fsr1l,?_ProcessDirEntry+2
+  1573  00304C  CFE2 F068          	movff	fsr1h,?_ProcessDirEntry+3
+  1574                           ;fat16.c: 495: for(i = 0; i < 13 && (char_offset
+      +                           + i) < (128 - 1); i++)
+  1575  003050  6AF3               	clrf	prodl,c
+  1576  003052  6AF4               	clrf	prodh,c
+  1577  003054  D022               	goto	l90
+  1578  003056                     l87:
+  1579                           ;fat16.c: 496: { longFilename[char_offset + i] =
+      +                           dirEntry->bytes[charLFNPos[i]]; }
+  1580  003056  50F3               	movf	prodl,w,c
+  1581  003058  0FD3               	addlw	low _charLFNPos
+  1582  00305A  6EF6               	movwf	tblptrl,c
+  1583  00305C  50F4               	movf	prodh,w,c
+  1584  00305E  6EF7               	movwf	tblptrh,c
+  1585  003060  0E0E               	movlw	high _charLFNPos
+  1586  003062  22F7               	addwfc	tblptrh,f,c
+  1587  003064  0008               	tblrd		*
+  1588  003066  FFFF               	dw	65535	; Nop inserted for errata
+  1589  003068  50F5               	movf	tablat,w,c
+  1590  00306A  0100               	movlb	__Lparam shr (0+8)
+  1591  00306C  2567               	addwf	(?_ProcessDirEntry+2)^(__Lparam& (0+65280
+      +                          )),w
+  1592  00306E  6EE1               	movwf	fsr1l,c
+  1593  003070  0E00               	movlw	0
+  1594  003072  2168               	addwfc	(?_ProcessDirEntry+3)^(__Lparam& (0+6528
+      +                          0)),w
+  1595  003074  6EE2               	movwf	fsr1h,c
+  1596  003076  CFF3 F000          	movff	prodl,btemp
+  1597  00307A  CFF4 F001          	movff	prodh,btemp+1
+  1598  00307E  5169               	movf	?a_ProcessDirEntry^(__Lparam& (0+65280)),w
+  1599  003080  2600               	addwf	btemp,f,c
+  1600  003082  516A               	movf	(?a_ProcessDirEntry+1)^(__Lparam& (0+65280
+      +                          )),w
+  1601  003084  2201               	addwfc	btemp+1,f,c
+  1602  003086  0E7F               	movlw	low _longFilename
+  1603  003088  2400               	addwf	btemp,w,c
+  1604  00308A  6EE9               	movwf	fsr0l,c
+  1605  00308C  0E03               	movlw	high _longFilename
+  1606  00308E  2001               	addwfc	btemp+1,w,c
+  1607  003090  6EEA               	movwf	fsr0h,c
+  1608  003092  CFE7 FFEF          	movff	indf1,indf0
+  1609  003096  4AF3               	infsnz	prodl,f,c
+  1610  003098  2AF4               	incf	prodh,f,c
+  1611  00309A                     l90:
+  1612  00309A  50F4               	movf	prodh,w,c
+  1613  00309C  0A80               	xorlw	128
+  1614  00309E  0F80               	addlw	-128
+  1615  0030A0  0E0D               	movlw	13
+  1616  0030A2  B4D8               	btfsc	status,2,c
+  1617  0030A4  5CF3               	subwf	prodl,w,c
+  1618  0030A6  E301 D119          	bc	l85
+  1619  0030AA  C069  F000         	movff	?a_ProcessDirEntry,btemp
+  1620  0030AE  C06A  F001         	movff	?a_ProcessDirEntry+1,btemp+1
+  1621  0030B2  50F3               	movf	prodl,w,c
+  1622  0030B4  2600               	addwf	btemp,f,c
+  1623  0030B6  50F4               	movf	prodh,w,c
+  1624  0030B8  2201               	addwfc	btemp+1,f,c
+  1625  0030BA  5001               	movf	btemp+1,w,c
+  1626  0030BC  0A80               	xorlw	128
+  1627  0030BE  0F80               	addlw	-128
+  1628  0030C0  0E7F               	movlw	127
+  1629  0030C2  B4D8               	btfsc	status,2,c
+  1630  0030C4  5C00               	subwf	btemp,w,c
+  1631  0030C6  E3C7               	bnc	l87
+  1632                           ;fat16.c: 497: }
+  1633  0030C8  D109               	goto	l85
+  1634  0030CA                     l86:
+  1635                           ;fat16.c: 498: else if (dirEntry->entry.attribut
+      +                          es & ((1 << 1) | (1 << 2) | (1 << 3)) )
+  1636  0030CA  EE00 F00B          	lfsr	0,11
+  1637  0030CE  50E1               	movf	fsr1l,w,c
+  1638  0030D0  26E9               	addwf	fsr0l,f,c
+  1639  0030D2  50E2               	movf	fsr1h,w,c
+  1640  0030D4  22EA               	addwfc	fsr0h,f,c
+  1641  0030D6  50EF               	movf	indf0,w,c
+  1642  0030D8  0B0E               	andlw	14
+  1643  0030DA  E00D               	bz	l92
+  1644                           ;fat16.c: 499: {
+  1645  0030DC  0100               	movlb	__Lparam shr (0+8)
+  1646  0030DE  0E7F               	movlw	low _longFilename
+  1647  0030E0  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+  1648  0030E2  0E03               	movlw	high _longFilename
+  1649  0030E4  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+  1650  0030E6  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+  1651  0030E8  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+  1652  0030EA  0E80               	movlw	128
+  1653  0030EC  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+  1654  0030EE  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+  1655  0030F0  EC70  F03E         	call	_memset	;wreg free
+  1656                           ;fat16.c: 505: }
+  1657  0030F4  D0F3               	goto	l85
+  1658  0030F6                     l92:
+  1659                           ;fat16.c: 506: else
+  1660  0030F6  C065  F0E0         	movff	?_ProcessDirEntry,?_memcpy
+  1661  0030FA  C066  F0E1         	movff	?_ProcessDirEntry+1,?_memcpy+1
+  1662  0030FE  CFE1 F0E2          	movff	fsr1l,?_memcpy+2
+  1663  003102  CFE2 F0E3          	movff	fsr1h,?_memcpy+3
+  1664                           ;_dirEntry stored from fsr1
+  1665  003106  CFE1 F067          	movff	fsr1l,?_ProcessDirEntry+2
+  1666  00310A  CFE2 F068          	movff	fsr1h,?_ProcessDirEntry+3
+  1667  00310E  0E0B               	movlw	11
+  1668  003110  0100               	movlb	__Lparam shr (0+8)
+  1669  003112  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+  1670  003114  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+  1671  003116  ECC6  F03D         	call	_memcpy	;wreg free
+  1672                           ;fat16.c: 510: file->name[11] = 0x00;
+  1673                           ; _file loaded to fsr2
+  1674  00311A  C065  FFD9         	movff	?_ProcessDirEntry,fsr2l
+  1675  00311E  C066  FFDA         	movff	?_ProcessDirEntry+1,fsr2h
+  1676  003122  EE00 F00B          	lfsr	0,11
+  1677  003126  50D9               	movf	fsr2l,w,c
+  1678  003128  26E9               	addwf	fsr0l,f,c
+  1679  00312A  50DA               	movf	fsr2h,w,c
+  1680  00312C  22EA               	addwfc	fsr0h,f,c
+  1681  00312E  6AEF               	clrf	indf0,c
+  1682                           ;fat16.c: 511: file->attributes = dirEntry->entr
+      +                          y.attributes;
+  1683  003130  0100               	movlb	__Lparam shr (0+8)
+  1684  003132  EE10 F00B          	lfsr	1,11
+  1685  003136  5167               	movf	(?_ProcessDirEntry+2)^(__Lparam& (0+65280)
+      +                          ),w
+  1686  003138  26E1               	addwf	fsr1l,f,c
+  1687  00313A  5168               	movf	(?_ProcessDirEntry+3)^(__Lparam& (0+65280)
+      +                          ),w
+  1688  00313C  22E2               	addwfc	fsr1h,f,c
+  1689  00313E  EE00 F00C          	lfsr	0,12
+  1690  003142  50D9               	movf	fsr2l,w,c
+  1691  003144  26E9               	addwf	fsr0l,f,c
+  1692  003146  50DA               	movf	fsr2h,w,c
+  1693  003148  22EA               	addwfc	fsr0h,f,c
+  1694  00314A  CFE7 FFEF          	movff	indf1,indf0
+  1695                           ;fat16.c: 512: file->len = dirEntry->entry.lengt
+      +                          h;
+  1696  00314E  EE10 F01C          	lfsr	1,28
+  1697  003152  5167               	movf	(?_ProcessDirEntry+2)^(__Lparam& (0+65280)
+      +                          ),w
+  1698  003154  26E1               	addwf	fsr1l,f,c
+  1699  003156  5168               	movf	(?_ProcessDirEntry+3)^(__Lparam& (0+65280)
+      +                          ),w
+  1700  003158  22E2               	addwfc	fsr1h,f,c
+  1701  00315A  EE00 F013          	lfsr	0,19
+  1702  00315E  50D9               	movf	fsr2l,w,c
+  1703  003160  26E9               	addwf	fsr0l,f,c
+  1704  003162  50DA               	movf	fsr2h,w,c
+  1705  003164  22EA               	addwfc	fsr0h,f,c
+  1706  003166  CFE6 FFEE          	movff	postinc1,postinc0
+  1707  00316A  CFE6 FFEE          	movff	postinc1,postinc0
+  1708  00316E  CFE6 FFEE          	movff	postinc1,postinc0
+  1709  003172  CFE5 FFED          	movff	postdec1,postdec0
+  1710  003176  52ED               	movf	postdec0,f,c
+  1711  003178  52ED               	movf	postdec0,f,c
+  1712                           ;fat16.c: 513: file->firstCluster = (unsigned lo
+      +                          ng)dirEntry->entry.firstClusterLow;
+  1713                           ; _dirEntry loaded to fsr1
+  1714  00317A  C067  FFE1         	movff	?_ProcessDirEntry+2,fsr1l
+  1715  00317E  C068  FFE2         	movff	?_ProcessDirEntry+3,fsr1h
+  1716  003182  EE00 F01A          	lfsr	0,26
+  1717  003186  50E1               	movf	fsr1l,w,c
+  1718  003188  26E9               	addwf	fsr0l,f,c
+  1719  00318A  50E2               	movf	fsr1h,w,c
+  1720  00318C  22EA               	addwfc	fsr0h,f,c
+  1721  00318E  CFEE F000          	movff	postinc0,btemp
+  1722  003192  CFED F001          	movff	postdec0,btemp+1
+  1723  003196  6A02               	clrf	btemp+2,c
+  1724  003198  6A03               	clrf	btemp+3,c
+  1725  00319A  EE00 F01B          	lfsr	0,27
+  1726  00319E  50D9               	movf	fsr2l,w,c
+  1727  0031A0  26E9               	addwf	fsr0l,f,c
+  1728  0031A2  50DA               	movf	fsr2h,w,c
+  1729  0031A4  22EA               	addwfc	fsr0h,f,c
+  1730  0031A6  C000  FFEE         	movff	btemp,postinc0
+  1731  0031AA  C001  FFEE         	movff	btemp+1,postinc0
+  1732  0031AE  C002  FFEE         	movff	btemp+2,postinc0
+  1733  0031B2  C003  FFED         	movff	btemp+3,postdec0
+  1734  0031B6  52ED               	movf	postdec0,f,c
+  1735  0031B8  52ED               	movf	postdec0,f,c
+  1736                           ;fat16.c: 514: file->firstCluster |= ((unsigned 
+      +                          long)dirEntry->entry.firstClusterHigh)<<16;
+  1737  0031BA  EE00 F014          	lfsr	0,20
+  1738  0031BE  50E1               	movf	fsr1l,w,c
+  1739  0031C0  26E9               	addwf	fsr0l,f,c
+  1740  0031C2  50E2               	movf	fsr1h,w,c
+  1741  0031C4  22EA               	addwfc	fsr0h,f,c
+  1742  0031C6  CFEE F000          	movff	postinc0,btemp
+  1743  0031CA  CFED F001          	movff	postdec0,btemp+1
+  1744  0031CE  6A02               	clrf	btemp+2,c
+  1745  0031D0  6A03               	clrf	btemp+3,c
+  1746  0031D2  0E10               	movlw	16
+  1747  0031D4  ECF5  F01F         	call	llsll
+  1748  0031D8  EE00 F01B          	lfsr	0,27
+  1749  0031DC  50D9               	movf	fsr2l,w,c
+  1750  0031DE  26E9               	addwf	fsr0l,f,c
+  1751  0031E0  50DA               	movf	fsr2h,w,c
+  1752  0031E2  22EA               	addwfc	fsr0h,f,c
+  1753  0031E4  5000               	movf	btemp,w,c
+  1754  0031E6  12EE               	iorwf	postinc0,f,c
+  1755  0031E8  5001               	movf	btemp+1,w,c
+  1756  0031EA  12EE               	iorwf	postinc0,f,c
+  1757  0031EC  5002               	movf	btemp+2,w,c
+  1758  0031EE  12EE               	iorwf	postinc0,f,c
+  1759  0031F0  5003               	movf	btemp+3,w,c
+  1760  0031F2  12ED               	iorwf	postdec0,f,c
+  1761  0031F4  52ED               	movf	postdec0,f,c
+  1762  0031F6  52ED               	movf	postdec0,f,c
+  1763                           ;fat16.c: 515: file->cluster = file->firstCluste
+      +                          r;
+  1764  0031F8  EE10 F01B          	lfsr	1,27
+  1765  0031FC  50D9               	movf	fsr2l,w,c
+  1766  0031FE  26E1               	addwf	fsr1l,f,c
+  1767  003200  50DA               	movf	fsr2h,w,c
+  1768  003202  22E2               	addwfc	fsr1h,f,c
+  1769  003204  EE00 F017          	lfsr	0,23
+  1770  003208  50D9               	movf	fsr2l,w,c
+  1771  00320A  26E9               	addwf	fsr0l,f,c
+  1772  00320C  50DA               	movf	fsr2h,w,c
+  1773  00320E  22EA               	addwfc	fsr0h,f,c
+  1774  003210  CFE6 FFEE          	movff	postinc1,postinc0
+  1775  003214  CFE6 FFEE          	movff	postinc1,postinc0
+  1776  003218  CFE6 FFEE          	movff	postinc1,postinc0
+  1777  00321C  CFE5 FFED          	movff	postdec1,postdec0
+  1778  003220  52ED               	movf	postdec0,f,c
+  1779  003222  52ED               	movf	postdec0,f,c
+  1780                           ;fat16.c: 516: file->sector = 0;
+  1781  003224  EE00 F00F          	lfsr	0,15
+  1782  003228  50D9               	movf	fsr2l,w,c
+  1783  00322A  26E9               	addwf	fsr0l,f,c
+  1784  00322C  50DA               	movf	fsr2h,w,c
+  1785  00322E  22EA               	addwfc	fsr0h,f,c
+  1786  003230  0E00               	movlw	0
+  1787  003232  6EEE               	movwf	postinc0,c
+  1788  003234  6EEE               	movwf	postinc0,c
+  1789  003236  6EEE               	movwf	postinc0,c
+  1790  003238  6EED               	movwf	postdec0,c
+  1791                           ;fat16.c: 520: if(!longFilename[0] && (file->nam
+      +                          e[0] != '.') )
+  1792  00323A  0103               	movlb	_longFilename shr (0+8)
+  1793  00323C  537F               	movf	_longFilename& (0+255),f,b
+  1794  00323E  E14C               	bnz	l94
+  1795  003240  50DF               	movf	indf2,w,c
+  1796  003242  0A2E               	xorlw	46
+  1797  003244  E049               	bz	l94
+  1798                           ;fat16.c: 521: {
+  1799  003246  6AF6               	clrf	tblptrl,c
+  1800  003248  6AF7               	clrf	tblptrh,c
+  1801                           ;fat16.c: 523: for(i=0; i < 11; i++)
+  1802  00324A  6AF3               	clrf	prodl,c
+  1803  00324C  6AF4               	clrf	prodh,c
+  1804  00324E                     l95:
+  1805                           ;fat16.c: 524: {
+  1806  00324E  50F3               	movf	prodl,w,c
+  1807  003250  24D9               	addwf	fsr2l,w,c
+  1808  003252  6EE9               	movwf	fsr0l,c
+  1809  003254  50F4               	movf	prodh,w,c
+  1810  003256  20DA               	addwfc	fsr2h,w,c
+  1811  003258  6EEA               	movwf	fsr0h,c
+  1812  00325A  50EF               	movf	indf0,w,c
+  1813  00325C  0A20               	xorlw	32
+  1814  00325E  E014               	bz	l98
+  1815                           ;fat16.c: 526: { longFilename[char_offset++] = f
+      +                          ile->name[i]; }
+  1816  003260  50F3               	movf	prodl,w,c
+  1817  003262  24D9               	addwf	fsr2l,w,c
+  1818  003264  6EE9               	movwf	fsr0l,c
+  1819  003266  50F4               	movf	prodh,w,c
+  1820  003268  20DA               	addwfc	fsr2h,w,c
+  1821  00326A  6EEA               	movwf	fsr0h,c
+  1822  00326C  50F6               	movf	tblptrl,w,c
+  1823  00326E  6E00               	movwf	btemp,c
+  1824  003270  50F7               	movf	tblptrh,w,c
+  1825  003272  6E01               	movwf	btemp+1,c
+  1826  003274  4AF6               	infsnz	tblptrl,f,c
+  1827  003276  2AF7               	incf	tblptrh,f,c
+  1828  003278  0E7F               	movlw	low _longFilename
+  1829  00327A  2400               	addwf	btemp,w,c
+  1830  00327C  6EE1               	movwf	fsr1l,c
+  1831  00327E  0E03               	movlw	high _longFilename
+  1832  003280  2001               	addwfc	btemp+1,w,c
+  1833  003282  6EE2               	movwf	fsr1h,c
+  1834  003284  CFEF FFE7          	movff	indf0,indf1
+  1835  003288                     l98:
+  1836                           ;fat16.c: 528: if(7 == i)
+  1837  003288  50F3               	movf	prodl,w,c
+  1838  00328A  0A07               	xorlw	7
+  1839  00328C  10F4               	iorwf	prodh,w,c
+  1840  00328E  E10E               	bnz	l99
+  1841                           ;fat16.c: 529: { longFilename[char_offset++] = '
+      +                          .'; }
+  1842  003290  50F6               	movf	tblptrl,w,c
+  1843  003292  6E00               	movwf	btemp,c
+  1844  003294  50F7               	movf	tblptrh,w,c
+  1845  003296  6E01               	movwf	btemp+1,c
+  1846  003298  4AF6               	infsnz	tblptrl,f,c
+  1847  00329A  2AF7               	incf	tblptrh,f,c
+  1848  00329C  0E7F               	movlw	low _longFilename
+  1849  00329E  2400               	addwf	btemp,w,c
+  1850  0032A0  6EE9               	movwf	fsr0l,c
+  1851  0032A2  0E03               	movlw	high _longFilename
+  1852  0032A4  2001               	addwfc	btemp+1,w,c
+  1853  0032A6  6EEA               	movwf	fsr0h,c
+  1854  0032A8  0E2E               	movlw	46
+  1855  0032AA  6EEF               	movwf	indf0,c
+  1856  0032AC                     l99:
+  1857  0032AC  4AF3               	infsnz	prodl,f,c
+  1858  0032AE  2AF4               	incf	prodh,f,c
+  1859  0032B0  50F4               	movf	prodh,w,c
+  1860  0032B2  0A80               	xorlw	128
+  1861  0032B4  0F80               	addlw	-128
+  1862  0032B6  0E0B               	movlw	11
+  1863  0032B8  B4D8               	btfsc	status,2,c
+  1864  0032BA  5CF3               	subwf	prodl,w,c
+  1865  0032BC  E3C8               	bnc	l95
+  1866                           ;fat16.c: 530: }
+  1867  0032BE  50F6               	movf	tblptrl,w,c
+  1868  0032C0  6E00               	movwf	btemp,c
+  1869  0032C2  50F7               	movf	tblptrh,w,c
+  1870  0032C4  6E01               	movwf	btemp+1,c
+  1871  0032C6  4AF6               	infsnz	tblptrl,f,c
+  1872  0032C8  2AF7               	incf	tblptrh,f,c
+  1873  0032CA  0E7F               	movlw	low _longFilename
+  1874  0032CC  2400               	addwf	btemp,w,c
+  1875  0032CE  6EE9               	movwf	fsr0l,c
+  1876  0032D0  0E03               	movlw	high _longFilename
+  1877  0032D2  2001               	addwfc	btemp+1,w,c
+  1878  0032D4  6EEA               	movwf	fsr0h,c
+  1879  0032D6  6AEF               	clrf	indf0,c
+  1880  0032D8                     l94:
+  1881                           ;fat16.c: 532: }
+  1882  0032D8  0E01               	movlw	1
+  1883  0032DA  D001               	goto	l83
+  1884  0032DC                     l85:
+  1885                           ;fat16.c: 539: }
+  1886  0032DC  0E02               	movlw	2
+  1887                           ;fat16.c: 543: }
+  1888  0032DE                     l83:
+  1889  0032DE  0012               	return	
+  1890  0032E0  FFFF               	dw	65535	; Nop inserted for errata
+  1891  0032E2  D68D               	goto	f232
+  1892  0032E4                     __end_of_ProcessDirEntry:
+  1893                           ;fat16.c: 547: unsigned char FileNextSector(stru
+      +                          ct fileTYPE *file)
+  1894                           ;fat16.c: 548: {
+  1895  0032E4  0065               	dw	?_FileNextSector
+  1896  0032E6                     _FileNextSector:
+  1897                           ; errata NOP at function entry point
+  1898  0032E6  FFFF               	dw	65535
+  1899  0032E8                     f242:
+  1900  000000                     
+  1901                           ;fat16.c: 550: file->sector++;
+  1902                           ; _file loaded to fsr1
+  1903  0032E8  C065  FFE1         	movff	?_FileNextSector,fsr1l
+  1904  0032EC  C066  FFE2         	movff	?_FileNextSector+1,fsr1h
+  1905  0032F0  EE00 F00F          	lfsr	0,15
+  1906  0032F4  50E1               	movf	fsr1l,w,c
+  1907  0032F6  26E9               	addwf	fsr0l,f,c
+  1908  0032F8  50E2               	movf	fsr1h,w,c
+  1909  0032FA  22EA               	addwfc	fsr0h,f,c
+  1910  0032FC  2AEE               	incf	postinc0,f,c
+  1911  0032FE  0E00               	movlw	0
+  1912  003300  22EE               	addwfc	postinc0,f,c
+  1913  003302  22EE               	addwfc	postinc0,f,c
+  1914  003304  22ED               	addwfc	postdec0,f,c
+  1915  003306  52ED               	movf	postdec0,f,c
+  1916  003308  52ED               	movf	postdec0,f,c
+  1917                           ;fat16.c: 553: if ((file->sector & ~selectedPart
+      +                          iton.clusterMask)==0)
+  1918  00330A  EE00 F00F          	lfsr	0,15
+  1919  00330E  50E1               	movf	fsr1l,w,c
+  1920  003310  26E9               	addwf	fsr0l,f,c
+  1921  003312  50E2               	movf	fsr1h,w,c
+  1922  003314  22EA               	addwfc	fsr0h,f,c
+  1923  003316  C27B  F000         	movff	_selectedPartiton+25,btemp
+  1924  00331A  C27C  F001         	movff	_selectedPartiton+26,btemp+1
+  1925  00331E  C27D  F002         	movff	_selectedPartiton+27,btemp+2
+  1926  003322  C27E  F003         	movff	_selectedPartiton+28,btemp+3
+  1927  003326  1E00               	comf	btemp,f,c
+  1928  003328  1E01               	comf	btemp+1,f,c
+  1929  00332A  1E02               	comf	btemp+2,f,c
+  1930  00332C  1E03               	comf	btemp+3,f,c
+  1931  00332E  50EE               	movf	postinc0,w,c
+  1932  003330  1400               	andwf	btemp,w,c
+  1933  003332  6E04               	movwf	btemp+4,c
+  1934  003334  50EE               	movf	postinc0,w,c
+  1935  003336  1401               	andwf	btemp+1,w,c
+  1936  003338  6E05               	movwf	btemp+5,c
+  1937  00333A  50EE               	movf	postinc0,w,c
+  1938  00333C  1402               	andwf	btemp+2,w,c
+  1939  00333E  6E06               	movwf	btemp+6,c
+  1940  003340  50ED               	movf	postdec0,w,c
+  1941  003342  1403               	andwf	btemp+3,w,c
+  1942  003344  6E07               	movwf	btemp+7,c
+  1943  003346  52ED               	movf	postdec0,f,c
+  1944  003348  52ED               	movf	postdec0,f,c
+  1945  00334A  5007               	movf	btemp+7,w,c
+  1946  00334C  1004               	iorwf	btemp+4,w,c
+  1947  00334E  1005               	iorwf	btemp+5,w,c
+  1948  003350  1006               	iorwf	btemp+6,w,c
+  1949  003352  E105               	bnz	l101
+  1950                           ;fat16.c: 554: { GetNextClusterIndexFromFAT(file
+      +                          ); }
+  1951  003354  CFE1 F0E7          	movff	fsr1l,?_GetNextClusterIndexFromFAT
+  1952  003358  CFE2 F0E8          	movff	fsr1h,?_GetNextClusterIndexFromFAT+1
+  1953  00335C  D888               	call	_GetNextClusterIndexFromFAT	;wreg free
+  1954  00335E                     l101:
+  1955                           ;fat16.c: 556: return(1);
+  1956                           ;fat16.c: 557: }
+  1957  00335E  0C01               	retlw	1
+  1958  003360  FFFF               	dw	65535	; Nop inserted for errata
+  1959  003362  D7C2               	goto	f242
+  1960  003364                     __end_of_FileNextSector:
+  1961                           ;fat16.c: 560: unsigned char FileSeek(struct fil
+      +                          eTYPE *file, unsigned long sector)
+  1962                           ;fat16.c: 561: {
+  1963  003364  00D9               	dw	?_FileSeek
+  1964  003366                     _FileSeek:
+  1965                           ; errata NOP at function entry point
+  1966  003366  FFFF               	dw	65535
+  1967  003368                     f262:
+  1968  000000                     
+  1969                           ;_file stored from fsr2
+  1970                           ;fat16.c: 562: long currentClusterNo;
+  1971                           ; _file loaded to fsr2
+  1972  003368  C0D9  FFD9         	movff	?_FileSeek,fsr2l
+  1973  00336C  C0DA  FFDA         	movff	?_FileSeek+1,fsr2h
+  1974  003370  EE00 F00F          	lfsr	0,15
+  1975  003374  50D9               	movf	fsr2l,w,c
+  1976  003376  26E9               	addwf	fsr0l,f,c
+  1977  003378  50DA               	movf	fsr2h,w,c
+  1978  00337A  22EA               	addwfc	fsr0h,f,c
+  1979  00337C  CFEE F0DF          	movff	postinc0,?a_FileSeek
+  1980  003380  CFEE F0E0          	movff	postinc0,?a_FileSeek+1
+  1981  003384  CFEE F0E1          	movff	postinc0,?a_FileSeek+2
+  1982  003388  CFEE F0E2          	movff	postinc0,?a_FileSeek+3
+  1983                           ;fat16.c: 567: currentClusterNo /= (long)selecte
+      +                          dPartiton.clusterSize;
+  1984  00338C  C27A  F004         	movff	_selectedPartiton+24,btemp+4
+  1985  003390  6A05               	clrf	btemp+5,c
+  1986  003392  6A06               	clrf	btemp+6,c
+  1987  003394  6A07               	clrf	btemp+7,c
+  1988  003396  0EDF               	movlw	low ?a_FileSeek
+  1989  003398  6EE9               	movwf	fsr0l,c
+  1990  00339A  0E00               	movlw	high ?a_FileSeek
+  1991  00339C  6EEA               	movwf	fsr0h,c
+  1992  00339E  ECE1  F03E         	call	aldiv_f
+  1993                           ;fat16.c: 570: file->sector = sector;
+  1994  0033A2  EE00 F00F          	lfsr	0,15
+  1995  0033A6  50D9               	movf	fsr2l,w,c
+  1996  0033A8  26E9               	addwf	fsr0l,f,c
+  1997  0033AA  50DA               	movf	fsr2h,w,c
+  1998  0033AC  22EA               	addwfc	fsr0h,f,c
+  1999  0033AE  C0DB  FFEE         	movff	?_FileSeek+2,postinc0
+  2000  0033B2  C0DC  FFEE         	movff	?_FileSeek+3,postinc0
+  2001  0033B6  C0DD  FFEE         	movff	?_FileSeek+4,postinc0
+  2002  0033BA  C0DE  FFEE         	movff	?_FileSeek+5,postinc0
+  2003                           ;fat16.c: 573: clusterNo = (long)file->sector;
+  2004  0033BE  EE00 F00F          	lfsr	0,15
+  2005  0033C2  50D9               	movf	fsr2l,w,c
+  2006  0033C4  26E9               	addwf	fsr0l,f,c
+  2007  0033C6  50DA               	movf	fsr2h,w,c
+  2008  0033C8  22EA               	addwfc	fsr0h,f,c
+  2009  0033CA  CFEE F0E3          	movff	postinc0,?a_FileSeek+4
+  2010  0033CE  CFEE F0E4          	movff	postinc0,?a_FileSeek+5
+  2011  0033D2  CFEE F0E5          	movff	postinc0,?a_FileSeek+6
+  2012  0033D6  CFEE F0E6          	movff	postinc0,?a_FileSeek+7
+  2013                           ;fat16.c: 574: clusterNo /= (long)selectedPartit
+      +                          on.clusterSize;
+  2014  0033DA  C27A  F004         	movff	_selectedPartiton+24,btemp+4
+  2015  0033DE  6A05               	clrf	btemp+5,c
+  2016  0033E0  6A06               	clrf	btemp+6,c
+  2017  0033E2  6A07               	clrf	btemp+7,c
+  2018  0033E4  0EE3               	movlw	low (?a_FileSeek+4)
+  2019  0033E6  6EE9               	movwf	fsr0l,c
+  2020  0033E8  0E00               	movlw	high (?a_FileSeek+4)
+  2021  0033EA  6EEA               	movwf	fsr0h,c
+  2022  0033EC  ECE1  F03E         	call	aldiv_f
+  2023                           ;fat16.c: 577: currentClusterNo -= clusterNo;
+  2024  0033F0  0100               	movlb	__Lparam shr (0+8)
+  2025  0033F2  51E3               	movf	(?a_FileSeek+4)^(__Lparam& (0+65280)),w
+  2026  0033F4  5FDF               	subwf	?a_FileSeek^(__Lparam& (0+65280)),f,b
+  2027  0033F6  51E4               	movf	(?a_FileSeek+5)^(__Lparam& (0+65280)),w
+  2028  0033F8  5BE0               	subwfb	(?a_FileSeek+1)^(__Lparam& (0+65280)),f,
+      +                          b
+  2029  0033FA  51E5               	movf	(?a_FileSeek+6)^(__Lparam& (0+65280)),w
+  2030  0033FC  5BE1               	subwfb	(?a_FileSeek+2)^(__Lparam& (0+65280)),f,
+      +                          b
+  2031  0033FE  51E6               	movf	(?a_FileSeek+7)^(__Lparam& (0+65280)),w
+  2032  003400  5BE2               	subwfb	(?a_FileSeek+3)^(__Lparam& (0+65280)),f,
+      +                          b
+  2033                           ;fat16.c: 580: if(0 == currentClusterNo)
+  2034  003402  51E2               	movf	(?a_FileSeek+3)^(__Lparam& (0+65280)),w
+  2035  003404  11DF               	iorwf	?a_FileSeek^(__Lparam& (0+65280)),w
+  2036  003406  11E0               	iorwf	(?a_FileSeek+1)^(__Lparam& (0+65280)),w
+  2037  003408  11E1               	iorwf	(?a_FileSeek+2)^(__Lparam& (0+65280)),w
+  2038  00340A  E02D               	bz	l107
+  2039                           ;fat16.c: 581: { return(1); }
+  2040                           ;fat16.c: 584: file->cluster = file->firstCluste
+      +                          r;
+  2041  00340C  EE10 F01B          	lfsr	1,27
+  2042  003410  50D9               	movf	fsr2l,w,c
+  2043  003412  26E1               	addwf	fsr1l,f,c
+  2044  003414  50DA               	movf	fsr2h,w,c
+  2045  003416  22E2               	addwfc	fsr1h,f,c
+  2046  003418  EE00 F017          	lfsr	0,23
+  2047  00341C  50D9               	movf	fsr2l,w,c
+  2048  00341E  26E9               	addwf	fsr0l,f,c
+  2049  003420  50DA               	movf	fsr2h,w,c
+  2050  003422  22EA               	addwfc	fsr0h,f,c
+  2051  003424  CFE6 FFEE          	movff	postinc1,postinc0
+  2052  003428  CFE6 FFEE          	movff	postinc1,postinc0
+  2053  00342C  CFE6 FFEE          	movff	postinc1,postinc0
+  2054  003430  CFE5 FFED          	movff	postdec1,postdec0
+  2055  003434  52ED               	movf	postdec0,f,c
+  2056  003436  52ED               	movf	postdec0,f,c
+  2057                           ;_file stored from fsr2
+  2058  003438  CFD9 F0D9          	movff	fsr2l,?_FileSeek
+  2059  00343C  CFDA F0DA          	movff	fsr2h,?_FileSeek+1
+  2060                           ;fat16.c: 591: if(0 == clusterNo)
+  2061  003440  51E6               	movf	(?a_FileSeek+7)^(__Lparam& (0+65280)),w
+  2062  003442  11E3               	iorwf	(?a_FileSeek+4)^(__Lparam& (0+65280)),w
+  2063  003444  11E4               	iorwf	(?a_FileSeek+5)^(__Lparam& (0+65280)),w
+  2064  003446  11E5               	iorwf	(?a_FileSeek+6)^(__Lparam& (0+65280)),w
+  2065  003448  E106               	bnz	l105
+  2066  00344A  D00D               	goto	l107
+  2067                           ;fat16.c: 592: { return(1); }
+  2068                           ;fat16.c: 595: while(--clusterNo >= 0)
+  2069  00344C                     l106:
+  2070                           ;fat16.c: 596: {
+  2071  00344C  C0D9  F0E7         	movff	?_FileSeek,?_GetNextClusterIndexFromFAT
+  2072  003450  C0DA  F0E8         	movff	?_FileSeek+1,?_GetNextClusterIndexFromFAT
+      +                          +1
+  2073  003454  D80C               	call	_GetNextClusterIndexFromFAT	;wreg free
+  2074  003456                     l105:
+  2075  003456  0100               	movlb	__Lparam shr (0+8)
+  2076  003458  0EFF               	movlw	255
+  2077  00345A  07E3               	decf	(?a_FileSeek+4)^(__Lparam& (0+65280)),f,b
+  2078  00345C  23E4               	addwfc	(?a_FileSeek+5)^(__Lparam& (0+65280)),f,
+      +                          b
+  2079  00345E  23E5               	addwfc	(?a_FileSeek+6)^(__Lparam& (0+65280)),f,
+      +                          b
+  2080  003460  23E6               	addwfc	(?a_FileSeek+7)^(__Lparam& (0+65280)),f,
+      +                          b
+  2081  003462  AFE6               	btfss	(?a_FileSeek+7)^(__Lparam& (0+65280)),7,b
+  2082  003464  D7F3               	goto	l106
+  2083  003466                     l107:
+  2084                           ;fat16.c: 603: }
+  2085                           ;fat16.c: 606: }
+  2086  003466  0C01               	retlw	1
+  2087  003468  FFFF               	dw	65535	; Nop inserted for errata
+  2088  00346A  D77E               	goto	f262
+  2089  00346C                     __end_of_FileSeek:
+  2090                           ;fat16.c: 610: unsigned char GetNextClusterIndex
+      +                          FromFAT(struct fileTYPE *file)
+  2091                           ;fat16.c: 611: {
+  2092  00346C  00E7               	dw	?_GetNextClusterIndexFromFAT
+  2093  00346E                     _GetNextClusterIndexFromFAT:
+  2094                           ; errata NOP at function entry point
+  2095  00346E  FFFF               	dw	65535
+  2096  003470                     f272:
+  2097  000000                     
+  2098                           ;fat16.c: 612: unsigned short index;
+  2099  003470  C267  F0EB         	movff	_selectedPartiton+5,?a_GetNextClusterInde
+      +                          xFromFAT+2
+  2100  003474  C268  F0EC         	movff	_selectedPartiton+6,?a_GetNextClusterInde
+      +                          xFromFAT+3
+  2101  003478  C269  F0ED         	movff	_selectedPartiton+7,?a_GetNextClusterInde
+      +                          xFromFAT+4
+  2102  00347C  C26A  F0EE         	movff	_selectedPartiton+8,?a_GetNextClusterInde
+      +                          xFromFAT+5
+  2103                           ;fat16.c: 618: if(selectedPartiton.fatType & 0x1
+      +                          0)
+  2104  003480  0102               	movlb	_selectedPartiton shr (0+8)
+  2105  003482  A962               	btfss	_selectedPartiton& (0+255),4,b
+  2106  003484  D028               	goto	l109
+  2107                           ;fat16.c: 619: {
+  2108  003486  0100               	movlb	__Lparam shr (0+8)
+  2109  003488  EE00 F017          	lfsr	0,23
+  2110  00348C  51E7               	movf	?_GetNextClusterIndexFromFAT^(__Lparam& (0
+      +                          +65280)),w
+  2111  00348E  26E9               	addwf	fsr0l,f,c
+  2112  003490  51E8               	movf	(?_GetNextClusterIndexFromFAT+1)^(__Lparam
+      +                          & (0+65280)),w
+  2113  003492  22EA               	addwfc	fsr0h,f,c
+  2114  003494  CFEE F000          	movff	postinc0,btemp
+  2115  003498  CFEE F001          	movff	postinc0,btemp+1
+  2116  00349C  CFEE F002          	movff	postinc0,btemp+2
+  2117  0034A0  CFEE F003          	movff	postinc0,btemp+3
+  2118  0034A4  0E08               	movlw	8
+  2119  0034A6  ECC1  F03E         	call	llslr
+  2120  0034AA  5000               	movf	btemp,w,c
+  2121  0034AC  27EB               	addwf	(?a_GetNextClusterIndexFromFAT+2)^(__Lpar
+      +                          am& (0+65280)),f,b
+  2122  0034AE  5001               	movf	btemp+1,w,c
+  2123  0034B0  23EC               	addwfc	(?a_GetNextClusterIndexFromFAT+3)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2124  0034B2  5002               	movf	btemp+2,w,c
+  2125  0034B4  23ED               	addwfc	(?a_GetNextClusterIndexFromFAT+4)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2126  0034B6  5003               	movf	btemp+3,w,c
+  2127  0034B8  23EE               	addwfc	(?a_GetNextClusterIndexFromFAT+5)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2128                           ;fat16.c: 624: index = (file->cluster) & 0xFF;
+  2129  0034BA  EE00 F017          	lfsr	0,23
+  2130  0034BE  51E7               	movf	?_GetNextClusterIndexFromFAT^(__Lparam& (0
+      +                          +65280)),w
+  2131  0034C0  26E9               	addwf	fsr0l,f,c
+  2132  0034C2  51E8               	movf	(?_GetNextClusterIndexFromFAT+1)^(__Lparam
+      +                          & (0+65280)),w
+  2133  0034C4  22EA               	addwfc	fsr0h,f,c
+  2134  0034C6  CFEE F000          	movff	postinc0,btemp
+  2135  0034CA  CFED F001          	movff	postdec0,btemp+1
+  2136  0034CE  5000               	movf	btemp,w,c
+  2137  0034D0  6FE9               	movwf	?a_GetNextClusterIndexFromFAT^(__Lparam& 
+      +                          (0+65280)),b
+  2138  0034D2  6BEA               	clrf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),b
+  2139  0034D4  D02B               	goto	L4
+  2140                           ;fat16.c: 625: index <<= 1;
+  2141                           ;fat16.c: 626: }
+  2142  0034D6                     l109:
+  2143                           ;fat16.c: 627: else
+  2144  0034D6  0100               	movlb	__Lparam shr (0+8)
+  2145  0034D8  EE00 F017          	lfsr	0,23
+  2146  0034DC  51E7               	movf	?_GetNextClusterIndexFromFAT^(__Lparam& (0
+      +                          +65280)),w
+  2147  0034DE  26E9               	addwf	fsr0l,f,c
+  2148  0034E0  51E8               	movf	(?_GetNextClusterIndexFromFAT+1)^(__Lparam
+      +                          & (0+65280)),w
+  2149  0034E2  22EA               	addwfc	fsr0h,f,c
+  2150  0034E4  CFEE F000          	movff	postinc0,btemp
+  2151  0034E8  CFEE F001          	movff	postinc0,btemp+1
+  2152  0034EC  CFEE F002          	movff	postinc0,btemp+2
+  2153  0034F0  CFEE F003          	movff	postinc0,btemp+3
+  2154  0034F4  0E07               	movlw	7
+  2155  0034F6  ECC1  F03E         	call	llslr
+  2156  0034FA  5000               	movf	btemp,w,c
+  2157  0034FC  27EB               	addwf	(?a_GetNextClusterIndexFromFAT+2)^(__Lpar
+      +                          am& (0+65280)),f,b
+  2158  0034FE  5001               	movf	btemp+1,w,c
+  2159  003500  23EC               	addwfc	(?a_GetNextClusterIndexFromFAT+3)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2160  003502  5002               	movf	btemp+2,w,c
+  2161  003504  23ED               	addwfc	(?a_GetNextClusterIndexFromFAT+4)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2162  003506  5003               	movf	btemp+3,w,c
+  2163  003508  23EE               	addwfc	(?a_GetNextClusterIndexFromFAT+5)^(__Lpa
+      +                          ram& (0+65280)),f,b
+  2164                           ;fat16.c: 633: index = (file->cluster) & 0x7F;
+  2165  00350A  EE00 F017          	lfsr	0,23
+  2166  00350E  51E7               	movf	?_GetNextClusterIndexFromFAT^(__Lparam& (0
+      +                          +65280)),w
+  2167  003510  26E9               	addwf	fsr0l,f,c
+  2168  003512  51E8               	movf	(?_GetNextClusterIndexFromFAT+1)^(__Lparam
+      +                          & (0+65280)),w
+  2169  003514  22EA               	addwfc	fsr0h,f,c
+  2170  003516  CFEE F000          	movff	postinc0,btemp
+  2171  00351A  CFED F001          	movff	postdec0,btemp+1
+  2172  00351E  0E7F               	movlw	127
+  2173  003520  1400               	andwf	btemp,w,c
+  2174  003522  6FE9               	movwf	?a_GetNextClusterIndexFromFAT^(__Lparam& 
+      +                          (0+65280)),b
+  2175  003524  6BEA               	clrf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),b
+  2176                           ;fat16.c: 634: index <<= 2;
+  2177  003526  90D8               	bcf	status,0,c
+  2178  003528  37E9               	rlcf	?a_GetNextClusterIndexFromFAT^(__Lparam& (
+      +                          0+65280)),f,b
+  2179  00352A  37EA               	rlcf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),f,b
+  2180  00352C                     L4:
+  2181  00352C  90D8               	bcf	status,0,c
+  2182  00352E  37E9               	rlcf	?a_GetNextClusterIndexFromFAT^(__Lparam& (
+      +                          0+65280)),f,b
+  2183  003530  37EA               	rlcf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),f,b
+  2184                           ;fat16.c: 635: }
+  2185  003532  C0EB  F0EF         	movff	?a_GetNextClusterIndexFromFAT+2,?_MMC_Rea
+      +                          d
+  2186  003536  C0EC  F0F0         	movff	?a_GetNextClusterIndexFromFAT+3,?_MMC_Rea
+      +                          d+1
+  2187  00353A  C0ED  F0F1         	movff	?a_GetNextClusterIndexFromFAT+4,?_MMC_Rea
+      +                          d+2
+  2188  00353E  C0EE  F0F2         	movff	?a_GetNextClusterIndexFromFAT+5,?_MMC_Rea
+      +                          d+3
+  2189  003542  0100               	movlb	__Lparam shr (0+8)
+  2190  003544  0EFF               	movlw	low _secbuf
+  2191  003546  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+  2192  003548  0E03               	movlw	high _secbuf
+  2193  00354A  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+  2194  00354C  ECED  F035         	call	_MMC_Read	;wreg free
+  2195  003550  6E00               	movwf	btemp,c
+  2196  003552  C000  F002         	movff	btemp,btemp+2
+  2197  003556  6A03               	clrf	btemp+3,c
+  2198  003558  5003               	movf	btemp+3,w,c
+  2199  00355A  1002               	iorwf	btemp+2,w,c
+  2200  00355C  E102               	bnz	l111
+  2201                           ;fat16.c: 639: { return(0); }
+  2202  00355E  0E00               	movlw	0
+  2203  003560  D049               	goto	l108
+  2204  003562                     l111:
+  2205                           ; _file loaded to fsr2
+  2206  003562  C0E7  FFD9         	movff	?_GetNextClusterIndexFromFAT,fsr2l
+  2207  003566  C0E8  FFDA         	movff	?_GetNextClusterIndexFromFAT+1,fsr2h
+  2208                           ;fat16.c: 641: if(selectedPartiton.fatType & 0x1
+      +                          0)
+  2209  00356A  0102               	movlb	_selectedPartiton shr (0+8)
+  2210  00356C  A962               	btfss	_selectedPartiton& (0+255),4,b
+  2211  00356E  D01C               	goto	l112
+  2212                           ;fat16.c: 642: {
+  2213  003570  0100               	movlb	__Lparam shr (0+8)
+  2214  003572  EE03  F0FF         	lfsr	0,_secbuf
+  2215  003576  51E9               	movf	?a_GetNextClusterIndexFromFAT^(__Lparam& (
+      +                          0+65280)),w
+  2216  003578  26E9               	addwf	fsr0l,f,c
+  2217  00357A  51EA               	movf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),w
+  2218  00357C  22EA               	addwfc	fsr0h,f,c
+  2219  00357E  CFEE F000          	movff	postinc0,btemp
+  2220  003582  CFED F001          	movff	postdec0,btemp+1
+  2221  003586  6A02               	clrf	btemp+2,c
+  2222  003588  6A03               	clrf	btemp+3,c
+  2223  00358A  EE00 F017          	lfsr	0,23
+  2224  00358E  50D9               	movf	fsr2l,w,c
+  2225  003590  26E9               	addwf	fsr0l,f,c
+  2226  003592  50DA               	movf	fsr2h,w,c
+  2227  003594  22EA               	addwfc	fsr0h,f,c
+  2228  003596  C000  FFEE         	movff	btemp,postinc0
+  2229  00359A  C001  FFEE         	movff	btemp+1,postinc0
+  2230  00359E  C002  FFEE         	movff	btemp+2,postinc0
+  2231  0035A2  C003  FFED         	movff	btemp+3,postdec0
+  2232  0035A6  D023               	goto	L5
+  2233                           ;fat16.c: 649: }
+  2234  0035A8                     l112:
+  2235                           ;fat16.c: 650: else
+  2236  0035A8  0100               	movlb	__Lparam shr (0+8)
+  2237  0035AA  EE13  F0FF         	lfsr	1,_secbuf
+  2238  0035AE  51E9               	movf	?a_GetNextClusterIndexFromFAT^(__Lparam& (
+      +                          0+65280)),w
+  2239  0035B0  26E1               	addwf	fsr1l,f,c
+  2240  0035B2  51EA               	movf	(?a_GetNextClusterIndexFromFAT+1)^(__Lpara
+      +                          m& (0+65280)),w
+  2241  0035B4  22E2               	addwfc	fsr1h,f,c
+  2242  0035B6  EE00 F017          	lfsr	0,23
+  2243  0035BA  50D9               	movf	fsr2l,w,c
+  2244  0035BC  26E9               	addwf	fsr0l,f,c
+  2245  0035BE  50DA               	movf	fsr2h,w,c
+  2246  0035C0  22EA               	addwfc	fsr0h,f,c
+  2247  0035C2  CFE6 FFEE          	movff	postinc1,postinc0
+  2248  0035C6  CFE6 FFEE          	movff	postinc1,postinc0
+  2249  0035CA  CFE6 FFEE          	movff	postinc1,postinc0
+  2250  0035CE  CFE5 FFED          	movff	postdec1,postdec0
+  2251  0035D2  52ED               	movf	postdec0,f,c
+  2252  0035D4  52ED               	movf	postdec0,f,c
+  2253                           ;fat16.c: 654: file->cluster &= 0x0FFFFFFF;
+  2254  0035D6  EE00 F017          	lfsr	0,23
+  2255  0035DA  50D9               	movf	fsr2l,w,c
+  2256  0035DC  26E9               	addwf	fsr0l,f,c
+  2257  0035DE  50DA               	movf	fsr2h,w,c
+  2258  0035E0  22EA               	addwfc	fsr0h,f,c
+  2259  0035E2  0EFF               	movlw	255
+  2260  0035E4  16EE               	andwf	postinc0,f,c
+  2261  0035E6  16EE               	andwf	postinc0,f,c
+  2262  0035E8  16EE               	andwf	postinc0,f,c
+  2263  0035EA  0E0F               	movlw	15
+  2264  0035EC  16ED               	andwf	postdec0,f,c
+  2265  0035EE                     L5:
+  2266  0035EE  52ED               	movf	postdec0,f,c
+  2267  0035F0  52ED               	movf	postdec0,f,c
+  2268                           ;fat16.c: 659: }
+  2269  0035F2  0E01               	movlw	1
+  2270                           ;fat16.c: 662: }
+  2271  0035F4                     l108:
+  2272  0035F4  0012               	return	
+  2273  0035F6  FFFF               	dw	65535	; Nop inserted for errata
+  2274  0035F8  D73B               	goto	f272
+  2275  0035FA                     __end_of_GetNextClusterIndexFromFAT:
+  2276                           ;fat16.c: 666: unsigned long GetLBA(struct fileT
+      +                          YPE *file)
+  2277                           ;fat16.c: 667: {
+  2278  0035FA  00F5               	dw	?_GetLBA
+  2279  0035FC                     _GetLBA:
+  2280                           ; errata NOP at function entry point
+  2281  0035FC  FFFF               	dw	65535
+  2282  0035FE                     f282:
+  2283  000000                     
+  2284                           ;fat16.c: 668: unsigned long lba;
+  2285                           ; _file loaded to fsr2
+  2286  0035FE  C0F5  FFD9         	movff	?_GetLBA,fsr2l
+  2287  003602  C0F6  FFDA         	movff	?_GetLBA+1,fsr2h
+  2288  003606  EE00 F01B          	lfsr	0,27
+  2289  00360A  50D9               	movf	fsr2l,w,c
+  2290  00360C  26E9               	addwf	fsr0l,f,c
+  2291  00360E  50DA               	movf	fsr2h,w,c
+  2292  003610  22EA               	addwfc	fsr0h,f,c
+  2293  003612  50EE               	movf	postinc0,w,c
+  2294  003614  10EE               	iorwf	postinc0,w,c
+  2295  003616  10EE               	iorwf	postinc0,w,c
+  2296  003618  10EE               	iorwf	postinc0,w,c
+  2297  00361A  E11F               	bnz	l115
+  2298                           ;fat16.c: 672: {
+  2299  00361C  C273  F0F7         	movff	_selectedPartiton+17,?a_GetLBA
+  2300  003620  C274  F0F8         	movff	_selectedPartiton+18,?a_GetLBA+1
+  2301  003624  C275  F0F9         	movff	_selectedPartiton+19,?a_GetLBA+2
+  2302  003628  C276  F0FA         	movff	_selectedPartiton+20,?a_GetLBA+3
+  2303                           ;fat16.c: 674: lba += file->sector;
+  2304  00362C  EE10 F00F          	lfsr	1,15
+  2305  003630  50D9               	movf	fsr2l,w,c
+  2306  003632  26E1               	addwf	fsr1l,f,c
+  2307  003634  50DA               	movf	fsr2h,w,c
+  2308  003636  22E2               	addwfc	fsr1h,f,c
+  2309  003638  0EF7               	movlw	low ?a_GetLBA
+  2310  00363A  6EE9               	movwf	fsr0l,c
+  2311  00363C  0E00               	movlw	high ?a_GetLBA
+  2312  00363E  6EEA               	movwf	fsr0h,c
+  2313  003640  50E6               	movf	postinc1,w,c
+  2314  003642  26EE               	addwf	postinc0,f,c
+  2315  003644  50E6               	movf	postinc1,w,c
+  2316  003646  22EE               	addwfc	postinc0,f,c
+  2317  003648  50E6               	movf	postinc1,w,c
+  2318  00364A  22EE               	addwfc	postinc0,f,c
+  2319  00364C  50E5               	movf	postdec1,w,c
+  2320  00364E  22ED               	addwfc	postdec0,f,c
+  2321  003650  52E5               	movf	postdec1,f,c
+  2322  003652  52E5               	movf	postdec1,f,c
+  2323  003654  52ED               	movf	postdec0,f,c
+  2324  003656  52ED               	movf	postdec0,f,c
+  2325                           ;fat16.c: 675: }
+  2326  003658  D062               	goto	l116
+  2327  00365A                     l115:
+  2328                           ;fat16.c: 676: else
+  2329  00365A  C26B  F0F7         	movff	_selectedPartiton+9,?a_GetLBA
+  2330  00365E  C26C  F0F8         	movff	_selectedPartiton+10,?a_GetLBA+1
+  2331  003662  C26D  F0F9         	movff	_selectedPartiton+11,?a_GetLBA+2
+  2332  003666  C26E  F0FA         	movff	_selectedPartiton+12,?a_GetLBA+3
+  2333                           ;fat16.c: 679: lba += (file->cluster-2) * select
+      +                          edPartiton.clusterSize;
+  2334  00366A  EE00 F017          	lfsr	0,23
+  2335  00366E  50D9               	movf	fsr2l,w,c
+  2336  003670  26E9               	addwf	fsr0l,f,c
+  2337  003672  50DA               	movf	fsr2h,w,c
+  2338  003674  22EA               	addwfc	fsr0h,f,c
+  2339  003676  CFEE F000          	movff	postinc0,btemp
+  2340  00367A  CFEE F001          	movff	postinc0,btemp+1
+  2341  00367E  CFEE F002          	movff	postinc0,btemp+2
+  2342  003682  CFEE F003          	movff	postinc0,btemp+3
+  2343  003686  0EFE               	movlw	254
+  2344  003688  2400               	addwf	btemp,w,c
+  2345  00368A  6E04               	movwf	btemp+4,c
+  2346  00368C  0EFF               	movlw	255
+  2347  00368E  2001               	addwfc	btemp+1,w,c
+  2348  003690  6E05               	movwf	btemp+5,c
+  2349  003692  0EFF               	movlw	255
+  2350  003694  2002               	addwfc	btemp+2,w,c
+  2351  003696  6E06               	movwf	btemp+6,c
+  2352  003698  0EFF               	movlw	255
+  2353  00369A  2003               	addwfc	btemp+3,w,c
+  2354  00369C  6E07               	movwf	btemp+7,c
+  2355  00369E  C004  F000         	movff	btemp+4,btemp
+  2356  0036A2  C005  F001         	movff	btemp+5,btemp+1
+  2357  0036A6  C006  F002         	movff	btemp+6,btemp+2
+  2358  0036AA  C007  F003         	movff	btemp+7,btemp+3
+  2359  0036AE  C27A  F004         	movff	_selectedPartiton+24,btemp+4
+  2360  0036B2  6A05               	clrf	btemp+5,c
+  2361  0036B4  6A06               	clrf	btemp+6,c
+  2362  0036B6  6A07               	clrf	btemp+7,c
+  2363  0036B8  ECB1  F01F         	call	llmul
+  2364  0036BC  0100               	movlb	__Lparam shr (0+8)
+  2365  0036BE  5000               	movf	btemp,w,c
+  2366  0036C0  27F7               	addwf	?a_GetLBA^(__Lparam& (0+65280)),f,b
+  2367  0036C2  5001               	movf	btemp+1,w,c
+  2368  0036C4  23F8               	addwfc	(?a_GetLBA+1)^(__Lparam& (0+65280)),f,b
+  2369  0036C6  5002               	movf	btemp+2,w,c
+  2370  0036C8  23F9               	addwfc	(?a_GetLBA+2)^(__Lparam& (0+65280)),f,b
+  2371  0036CA  5003               	movf	btemp+3,w,c
+  2372  0036CC  23FA               	addwfc	(?a_GetLBA+3)^(__Lparam& (0+65280)),f,b
+  2373                           ;fat16.c: 680: lba += file->sector & ~selectedPa
+      +                          rtiton.clusterMask;
+  2374  0036CE  EE00 F00F          	lfsr	0,15
+  2375  0036D2  50D9               	movf	fsr2l,w,c
+  2376  0036D4  26E9               	addwf	fsr0l,f,c
+  2377  0036D6  50DA               	movf	fsr2h,w,c
+  2378  0036D8  22EA               	addwfc	fsr0h,f,c
+  2379  0036DA  C27B  F000         	movff	_selectedPartiton+25,btemp
+  2380  0036DE  C27C  F001         	movff	_selectedPartiton+26,btemp+1
+  2381  0036E2  C27D  F002         	movff	_selectedPartiton+27,btemp+2
+  2382  0036E6  C27E  F003         	movff	_selectedPartiton+28,btemp+3
+  2383  0036EA  1E00               	comf	btemp,f,c
+  2384  0036EC  1E01               	comf	btemp+1,f,c
+  2385  0036EE  1E02               	comf	btemp+2,f,c
+  2386  0036F0  1E03               	comf	btemp+3,f,c
+  2387  0036F2  50EE               	movf	postinc0,w,c
+  2388  0036F4  1400               	andwf	btemp,w,c
+  2389  0036F6  6E04               	movwf	btemp+4,c
+  2390  0036F8  50EE               	movf	postinc0,w,c
+  2391  0036FA  1401               	andwf	btemp+1,w,c
+  2392  0036FC  6E05               	movwf	btemp+5,c
+  2393  0036FE  50EE               	movf	postinc0,w,c
+  2394  003700  1402               	andwf	btemp+2,w,c
+  2395  003702  6E06               	movwf	btemp+6,c
+  2396  003704  50ED               	movf	postdec0,w,c
+  2397  003706  1403               	andwf	btemp+3,w,c
+  2398  003708  6E07               	movwf	btemp+7,c
+  2399  00370A  52ED               	movf	postdec0,f,c
+  2400  00370C  52ED               	movf	postdec0,f,c
+  2401  00370E  5004               	movf	btemp+4,w,c
+  2402  003710  27F7               	addwf	?a_GetLBA^(__Lparam& (0+65280)),f,b
+  2403  003712  5005               	movf	btemp+5,w,c
+  2404  003714  23F8               	addwfc	(?a_GetLBA+1)^(__Lparam& (0+65280)),f,b
+  2405  003716  5006               	movf	btemp+6,w,c
+  2406  003718  23F9               	addwfc	(?a_GetLBA+2)^(__Lparam& (0+65280)),f,b
+  2407  00371A  5007               	movf	btemp+7,w,c
+  2408  00371C  23FA               	addwfc	(?a_GetLBA+3)^(__Lparam& (0+65280)),f,b
+  2409  00371E                     l116:
+  2410                           ;fat16.c: 681: }
+  2411  00371E  C0F7  F000         	movff	?a_GetLBA,btemp
+  2412  003722  C0F8  F001         	movff	?a_GetLBA+1,btemp+1
+  2413  003726  C0F9  F002         	movff	?a_GetLBA+2,btemp+2
+  2414  00372A  C0FA  F003         	movff	?a_GetLBA+3,btemp+3
+  2415                           ;fat16.c: 684: }
+  2416  00372E  0012               	return	
+  2417  003730  FFFF               	dw	65535	; Nop inserted for errata
+  2418  003732  D765               	goto	f282
+  2419  003734                     __end_of_GetLBA:
+  2420                           ;fat16.c: 688: unsigned char FileRead(struct fil
+      +                          eTYPE *file)
+  2421                           ;fat16.c: 689: {
+  2422  003734  00D9               	dw	?_FileRead
+  2423  003736                     _FileRead:
+  2424                           ; errata NOP at function entry point
+  2425  003736  FFFF               	dw	65535
+  2426  003738                     f292:
+  2427  000000                     
+  2428                           ;fat16.c: 690: return MMC_Read(GetLBA(file),secb
+      +                          uf);
+  2429  003738  C0D9  F0F5         	movff	?_FileRead,?_GetLBA
+  2430  00373C  C0DA  F0F6         	movff	?_FileRead+1,?_GetLBA+1
+  2431  003740  DF5D               	call	_GetLBA	;wreg free
+  2432  003742  C000  F0EF         	movff	btemp,?_MMC_Read
+  2433  003746  C001  F0F0         	movff	btemp+1,?_MMC_Read+1
+  2434  00374A  C002  F0F1         	movff	btemp+2,?_MMC_Read+2
+  2435  00374E  C003  F0F2         	movff	btemp+3,?_MMC_Read+3
+  2436  003752  0100               	movlb	__Lparam shr (0+8)
+  2437  003754  0EFF               	movlw	low _secbuf
+  2438  003756  6FF3               	movwf	(?_MMC_Read+4)^(__Lparam& (0+65280)),b
+  2439  003758  0E03               	movlw	high _secbuf
+  2440  00375A  6FF4               	movwf	(?_MMC_Read+5)^(__Lparam& (0+65280)),b
+  2441  00375C  EFED  F035         	goto	_MMC_Read	;wreg free
+  2442                           ;fat16.c: 691: }
+  2443  003760  FFFF               	dw	65535	; Nop inserted for errata
+  2444  003762  D7EA               	goto	f292
+  2445  003764                     __end_of_FileRead:
+  2446                           ;fat16.c: 694: unsigned char FileWrite(struct fi
+      +                          leTYPE *file)
+  2447                           ;fat16.c: 695: {
+  2448  003764  00D9               	dw	?_FileWrite
+  2449  003766                     _FileWrite:
+  2450                           ; errata NOP at function entry point
+  2451  003766  FFFF               	dw	65535
+  2452  003768                     f302:
+  2453  000000                     
+  2454                           ;fat16.c: 696: return(MMC_Write(GetLBA(file),sec
+      +                          buf));
+  2455  003768  C0D9  F0F5         	movff	?_FileWrite,?_GetLBA
+  2456  00376C  C0DA  F0F6         	movff	?_FileWrite+1,?_GetLBA+1
+  2457  003770  DF45               	call	_GetLBA	;wreg free
+  2458  003772  C000  F0DB         	movff	btemp,?_MMC_Write
+  2459  003776  C001  F0DC         	movff	btemp+1,?_MMC_Write+1
+  2460  00377A  C002  F0DD         	movff	btemp+2,?_MMC_Write+2
+  2461  00377E  C003  F0DE         	movff	btemp+3,?_MMC_Write+3
+  2462  003782  0100               	movlb	__Lparam shr (0+8)
+  2463  003784  0EFF               	movlw	low _secbuf
+  2464  003786  6FDF               	movwf	(?_MMC_Write+4)^(__Lparam& (0+65280)),b
+  2465  003788  0E03               	movlw	high _secbuf
+  2466  00378A  6FE0               	movwf	(?_MMC_Write+5)^(__Lparam& (0+65280)),b
+  2467  00378C  EF93  F036         	goto	_MMC_Write	;wreg free
+  2468                           ;fat16.c: 697: }
+  2469  003790  FFFF               	dw	65535	; Nop inserted for errata
+  2470  003792  D7EA               	goto	f302
+  2471  003794                     __end_of_FileWrite:
+  2472                           
+  2473                           	psect	bss
+  2474  000262                     _selectedPartiton:
+  2475  000262                     	ds	29
+  2476  000262                     _currentDir:
+  2477  000262                     	ds	31
+  2478  000262                     _file:
+  2479  000262                     	ds	31
+  2480                           
+  2481                           	psect	bigbss
+  2482  00037F                     _longFilename:
+  2483  00037F                     	ds	128
+  2484  00037F                     _secbuf:
+  2485  00037F                     	ds	512
+  2486                           
+  2487                           	psect	temp
+  2488  000000                     btemp:
+  2489  000000                     	ds	12
+  2490                           tblptrh	equ	0xFF7
+  2491                           tblptrl	equ	0xFF6
+  2492                           tablat	equ	0xFF5
+  2493                           prodh	equ	0xFF4
+  2494                           prodl	equ	0xFF3
+  2495                           indf0	equ	0xFEF
+  2496                           postinc0	equ	0xFEE
+  2497                           postdec0	equ	0xFED
+  2498                           fsr0h	equ	0xFEA
+  2499                           fsr0l	equ	0xFE9
+  2500                           wreg	equ	0xFE8
+  2501                           indf1	equ	0xFE7
+  2502                           postinc1	equ	0xFE6
+  2503                           postdec1	equ	0xFE5
+  2504                           fsr1h	equ	0xFE2
+  2505                           fsr1l	equ	0xFE1
+  2506                           indf2	equ	0xFDF
+  2507                           fsr2h	equ	0xFDA
+  2508                           fsr2l	equ	0xFD9
+  2509                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:00 2009
+
+                                          f72 25FC  
+                                          l20 2654  
+                                          l30 2A4C  
+                                          l22 2658  
+                                          l14 29A0  
+                                          l31 2A4A  
+                                          l25 26E0  
+                                          l17 26A0  
+                                          l50 2B9C  
+                                          l42 2CE8  
+                                          l34 29CE  
+                                          l18 2680  
+                                          l43 2BAE  
+                                          l35 29D0  
+                                          l27 2710  
+                                          l60 2FF4  
+                                          l44 2B8A  
+                                          l36 2A1A  
+                                          l28 28A2  
+                                          l61 2D10  
+                                          l53 2C5E  
+                                          l45 2B4C  
+                                          l29 2992  
+                                          l47 2B62  
+                                          l39 2A24  
+                                          l56 2C10  
+                                          l65 2FCA  
+                                          l57 2C1A  
+                                          l90 309A  
+                                          l74 2FA6  
+                                          l83 32DE  
+                                          l75 2F7A  
+                                          l67 2D6E  
+                                          l92 30F6  
+                                          l84 300E  
+                                          l76 2F66  
+                                          l68 2EAA  
+                                          l85 32DC  
+                                          l94 32D8  
+                                          l86 30CA  
+                                          l95 324E  
+                                          l87 3056  
+                                          l98 3288  
+                                          l99 32AC  
+                                  ?a_FileSeek 00DF  
+                                          u80 270C  
+                       __end_of_OpenDirectory 2B46  
+                                         f102 29AA  
+                                         f122 2A56  
+                                         f302 3768  
+                                         f222 2CF2  
+                                         f142 2ADC  
+                                         f232 2FFE  
+                                         f242 32E8  
+                                         f162 2B4A  
+                                         f262 3368  
+                                         f272 3470  
+                                         f282 35FE  
+                                         f292 3738  
+                                         l101 335E  
+                                         l111 3562  
+                                         l112 35A8  
+                                         l105 3456  
+                                         l106 344C  
+                                         l115 365A  
+                                         l107 3466  
+                                         l116 371E  
+                                         l108 35F4  
+                                         l109 34D6  
+                                         u105 2848  
+                                         u130 29FE  
+                                         u115 285C  
+                                         u230 2CE6  
+                                         u225 2CB6  
+                                         u137 29F4  
+                                         u315 2DC6  
+                                         u325 2E60  
+                                         u335 2E82  
+                                         u195 2BE8  
+                                         u365 2EEC  
+                                         u285 2D46  
+                                         u470 2FC6  
+                                 ?a_FindDrive 0040  
+                                         wreg 000FE8  
+                           _GetDirectoryEntry 2B48  
+                              _FileNextSector 32E6  
+                                        _Open 29A8  
+                                        _file 029E  
+                             ?_FileNextSector 0065  
+                                        fsr0h 000FEA  
+                                        fsr1h 000FE2  
+                                        indf0 000FEF  
+                                        fsr0l 000FE9  
+                                        indf1 000FE7  
+                                        fsr1l 000FE1  
+                                        indf2 000FDF  
+                                        fsr2l 000FD9  
+                                        btemp 0000  
+                                        awmul 7D4A  
+                                        llmul 3F62  
+                                        llsll 3FEA  
+                                        llslr 7D82  
+                                        prodl 000FF3  
+                                     ?_GetLBA 00F5  
+                          ?_GetDirectoryEntry 005D  
+                             _ProcessDirEntry 2FFC  
+                   __end_of_OpenRootDirectory 2AD8  
+                            ?_ProcessDirEntry 0065  
+                                     ?_memcpy 00E0  
+                                     ?_memset 00E0  
+                                       ?_Open 0049  
+                      __end_of_FileNextSector 3364  
+                ?a_FindPreviousDirectoryEntry 006A  
+                 ?_FindPreviousDirectoryEntry 0065  
+                                  used_btemp0 0001  
+                                  used_btemp1 0001  
+                                  used_btemp2 0001  
+                                  used_btemp3 0001  
+                                  used_btemp4 0001  
+                                  used_btemp5 0001  
+                                  used_btemp6 0001  
+                                  used_btemp7 0001  
+                                  used_btemp8 0001  
+                                  used_btemp9 0001  
+                            __end_of_FileRead 3764  
+                            __end_of_FileSeek 346C  
+                                       tablat 000FF5  
+          __end_of_FindPreviousDirectoryEntry 2FFA  
+                  _FindPreviousDirectoryEntry 2CF0  
+                                  _charLFNPos 0ED3  
+                                       status 000FD8  
+                              ?_OpenDirectory 0046  
+                                    ?a_GetLBA 00F7  
+                                     __Lparam 0037  
+                         ?a_GetDirectoryEntry 0062  
+                                   _MMC_Write 6D26  
+                            _selectedPartiton 0262  
+                                  ?_MMC_Write 00DB  
+                                     __ramtop 0600  
+                     __end_of_ProcessDirEntry 32E4  
+                              __end_of_GetLBA 3734  
+                           ?a_ProcessDirEntry 0069  
+                                __end_of_Open 2A52  
+                           _OpenRootDirectory 2A54  
+                                      _GetLBA 35FC  
+                                 used_btemp10 0001  
+                                 used_btemp11 0001  
+                   __end_of_GetDirectoryEntry 2CEE  
+                                    _MMC_Read 6BDA  
+                                   ?_MMC_Read 00EF  
+                                     postdec0 000FED  
+                                     postdec1 000FE5  
+                                     postinc0 000FEE  
+                                     postinc1 000FE6  
+                          ?_OpenRootDirectory 0048  
+                                      _memcpy 7B8C  
+                                      _memset 7CE0  
+                                      aldiv_f 7DC2  
+                                      _secbuf 03FF  
+                                _longFilename 037F  
+                                   _FindDrive 25FA  
+                           __end_of_FindDrive 29A6  
+                                   _FileWrite 3766  
+                           __end_of_FileWrite 3794  
+                ?a_GetNextClusterIndexFromFAT 00E9  
+                 ?_GetNextClusterIndexFromFAT 00E7  
+                                  ?_FileWrite 00D9  
+                                      tblptrh 000FF7  
+                                      tblptrl 000FF6  
+                                  _currentDir 027F  
+                                    _FileRead 3736  
+                                    _FileSeek 3366  
+                                   ?_FileRead 00D9  
+                                   ?_FileSeek 00D9  
+          __end_of_GetNextClusterIndexFromFAT 35FA  
+                  _GetNextClusterIndexFromFAT 346E  
+                               _OpenDirectory 2ADA  

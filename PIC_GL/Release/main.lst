@@ -1,0 +1,2314 @@
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:02 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	const,global,class=CODE,delta=1
+     4                           	psect	text,global,reloc=2,class=CODE,delta=1
+     5                           	psect	bigbss,global,class=BIGRAM,space=1,delta=
+      +                          1
+     6                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     7                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+     8  000000                     
+     9  000000                     
+    10  000000                     
+    11  000000                     
+    12  000000                     
+    13  000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  000000                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000                     
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000                     
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000                     
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                     
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97                           
+    98                           	psect	const
+    99                           ;pic18fxx2.h: 21: static volatile near unsigned 
+      +                          char TOSU @ 0xFFF;
+   100                           ;pic18fxx2.h: 22: static volatile near unsigned 
+      +                          char TOSH @ 0xFFE;
+   101                           ;pic18fxx2.h: 23: static volatile near unsigned 
+      +                          char TOSL @ 0xFFD;
+   102                           ;pic18fxx2.h: 24: static volatile near unsigned 
+      +                          char STKPTR @ 0xFFC;
+   103                           ;pic18fxx2.h: 25: static volatile near unsigned 
+      +                          char PCLATU @ 0xFFB;
+   104                           ;pic18fxx2.h: 26: static volatile near unsigned 
+      +                          char PCLATH @ 0xFFA;
+   105                           ;pic18fxx2.h: 27: static volatile near unsigned 
+      +                          char PCL @ 0xFF9;
+   106                           ;pic18fxx2.h: 28: static volatile far unsigned c
+      +                          har * TBLPTR @ 0xFF6;
+   107                           ;pic18fxx2.h: 29: static volatile near unsigned 
+      +                          char TBLPTRU @ 0xFF8;
+   108                           ;pic18fxx2.h: 30: static volatile near unsigned 
+      +                          char TBLPTRH @ 0xFF7;
+   109                           ;pic18fxx2.h: 31: static volatile near unsigned 
+      +                          char TBLPTRL @ 0xFF6;
+   110                           ;pic18fxx2.h: 32: static volatile near unsigned 
+      +                          char TABLAT @ 0xFF5;
+   111                           ;pic18fxx2.h: 33: static volatile near unsigned 
+      +                          char PRODH @ 0xFF4;
+   112                           ;pic18fxx2.h: 34: static volatile near unsigned 
+      +                          char PRODL @ 0xFF3;
+   113                           ;pic18fxx2.h: 35: static volatile near unsigned 
+      +                          char INTCON @ 0xFF2;
+   114                           ;pic18fxx2.h: 36: static near unsigned char INTC
+      +                          ON2 @ 0xFF1;
+   115                           ;pic18fxx2.h: 37: static volatile near unsigned 
+      +                          char INTCON3 @ 0xFF0;
+   116                           ;pic18fxx2.h: 38: static volatile near unsigned 
+      +                          char INDF0 @ 0xFEF;
+   117                           ;pic18fxx2.h: 39: static volatile near unsigned 
+      +                          char POSTINC0 @ 0xFEE;
+   118                           ;pic18fxx2.h: 40: static volatile near unsigned 
+      +                          char POSTDEC0 @ 0xFED;
+   119                           ;pic18fxx2.h: 41: static volatile near unsigned 
+      +                          char PREINC0 @ 0xFEC;
+   120                           ;pic18fxx2.h: 42: static volatile near unsigned 
+      +                          char PLUSW0 @ 0xFEB;
+   121                           ;pic18fxx2.h: 43: static volatile near unsigned 
+      +                          char FSR0H @ 0xFEA;
+   122                           ;pic18fxx2.h: 44: static volatile near unsigned 
+      +                          char FSR0L @ 0xFE9;
+   123                           ;pic18fxx2.h: 45: static volatile near unsigned 
+      +                          char WREG @ 0xFE8;
+   124                           ;pic18fxx2.h: 46: static volatile near unsigned 
+      +                          char INDF1 @ 0xFE7;
+   125                           ;pic18fxx2.h: 47: static volatile near unsigned 
+      +                          char POSTINC1 @ 0xFE6;
+   126                           ;pic18fxx2.h: 48: static volatile near unsigned 
+      +                          char POSTDEC1 @ 0xFE5;
+   127                           ;pic18fxx2.h: 49: static volatile near unsigned 
+      +                          char PREINC1 @ 0xFE4;
+   128                           ;pic18fxx2.h: 50: static volatile near unsigned 
+      +                          char PLUSW1 @ 0xFE3;
+   129                           ;pic18fxx2.h: 51: static volatile near unsigned 
+      +                          char FSR1H @ 0xFE2;
+   130                           ;pic18fxx2.h: 52: static volatile near unsigned 
+      +                          char FSR1L @ 0xFE1;
+   131                           ;pic18fxx2.h: 53: static near unsigned char BSR 
+      +                          @ 0xFE0;
+   132                           ;pic18fxx2.h: 54: static volatile near unsigned 
+      +                          char INDF2 @ 0xFDF;
+   133                           ;pic18fxx2.h: 55: static volatile near unsigned 
+      +                          char POSTINC2 @ 0xFDE;
+   134                           ;pic18fxx2.h: 56: static volatile near unsigned 
+      +                          char POSTDEC2 @ 0xFDD;
+   135                           ;pic18fxx2.h: 57: static volatile near unsigned 
+      +                          char PREINC2 @ 0xFDC;
+   136                           ;pic18fxx2.h: 58: static volatile near unsigned 
+      +                          char PLUSW2 @ 0xFDB;
+   137                           ;pic18fxx2.h: 59: static volatile near unsigned 
+      +                          char FSR2H @ 0xFDA;
+   138                           ;pic18fxx2.h: 60: static volatile near unsigned 
+      +                          char FSR2L @ 0xFD9;
+   139                           ;pic18fxx2.h: 61: static volatile near unsigned 
+      +                          char STATUS @ 0xFD8;
+   140                           ;pic18fxx2.h: 62: static volatile near unsigned 
+      +                          int TMR0 @ 0xFD6;
+   141                           ;pic18fxx2.h: 63: static volatile near unsigned 
+      +                          char TMR0H @ 0xFD7;
+   142                           ;pic18fxx2.h: 64: static volatile near unsigned 
+      +                          char TMR0L @ 0xFD6;
+   143                           ;pic18fxx2.h: 65: static near unsigned char T0CO
+      +                          N @ 0xFD5;
+   144                           ;pic18fxx2.h: 66: static volatile near unsigned 
+      +                          char OSCCON @ 0xFD3;
+   145                           ;pic18fxx2.h: 67: static volatile near unsigned 
+      +                          char LVDCON @ 0xFD2;
+   146                           ;pic18fxx2.h: 68: static near unsigned char WDTC
+      +                          ON @ 0xFD1;
+   147                           ;pic18fxx2.h: 69: static volatile near unsigned 
+      +                          char RCON @ 0xFD0;
+   148                           ;pic18fxx2.h: 70: static volatile near unsigned 
+      +                          int TMR1 @ 0xFCE;
+   149                           ;pic18fxx2.h: 71: static volatile near unsigned 
+      +                          char TMR1H @ 0xFCF;
+   150                           ;pic18fxx2.h: 72: static volatile near unsigned 
+      +                          char TMR1L @ 0xFCE;
+   151                           ;pic18fxx2.h: 73: static near unsigned char T1CO
+      +                          N @ 0xFCD;
+   152                           ;pic18fxx2.h: 74: static volatile near unsigned 
+      +                          char TMR2 @ 0xFCC;
+   153                           ;pic18fxx2.h: 75: static volatile near unsigned 
+      +                          char PR2 @ 0xFCB;
+   154                           ;pic18fxx2.h: 76: static near unsigned char T2CO
+      +                          N @ 0xFCA;
+   155                           ;pic18fxx2.h: 77: static volatile near unsigned 
+      +                          char SSPBUF @ 0xFC9;
+   156                           ;pic18fxx2.h: 78: static volatile near unsigned 
+      +                          char SSPADD @ 0xFC8;
+   157                           ;pic18fxx2.h: 79: static volatile near unsigned 
+      +                          char SSPSTAT @ 0xFC7;
+   158                           ;pic18fxx2.h: 80: static volatile near unsigned 
+      +                          char SSPCON1 @ 0xFC6;
+   159                           ;pic18fxx2.h: 81: static volatile near unsigned 
+      +                          char SSPCON2 @ 0xFC5;
+   160                           ;pic18fxx2.h: 82: static volatile near unsigned 
+      +                          int ADRES @ 0xFC3;
+   161                           ;pic18fxx2.h: 83: static volatile near unsigned 
+      +                          char ADRESH @ 0xFC4;
+   162                           ;pic18fxx2.h: 84: static volatile near unsigned 
+      +                          char ADRESL @ 0xFC3;
+   163                           ;pic18fxx2.h: 85: static volatile near unsigned 
+      +                          char ADCON0 @ 0xFC2;
+   164                           ;pic18fxx2.h: 86: static near unsigned char ADCO
+      +                          N1 @ 0xFC1;
+   165                           ;pic18fxx2.h: 87: static volatile near unsigned 
+      +                          int CCPR1 @ 0xFBE;
+   166                           ;pic18fxx2.h: 88: static volatile near unsigned 
+      +                          char CCPR1H @ 0xFBF;
+   167                           ;pic18fxx2.h: 89: static volatile near unsigned 
+      +                          char CCPR1L @ 0xFBE;
+   168                           ;pic18fxx2.h: 90: static volatile near unsigned 
+      +                          char CCP1CON @ 0xFBD;
+   169                           ;pic18fxx2.h: 91: static volatile near unsigned 
+      +                          int CCPR2 @ 0xFBB;
+   170                           ;pic18fxx2.h: 92: static volatile near unsigned 
+      +                          char CCPR2H @ 0xFBC;
+   171                           ;pic18fxx2.h: 93: static volatile near unsigned 
+      +                          char CCPR2L @ 0xFBB;
+   172                           ;pic18fxx2.h: 94: static volatile near unsigned 
+      +                          char CCP2CON @ 0xFBA;
+   173                           ;pic18fxx2.h: 95: static volatile near unsigned 
+      +                          int TMR3 @ 0xFB2;
+   174                           ;pic18fxx2.h: 96: static volatile near unsigned 
+      +                          char TMR3H @ 0xFB3;
+   175                           ;pic18fxx2.h: 97: static volatile near unsigned 
+      +                          char TMR3L @ 0xFB2;
+   176                           ;pic18fxx2.h: 98: static near unsigned char T3CO
+      +                          N @ 0xFB1;
+   177                           ;pic18fxx2.h: 99: static near unsigned char SPBR
+      +                          G @ 0xFAF;
+   178                           ;pic18fxx2.h: 100: static volatile near unsigned
+      +                           char RCREG @ 0xFAE;
+   179                           ;pic18fxx2.h: 101: static volatile near unsigned
+      +                           char TXREG @ 0xFAD;
+   180                           ;pic18fxx2.h: 102: static volatile near unsigned
+      +                           char TXSTA @ 0xFAC;
+   181                           ;pic18fxx2.h: 103: static volatile near unsigned
+      +                           char RCSTA @ 0xFAB;
+   182                           ;pic18fxx2.h: 104: static volatile near unsigned
+      +                           char EEADR @ 0xFA9;
+   183                           ;pic18fxx2.h: 105: static volatile near unsigned
+      +                           char EEDATA @ 0xFA8;
+   184                           ;pic18fxx2.h: 106: static volatile near unsigned
+      +                           char EECON2 @ 0xFA7;
+   185                           ;pic18fxx2.h: 107: static volatile near unsigned
+      +                           char EECON1 @ 0xFA6;
+   186                           ;pic18fxx2.h: 108: static near unsigned char IPR
+      +                          2 @ 0xFA2;
+   187                           ;pic18fxx2.h: 109: static volatile near unsigned
+      +                           char PIR2 @ 0xFA1;
+   188                           ;pic18fxx2.h: 110: static near unsigned char PIE
+      +                          2 @ 0xFA0;
+   189                           ;pic18fxx2.h: 111: static near unsigned char IPR
+      +                          1 @ 0xF9F;
+   190                           ;pic18fxx2.h: 112: static volatile near unsigned
+      +                           char PIR1 @ 0xF9E;
+   191                           ;pic18fxx2.h: 113: static near unsigned char PIE
+      +                          1 @ 0xF9D;
+   192                           ;pic18fxx2.h: 114: static volatile near unsigned
+      +                           char TRISC @ 0xF94;
+   193                           ;pic18fxx2.h: 115: static volatile near unsigned
+      +                           char TRISB @ 0xF93;
+   194                           ;pic18fxx2.h: 116: static volatile near unsigned
+      +                           char TRISA @ 0xF92;
+   195                           ;pic18fxx2.h: 117: static volatile near unsigned
+      +                           char LATC @ 0xF8B;
+   196                           ;pic18fxx2.h: 118: static volatile near unsigned
+      +                           char LATB @ 0xF8A;
+   197                           ;pic18fxx2.h: 119: static volatile near unsigned
+      +                           char LATA @ 0xF89;
+   198                           ;pic18fxx2.h: 120: static volatile near unsigned
+      +                           char PORTC @ 0xF82;
+   199  000C8C                     _version:
+   200  000C8C  24                 	db	36
+   201  000C8D  56                 	db	86
+   202  000C8E  45                 	db	69
+   203  000C8F  52                 	db	82
+   204  000C90  3A                 	db	58
+   205  000C91  50                 	db	80
+   206  000C92  59                 	db	89
+   207  000C93  51                 	db	81
+   208  000C94  30                 	db	48
+   209  000C95  39                 	db	57
+   210  000C96  30                 	db	48
+   211  000C97  39                 	db	57
+   212  000C98  31                 	db	49
+   213  000C99  31                 	db	49
+   214  000C9A  00                 	db	0
+   215  000C9B  00                 	db	0
+   216  000C9C                     u79:
+   217  000C9C  43                 	db	67	;'C'
+   218  000C9D  50                 	db	80	;'P'
+   219  000C9E  55                 	db	85	;'U'
+   220  000C9F  20                 	db	32
+   221  000CA0  63                 	db	99	;'c'
+   222  000CA1  6C                 	db	108	;'l'
+   223  000CA2  6F                 	db	111	;'o'
+   224  000CA3  63                 	db	99	;'c'
+   225  000CA4  6B                 	db	107	;'k'
+   226  000CA5  20                 	db	32
+   227  000CA6  20                 	db	32
+   228  000CA7  20                 	db	32
+   229  000CA8  20                 	db	32
+   230  000CA9  20                 	db	32
+   231  000CAA  3A                 	db	58	;':'
+   232  000CAB  20                 	db	32
+   233  000CAC  25                 	db	37
+   234  000CAD  73                 	db	115	;'s'
+   235  000CAE  20                 	db	32
+   236  000CAF  4D                 	db	77	;'M'
+   237  000CB0  48                 	db	72	;'H'
+   238  000CB1  7A                 	db	122	;'z'
+   239  000CB2  00                 	db	0
+   240  000CB3                     u179:
+   241  000CB3  32                 	db	50	;'2'
+   242  000CB4  78                 	db	120	;'x'
+   243  000CB5  00                 	db	0
+   244  000CB6                     u189:
+   245  000CB6  31                 	db	49	;'1'
+   246  000CB7  78                 	db	120	;'x'
+   247  000CB8  00                 	db	0
+   248  000CB9                     u119:
+   249  000CB9  66                 	db	102	;'f'
+   250  000CBA  61                 	db	97	;'a'
+   251  000CBB  73                 	db	115	;'s'
+   252  000CBC  74                 	db	116	;'t'
+   253  000CBD  00                 	db	0
+   254  000CBE                     u279:
+   255  000CBE  6E                 	db	110	;'n'
+   256  000CBF  6F                 	db	111	;'o'
+   257  000CC0  74                 	db	116	;'t'
+   258  000CC1  20                 	db	32
+   259  000CC2  70                 	db	112	;'p'
+   260  000CC3  72                 	db	114	;'r'
+   261  000CC4  65                 	db	101	;'e'
+   262  000CC5  73                 	db	115	;'s'
+   263  000CC6  65                 	db	101	;'e'
+   264  000CC7  6E                 	db	110	;'n'
+   265  000CC8  74                 	db	116	;'t'
+   266  000CC9  00                 	db	0
+   267  000CCA                     u289:
+   268  000CCA  46                 	db	70	;'F'
+   269  000CCB  69                 	db	105	;'i'
+   270  000CCC  6C                 	db	108	;'l'
+   271  000CCD  65                 	db	101	;'e'
+   272  000CCE  3A                 	db	58	;':'
+   273  000CCF  20                 	db	32
+   274  000CD0  25                 	db	37
+   275  000CD1  73                 	db	115	;'s'
+   276  000CD2  00                 	db	0
+   277  000CD3                     u149:
+   278  000CD3  53                 	db	83	;'S'
+   279  000CD4  6C                 	db	108	;'l'
+   280  000CD5  6F                 	db	111	;'o'
+   281  000CD6  77                 	db	119	;'w'
+   282  000CD7  20                 	db	32
+   283  000CD8  52                 	db	82	;'R'
+   284  000CD9  41                 	db	65	;'A'
+   285  000CDA  4D                 	db	77	;'M'
+   286  000CDB  20                 	db	32
+   287  000CDC  73                 	db	115	;'s'
+   288  000CDD  69                 	db	105	;'i'
+   289  000CDE  7A                 	db	122	;'z'
+   290  000CDF  65                 	db	101	;'e'
+   291  000CE0  20                 	db	32
+   292  000CE1  3A                 	db	58	;':'
+   293  000CE2  20                 	db	32
+   294  000CE3  25                 	db	37
+   295  000CE4  73                 	db	115	;'s'
+   296  000CE5  00                 	db	0
+   297  000CE6                     u139:
+   298  000CE6  43                 	db	67	;'C'
+   299  000CE7  68                 	db	104	;'h'
+   300  000CE8  69                 	db	105	;'i'
+   301  000CE9  70                 	db	112	;'p'
+   302  000CEA  20                 	db	32
+   303  000CEB  52                 	db	82	;'R'
+   304  000CEC  41                 	db	65	;'A'
+   305  000CED  4D                 	db	77	;'M'
+   306  000CEE  20                 	db	32
+   307  000CEF  73                 	db	115	;'s'
+   308  000CF0  69                 	db	105	;'i'
+   309  000CF1  7A                 	db	122	;'z'
+   310  000CF2  65                 	db	101	;'e'
+   311  000CF3  20                 	db	32
+   312  000CF4  3A                 	db	58	;':'
+   313  000CF5  20                 	db	32
+   314  000CF6  25                 	db	37
+   315  000CF7  73                 	db	115	;'s'
+   316  000CF8  00                 	db	0
+   317  000CF9                     u109:
+   318  000CF9  42                 	db	66	;'B'
+   319  000CFA  6C                 	db	108	;'l'
+   320  000CFB  69                 	db	105	;'i'
+   321  000CFC  74                 	db	116	;'t'
+   322  000CFD  74                 	db	116	;'t'
+   323  000CFE  65                 	db	101	;'e'
+   324  000CFF  72                 	db	114	;'r'
+   325  000D00  20                 	db	32
+   326  000D01  73                 	db	115	;'s'
+   327  000D02  70                 	db	112	;'p'
+   328  000D03  65                 	db	101	;'e'
+   329  000D04  65                 	db	101	;'e'
+   330  000D05  64                 	db	100	;'d'
+   331  000D06  20                 	db	32
+   332  000D07  3A                 	db	58	;':'
+   333  000D08  20                 	db	32
+   334  000D09  25                 	db	37
+   335  000D0A  73                 	db	115	;'s'
+   336  000D0B  00                 	db	0
+   337  000D0C                     u249:
+   338  000D0C  4D                 	db	77	;'M'
+   339  000D0D  61                 	db	97	;'a'
+   340  000D0E  73                 	db	115	;'s'
+   341  000D0F  74                 	db	116	;'t'
+   342  000D10  65                 	db	101	;'e'
+   343  000D11  72                 	db	114	;'r'
+   344  000D12  00                 	db	0
+   345  000D13                     u129:
+   346  000D13  6E                 	db	110	;'n'
+   347  000D14  6F                 	db	111	;'o'
+   348  000D15  72                 	db	114	;'r'
+   349  000D16  6D                 	db	109	;'m'
+   350  000D17  61                 	db	97	;'a'
+   351  000D18  6C                 	db	108	;'l'
+   352  000D19  00                 	db	0
+   353  000D1A                     u239:
+   354  000D1A  53                 	db	83	;'S'
+   355  000D1B  6C                 	db	108	;'l'
+   356  000D1C  61                 	db	97	;'a'
+   357  000D1D  76                 	db	118	;'v'
+   358  000D1E  65                 	db	101	;'e'
+   359  000D1F  00                 	db	0
+   360  000D20                     u269:
+   361  000D20                     u219:
+   362  000D20  64                 	db	100	;'d'
+   363  000D21  69                 	db	105	;'i'
+   364  000D22  73                 	db	115	;'s'
+   365  000D23  61                 	db	97	;'a'
+   366  000D24  62                 	db	98	;'b'
+   367  000D25  6C                 	db	108	;'l'
+   368  000D26  65                 	db	101	;'e'
+   369  000D27  64                 	db	100	;'d'
+   370  000D28  00                 	db	0
+   371  000D29                     u259:
+   372  000D29                     u209:
+   373  000D29  65                 	db	101	;'e'
+   374  000D2A  6E                 	db	110	;'n'
+   375  000D2B  61                 	db	97	;'a'
+   376  000D2C  62                 	db	98	;'b'
+   377  000D2D  6C                 	db	108	;'l'
+   378  000D2E  65                 	db	101	;'e'
+   379  000D2F  64                 	db	100	;'d'
+   380  000D30  00                 	db	0
+   381  000D31                     u299:
+   382  000D31  43                 	db	67	;'C'
+   383  000D32  48                 	db	72	;'H'
+   384  000D33  53                 	db	83	;'S'
+   385  000D34  3A                 	db	58	;':'
+   386  000D35  20                 	db	32
+   387  000D36  25                 	db	37
+   388  000D37  64                 	db	100	;'d'
+   389  000D38  2E                 	db	46
+   390  000D39  25                 	db	37
+   391  000D3A  64                 	db	100	;'d'
+   392  000D3B  2E                 	db	46
+   393  000D3C  25                 	db	37
+   394  000D3D  64                 	db	100	;'d'
+   395  000D3E  00                 	db	0
+   396  000D3F                     u159:
+   397  000D3F  46                 	db	70	;'F'
+   398  000D40  6C                 	db	108	;'l'
+   399  000D41  6F                 	db	111	;'o'
+   400  000D42  70                 	db	112	;'p'
+   401  000D43  70                 	db	112	;'p'
+   402  000D44  79                 	db	121	;'y'
+   403  000D45  20                 	db	32
+   404  000D46  64                 	db	100	;'d'
+   405  000D47  72                 	db	114	;'r'
+   406  000D48  69                 	db	105	;'i'
+   407  000D49  76                 	db	118	;'v'
+   408  000D4A  65                 	db	101	;'e'
+   409  000D4B  73                 	db	115	;'s'
+   410  000D4C  20                 	db	32
+   411  000D4D  3A                 	db	58	;':'
+   412  000D4E  20                 	db	32
+   413  000D4F  25                 	db	37
+   414  000D50  64                 	db	100	;'d'
+   415  000D51  00                 	db	0
+   416  000D52                     u99:
+   417  000D52  37                 	db	55	;'7'
+   418  000D53  2E                 	db	46
+   419  000D54  30                 	db	48	;'0'
+   420  000D55  39                 	db	57	;'9'
+   421  000D56  00                 	db	0
+   422  000D57                     u89:
+   423  000D57  32                 	db	50	;'2'
+   424  000D58  38                 	db	56	;'8'
+   425  000D59  2E                 	db	46
+   426  000D5A  33                 	db	51	;'3'
+   427  000D5B  36                 	db	54	;'6'
+   428  000D5C  00                 	db	0
+   429  000D5D                     u199:
+   430  000D5D  0A                 	db	10
+   431  000D5E  41                 	db	65	;'A'
+   432  000D5F  36                 	db	54	;'6'
+   433  000D60  30                 	db	48	;'0'
+   434  000D61  30                 	db	48	;'0'
+   435  000D62  20                 	db	32
+   436  000D63  49                 	db	73	;'I'
+   437  000D64  44                 	db	68	;'D'
+   438  000D65  45                 	db	69	;'E'
+   439  000D66  20                 	db	32
+   440  000D67  48                 	db	72	;'H'
+   441  000D68  44                 	db	68	;'D'
+   442  000D69  43                 	db	67	;'C'
+   443  000D6A  20                 	db	32
+   444  000D6B  69                 	db	105	;'i'
+   445  000D6C  73                 	db	115	;'s'
+   446  000D6D  20                 	db	32
+   447  000D6E  25                 	db	37
+   448  000D6F  73                 	db	115	;'s'
+   449  000D70  2E                 	db	46
+   450  000D71  00                 	db	0
+   451  000D72                     u69:
+   452  000D72  50                 	db	80	;'P'
+   453  000D73  49                 	db	73	;'I'
+   454  000D74  43                 	db	67	;'C'
+   455  000D75  20                 	db	32
+   456  000D76  66                 	db	102	;'f'
+   457  000D77  69                 	db	105	;'i'
+   458  000D78  72                 	db	114	;'r'
+   459  000D79  6D                 	db	109	;'m'
+   460  000D7A  77                 	db	119	;'w'
+   461  000D7B  61                 	db	97	;'a'
+   462  000D7C  72                 	db	114	;'r'
+   463  000D7D  65                 	db	101	;'e'
+   464  000D7E  20                 	db	32
+   465  000D7F  25                 	db	37
+   466  000D80  73                 	db	115	;'s'
+   467  000D81  0A                 	db	10
+   468  000D82  00                 	db	0
+   469  000D83                     u169:
+   470  000D83  46                 	db	70	;'F'
+   471  000D84  6C                 	db	108	;'l'
+   472  000D85  6F                 	db	111	;'o'
+   473  000D86  70                 	db	112	;'p'
+   474  000D87  70                 	db	112	;'p'
+   475  000D88  79                 	db	121	;'y'
+   476  000D89  20                 	db	32
+   477  000D8A  73                 	db	115	;'s'
+   478  000D8B  70                 	db	112	;'p'
+   479  000D8C  65                 	db	101	;'e'
+   480  000D8D  65                 	db	101	;'e'
+   481  000D8E  64                 	db	100	;'d'
+   482  000D8F  20                 	db	32
+   483  000D90  20                 	db	32
+   484  000D91  3A                 	db	58	;':'
+   485  000D92  20                 	db	32
+   486  000D93  25                 	db	37
+   487  000D94  73                 	db	115	;'s'
+   488  000D95  0A                 	db	10
+   489  000D96  00                 	db	0
+   490  000D97                     u309:
+   491  000D97  53                 	db	83	;'S'
+   492  000D98  69                 	db	105	;'i'
+   493  000D99  7A                 	db	122	;'z'
+   494  000D9A  65                 	db	101	;'e'
+   495  000D9B  3A                 	db	58	;':'
+   496  000D9C  20                 	db	32
+   497  000D9D  25                 	db	37
+   498  000D9E  6C                 	db	108	;'l'
+   499  000D9F  64                 	db	100	;'d'
+   500  000DA0  20                 	db	32
+   501  000DA1  4D                 	db	77	;'M'
+   502  000DA2  42                 	db	66	;'B'
+   503  000DA3  0A                 	db	10
+   504  000DA4  00                 	db	0
+   505  000DA5                     u229:
+   506  000DA5  25                 	db	37
+   507  000DA6  73                 	db	115	;'s'
+   508  000DA7  20                 	db	32
+   509  000DA8  48                 	db	72	;'H'
+   510  000DA9  44                 	db	68	;'D'
+   511  000DAA  44                 	db	68	;'D'
+   512  000DAB  20                 	db	32
+   513  000DAC  69                 	db	105	;'i'
+   514  000DAD  73                 	db	115	;'s'
+   515  000DAE  20                 	db	32
+   516  000DAF  25                 	db	37
+   517  000DB0  73                 	db	115	;'s'
+   518  000DB1  2E                 	db	46
+   519  000DB2  0A                 	db	10
+   520  000DB3  00                 	db	0
+   521  000DB4                     u319:
+   522  000DB4  45                 	db	69	;'E'
+   523  000DB5  78                 	db	120	;'x'
+   524  000DB6  69                 	db	105	;'i'
+   525  000DB7  74                 	db	116	;'t'
+   526  000DB8  69                 	db	105	;'i'
+   527  000DB9  6E                 	db	110	;'n'
+   528  000DBA  67                 	db	103	;'g'
+   529  000DBB  20                 	db	32
+   530  000DBC  62                 	db	98	;'b'
+   531  000DBD  6F                 	db	111	;'o'
+   532  000DBE  6F                 	db	111	;'o'
+   533  000DBF  74                 	db	116	;'t'
+   534  000DC0  6C                 	db	108	;'l'
+   535  000DC1  6F                 	db	111	;'o'
+   536  000DC2  61                 	db	97	;'a'
+   537  000DC3  64                 	db	100	;'d'
+   538  000DC4  65                 	db	101	;'e'
+   539  000DC5  72                 	db	114	;'r'
+   540  000DC6  2E                 	db	46
+   541  000DC7  2E                 	db	46
+   542  000DC8  2E                 	db	46
+   543  000DC9  0A                 	db	10
+   544  000DCA  00                 	db	0
+   545  000DCB                     u19:
+   546  000DCB  4D                 	db	77	;'M'
+   547  000DCC  69                 	db	105	;'i'
+   548  000DCD  6E                 	db	110	;'n'
+   549  000DCE  69                 	db	105	;'i'
+   550  000DCF  6D                 	db	109	;'m'
+   551  000DD0  69                 	db	105	;'i'
+   552  000DD1  67                 	db	103	;'g'
+   553  000DD2  20                 	db	32
+   554  000DD3  62                 	db	98	;'b'
+   555  000DD4  79                 	db	121	;'y'
+   556  000DD5  20                 	db	32
+   557  000DD6  44                 	db	68	;'D'
+   558  000DD7  65                 	db	101	;'e'
+   559  000DD8  6E                 	db	110	;'n'
+   560  000DD9  6E                 	db	110	;'n'
+   561  000DDA  69                 	db	105	;'i'
+   562  000DDB  73                 	db	115	;'s'
+   563  000DDC  20                 	db	32
+   564  000DDD  76                 	db	118	;'v'
+   565  000DDE  61                 	db	97	;'a'
+   566  000DDF  6E                 	db	110	;'n'
+   567  000DE0  20                 	db	32
+   568  000DE1  57                 	db	87	;'W'
+   569  000DE2  65                 	db	101	;'e'
+   570  000DE3  65                 	db	101	;'e'
+   571  000DE4  72                 	db	114	;'r'
+   572  000DE5  65                 	db	101	;'e'
+   573  000DE6  6E                 	db	110	;'n'
+   574  000DE7  0D                 	db	13
+   575  000DE8  0A                 	db	10
+   576  000DE9  00                 	db	0
+   577  000DEA                     u29:
+   578  000DEA  42                 	db	66	;'B'
+   579  000DEB  75                 	db	117	;'u'
+   580  000DEC  67                 	db	103	;'g'
+   581  000DED  20                 	db	32
+   582  000DEE  66                 	db	102	;'f'
+   583  000DEF  69                 	db	105	;'i'
+   584  000DF0  78                 	db	120	;'x'
+   585  000DF1  65                 	db	101	;'e'
+   586  000DF2  73                 	db	115	;'s'
+   587  000DF3  2C                 	db	44
+   588  000DF4  20                 	db	32
+   589  000DF5  6D                 	db	109	;'m'
+   590  000DF6  6F                 	db	111	;'o'
+   591  000DF7  64                 	db	100	;'d'
+   592  000DF8  73                 	db	115	;'s'
+   593  000DF9  20                 	db	32
+   594  000DFA  61                 	db	97	;'a'
+   595  000DFB  6E                 	db	110	;'n'
+   596  000DFC  64                 	db	100	;'d'
+   597  000DFD  20                 	db	32
+   598  000DFE  65                 	db	101	;'e'
+   599  000DFF  78                 	db	120	;'x'
+   600  000E00  74                 	db	116	;'t'
+   601  000E01  65                 	db	101	;'e'
+   602  000E02  6E                 	db	110	;'n'
+   603  000E03  73                 	db	115	;'s'
+   604  000E04  69                 	db	105	;'i'
+   605  000E05  6F                 	db	111	;'o'
+   606  000E06  6E                 	db	110	;'n'
+   607  000E07  73                 	db	115	;'s'
+   608  000E08  20                 	db	32
+   609  000E09  62                 	db	98	;'b'
+   610  000E0A  79                 	db	121	;'y'
+   611  000E0B  20                 	db	32
+   612  000E0C  4A                 	db	74	;'J'
+   613  000E0D  61                 	db	97	;'a'
+   614  000E0E  6B                 	db	107	;'k'
+   615  000E0F  75                 	db	117	;'u'
+   616  000E10  62                 	db	98	;'b'
+   617  000E11  20                 	db	32
+   618  000E12  42                 	db	66	;'B'
+   619  000E13  65                 	db	101	;'e'
+   620  000E14  64                 	db	100	;'d'
+   621  000E15  6E                 	db	110	;'n'
+   622  000E16  61                 	db	97	;'a'
+   623  000E17  72                 	db	114	;'r'
+   624  000E18  73                 	db	115	;'s'
+   625  000E19  6B                 	db	107	;'k'
+   626  000E1A  69                 	db	105	;'i'
+   627  000E1B  0D                 	db	13
+   628  000E1C  0A                 	db	10
+   629  000E1D  00                 	db	0
+   630  000E1E                     u59:
+   631  000E1E  0D                 	db	13
+   632  000E1F  0A                 	db	10
+   633  000E20  46                 	db	70	;'F'
+   634  000E21  50                 	db	80	;'P'
+   635  000E22  47                 	db	71	;'G'
+   636  000E23  41                 	db	65	;'A'
+   637  000E24  20                 	db	32
+   638  000E25  63                 	db	99	;'c'
+   639  000E26  6F                 	db	111	;'o'
+   640  000E27  6E                 	db	110	;'n'
+   641  000E28  66                 	db	102	;'f'
+   642  000E29  69                 	db	105	;'i'
+   643  000E2A  67                 	db	103	;'g'
+   644  000E2B  75                 	db	117	;'u'
+   645  000E2C  72                 	db	114	;'r'
+   646  000E2D  65                 	db	101	;'e'
+   647  000E2E  64                 	db	100	;'d'
+   648  000E2F  0D                 	db	13
+   649  000E30  0A                 	db	10
+   650  000E31  00                 	db	0
+   651  000E32                     u49:
+   652  000E32  56                 	db	86	;'V'
+   653  000E33  65                 	db	101	;'e'
+   654  000E34  72                 	db	114	;'r'
+   655  000E35  73                 	db	115	;'s'
+   656  000E36  69                 	db	105	;'i'
+   657  000E37  6F                 	db	111	;'o'
+   658  000E38  6E                 	db	110	;'n'
+   659  000E39  20                 	db	32
+   660  000E3A  25                 	db	37
+   661  000E3B  73                 	db	115	;'s'
+   662  000E3C  0D                 	db	13
+   663  000E3D  0A                 	db	10
+   664  000E3E  0D                 	db	13
+   665  000E3F  0A                 	db	10
+   666  000E40  00                 	db	0
+   667  000E41                     u39:
+   668  000E41  53                 	db	83	;'S'
+   669  000E42  44                 	db	68	;'D'
+   670  000E43  48                 	db	72	;'H'
+   671  000E44  43                 	db	67	;'C'
+   672  000E45  2C                 	db	44
+   673  000E46  20                 	db	32
+   674  000E47  46                 	db	70	;'F'
+   675  000E48  41                 	db	65	;'A'
+   676  000E49  54                 	db	84	;'T'
+   677  000E4A  31                 	db	49	;'1'
+   678  000E4B  36                 	db	54	;'6'
+   679  000E4C  2F                 	db	47
+   680  000E4D  33                 	db	51	;'3'
+   681  000E4E  32                 	db	50	;'2'
+   682  000E4F  2C                 	db	44
+   683  000E50  20                 	db	32
+   684  000E51  44                 	db	68	;'D'
+   685  000E52  69                 	db	105	;'i'
+   686  000E53  72                 	db	114	;'r'
+   687  000E54  2C                 	db	44
+   688  000E55  20                 	db	32
+   689  000E56  4C                 	db	76	;'L'
+   690  000E57  46                 	db	70	;'F'
+   691  000E58  4E                 	db	78	;'N'
+   692  000E59  2C                 	db	44
+   693  000E5A  20                 	db	32
+   694  000E5B  48                 	db	72	;'H'
+   695  000E5C  44                 	db	68	;'D'
+   696  000E5D  44                 	db	68	;'D'
+   697  000E5E  20                 	db	32
+   698  000E5F  73                 	db	115	;'s'
+   699  000E60  75                 	db	117	;'u'
+   700  000E61  70                 	db	112	;'p'
+   701  000E62  70                 	db	112	;'p'
+   702  000E63  6F                 	db	111	;'o'
+   703  000E64  72                 	db	114	;'r'
+   704  000E65  74                 	db	116	;'t'
+   705  000E66  20                 	db	32
+   706  000E67  62                 	db	98	;'b'
+   707  000E68  79                 	db	121	;'y'
+   708  000E69  20                 	db	32
+   709  000E6A  47                 	db	71	;'G'
+   710  000E6B  6F                 	db	111	;'o'
+   711  000E6C  72                 	db	114	;'r'
+   712  000E6D  61                 	db	97	;'a'
+   713  000E6E  6E                 	db	110	;'n'
+   714  000E6F  20                 	db	32
+   715  000E70  4C                 	db	76	;'L'
+   716  000E71  6A                 	db	106	;'j'
+   717  000E72  75                 	db	117	;'u'
+   718  000E73  62                 	db	98	;'b'
+   719  000E74  6F                 	db	111	;'o'
+   720  000E75  6A                 	db	106	;'j'
+   721  000E76  65                 	db	101	;'e'
+   722  000E77  76                 	db	118	;'v'
+   723  000E78  69                 	db	105	;'i'
+   724  000E79  63                 	db	99	;'c'
+   725  000E7A  0D                 	db	13
+   726  000E7B  0A                 	db	10
+   727  000E7C  0D                 	db	13
+   728  000E7D  0A                 	db	10
+   729  000E7E  00                 	db	0
+   730  000000                     
+   731  000000                     
+   732  000000                     
+   733  000000                     
+   734  000000                     
+   735  000000                     
+   736  000000                     
+   737  000000                     
+   738  000000                     
+   739  000000                     
+   740  000000                     
+   741  000000                     
+   742  000000                     
+   743  000000                     
+   744  000000                     
+   745  000000                     
+   746  000000                     
+   747  000000                     
+   748  000000                     
+   749  000000                     
+   750  000000                     
+   751  000000                     
+   752  000000                     
+   753  000000                     
+   754  000000                     
+   755  000000                     
+   756  000000                     
+   757  000000                     
+   758  000000                     
+   759  000000                     
+   760  000000                     
+   761  000000                     
+   762  000000                     
+   763  000000                     
+   764  000000                     
+   765  000000                     
+   766  000000                     
+   767  000000                     
+   768  000000                     
+   769  000000                     
+   770  000000                     
+   771  000000                     
+   772  000000                     
+   773  000000                     
+   774  000000                     
+   775  000000                     
+   776  000000                     
+   777  000000                     
+   778  000000                     
+   779  000000                     
+   780  000000                     
+   781  000000                     
+   782  000000                     
+   783  000000                     
+   784  000000                     
+   785  000000                     
+   786  000000                     
+   787  000000                     
+   788  000000                     
+   789  000000                     
+   790  000000                     
+   791  000000                     
+   792  000000                     
+   793  000000                     
+   794  000000                     
+   795  000000                     
+   796  000000                     
+   797  000000                     
+   798  000000                     
+   799  000000                     
+   800  000000                     
+   801  000000                     
+   802  000000                     
+   803  000000                     
+   804  000000                     
+   805  000000                     
+   806  000000                     
+   807  000000                     
+   808  000000                     
+   809  000000                     
+   810  000000                     
+   811  000000                     
+   812  000000                     
+   813  000000                     
+   814  000000                     
+   815  000000                     
+   816  000000                     
+   817  000000                     
+   818  000000                     
+   819  000000                     
+   820  000000                     
+   821  000000                     
+   822  000000                     
+   823  000000                     
+   824  000000                     
+   825  000000                     
+   826  000000                     
+   827  000000                     
+   828  000000                     
+   829  000000                     
+   830  000000                     
+   831  000000                     
+   832  000000                     
+   833  000000                     
+   834  000000                     
+   835  000000                     
+   836  000000                     
+   837  000000                     
+   838  000000                     
+   839  000000                     
+   840  000000                     
+   841  000000                     
+   842  000000                     
+   843  000000                     
+   844  000000                     
+   845  000000                     
+   846  000000                     
+   847  000000                     
+   848  000000                     
+   849  000000                     
+   850  000000                     
+   851  000000                     
+   852  000000                     
+   853  000000                     
+   854  000000                     
+   855  000000                     
+   856  000000                     
+   857  000000                     
+   858  000000                     
+   859  000000                     
+   860  000000                     
+   861  000000                     
+   862  000000                     
+   863  000000                     
+   864  000000                     
+   865  000000                     
+   866  000000                     
+   867  000000                     
+   868  000000                     
+   869  000000                     
+   870  000000                     
+   871  000000                     
+   872  000000                     
+   873  000000                     
+   874  000000                     
+   875  000000                     
+   876  000000                     
+   877  000000                     
+   878  000000                     
+   879  000000                     
+   880  000000                     
+   881  000000                     
+   882  000000                     
+   883  000000                     
+   884  000000                     
+   885  000000                     
+   886  000000                     
+   887  000000                     
+   888  000000                     
+   889  000000                     
+   890  000000                     
+   891  000000                     
+   892  000000                     
+   893  000000                     
+   894  000000                     
+   895  000000                     
+   896  000000                     
+   897  000000                     
+   898  000000                     
+   899  000000                     
+   900  000000                     
+   901  000000                     
+   902  000000                     
+   903  000000                     
+   904  000000                     
+   905  000000                     
+   906  000000                     
+   907  000000                     
+   908  000000                     
+   909  000000                     
+   910  000000                     
+   911  000000                     
+   912  000000                     
+   913  000000                     
+   914  000000                     
+   915  000000                     
+   916  000000                     
+   917  000000                     
+   918  000000                     
+   919  000000                     
+   920  000000                     
+   921  000000                     
+   922  000000                     
+   923  000000                     
+   924  000000                     
+   925  000000                     
+   926  000000                     
+   927  000000                     
+   928  000000                     
+   929  000000                     
+   930  000000                     
+   931  000000                     
+   932  000000                     
+   933  000000                     
+   934  000000                     
+   935  000000                     
+   936  000000                     
+   937  000000                     
+   938  000000                     
+   939  000000                     
+   940  000000                     
+   941  000000                     
+   942  000000                     
+   943  000000                     
+   944  000000                     
+   945  000000                     
+   946  000000                     
+   947  000000                     
+   948  000000                     
+   949  000000                     
+   950  000000                     
+   951  000000                     
+   952  000000                     
+   953  000000                     
+   954  000000                     
+   955  000000                     
+   956  000000                     
+   957  000000                     
+   958  000000                     
+   959  000000                     
+   960  000000                     
+   961  000000                     
+   962  000000                     
+   963  000000                     
+   964  000000                     
+   965  000000                     
+   966  000000                     
+   967  000000                     
+   968  000000                     
+   969  000000                     
+   970  000000                     
+   971  000000                     
+   972  000000                     
+   973  000000                     
+   974  000000                     
+   975  000000                     
+   976  000000                     
+   977  000000                     
+   978  000000                     
+   979  000000                     
+   980  000000                     
+   981  000000                     
+   982  000000                     
+   983  000000                     
+   984  000000                     
+   985  000000                     
+   986  000000                     
+   987  000000                     
+   988  000000                     
+   989  000000                     
+   990  000000                     
+   991  000000                     
+   992  000000                     
+   993  000000                     
+   994  000000                     
+   995  000000                     
+   996  000000                     
+   997  000000                     
+   998  000000                     
+   999  000000                     
+  1000  000000                     
+  1001  000000                     
+  1002  000000                     
+  1003  000000                     
+  1004  000000                     
+  1005  000000                     
+  1006  000000                     
+  1007  000000                     
+  1008  000000                     
+  1009  000000                     
+  1010  000000                     
+  1011  000000                     
+  1012  000000                     
+  1013  000000                     
+  1014  000000                     
+  1015  000000                     
+  1016  000000                     
+  1017  000000                     
+  1018  000000                     
+  1019  000000                     
+  1020  000000                     
+  1021  000000                     
+  1022  000000                     
+  1023  000000                     
+  1024  000000                     
+  1025  000000                     
+  1026  000000                     
+  1027  000000                     
+  1028  000000                     
+  1029  000000                     
+  1030  000000                     
+  1031  000000                     
+  1032  000000                     
+  1033  000000                     
+  1034  000000                     
+  1035  000000                     
+  1036  000000                     
+  1037  000000                     
+  1038  000000                     
+  1039  000000                     
+  1040  000000                     
+  1041  000000                     
+  1042  000000                     
+  1043  000000                     
+  1044  000000                     
+  1045  000000                     
+  1046  000000                     
+  1047  000000                     
+  1048  000000                     
+  1049  000000                     
+  1050  000000                     
+  1051  000000                     
+  1052  000000                     
+  1053  000000                     
+  1054  000000                     
+  1055  000000                     
+  1056  000000                     
+  1057  000000                     
+  1058  000000                     
+  1059  000000                     
+  1060  000000                     
+  1061  000000                     
+  1062  000000                     
+  1063  000000                     
+  1064  000000                     
+  1065  000000                     
+  1066  000000                     
+  1067  000000                     
+  1068  000000                     
+  1069  000000                     
+  1070  000000                     
+  1071  000000                     
+  1072  000000                     
+  1073  000000                     
+  1074  000000                     
+  1075  000000                     
+  1076  000000                     
+  1077  000000                     
+  1078  000000                     
+  1079  000000                     
+  1080  000000                     
+  1081  000000                     
+  1082  000000                     
+  1083  000000                     
+  1084  000000                     
+  1085  000000                     
+  1086  000000                     
+  1087  000000                     
+  1088  000000                     
+  1089  000000                     
+  1090  000000                     
+  1091  000000                     
+  1092  000000                     
+  1093  000000                     
+  1094  000000                     
+  1095  000000                     
+  1096  000000                     
+  1097  000000                     
+  1098  000000                     
+  1099  000000                     
+  1100  000000                     
+  1101  000000                     
+  1102  000000                     
+  1103  000000                     
+  1104  000000                     
+  1105  000000                     
+  1106  000000                     
+  1107  000000                     
+  1108  000000                     
+  1109  000000                     
+  1110  000000                     
+  1111  000000                     
+  1112  000000                     
+  1113  000000                     
+  1114  000000                     
+  1115  000000                     
+  1116  000000                     
+  1117  000000                     
+  1118                           
+  1119                           	psect	text
+  1120                           ;main.c: 100: const char version[] = { "$VER:" "
+      +                          PYQ090911" "\0" };
+  1121                           ;main.c: 102: void HandleFpga(void);
+  1122                           ;main.c: 105: unsigned char s[25];
+  1123                           ;main.c: 109: void main(void)
+  1124                           ;main.c: 110: {
+  1125  003794                     _main:
+  1126                           ;	_c1 assigned to ?a_HandleFpga+1
+  1127  000000                     _HandleFpga$c1	set	?a_HandleFpga+1
+  1128                           ;	_c2 assigned to ?a_HandleFpga+0
+  1129  000000                     _HandleFpga$c2	set	?a_HandleFpga
+  1130                           ;	_time assigned to ?a_main+1
+  1131  000000                     _main$time	set	?a_main+1
+  1132                           ;	_tmp assigned to ?a_main+0
+  1133  000000                     _main$tmp	set	?a_main
+  1134                           ; errata NOP at function entry point
+  1135  003794  FFFF               	dw	65535
+  1136  000000                     
+  1137                           ;main.c: 111: unsigned short time;
+  1138  003796  0100               	movlb	__Lparam shr (0+8)
+  1139  003798  0E02               	movlw	low _df
+  1140  00379A  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+  1141  00379C  0E02               	movlw	high _df
+  1142  00379E  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+  1143  0037A0  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+  1144  0037A2  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+  1145  0037A4  0E60               	movlw	96
+  1146  0037A6  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+  1147  0037A8  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+  1148  0037AA  EC70  F03E         	call	_memset	;wreg free
+  1149                           ;main.c: 118: memset(hdf,0,sizeof(hdf));
+  1150  0037AE  0100               	movlb	__Lparam shr (0+8)
+  1151  0037B0  0E00               	movlw	low _hdf
+  1152  0037B2  6FE0               	movwf	?_memset^(__Lparam& (0+65280)),b
+  1153  0037B4  0E03               	movlw	high _hdf
+  1154  0037B6  6FE1               	movwf	(?_memset+1)^(__Lparam& (0+65280)),b
+  1155  0037B8  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+  1156  0037BA  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+  1157  0037BC  0E4E               	movlw	78
+  1158  0037BE  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+  1159  0037C0  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+  1160  0037C2  EC70  F03E         	call	_memset	;wreg free
+  1161                           ;main.c: 121: HardwareInit();
+  1162  0037C6  ECBE  F03B         	call	_HardwareInit	;wreg free
+  1163                           ;main.c: 123: printf("Minimig by Dennis van Weer
+      +                          en\r\n");
+  1164  0037CA  0100               	movlb	__Lparam shr (0+8)
+  1165  0037CC  0ECB               	movlw	low u19
+  1166  0037CE  6F53               	movwf	(?_printf+2)^(__Lparam& (0+65280)),b
+  1167  0037D0  0E0D               	movlw	high u19
+  1168  0037D2  6F54               	movwf	(?_printf+3)^(__Lparam& (0+65280)),b
+  1169  0037D4  ECCC  F03E         	call	_printf	;wreg free
+  1170                           ;main.c: 124: printf("Bug fixes, mods and extens
+      +                          ions by Jakub Bednarski\r\n");
+  1171  0037D8  0100               	movlb	__Lparam shr (0+8)
+  1172  0037DA  0EEA               	movlw	low u29
+  1173  0037DC  6F53               	movwf	(?_printf+2)^(__Lparam& (0+65280)),b
+  1174  0037DE  0E0D               	movlw	high u29
+  1175  0037E0  6F54               	movwf	(?_printf+3)^(__Lparam& (0+65280)),b
+  1176  0037E2  ECCC  F03E         	call	_printf	;wreg free
+  1177                           ;main.c: 125: printf("SDHC, FAT16/32, Dir, LFN, 
+      +                          HDD support by Goran Ljubojevic\r\n\r\n");
+  1178  0037E6  0100               	movlb	__Lparam shr (0+8)
+  1179  0037E8  0E41               	movlw	low u39
+  1180  0037EA  6F53               	movwf	(?_printf+2)^(__Lparam& (0+65280)),b
+  1181  0037EC  0E0E               	movlw	high u39
+  1182  0037EE  6F54               	movwf	(?_printf+3)^(__Lparam& (0+65280)),b
+  1183  0037F0  ECCC  F03E         	call	_printf	;wreg free
+  1184                           ;main.c: 126: printf("Version %s\r\n\r\n", versi
+      +                          on+5);
+  1185  0037F4  0100               	movlb	__Lparam shr (0+8)
+  1186  0037F6  0E32               	movlw	low u49
+  1187  0037F8  6F53               	movwf	(?_printf+2)^(__Lparam& (0+65280)),b
+  1188  0037FA  0E0E               	movlw	high u49
+  1189  0037FC  6F54               	movwf	(?_printf+3)^(__Lparam& (0+65280)),b
+  1190  0037FE  0E91               	movlw	low (_version+5)
+  1191  003800  6F3E               	movwf	(?a_main+7)& (0+255),b
+  1192  003802  0E0C               	movlw	high (_version+5)
+  1193  003804  6F3F               	movwf	(?a_main+8)& (0+255),b
+  1194  003806  0E3E               	movlw	low (?a_main+7)
+  1195  003808  CFE8 F051          	movff	wreg,?_printf
+  1196  00380C  0E00               	movlw	high (?a_main+7)
+  1197  00380E  CFE8 F052          	movff	wreg,?_printf+1
+  1198  003812  ECCC  F03E         	call	_printf	;wreg free
+  1199                           ;main.c: 129: LoadConfiguration();
+  1200  003816  EC1E  F03A         	call	_LoadConfiguration	;wreg free
+  1201                           ;main.c: 132: if (!MMC_Init())
+  1202  00381A  EC10  F035         	call	_MMC_Init	;wreg free
+  1203  00381E  0900               	iorlw	0
+  1204  003820  E103               	bnz	l19
+  1205                           ;main.c: 133: { FatalError(1); }
+  1206  003822  0E01               	movlw	1
+  1207  003824  EC36  F02E         	call	_FatalError
+  1208  003828                     l19:
+  1209                           ;main.c: 136: if (!FindDrive())
+  1210  003828  ECFD  F012         	call	_FindDrive	;wreg free
+  1211  00382C  0900               	iorlw	0
+  1212  00382E  E104               	bnz	l20
+  1213                           ;main.c: 137: {
+  1214  003830  0E02               	movlw	2
+  1215  003832  EC36  F02E         	call	_FatalError
+  1216                           ;main.c: 142: }
+  1217  003836  D00F               	goto	l21
+  1218  003838                     l20:
+  1219                           ;main.c: 146: else
+  1220  003838  EC76  F02E         	call	_ConfigureFpga	;wreg free
+  1221  00383C  0900               	iorlw	0
+  1222  00383E  E008               	bz	l22
+  1223                           ;main.c: 150: { printf("\r\nFPGA configured\r\n"
+      +                          ); }
+  1224  003840  0100               	movlb	__Lparam shr (0+8)
+  1225  003842  0E1E               	movlw	low u59
+  1226  003844  6F53               	movwf	(?_printf+2)^(__Lparam& (0+65280)),b
+  1227  003846  0E0E               	movlw	high u59
+  1228  003848  6F54               	movwf	(?_printf+3)^(__Lparam& (0+65280)),b
+  1229  00384A  ECCC  F03E         	call	_printf	;wreg free
+  1230  00384E  D003               	goto	l21
+  1231  003850                     l22:
+  1232                           ;main.c: 151: else
+  1233  003850  0E03               	movlw	3
+  1234  003852  EC36  F02E         	call	_FatalError
+  1235  003856                     l21:
+  1236                           ;main.c: 157: }
+  1237  003856  9881               	bcf	3969,4,c	;volatile
+  1238                           ;main.c: 166: WaitTimer(50);
+  1239  003858  0E32               	movlw	50
+  1240  00385A  0100               	movlb	__Lparam shr (0+8)
+  1241  00385C  6F40               	movwf	?_WaitTimer^(__Lparam& (0+65280)),b
+  1242  00385E  6B41               	clrf	(?_WaitTimer+1)^(__Lparam& (0+65280)),b
+  1243  003860  EC1B  F03C         	call	_WaitTimer	;wreg free
+  1244                           ;main.c: 169: tmp = OsdGetCtrl();
+  1245  003864  ECB8  F039         	call	_OsdGetCtrl	;wreg free
+  1246  003868  0100               	movlb	__Lparam shr (0+8)
+  1247  00386A  6F37               	movwf	?a_main^(__Lparam& (0+65280)),b
+  1248                           ;main.c: 171: if (tmp == 0x50) { config.chipset 
+      +                          |= 0x04; }
+  1249  00386C  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1250  00386E  0A50               	xorlw	80
+  1251  003870  E102               	bnz	l24
+  1252  003872  0100               	movlb	(_config+15) shr (0+8)
+  1253  003874  852D               	bsf	(_config+15)& (0+255),2,b
+  1254  003876                     l24:
+  1255                           ;main.c: 172: if (tmp == 0x51) { config.chipset 
+      +                          &= ~0x04; }
+  1256  003876  0100               	movlb	__Lparam shr (0+8)
+  1257  003878  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1258  00387A  0A51               	xorlw	81
+  1259  00387C  E102               	bnz	l25
+  1260  00387E  0100               	movlb	(_config+15) shr (0+8)
+  1261  003880  952D               	bcf	(_config+15)& (0+255),2,b
+  1262  003882                     l25:
+  1263                           ;main.c: 174: ConfigChipset(config.chipset|0x01)
+      +                          ;
+  1264  003882  C02D  FFE8         	movff	_config+15,wreg
+  1265  003886  0901               	iorlw	1
+  1266  003888  EC70  F039         	call	_ConfigChipset
+  1267                           ;main.c: 176: if (config.chipset & 0x04)
+  1268  00388C  0100               	movlb	(_config+15) shr (0+8)
+  1269                           ;main.c: 177: { OsdReset(1); }
+  1270  00388E  0E01               	movlw	1
+  1271  003890  A52D               	btfss	(_config+15)& (0+255),2,b
+  1272  003892  D003               	goto	L8
+  1273  003894  EC44  F039         	call	_OsdReset
+  1274                           ;main.c: 179: ConfigFloppy(1, 1);
+  1275  003898  0E01               	movlw	1
+  1276  00389A                     L8:
+  1277  00389A  0100               	movlb	__Lparam shr (0+8)
+  1278  00389C  6F46               	movwf	?_ConfigFloppy^(__Lparam& (0+65280)),b
+  1279  00389E  0E01               	movlw	1
+  1280  0038A0  EC7B  F039         	call	_ConfigFloppy
+  1281                           ;main.c: 181: sprintf(s, "PIC firmware %s\n", ve
+      +                          rsion+5);
+  1282  0038A4  0100               	movlb	__Lparam shr (0+8)
+  1283  0038A6  0E65               	movlw	low _s
+  1284  0038A8  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1285  0038AA  0E03               	movlw	high _s
+  1286  0038AC  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1287  0038AE  0E72               	movlw	low u69
+  1288  0038B0  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1289  0038B2  0E0D               	movlw	high u69
+  1290  0038B4  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1291  0038B6  0E91               	movlw	low (_version+5)
+  1292  0038B8  6F3E               	movwf	(?a_main+7)& (0+255),b
+  1293  0038BA  0E0C               	movlw	high (_version+5)
+  1294  0038BC  6F3F               	movwf	(?a_main+8)& (0+255),b
+  1295  0038BE  0E3E               	movlw	low (?a_main+7)
+  1296  0038C0  CFE8 F051          	movff	wreg,?_sprintf
+  1297  0038C4  0E00               	movlw	high (?a_main+7)
+  1298  0038C6  CFE8 F052          	movff	wreg,?_sprintf+1
+  1299  0038CA  EC2F  F032         	call	_sprintf	;wreg free
+  1300                           ;main.c: 182: BootPrint(s);
+  1301  0038CE  0100               	movlb	__Lparam shr (0+8)
+  1302  0038D0  0E65               	movlw	low _s
+  1303  0038D2  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1304  0038D4  0E03               	movlw	high _s
+  1305  0038D6  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1306  0038D8  EC08  F030         	call	_BootPrint	;wreg free
+  1307                           ;main.c: 184: sprintf(s, "CPU clock     : %s MHz
+      +                          ", config.chipset & 0x01 ? "28.36": "7.09");
+  1308  0038DC  0100               	movlb	__Lparam shr (0+8)
+  1309  0038DE  0E65               	movlw	low _s
+  1310  0038E0  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1311  0038E2  0E03               	movlw	high _s
+  1312  0038E4  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1313  0038E6  0E9C               	movlw	low u79
+  1314  0038E8  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1315  0038EA  0E0C               	movlw	high u79
+  1316  0038EC  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1317  0038EE  0100               	movlb	(_config+15) shr (0+8)
+  1318  0038F0  B12D               	btfsc	(_config+15)& (0+255),0,b
+  1319  0038F2  D004               	goto	u86
+  1320  0038F4  0E52               	movlw	low u99
+  1321  0038F6  6E00               	movwf	btemp,c
+  1322  0038F8  0E0D               	movlw	high u99
+  1323  0038FA  D003               	goto	L1
+  1324  0038FC                     u86:
+  1325  0038FC  0E57               	movlw	low u89
+  1326  0038FE  6E00               	movwf	btemp,c
+  1327  003900  0E0D               	movlw	high u89
+  1328  003902                     L1:
+  1329  003902  6E01               	movwf	btemp+1,c
+  1330  003904  C000  F03E         	movff	btemp,?a_main+7
+  1331  003908  C001  F03F         	movff	btemp+1,?a_main+8
+  1332  00390C  0E3E               	movlw	low (?a_main+7)
+  1333  00390E  CFE8 F051          	movff	wreg,?_sprintf
+  1334  003912  0E00               	movlw	high (?a_main+7)
+  1335  003914  CFE8 F052          	movff	wreg,?_sprintf+1
+  1336  003918  EC2F  F032         	call	_sprintf	;wreg free
+  1337                           ;main.c: 185: BootPrint(s);
+  1338  00391C  0100               	movlb	__Lparam shr (0+8)
+  1339  00391E  0E65               	movlw	low _s
+  1340  003920  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1341  003922  0E03               	movlw	high _s
+  1342  003924  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1343  003926  EC08  F030         	call	_BootPrint	;wreg free
+  1344                           ;main.c: 187: sprintf(s, "Blitter speed : %s", c
+      +                          onfig.chipset & 0x02 ? "fast": "normal");
+  1345  00392A  0100               	movlb	__Lparam shr (0+8)
+  1346  00392C  0E65               	movlw	low _s
+  1347  00392E  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1348  003930  0E03               	movlw	high _s
+  1349  003932  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1350  003934  0EF9               	movlw	low u109
+  1351  003936  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1352  003938  0E0C               	movlw	high u109
+  1353  00393A  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1354  00393C  0100               	movlb	(_config+15) shr (0+8)
+  1355  00393E  B32D               	btfsc	(_config+15)& (0+255),1,b
+  1356  003940  D004               	goto	u106
+  1357  003942  0E13               	movlw	low u129
+  1358  003944  6E00               	movwf	btemp,c
+  1359  003946  0E0D               	movlw	high u129
+  1360  003948  D003               	goto	L2
+  1361  00394A                     u106:
+  1362  00394A  0EB9               	movlw	low u119
+  1363  00394C  6E00               	movwf	btemp,c
+  1364  00394E  0E0C               	movlw	high u119
+  1365  003950                     L2:
+  1366  003950  6E01               	movwf	btemp+1,c
+  1367  003952  C000  F03E         	movff	btemp,?a_main+7
+  1368  003956  C001  F03F         	movff	btemp+1,?a_main+8
+  1369  00395A  0E3E               	movlw	low (?a_main+7)
+  1370  00395C  CFE8 F051          	movff	wreg,?_sprintf
+  1371  003960  0E00               	movlw	high (?a_main+7)
+  1372  003962  CFE8 F052          	movff	wreg,?_sprintf+1
+  1373  003966  EC2F  F032         	call	_sprintf	;wreg free
+  1374                           ;main.c: 188: BootPrint(s);
+  1375  00396A  0100               	movlb	__Lparam shr (0+8)
+  1376  00396C  0E65               	movlw	low _s
+  1377  00396E  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1378  003970  0E03               	movlw	high _s
+  1379  003972  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1380  003974  EC08  F030         	call	_BootPrint	;wreg free
+  1381                           ;main.c: 190: sprintf(s, "Chip RAM size : %s", c
+      +                          onfig_memory_chip_msg[config.memory&3]);
+  1382  003978  0100               	movlb	__Lparam shr (0+8)
+  1383  00397A  0E65               	movlw	low _s
+  1384  00397C  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1385  00397E  0E03               	movlw	high _s
+  1386  003980  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1387  003982  0EE6               	movlw	low u139
+  1388  003984  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1389  003986  0E0C               	movlw	high u139
+  1390  003988  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1391  00398A  C02C  FFE8         	movff	_config+14,wreg
+  1392  00398E  0B03               	andlw	3
+  1393  003990  0D02               	mullw	2
+  1394  003992  50F3               	movf	prodl,w,c
+  1395  003994  0F08               	addlw	low _config_memory_chip_msg
+  1396  003996  6EF6               	movwf	tblptrl,c
+  1397  003998  50F4               	movf	prodh,w,c
+  1398  00399A  6EF7               	movwf	tblptrh,c
+  1399  00399C  0E09               	movlw	high _config_memory_chip_msg
+  1400  00399E  22F7               	addwfc	tblptrh,f,c
+  1401  0039A0  0009               	tblrd		*+
+  1402  0039A2  FFFF               	dw	65535	; Nop inserted for errata
+  1403  0039A4  CFF5 F000          	movff	tablat,btemp
+  1404  0039A8  0009               	tblrd		*+
+  1405  0039AA  FFFF               	dw	65535	; Nop inserted for errata
+  1406  0039AC  CFF5 F001          	movff	tablat,btemp+1
+  1407  0039B0  C000  F03E         	movff	btemp,?a_main+7
+  1408  0039B4  C001  F03F         	movff	btemp+1,?a_main+8
+  1409  0039B8  0E3E               	movlw	low (?a_main+7)
+  1410  0039BA  CFE8 F051          	movff	wreg,?_sprintf
+  1411  0039BE  0E00               	movlw	high (?a_main+7)
+  1412  0039C0  CFE8 F052          	movff	wreg,?_sprintf+1
+  1413  0039C4  EC2F  F032         	call	_sprintf	;wreg free
+  1414                           ;main.c: 191: BootPrint(s);
+  1415  0039C8  0100               	movlb	__Lparam shr (0+8)
+  1416  0039CA  0E65               	movlw	low _s
+  1417  0039CC  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1418  0039CE  0E03               	movlw	high _s
+  1419  0039D0  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1420  0039D2  EC08  F030         	call	_BootPrint	;wreg free
+  1421                           ;main.c: 193: sprintf(s, "Slow RAM size : %s", c
+      +                          onfig_memory_slow_msg[config.memory>>2&3]);
+  1422  0039D6  0100               	movlb	__Lparam shr (0+8)
+  1423  0039D8  0E65               	movlw	low _s
+  1424  0039DA  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1425  0039DC  0E03               	movlw	high _s
+  1426  0039DE  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1427  0039E0  0ED3               	movlw	low u149
+  1428  0039E2  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1429  0039E4  0E0C               	movlw	high u149
+  1430  0039E6  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1431  0039E8  C02C  F000         	movff	_config+14,btemp
+  1432  0039EC  90D8               	bcf	status,0,c
+  1433  0039EE  3200               	rrcf	btemp,f,c
+  1434  0039F0  90D8               	bcf	status,0,c
+  1435  0039F2  3000               	rrcf	btemp,w,c
+  1436  0039F4  0B03               	andlw	3
+  1437  0039F6  0D02               	mullw	2
+  1438  0039F8  50F3               	movf	prodl,w,c
+  1439  0039FA  0F10               	addlw	low _config_memory_slow_msg
+  1440  0039FC  6EF6               	movwf	tblptrl,c
+  1441  0039FE  50F4               	movf	prodh,w,c
+  1442  003A00  6EF7               	movwf	tblptrh,c
+  1443  003A02  0E09               	movlw	high _config_memory_slow_msg
+  1444  003A04  22F7               	addwfc	tblptrh,f,c
+  1445  003A06  0009               	tblrd		*+
+  1446  003A08  FFFF               	dw	65535	; Nop inserted for errata
+  1447  003A0A  CFF5 F000          	movff	tablat,btemp
+  1448  003A0E  0009               	tblrd		*+
+  1449  003A10  FFFF               	dw	65535	; Nop inserted for errata
+  1450  003A12  CFF5 F001          	movff	tablat,btemp+1
+  1451  003A16  C000  F03E         	movff	btemp,?a_main+7
+  1452  003A1A  C001  F03F         	movff	btemp+1,?a_main+8
+  1453  003A1E  0E3E               	movlw	low (?a_main+7)
+  1454  003A20  CFE8 F051          	movff	wreg,?_sprintf
+  1455  003A24  0E00               	movlw	high (?a_main+7)
+  1456  003A26  CFE8 F052          	movff	wreg,?_sprintf+1
+  1457  003A2A  EC2F  F032         	call	_sprintf	;wreg free
+  1458                           ;main.c: 194: BootPrint(s);
+  1459  003A2E  0100               	movlb	__Lparam shr (0+8)
+  1460  003A30  0E65               	movlw	low _s
+  1461  003A32  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1462  003A34  0E03               	movlw	high _s
+  1463  003A36  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1464  003A38  EC08  F030         	call	_BootPrint	;wreg free
+  1465                           ;main.c: 196: sprintf(s, "Floppy drives : %d", c
+      +                          onfig.floppy_drives + 1);
+  1466  003A3C  0100               	movlb	__Lparam shr (0+8)
+  1467  003A3E  0E65               	movlw	low _s
+  1468  003A40  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1469  003A42  0E03               	movlw	high _s
+  1470  003A44  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1471  003A46  0E3F               	movlw	low u159
+  1472  003A48  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1473  003A4A  0E0D               	movlw	high u159
+  1474  003A4C  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1475  003A4E  0E01               	movlw	1
+  1476  003A50  C02F  F000         	movff	_config+17,btemp
+  1477  003A54  6A01               	clrf	btemp+1,c
+  1478  003A56  2600               	addwf	btemp,f,c
+  1479  003A58  0E00               	movlw	0
+  1480  003A5A  2201               	addwfc	btemp+1,f,c
+  1481  003A5C  C000  F03E         	movff	btemp,?a_main+7
+  1482  003A60  C001  F03F         	movff	btemp+1,?a_main+8
+  1483  003A64  0E3E               	movlw	low (?a_main+7)
+  1484  003A66  CFE8 F051          	movff	wreg,?_sprintf
+  1485  003A6A  0E00               	movlw	high (?a_main+7)
+  1486  003A6C  CFE8 F052          	movff	wreg,?_sprintf+1
+  1487  003A70  EC2F  F032         	call	_sprintf	;wreg free
+  1488                           ;main.c: 197: BootPrint(s);
+  1489  003A74  0100               	movlb	__Lparam shr (0+8)
+  1490  003A76  0E65               	movlw	low _s
+  1491  003A78  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1492  003A7A  0E03               	movlw	high _s
+  1493  003A7C  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1494  003A7E  EC08  F030         	call	_BootPrint	;wreg free
+  1495                           ;main.c: 199: sprintf(s, "Floppy speed  : %s\n",
+      +                           config.floppy_speed ? "2x": "1x");
+  1496  003A82  0100               	movlb	__Lparam shr (0+8)
+  1497  003A84  0E65               	movlw	low _s
+  1498  003A86  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1499  003A88  0E03               	movlw	high _s
+  1500  003A8A  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1501  003A8C  0E83               	movlw	low u169
+  1502  003A8E  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1503  003A90  0E0D               	movlw	high u169
+  1504  003A92  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1505  003A94  EE00  F02E         	lfsr	0,_config+16
+  1506  003A98  50EF               	movf	indf0,w,c
+  1507  003A9A  E104               	bnz	u126
+  1508  003A9C  0EB6               	movlw	low u189
+  1509  003A9E  6E00               	movwf	btemp,c
+  1510  003AA0  0E0C               	movlw	high u189
+  1511  003AA2  D003               	goto	L3
+  1512  003AA4                     u126:
+  1513  003AA4  0EB3               	movlw	low u179
+  1514  003AA6  6E00               	movwf	btemp,c
+  1515  003AA8  0E0C               	movlw	high u179
+  1516  003AAA                     L3:
+  1517  003AAA  6E01               	movwf	btemp+1,c
+  1518  003AAC  C000  F03E         	movff	btemp,?a_main+7
+  1519  003AB0  C001  F03F         	movff	btemp+1,?a_main+8
+  1520  003AB4  0E3E               	movlw	low (?a_main+7)
+  1521  003AB6  CFE8 F051          	movff	wreg,?_sprintf
+  1522  003ABA  0E00               	movlw	high (?a_main+7)
+  1523  003ABC  CFE8 F052          	movff	wreg,?_sprintf+1
+  1524  003AC0  EC2F  F032         	call	_sprintf	;wreg free
+  1525                           ;main.c: 200: BootPrint(s);
+  1526  003AC4  0100               	movlb	__Lparam shr (0+8)
+  1527  003AC6  0E65               	movlw	low _s
+  1528  003AC8  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1529  003ACA  0E03               	movlw	high _s
+  1530  003ACC  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1531  003ACE  EC08  F030         	call	_BootPrint	;wreg free
+  1532                           ;main.c: 203: if (UploadKickstart(config.kicknam
+      +                          e))
+  1533  003AD2  0100               	movlb	__Lparam shr (0+8)
+  1534  003AD4  0E1E               	movlw	low _config
+  1535  003AD6  6F46               	movwf	?_UploadKickstart^(__Lparam& (0+65280)),b
+  1536  003AD8  0E00               	movlw	high _config
+  1537  003ADA  6F47               	movwf	(?_UploadKickstart+1)^(__Lparam& (0+65280
+      +                          )),b
+  1538  003ADC  EC4E  F02F         	call	_UploadKickstart	;wreg free
+  1539  003AE0  6E00               	movwf	btemp,c
+  1540  003AE2  C000  F002         	movff	btemp,btemp+2
+  1541  003AE6  6A03               	clrf	btemp+3,c
+  1542  003AE8  5003               	movf	btemp+3,w,c
+  1543  003AEA  1002               	iorwf	btemp+2,w,c
+  1544  003AEC  E01C               	bz	l27
+  1545                           ;main.c: 204: {
+  1546  003AEE  0100               	movlb	__Lparam shr (0+8)
+  1547  003AF0  0E1E               	movlw	low _config
+  1548  003AF2  6F46               	movwf	?_strcpy^(__Lparam& (0+65280)),b
+  1549  003AF4  0E00               	movlw	high _config
+  1550  003AF6  6F47               	movwf	(?_strcpy+1)^(__Lparam& (0+65280)),b
+  1551  003AF8  0EE0               	movlw	low _defKickName
+  1552  003AFA  6F48               	movwf	(?_strcpy+2)^(__Lparam& (0+65280)),b
+  1553  003AFC  0E0E               	movlw	high _defKickName
+  1554  003AFE  6F49               	movwf	(?_strcpy+3)^(__Lparam& (0+65280)),b
+  1555  003B00  EC29  F03E         	call	_strcpy	;wreg free
+  1556                           ;main.c: 206: if (UploadKickstart(config.kicknam
+      +                          e))
+  1557  003B04  0100               	movlb	__Lparam shr (0+8)
+  1558  003B06  0E1E               	movlw	low _config
+  1559  003B08  6F46               	movwf	?_UploadKickstart^(__Lparam& (0+65280)),b
+  1560  003B0A  0E00               	movlw	high _config
+  1561  003B0C  6F47               	movwf	(?_UploadKickstart+1)^(__Lparam& (0+65280
+      +                          )),b
+  1562  003B0E  EC4E  F02F         	call	_UploadKickstart	;wreg free
+  1563  003B12  6E00               	movwf	btemp,c
+  1564  003B14  C000  F002         	movff	btemp,btemp+2
+  1565  003B18  6A03               	clrf	btemp+3,c
+  1566  003B1A  5003               	movf	btemp+3,w,c
+  1567  003B1C  1002               	iorwf	btemp+2,w,c
+  1568  003B1E  E003               	bz	l27
+  1569                           ;main.c: 207: { FatalError(6); }
+  1570  003B20  0E06               	movlw	6
+  1571  003B22  EC36  F02E         	call	_FatalError
+  1572  003B26                     l27:
+  1573                           ;main.c: 208: }
+  1574  003B26  EE00  F030         	lfsr	0,_config+18
+  1575  003B2A  50EF               	movf	indf0,w,c
+  1576  003B2C  A4D8               	btfss	status,2,c
+  1577  003B2E  A081               	btfss	3969,0,c	;volatile
+  1578  003B30  D011               	goto	l29
+  1579                           ;main.c: 212: {
+  1580  003B32  0100               	movlb	__Lparam shr (0+8)
+  1581  003B34  0EEC               	movlw	low _defARName
+  1582  003B36  6F40               	movwf	?_UploadActionReplay^(__Lparam& (0+65280)
+      +                          ),b
+  1583  003B38  0E0E               	movlw	high _defARName
+  1584  003B3A  6F41               	movwf	(?_UploadActionReplay+1)^(__Lparam& (0+65
+      +                          280)),b
+  1585  003B3C  ECB6  F02F         	call	_UploadActionReplay	;wreg free
+  1586  003B40  6E00               	movwf	btemp,c
+  1587  003B42  C000  F002         	movff	btemp,btemp+2
+  1588  003B46  6A03               	clrf	btemp+3,c
+  1589  003B48  5003               	movf	btemp+3,w,c
+  1590  003B4A  1002               	iorwf	btemp+2,w,c
+  1591  003B4C  E003               	bz	l29
+  1592                           ;main.c: 214: { FatalError(7); }
+  1593  003B4E  0E07               	movlw	7
+  1594  003B50  EC36  F02E         	call	_FatalError
+  1595  003B54                     l29:
+  1596                           ;main.c: 215: }
+  1597  003B54  0100               	movlb	__Lparam shr (0+8)
+  1598  003B56  0E65               	movlw	low _s
+  1599  003B58  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1600  003B5A  0E03               	movlw	high _s
+  1601  003B5C  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1602  003B5E  0E5D               	movlw	low u199
+  1603  003B60  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1604  003B62  0E0D               	movlw	high u199
+  1605  003B64  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1606  003B66  EE00  F032         	lfsr	0,_config+20
+  1607  003B6A  50EF               	movf	indf0,w,c
+  1608  003B6C  E104               	bnz	u206
+  1609  003B6E  0E20               	movlw	low u219
+  1610  003B70  6E00               	movwf	btemp,c
+  1611  003B72  0E0D               	movlw	high u219
+  1612  003B74  D003               	goto	L4
+  1613  003B76                     u206:
+  1614  003B76  0E29               	movlw	low u209
+  1615  003B78  6E00               	movwf	btemp,c
+  1616  003B7A  0E0D               	movlw	high u209
+  1617  003B7C                     L4:
+  1618  003B7C  6E01               	movwf	btemp+1,c
+  1619  003B7E  C000  F03E         	movff	btemp,?a_main+7
+  1620  003B82  C001  F03F         	movff	btemp+1,?a_main+8
+  1621  003B86  0E3E               	movlw	low (?a_main+7)
+  1622  003B88  CFE8 F051          	movff	wreg,?_sprintf
+  1623  003B8C  0E00               	movlw	high (?a_main+7)
+  1624  003B8E  CFE8 F052          	movff	wreg,?_sprintf+1
+  1625  003B92  EC2F  F032         	call	_sprintf	;wreg free
+  1626                           ;main.c: 222: BootPrint(s);
+  1627  003B96  0100               	movlb	__Lparam shr (0+8)
+  1628  003B98  0E65               	movlw	low _s
+  1629  003B9A  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1630  003B9C  0E03               	movlw	high _s
+  1631  003B9E  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1632  003BA0  EC08  F030         	call	_BootPrint	;wreg free
+  1633                           ;main.c: 224: tmp=0;
+  1634  003BA4  0100               	movlb	__Lparam shr (0+8)
+  1635  003BA6  6B37               	clrf	?a_main^(__Lparam& (0+65280)),b
+  1636  003BA8                     l33:
+  1637                           ;main.c: 225: do
+  1638                           ;main.c: 226: {
+  1639  003BA8  0100               	movlb	__Lparam shr (0+8)
+  1640  003BAA  0E65               	movlw	low _s
+  1641  003BAC  6F5D               	movwf	?_strncpy^(__Lparam& (0+65280)),b
+  1642  003BAE  0E03               	movlw	high _s
+  1643  003BB0  6F5E               	movwf	(?_strncpy+1)^(__Lparam& (0+65280)),b
+  1644  003BB2  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1645  003BB4  0D27               	mullw	39
+  1646  003BB6  0E00               	movlw	low _hdf
+  1647  003BB8  24F3               	addwf	prodl,w,c
+  1648  003BBA  6F5F               	movwf	(?_strncpy+2)^(__Lparam& (0+65280)),b
+  1649  003BBC  0E03               	movlw	high _hdf
+  1650  003BBE  20F4               	addwfc	prodh,w,c
+  1651  003BC0  6F60               	movwf	(?_strncpy+3)^(__Lparam& (0+65280)),b
+  1652  003BC2  0E0C               	movlw	12
+  1653  003BC4  6F61               	movwf	(?_strncpy+4)^(__Lparam& (0+65280)),b
+  1654  003BC6  6B62               	clrf	(?_strncpy+5)^(__Lparam& (0+65280)),b
+  1655  003BC8  EC4A  F03D         	call	_strncpy	;wreg free
+  1656                           ;main.c: 229: if (!OpenHardfile(tmp, s))
+  1657  003BCC  0100               	movlb	__Lparam shr (0+8)
+  1658  003BCE  0E65               	movlw	low _s
+  1659  003BD0  6F46               	movwf	?_OpenHardfile^(__Lparam& (0+65280)),b
+  1660  003BD2  0E03               	movlw	high _s
+  1661  003BD4  6F47               	movwf	(?_OpenHardfile+1)^(__Lparam& (0+65280)),
+      +                          b
+  1662  003BD6  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1663  003BD8  ECF4  F02D         	call	_OpenHardfile
+  1664  003BDC  6E00               	movwf	btemp,c
+  1665  003BDE  C000  F002         	movff	btemp,btemp+2
+  1666  003BE2  6A03               	clrf	btemp+3,c
+  1667  003BE4  5003               	movf	btemp+3,w,c
+  1668  003BE6  1002               	iorwf	btemp+2,w,c
+  1669                           ;main.c: 230: {
+  1670  003BE8  0100               	movlb	__Lparam shr (0+8)
+  1671  003BEA  0E65               	movlw	low _s
+  1672  003BEC  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1673  003BEE  0E03               	movlw	high _s
+  1674  003BF0  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1675  003BF2  E120               	bnz	L9
+  1676  003BF4  0EF8               	movlw	low _defHDFileName
+  1677  003BF6  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1678  003BF8  0E0E               	movlw	high _defHDFileName
+  1679  003BFA  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1680  003BFC  C037  F000         	movff	?a_main,btemp
+  1681  003C00  6A01               	clrf	btemp+1,c
+  1682  003C02  C000  F03E         	movff	btemp,?a_main+7
+  1683  003C06  C001  F03F         	movff	btemp+1,?a_main+8
+  1684  003C0A  0E3E               	movlw	low (?a_main+7)
+  1685  003C0C  CFE8 F051          	movff	wreg,?_sprintf
+  1686  003C10  0E00               	movlw	high (?a_main+7)
+  1687  003C12  CFE8 F052          	movff	wreg,?_sprintf+1
+  1688  003C16  EC2F  F032         	call	_sprintf	;wreg free
+  1689                           ;main.c: 233: OpenHardfile(tmp, s);
+  1690  003C1A  0100               	movlb	__Lparam shr (0+8)
+  1691  003C1C  0E65               	movlw	low _s
+  1692  003C1E  6F46               	movwf	?_OpenHardfile^(__Lparam& (0+65280)),b
+  1693  003C20  0E03               	movlw	high _s
+  1694  003C22  6F47               	movwf	(?_OpenHardfile+1)^(__Lparam& (0+65280)),
+      +                          b
+  1695  003C24  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1696  003C26  ECF4  F02D         	call	_OpenHardfile
+  1697                           ;main.c: 234: }
+  1698  003C2A  0100               	movlb	__Lparam shr (0+8)
+  1699  003C2C  0E65               	movlw	low _s
+  1700  003C2E  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1701  003C30  0E03               	movlw	high _s
+  1702  003C32  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1703  003C34                     L9:
+  1704  003C34  0EA5               	movlw	low u229
+  1705  003C36  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1706  003C38  0E0D               	movlw	high u229
+  1707  003C3A  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1708  003C3C  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1709  003C3E  0D27               	mullw	39
+  1710  003C40  0E1F               	movlw	low (_hdf+31)
+  1711  003C42  24F3               	addwf	prodl,w,c
+  1712  003C44  6EE9               	movwf	fsr0l,c
+  1713  003C46  0E03               	movlw	high (_hdf+31)
+  1714  003C48  20F4               	addwfc	prodh,w,c
+  1715  003C4A  6EEA               	movwf	fsr0h,c
+  1716  003C4C  50EF               	movf	indf0,w,c
+  1717  003C4E  E104               	bnz	u236
+  1718  003C50  0EBE               	movlw	low u279
+  1719  003C52  6E00               	movwf	btemp,c
+  1720  003C54  0E0C               	movlw	high u279
+  1721  003C56  D011               	goto	L7
+  1722  003C58                     u236:
+  1723  003C58  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1724  003C5A  0D27               	mullw	39
+  1725  003C5C  0E20               	movlw	low (_hdf+32)
+  1726  003C5E  24F3               	addwf	prodl,w,c
+  1727  003C60  6EE9               	movwf	fsr0l,c
+  1728  003C62  0E03               	movlw	high (_hdf+32)
+  1729  003C64  20F4               	addwfc	prodh,w,c
+  1730  003C66  6EEA               	movwf	fsr0h,c
+  1731  003C68  50EF               	movf	indf0,w,c
+  1732  003C6A  E104               	bnz	u256
+  1733  003C6C  0E20               	movlw	low u269
+  1734  003C6E  6E00               	movwf	btemp,c
+  1735  003C70  0E0D               	movlw	high u269
+  1736  003C72  D003               	goto	L7
+  1737  003C74                     u256:
+  1738  003C74  0E29               	movlw	low u259
+  1739  003C76  6E00               	movwf	btemp,c
+  1740  003C78  0E0D               	movlw	high u259
+  1741  003C7A                     L7:
+  1742  003C7A  6E01               	movwf	btemp+1,c
+  1743  003C7C  C000  F03E         	movff	btemp,?a_main+7
+  1744  003C80  C001  F03F         	movff	btemp+1,?a_main+8
+  1745  003C84  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1746  003C86  E104               	bnz	u276
+  1747  003C88  0E0C               	movlw	low u249
+  1748  003C8A  6E00               	movwf	btemp,c
+  1749  003C8C  0E0D               	movlw	high u249
+  1750  003C8E  D003               	goto	L5
+  1751  003C90                     u276:
+  1752  003C90  0E1A               	movlw	low u239
+  1753  003C92  6E00               	movwf	btemp,c
+  1754  003C94  0E0D               	movlw	high u239
+  1755  003C96                     L5:
+  1756  003C96  6E01               	movwf	btemp+1,c
+  1757  003C98  C000  F03C         	movff	btemp,?a_main+5
+  1758  003C9C  C001  F03D         	movff	btemp+1,?a_main+6
+  1759  003CA0  0E3C               	movlw	low (?a_main+5)
+  1760  003CA2  CFE8 F051          	movff	wreg,?_sprintf
+  1761  003CA6  0E00               	movlw	high (?a_main+5)
+  1762  003CA8  CFE8 F052          	movff	wreg,?_sprintf+1
+  1763  003CAC  EC2F  F032         	call	_sprintf	;wreg free
+  1764                           ;main.c: 240: BootPrint(s);
+  1765  003CB0  0100               	movlb	__Lparam shr (0+8)
+  1766  003CB2  0E65               	movlw	low _s
+  1767  003CB4  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1768  003CB6  0E03               	movlw	high _s
+  1769  003CB8  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1770  003CBA  EC08  F030         	call	_BootPrint	;wreg free
+  1771                           ;main.c: 243: if(hdf[tmp].present)
+  1772  003CBE  0100               	movlb	__Lparam shr (0+8)
+  1773  003CC0  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1774  003CC2  0D27               	mullw	39
+  1775  003CC4  0E1F               	movlw	low (_hdf+31)
+  1776  003CC6  24F3               	addwf	prodl,w,c
+  1777  003CC8  6EE9               	movwf	fsr0l,c
+  1778  003CCA  0E03               	movlw	high (_hdf+31)
+  1779  003CCC  20F4               	addwfc	prodh,w,c
+  1780  003CCE  6EEA               	movwf	fsr0h,c
+  1781  003CD0  50EF               	movf	indf0,w,c
+  1782  003CD2  E101 D0B8          	bz	l35
+  1783                           ;main.c: 244: {
+  1784  003CD6  0E65               	movlw	low _s
+  1785  003CD8  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1786  003CDA  0E03               	movlw	high _s
+  1787  003CDC  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1788  003CDE  0ECA               	movlw	low u289
+  1789  003CE0  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1790  003CE2  0E0C               	movlw	high u289
+  1791  003CE4  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1792  003CE6  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1793  003CE8  0D27               	mullw	39
+  1794  003CEA  0E00               	movlw	low _hdf
+  1795  003CEC  24F3               	addwf	prodl,w,c
+  1796  003CEE  6E00               	movwf	btemp,c
+  1797  003CF0  0E03               	movlw	high _hdf
+  1798  003CF2  20F4               	addwfc	prodh,w,c
+  1799  003CF4  6E01               	movwf	btemp+1,c
+  1800  003CF6  C000  F03E         	movff	btemp,?a_main+7
+  1801  003CFA  C001  F03F         	movff	btemp+1,?a_main+8
+  1802  003CFE  0E3E               	movlw	low (?a_main+7)
+  1803  003D00  CFE8 F051          	movff	wreg,?_sprintf
+  1804  003D04  0E00               	movlw	high (?a_main+7)
+  1805  003D06  CFE8 F052          	movff	wreg,?_sprintf+1
+  1806  003D0A  EC2F  F032         	call	_sprintf	;wreg free
+  1807                           ;main.c: 246: BootPrint(s);
+  1808  003D0E  0100               	movlb	__Lparam shr (0+8)
+  1809  003D10  0E65               	movlw	low _s
+  1810  003D12  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1811  003D14  0E03               	movlw	high _s
+  1812  003D16  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1813  003D18  EC08  F030         	call	_BootPrint	;wreg free
+  1814                           ;main.c: 248: sprintf(s, "CHS: %d.%d.%d", hdf[tm
+      +                          p].cylinders, hdf[tmp].heads, hdf[tmp].sectors);
+  1815  003D1C  0100               	movlb	__Lparam shr (0+8)
+  1816  003D1E  0E65               	movlw	low _s
+  1817  003D20  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1818  003D22  0E03               	movlw	high _s
+  1819  003D24  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1820  003D26  0E31               	movlw	low u299
+  1821  003D28  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1822  003D2A  0E0D               	movlw	high u299
+  1823  003D2C  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1824  003D2E  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1825  003D30  0D27               	mullw	39
+  1826  003D32  0E25               	movlw	low (_hdf+37)
+  1827  003D34  24F3               	addwf	prodl,w,c
+  1828  003D36  6EE9               	movwf	fsr0l,c
+  1829  003D38  0E03               	movlw	high (_hdf+37)
+  1830  003D3A  20F4               	addwfc	prodh,w,c
+  1831  003D3C  6EEA               	movwf	fsr0h,c
+  1832  003D3E  CFEE F03E          	movff	postinc0,?a_main+7
+  1833  003D42  CFED F03F          	movff	postdec0,?a_main+8
+  1834  003D46  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1835  003D48  0D27               	mullw	39
+  1836  003D4A  0E23               	movlw	low (_hdf+35)
+  1837  003D4C  24F3               	addwf	prodl,w,c
+  1838  003D4E  6EE9               	movwf	fsr0l,c
+  1839  003D50  0E03               	movlw	high (_hdf+35)
+  1840  003D52  20F4               	addwfc	prodh,w,c
+  1841  003D54  6EEA               	movwf	fsr0h,c
+  1842  003D56  CFEE F03C          	movff	postinc0,?a_main+5
+  1843  003D5A  CFED F03D          	movff	postdec0,?a_main+6
+  1844  003D5E  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1845  003D60  0D27               	mullw	39
+  1846  003D62  0E21               	movlw	low (_hdf+33)
+  1847  003D64  24F3               	addwf	prodl,w,c
+  1848  003D66  6EE9               	movwf	fsr0l,c
+  1849  003D68  0E03               	movlw	high (_hdf+33)
+  1850  003D6A  20F4               	addwfc	prodh,w,c
+  1851  003D6C  6EEA               	movwf	fsr0h,c
+  1852  003D6E  CFEE F03A          	movff	postinc0,?a_main+3
+  1853  003D72  CFED F03B          	movff	postdec0,?a_main+4
+  1854  003D76  0E3A               	movlw	low (?a_main+3)
+  1855  003D78  CFE8 F051          	movff	wreg,?_sprintf
+  1856  003D7C  0E00               	movlw	high (?a_main+3)
+  1857  003D7E  CFE8 F052          	movff	wreg,?_sprintf+1
+  1858  003D82  EC2F  F032         	call	_sprintf	;wreg free
+  1859                           ;main.c: 249: BootPrint(s);
+  1860  003D86  0100               	movlb	__Lparam shr (0+8)
+  1861  003D88  0E65               	movlw	low _s
+  1862  003D8A  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1863  003D8C  0E03               	movlw	high _s
+  1864  003D8E  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1865  003D90  EC08  F030         	call	_BootPrint	;wreg free
+  1866                           ;main.c: 251: sprintf(s, "Size: %ld MB\n", ((((u
+      +                          nsigned long) hdf[tmp].cylinders) * hdf[tmp].hea
+      +                          ds * hdf[tmp].sectors) >> 11));
+  1867  003D94  0100               	movlb	__Lparam shr (0+8)
+  1868  003D96  0E65               	movlw	low _s
+  1869  003D98  6F53               	movwf	(?_sprintf+2)^(__Lparam& (0+65280)),b
+  1870  003D9A  0E03               	movlw	high _s
+  1871  003D9C  6F54               	movwf	(?_sprintf+3)^(__Lparam& (0+65280)),b
+  1872  003D9E  0E97               	movlw	low u309
+  1873  003DA0  6F55               	movwf	(?_sprintf+4)^(__Lparam& (0+65280)),b
+  1874  003DA2  0E0D               	movlw	high u309
+  1875  003DA4  6F56               	movwf	(?_sprintf+5)^(__Lparam& (0+65280)),b
+  1876  003DA6  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1877  003DA8  0D27               	mullw	39
+  1878  003DAA  0E23               	movlw	low (_hdf+35)
+  1879  003DAC  24F3               	addwf	prodl,w,c
+  1880  003DAE  6EE9               	movwf	fsr0l,c
+  1881  003DB0  0E03               	movlw	high (_hdf+35)
+  1882  003DB2  20F4               	addwfc	prodh,w,c
+  1883  003DB4  6EEA               	movwf	fsr0h,c
+  1884  003DB6  CFEE F000          	movff	postinc0,btemp
+  1885  003DBA  CFED F001          	movff	postdec0,btemp+1
+  1886  003DBE  5000               	movf	btemp,w,c
+  1887  003DC0  6E04               	movwf	btemp+4,c
+  1888  003DC2  5001               	movf	btemp+1,w,c
+  1889  003DC4  6E05               	movwf	btemp+5,c
+  1890  003DC6  6A06               	clrf	btemp+6,c
+  1891  003DC8  6A07               	clrf	btemp+7,c
+  1892  003DCA  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1893  003DCC  0D27               	mullw	39
+  1894  003DCE  0E21               	movlw	low (_hdf+33)
+  1895  003DD0  24F3               	addwf	prodl,w,c
+  1896  003DD2  6EE9               	movwf	fsr0l,c
+  1897  003DD4  0E03               	movlw	high (_hdf+33)
+  1898  003DD6  20F4               	addwfc	prodh,w,c
+  1899  003DD8  6EEA               	movwf	fsr0h,c
+  1900  003DDA  CFEE F000          	movff	postinc0,btemp
+  1901  003DDE  CFED F001          	movff	postdec0,btemp+1
+  1902  003DE2  6A02               	clrf	btemp+2,c
+  1903  003DE4  6A03               	clrf	btemp+3,c
+  1904  003DE6  ECB1  F01F         	call	llmul
+  1905  003DEA  5137               	movf	?a_main^(__Lparam& (0+65280)),w
+  1906  003DEC  0D27               	mullw	39
+  1907  003DEE  0E25               	movlw	low (_hdf+37)
+  1908  003DF0  24F3               	addwf	prodl,w,c
+  1909  003DF2  6EE9               	movwf	fsr0l,c
+  1910  003DF4  0E03               	movlw	high (_hdf+37)
+  1911  003DF6  20F4               	addwfc	prodh,w,c
+  1912  003DF8  6EEA               	movwf	fsr0h,c
+  1913  003DFA  CFEE FFF6          	movff	postinc0,tblptrl
+  1914  003DFE  CFED FFF7          	movff	postdec0,tblptrh
+  1915  003E02  50F6               	movf	tblptrl,w,c
+  1916  003E04  6E04               	movwf	btemp+4,c
+  1917  003E06  50F7               	movf	tblptrh,w,c
+  1918  003E08  6E05               	movwf	btemp+5,c
+  1919  003E0A  6A06               	clrf	btemp+6,c
+  1920  003E0C  6A07               	clrf	btemp+7,c
+  1921  003E0E  ECB1  F01F         	call	llmul
+  1922  003E12  0E0B               	movlw	11
+  1923  003E14  ECC1  F03E         	call	llslr
+  1924  003E18  C000  F03C         	movff	btemp,?a_main+5
+  1925  003E1C  C001  F03D         	movff	btemp+1,?a_main+6
+  1926  003E20  C002  F03E         	movff	btemp+2,?a_main+7
+  1927  003E24  C003  F03F         	movff	btemp+3,?a_main+8
+  1928  003E28  0E3C               	movlw	low (?a_main+5)
+  1929  003E2A  CFE8 F051          	movff	wreg,?_sprintf
+  1930  003E2E  0E00               	movlw	high (?a_main+5)
+  1931  003E30  CFE8 F052          	movff	wreg,?_sprintf+1
+  1932  003E34  EC2F  F032         	call	_sprintf	;wreg free
+  1933                           ;main.c: 252: BootPrint(s);
+  1934  003E38  0100               	movlb	__Lparam shr (0+8)
+  1935  003E3A  0E65               	movlw	low _s
+  1936  003E3C  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1937  003E3E  0E03               	movlw	high _s
+  1938  003E40  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1939  003E42  EC08  F030         	call	_BootPrint	;wreg free
+  1940  003E46                     l35:
+  1941                           ;main.c: 253: }
+  1942  003E46  0100               	movlb	__Lparam shr (0+8)
+  1943  003E48  2B37               	incf	?a_main^(__Lparam& (0+65280)),f,b
+  1944  003E4A  0E01               	movlw	1
+  1945  003E4C  6537               	cpfsgt	?a_main^(__Lparam& (0+65280)),b
+  1946  003E4E  D6AC               	goto	l33
+  1947                           ;main.c: 270: ConfigIDE(config.ide, hdf[0].prese
+      +                          nt & hdf[0].enabled, hdf[1].present & hdf[1].ena
+      +                          bled);
+  1948  003E50  C320  FFE8         	movff	_hdf+32,wreg
+  1949  003E54  0103               	movlb	(_hdf+31) shr (0+8)
+  1950  003E56  151F               	andwf	(_hdf+31)& (0+255),w,b
+  1951  003E58  0100               	movlb	__Lparam shr (0+8)
+  1952  003E5A  6F46               	movwf	?_ConfigIDE^(__Lparam& (0+65280)),b
+  1953  003E5C  EE03  F047         	lfsr	0,_hdf+71
+  1954  003E60  50EF               	movf	indf0,w,c
+  1955  003E62  6E01               	movwf	btemp+1,c
+  1956  003E64  EE03  F046         	lfsr	0,_hdf+70
+  1957  003E68  50EF               	movf	indf0,w,c
+  1958  003E6A  6E00               	movwf	btemp,c
+  1959  003E6C  1401               	andwf	btemp+1,w,c
+  1960  003E6E  6F47               	movwf	(?_ConfigIDE+1)^(__Lparam& (0+65280)),b
+  1961  003E70  C032  FFE8         	movff	_config+20,wreg
+  1962  003E74  EC9D  F039         	call	_ConfigIDE
+  1963                           ;main.c: 278: BootPrint("Exiting bootloader...\n
+      +                          ");
+  1964  003E78  0100               	movlb	__Lparam shr (0+8)
+  1965  003E7A  0EB4               	movlw	low u319
+  1966  003E7C  6F48               	movwf	?_BootPrint^(__Lparam& (0+65280)),b
+  1967  003E7E  0E0D               	movlw	high u319
+  1968  003E80  6F49               	movwf	(?_BootPrint+1)^(__Lparam& (0+65280)),b
+  1969  003E82  EC08  F030         	call	_BootPrint	;wreg free
+  1970                           ;main.c: 281: WaitTimer(200);
+  1971  003E86  0EC8               	movlw	200
+  1972  003E88  0100               	movlb	__Lparam shr (0+8)
+  1973  003E8A  6F40               	movwf	?_WaitTimer^(__Lparam& (0+65280)),b
+  1974  003E8C  6B41               	clrf	(?_WaitTimer+1)^(__Lparam& (0+65280)),b
+  1975  003E8E  EC1B  F03C         	call	_WaitTimer	;wreg free
+  1976                           ;main.c: 284: ConfigMemory(config.memory);
+  1977  003E92  C02C  FFE8         	movff	_config+14,wreg
+  1978  003E96  EC66  F039         	call	_ConfigMemory
+  1979                           ;main.c: 285: ConfigChipset(config.chipset);
+  1980  003E9A  C02D  FFE8         	movff	_config+15,wreg
+  1981  003E9E  EC70  F039         	call	_ConfigChipset
+  1982                           ;main.c: 286: ConfigFloppy(config.floppy_drives,
+      +                           config.floppy_speed);
+  1983  003EA2  C02E  F046         	movff	_config+16,?_ConfigFloppy
+  1984  003EA6  C02F  FFE8         	movff	_config+17,wreg
+  1985  003EAA  EC7B  F039         	call	_ConfigFloppy
+  1986                           ;main.c: 288: BootExit();
+  1987  003EAE  EC89  F031         	call	_BootExit	;wreg free
+  1988                           ;main.c: 290: ConfigFilter(config.filter_lores, 
+      +                          config.filter_hires);
+  1989  003EB2  C02B  F046         	movff	_config+13,?_ConfigFilter
+  1990  003EB6  C02A  FFE8         	movff	_config+12,wreg
+  1991  003EBA  EC4F  F039         	call	_ConfigFilter
+  1992                           ;main.c: 291: ConfigScanline(config.scanline);
+  1993  003EBE  C031  FFE8         	movff	_config+19,wreg
+  1994  003EC2  EC92  F039         	call	_ConfigScanline
+  1995                           ;main.c: 298: time = GetTimer(5);
+  1996  003EC6  0E05               	movlw	5
+  1997  003EC8  0100               	movlb	__Lparam shr (0+8)
+  1998  003ECA  6F48               	movwf	?_GetTimer^(__Lparam& (0+65280)),b
+  1999  003ECC  6B49               	clrf	(?_GetTimer+1)^(__Lparam& (0+65280)),b
+  2000  003ECE  ECEE  F03B         	call	_GetTimer	;wreg free
+  2001  003ED2  C000  F038         	movff	btemp,?a_main+1
+  2002  003ED6  C001  F039         	movff	btemp+1,?a_main+2
+  2003  003EDA                     l37:
+  2004                           ;main.c: 300: while (1)
+  2005                           ;main.c: 301: {
+  2006  003EDA  D81A               	call	_HandleFpga	;wreg free
+  2007                           ;main.c: 306: if (CheckTimer(time))
+  2008  003EDC  C038  F048         	movff	?a_main+1,?_CheckTimer
+  2009  003EE0  C039  F049         	movff	?a_main+2,?_CheckTimer+1
+  2010  003EE4  EC02  F03C         	call	_CheckTimer	;wreg free
+  2011  003EE8  6E00               	movwf	btemp,c
+  2012  003EEA  C000  F002         	movff	btemp,btemp+2
+  2013  003EEE  6A03               	clrf	btemp+3,c
+  2014  003EF0  5003               	movf	btemp+3,w,c
+  2015  003EF2  1002               	iorwf	btemp+2,w,c
+  2016  003EF4  E0F2               	bz	l37
+  2017                           ;main.c: 307: {
+  2018  003EF6  0E02               	movlw	2
+  2019  003EF8  0100               	movlb	__Lparam shr (0+8)
+  2020  003EFA  6F48               	movwf	?_GetTimer^(__Lparam& (0+65280)),b
+  2021  003EFC  6B49               	clrf	(?_GetTimer+1)^(__Lparam& (0+65280)),b
+  2022  003EFE  ECEE  F03B         	call	_GetTimer	;wreg free
+  2023  003F02  C000  F038         	movff	btemp,?a_main+1
+  2024  003F06  C001  F039         	movff	btemp+1,?a_main+2
+  2025                           ;main.c: 309: HandleUI();
+  2026  003F0A  ECFF  F007         	call	_HandleUI	;wreg free
+  2027  003F0E  D7E5               	goto	l37
+  2028  003F10                     __end_of_main:
+  2029                           ;main.c: 316: void HandleFpga(void)
+  2030                           ;main.c: 317: {
+  2031  003F10                     _HandleFpga:
+  2032                           ; errata NOP at function entry point
+  2033  003F10  FFFF               	dw	65535
+  2034  003F12                     f4292:
+  2035  000000                     
+  2036                           ;main.c: 318: unsigned char c1, c2;
+  2037  003F12  9280               	bcf	3968,1,c	;volatile
+  2038                           ;main.c: 321: c1 = SPI(0);
+  2039  003F14  0E00               	movlw	0
+  2040  003F16  EC35  F03C         	call	_SPI
+  2041  003F1A  0100               	movlb	__Lparam shr (0+8)
+  2042  003F1C  6F41               	movwf	(?a_HandleFpga+1)^(__Lparam& (0+65280)),b
+  2043                           ;main.c: 322: c2 = SPI(0);
+  2044  003F1E  0E00               	movlw	0
+  2045  003F20  EC35  F03C         	call	_SPI
+  2046  003F24  0100               	movlb	__Lparam shr (0+8)
+  2047  003F26  6F40               	movwf	?a_HandleFpga^(__Lparam& (0+65280)),b
+  2048                           ;main.c: 323: SPI(0);
+  2049  003F28  0E00               	movlw	0
+  2050  003F2A  EC35  F03C         	call	_SPI
+  2051                           ;main.c: 324: SPI(0);
+  2052  003F2E  0E00               	movlw	0
+  2053  003F30  EC35  F03C         	call	_SPI
+  2054                           ;main.c: 325: SPI(0);
+  2055  003F34  0E00               	movlw	0
+  2056  003F36  EC35  F03C         	call	_SPI
+  2057                           ;main.c: 326: SPI(0);
+  2058  003F3A  0E00               	movlw	0
+  2059  003F3C  EC35  F03C         	call	_SPI
+  2060                           ;main.c: 327: RA1=1;
+  2061  003F40  8280               	bsf	3968,1,c	;volatile
+  2062                           ;main.c: 329: HandleFDD(c1,c2);
+  2063  003F42  0100               	movlb	__Lparam shr (0+8)
+  2064  003F44  5140               	movf	?a_HandleFpga^(__Lparam& (0+65280)),w
+  2065  003F46  6F42               	movwf	?_HandleFDD^(__Lparam& (0+65280)),b
+  2066  003F48  5141               	movf	(?a_HandleFpga+1)^(__Lparam& (0+65280)),w
+  2067  003F4A  EC01  F020         	call	_HandleFDD
+  2068                           ;main.c: 332: HandleHDD(c1,c2);
+  2069  003F4E  0100               	movlb	__Lparam shr (0+8)
+  2070  003F50  5140               	movf	?a_HandleFpga^(__Lparam& (0+65280)),w
+  2071  003F52  6F42               	movwf	?_HandleHDD^(__Lparam& (0+65280)),b
+  2072  003F54  5141               	movf	(?a_HandleFpga+1)^(__Lparam& (0+65280)),w
+  2073  003F56  EC6F  F02A         	call	_HandleHDD
+  2074                           ;main.c: 335: UpdateDriveStatus();
+  2075  003F5A  EF47  F020         	goto	_UpdateDriveStatus	;wreg free
+  2076                           ;main.c: 336: }
+  2077  003F5E  FFFF               	dw	65535	; Nop inserted for errata
+  2078  003F60  D7D8               	goto	f4292
+  2079  003F62                     __end_of_HandleFpga:
+  2080                           
+  2081                           	psect	bigbss
+  2082  000365                     _s:
+  2083  000365                     	ds	25
+  2084                           
+  2085                           	psect	temp
+  2086  000000                     btemp:
+  2087  000000                     	ds	5
+  2088                           tblptrh	equ	0xFF7
+  2089                           tblptrl	equ	0xFF6
+  2090                           tablat	equ	0xFF5
+  2091                           prodh	equ	0xFF4
+  2092                           prodl	equ	0xFF3
+  2093                           indf0	equ	0xFEF
+  2094                           postinc0	equ	0xFEE
+  2095                           postdec0	equ	0xFED
+  2096                           fsr0h	equ	0xFEA
+  2097                           fsr0l	equ	0xFE9
+  2098                           wreg	equ	0xFE8
+  2099                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:02 2009
+
+         ?_ConfigFilter 0046           ?_ConfigFloppy 0046  
+                     _s 0365                      l20 3838  
+                    l21 3856                      l22 3850  
+                    l24 3876                      l33 3BA8  
+                    l25 3882                      l35 3E46  
+                    l27 3B26                      l19 3828  
+                    l37 3EDA                      l29 3B54  
+                    u19 0DCB                      u29 0DEA  
+                    u39 0E41                      u49 0E32  
+                    u59 0E1E                      u69 0D72  
+                    u86 38FC                      u79 0C9C  
+                    u89 0D57                      u99 0D52  
+                    _df 0202               _WaitTimer 7836  
+       _UploadKickstart 5E9C  _config_memory_chip_msg 0908  
+        _ConfigScanline 7324              ?_WaitTimer 0040  
+                   u106 394A                     u109 0CF9  
+                   u206 3B76                     u126 3AA4  
+                   u119 0CB9                     u209 0D29  
+                   u129 0D13                     u219 0D20  
+                   u139 0CE6                     u236 3C58  
+                   u309 0D97                     u229 0DA5  
+                   u149 0CD3                     u319 0DB4  
+                   u239 0D1A                     u159 0D3F  
+                   u256 3C74                     u249 0D0C  
+                   u169 0D83                     u259 0D29  
+                   u179 0CB3                     u276 3C90  
+                   u269 0D20                     u189 0CB6  
+                   u279 0CBE                     u199 0D5D  
+                   u289 0CCA                     u299 0D31  
+                   _SPI 786A        ?_UploadKickstart 0046  
+                   _hdf 0300                     wreg 000FE8  
+                  f4292 3F12               _defARName 0EEC  
+                  f3913 0040            ?a_HandleFpga 0040  
+                  _main 3794                    indf0 000FEF  
+                  fsr0l 000FE9                    btemp 0000  
+                  llmul 3F62      _UploadActionReplay 5F6C  
+                  llslr 7D82                    prodh 000FF4  
+                  prodl 000FF3                    start 000E  
+_config_memory_slow_msg 0910           ?_OpenHardfile 0046  
+               ?_memset 00E0                 ?_printf 0051  
+               ?_strcpy 0046       _LoadConfiguration 743C  
+            used_btemp0 0001              used_btemp1 0001  
+            used_btemp2 0001              used_btemp3 0001  
+            used_btemp4 0001                   tablat 000FF5  
+                 status 000FD8           _defHDFileName 0EF8  
+   ?_UploadActionReplay 0040           _ConfigChipset 72E0  
+            _CheckTimer 7804                 __Lparam 0037  
+           ?_CheckTimer 0048                 __ramtop 0600  
+            _FatalError 5C6C              _HandleFpga 3F10  
+    __end_of_HandleFpga 3F62                  ?a_main 0037  
+               _version 0C8C                 _sprintf 645E  
+          __end_of_main 3F10                ?_sprintf 0051  
+               _strncpy 7A94                ?_strncpy 005D  
+         _ConfigureFpga 5CEC            _HardwareInit 777C  
+          _ConfigFilter 729E            _ConfigFloppy 72F6  
+              _MMC_Init 6A20            _ConfigMemory 72CC  
+     _UpdateDriveStatus 408E                 postdec0 000FED  
+               postinc0 000FEE                  _config 001E  
+             _HandleFDD 4002               _HandleHDD 54DE  
+                _memset 7CE0               _FindDrive 25FA  
+                _printf 7D98              ?_HandleFDD 0042  
+            ?_HandleHDD 0042                  _strcpy 7C52  
+           _defKickName 0EE0               _ConfigIDE 733A  
+             _BootPrint 6010              ?_ConfigIDE 0046  
+                tblptrh 000FF7                  tblptrl 000FF6  
+            ?_BootPrint 0048                _HandleUI 0FFE  
+              _GetTimer 77DC                _BootExit 6312  
+             ?_GetTimer 0048              _OsdGetCtrl 7370  
+          _OpenHardfile 5BE8                _OsdReset 7288  

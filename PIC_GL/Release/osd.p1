@@ -1,0 +1,2389 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"21 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\pic18fxx2.h
+[v _TOSU `VNuc 1 s@4095 ]
+[; ;pic18fxx2.h: 21: static volatile near unsigned char TOSU @ 0xFFF;
+
+"22
+[v _TOSH `VNuc 1 s@4094 ]
+[; ;pic18fxx2.h: 22: static volatile near unsigned char TOSH @ 0xFFE;
+
+"23
+[v _TOSL `VNuc 1 s@4093 ]
+[; ;pic18fxx2.h: 23: static volatile near unsigned char TOSL @ 0xFFD;
+
+"24
+[v _STKPTR `VNuc 1 s@4092 ]
+[; ;pic18fxx2.h: 24: static volatile near unsigned char STKPTR @ 0xFFC;
+
+"25
+[v _PCLATU `VNuc 1 s@4091 ]
+[; ;pic18fxx2.h: 25: static volatile near unsigned char PCLATU @ 0xFFB;
+
+"26
+[v _PCLATH `VNuc 1 s@4090 ]
+[; ;pic18fxx2.h: 26: static volatile near unsigned char PCLATH @ 0xFFA;
+
+"27
+[v _PCL `VNuc 1 s@4089 ]
+[; ;pic18fxx2.h: 27: static volatile near unsigned char PCL @ 0xFF9;
+
+"28
+[v _TBLPTR `*VFuc 1 s@4086 ]
+[; ;pic18fxx2.h: 28: static volatile far unsigned char * TBLPTR @ 0xFF6;
+
+"29
+[v _TBLPTRU `VNuc 1 s@4088 ]
+[; ;pic18fxx2.h: 29: static volatile near unsigned char TBLPTRU @ 0xFF8;
+
+"30
+[v _TBLPTRH `VNuc 1 s@4087 ]
+[; ;pic18fxx2.h: 30: static volatile near unsigned char TBLPTRH @ 0xFF7;
+
+"31
+[v _TBLPTRL `VNuc 1 s@4086 ]
+[; ;pic18fxx2.h: 31: static volatile near unsigned char TBLPTRL @ 0xFF6;
+
+"32
+[v _TABLAT `VNuc 1 s@4085 ]
+[; ;pic18fxx2.h: 32: static volatile near unsigned char TABLAT @ 0xFF5;
+
+"33
+[v _PRODH `VNuc 1 s@4084 ]
+[; ;pic18fxx2.h: 33: static volatile near unsigned char PRODH @ 0xFF4;
+
+"34
+[v _PRODL `VNuc 1 s@4083 ]
+[; ;pic18fxx2.h: 34: static volatile near unsigned char PRODL @ 0xFF3;
+
+"35
+[v _INTCON `VNuc 1 s@4082 ]
+[; ;pic18fxx2.h: 35: static volatile near unsigned char INTCON @ 0xFF2;
+
+"36
+[v _INTCON2 `Nuc 1 s@4081 ]
+[; ;pic18fxx2.h: 36: static near unsigned char INTCON2 @ 0xFF1;
+
+"37
+[v _INTCON3 `VNuc 1 s@4080 ]
+[; ;pic18fxx2.h: 37: static volatile near unsigned char INTCON3 @ 0xFF0;
+
+"38
+[v _INDF0 `VNuc 1 s@4079 ]
+[; ;pic18fxx2.h: 38: static volatile near unsigned char INDF0 @ 0xFEF;
+
+"39
+[v _POSTINC0 `VNuc 1 s@4078 ]
+[; ;pic18fxx2.h: 39: static volatile near unsigned char POSTINC0 @ 0xFEE;
+
+"40
+[v _POSTDEC0 `VNuc 1 s@4077 ]
+[; ;pic18fxx2.h: 40: static volatile near unsigned char POSTDEC0 @ 0xFED;
+
+"41
+[v _PREINC0 `VNuc 1 s@4076 ]
+[; ;pic18fxx2.h: 41: static volatile near unsigned char PREINC0 @ 0xFEC;
+
+"42
+[v _PLUSW0 `VNuc 1 s@4075 ]
+[; ;pic18fxx2.h: 42: static volatile near unsigned char PLUSW0 @ 0xFEB;
+
+"43
+[v _FSR0H `VNuc 1 s@4074 ]
+[; ;pic18fxx2.h: 43: static volatile near unsigned char FSR0H @ 0xFEA;
+
+"44
+[v _FSR0L `VNuc 1 s@4073 ]
+[; ;pic18fxx2.h: 44: static volatile near unsigned char FSR0L @ 0xFE9;
+
+"45
+[v _WREG `VNuc 1 s@4072 ]
+[; ;pic18fxx2.h: 45: static volatile near unsigned char WREG @ 0xFE8;
+
+"46
+[v _INDF1 `VNuc 1 s@4071 ]
+[; ;pic18fxx2.h: 46: static volatile near unsigned char INDF1 @ 0xFE7;
+
+"47
+[v _POSTINC1 `VNuc 1 s@4070 ]
+[; ;pic18fxx2.h: 47: static volatile near unsigned char POSTINC1 @ 0xFE6;
+
+"48
+[v _POSTDEC1 `VNuc 1 s@4069 ]
+[; ;pic18fxx2.h: 48: static volatile near unsigned char POSTDEC1 @ 0xFE5;
+
+"49
+[v _PREINC1 `VNuc 1 s@4068 ]
+[; ;pic18fxx2.h: 49: static volatile near unsigned char PREINC1 @ 0xFE4;
+
+"50
+[v _PLUSW1 `VNuc 1 s@4067 ]
+[; ;pic18fxx2.h: 50: static volatile near unsigned char PLUSW1 @ 0xFE3;
+
+"51
+[v _FSR1H `VNuc 1 s@4066 ]
+[; ;pic18fxx2.h: 51: static volatile near unsigned char FSR1H @ 0xFE2;
+
+"52
+[v _FSR1L `VNuc 1 s@4065 ]
+[; ;pic18fxx2.h: 52: static volatile near unsigned char FSR1L @ 0xFE1;
+
+"53
+[v _BSR `Nuc 1 s@4064 ]
+[; ;pic18fxx2.h: 53: static near unsigned char BSR @ 0xFE0;
+
+"54
+[v _INDF2 `VNuc 1 s@4063 ]
+[; ;pic18fxx2.h: 54: static volatile near unsigned char INDF2 @ 0xFDF;
+
+"55
+[v _POSTINC2 `VNuc 1 s@4062 ]
+[; ;pic18fxx2.h: 55: static volatile near unsigned char POSTINC2 @ 0xFDE;
+
+"56
+[v _POSTDEC2 `VNuc 1 s@4061 ]
+[; ;pic18fxx2.h: 56: static volatile near unsigned char POSTDEC2 @ 0xFDD;
+
+"57
+[v _PREINC2 `VNuc 1 s@4060 ]
+[; ;pic18fxx2.h: 57: static volatile near unsigned char PREINC2 @ 0xFDC;
+
+"58
+[v _PLUSW2 `VNuc 1 s@4059 ]
+[; ;pic18fxx2.h: 58: static volatile near unsigned char PLUSW2 @ 0xFDB;
+
+"59
+[v _FSR2H `VNuc 1 s@4058 ]
+[; ;pic18fxx2.h: 59: static volatile near unsigned char FSR2H @ 0xFDA;
+
+"60
+[v _FSR2L `VNuc 1 s@4057 ]
+[; ;pic18fxx2.h: 60: static volatile near unsigned char FSR2L @ 0xFD9;
+
+"61
+[v _STATUS `VNuc 1 s@4056 ]
+[; ;pic18fxx2.h: 61: static volatile near unsigned char STATUS @ 0xFD8;
+
+"62
+[v _TMR0 `VNui 1 s@4054 ]
+[; ;pic18fxx2.h: 62: static volatile near unsigned int TMR0 @ 0xFD6;
+
+"63
+[v _TMR0H `VNuc 1 s@4055 ]
+[; ;pic18fxx2.h: 63: static volatile near unsigned char TMR0H @ 0xFD7;
+
+"64
+[v _TMR0L `VNuc 1 s@4054 ]
+[; ;pic18fxx2.h: 64: static volatile near unsigned char TMR0L @ 0xFD6;
+
+"65
+[v _T0CON `Nuc 1 s@4053 ]
+[; ;pic18fxx2.h: 65: static near unsigned char T0CON @ 0xFD5;
+
+"66
+[v _OSCCON `VNuc 1 s@4051 ]
+[; ;pic18fxx2.h: 66: static volatile near unsigned char OSCCON @ 0xFD3;
+
+"67
+[v _LVDCON `VNuc 1 s@4050 ]
+[; ;pic18fxx2.h: 67: static volatile near unsigned char LVDCON @ 0xFD2;
+
+"68
+[v _WDTCON `Nuc 1 s@4049 ]
+[; ;pic18fxx2.h: 68: static near unsigned char WDTCON @ 0xFD1;
+
+"69
+[v _RCON `VNuc 1 s@4048 ]
+[; ;pic18fxx2.h: 69: static volatile near unsigned char RCON @ 0xFD0;
+
+"70
+[v _TMR1 `VNui 1 s@4046 ]
+[; ;pic18fxx2.h: 70: static volatile near unsigned int TMR1 @ 0xFCE;
+
+"71
+[v _TMR1H `VNuc 1 s@4047 ]
+[; ;pic18fxx2.h: 71: static volatile near unsigned char TMR1H @ 0xFCF;
+
+"72
+[v _TMR1L `VNuc 1 s@4046 ]
+[; ;pic18fxx2.h: 72: static volatile near unsigned char TMR1L @ 0xFCE;
+
+"73
+[v _T1CON `Nuc 1 s@4045 ]
+[; ;pic18fxx2.h: 73: static near unsigned char T1CON @ 0xFCD;
+
+"74
+[v _TMR2 `VNuc 1 s@4044 ]
+[; ;pic18fxx2.h: 74: static volatile near unsigned char TMR2 @ 0xFCC;
+
+"75
+[v _PR2 `VNuc 1 s@4043 ]
+[; ;pic18fxx2.h: 75: static volatile near unsigned char PR2 @ 0xFCB;
+
+"76
+[v _T2CON `Nuc 1 s@4042 ]
+[; ;pic18fxx2.h: 76: static near unsigned char T2CON @ 0xFCA;
+
+"77
+[v _SSPBUF `VNuc 1 s@4041 ]
+[; ;pic18fxx2.h: 77: static volatile near unsigned char SSPBUF @ 0xFC9;
+
+"78
+[v _SSPADD `VNuc 1 s@4040 ]
+[; ;pic18fxx2.h: 78: static volatile near unsigned char SSPADD @ 0xFC8;
+
+"79
+[v _SSPSTAT `VNuc 1 s@4039 ]
+[; ;pic18fxx2.h: 79: static volatile near unsigned char SSPSTAT @ 0xFC7;
+
+"80
+[v _SSPCON1 `VNuc 1 s@4038 ]
+[; ;pic18fxx2.h: 80: static volatile near unsigned char SSPCON1 @ 0xFC6;
+
+"81
+[v _SSPCON2 `VNuc 1 s@4037 ]
+[; ;pic18fxx2.h: 81: static volatile near unsigned char SSPCON2 @ 0xFC5;
+
+"82
+[v _ADRES `VNui 1 s@4035 ]
+[; ;pic18fxx2.h: 82: static volatile near unsigned int ADRES @ 0xFC3;
+
+"83
+[v _ADRESH `VNuc 1 s@4036 ]
+[; ;pic18fxx2.h: 83: static volatile near unsigned char ADRESH @ 0xFC4;
+
+"84
+[v _ADRESL `VNuc 1 s@4035 ]
+[; ;pic18fxx2.h: 84: static volatile near unsigned char ADRESL @ 0xFC3;
+
+"85
+[v _ADCON0 `VNuc 1 s@4034 ]
+[; ;pic18fxx2.h: 85: static volatile near unsigned char ADCON0 @ 0xFC2;
+
+"86
+[v _ADCON1 `Nuc 1 s@4033 ]
+[; ;pic18fxx2.h: 86: static near unsigned char ADCON1 @ 0xFC1;
+
+"87
+[v _CCPR1 `VNui 1 s@4030 ]
+[; ;pic18fxx2.h: 87: static volatile near unsigned int CCPR1 @ 0xFBE;
+
+"88
+[v _CCPR1H `VNuc 1 s@4031 ]
+[; ;pic18fxx2.h: 88: static volatile near unsigned char CCPR1H @ 0xFBF;
+
+"89
+[v _CCPR1L `VNuc 1 s@4030 ]
+[; ;pic18fxx2.h: 89: static volatile near unsigned char CCPR1L @ 0xFBE;
+
+"90
+[v _CCP1CON `VNuc 1 s@4029 ]
+[; ;pic18fxx2.h: 90: static volatile near unsigned char CCP1CON @ 0xFBD;
+
+"91
+[v _CCPR2 `VNui 1 s@4027 ]
+[; ;pic18fxx2.h: 91: static volatile near unsigned int CCPR2 @ 0xFBB;
+
+"92
+[v _CCPR2H `VNuc 1 s@4028 ]
+[; ;pic18fxx2.h: 92: static volatile near unsigned char CCPR2H @ 0xFBC;
+
+"93
+[v _CCPR2L `VNuc 1 s@4027 ]
+[; ;pic18fxx2.h: 93: static volatile near unsigned char CCPR2L @ 0xFBB;
+
+"94
+[v _CCP2CON `VNuc 1 s@4026 ]
+[; ;pic18fxx2.h: 94: static volatile near unsigned char CCP2CON @ 0xFBA;
+
+"95
+[v _TMR3 `VNui 1 s@4018 ]
+[; ;pic18fxx2.h: 95: static volatile near unsigned int TMR3 @ 0xFB2;
+
+"96
+[v _TMR3H `VNuc 1 s@4019 ]
+[; ;pic18fxx2.h: 96: static volatile near unsigned char TMR3H @ 0xFB3;
+
+"97
+[v _TMR3L `VNuc 1 s@4018 ]
+[; ;pic18fxx2.h: 97: static volatile near unsigned char TMR3L @ 0xFB2;
+
+"98
+[v _T3CON `Nuc 1 s@4017 ]
+[; ;pic18fxx2.h: 98: static near unsigned char T3CON @ 0xFB1;
+
+"99
+[v _SPBRG `Nuc 1 s@4015 ]
+[; ;pic18fxx2.h: 99: static near unsigned char SPBRG @ 0xFAF;
+
+"100
+[v _RCREG `VNuc 1 s@4014 ]
+[; ;pic18fxx2.h: 100: static volatile near unsigned char RCREG @ 0xFAE;
+
+"101
+[v _TXREG `VNuc 1 s@4013 ]
+[; ;pic18fxx2.h: 101: static volatile near unsigned char TXREG @ 0xFAD;
+
+"102
+[v _TXSTA `VNuc 1 s@4012 ]
+[; ;pic18fxx2.h: 102: static volatile near unsigned char TXSTA @ 0xFAC;
+
+"103
+[v _RCSTA `VNuc 1 s@4011 ]
+[; ;pic18fxx2.h: 103: static volatile near unsigned char RCSTA @ 0xFAB;
+
+"104
+[v _EEADR `VNuc 1 s@4009 ]
+[; ;pic18fxx2.h: 104: static volatile near unsigned char EEADR @ 0xFA9;
+
+"105
+[v _EEDATA `VNuc 1 s@4008 ]
+[; ;pic18fxx2.h: 105: static volatile near unsigned char EEDATA @ 0xFA8;
+
+"106
+[v _EECON2 `VNuc 1 s@4007 ]
+[; ;pic18fxx2.h: 106: static volatile near unsigned char EECON2 @ 0xFA7;
+
+"107
+[v _EECON1 `VNuc 1 s@4006 ]
+[; ;pic18fxx2.h: 107: static volatile near unsigned char EECON1 @ 0xFA6;
+
+"108
+[v _IPR2 `Nuc 1 s@4002 ]
+[; ;pic18fxx2.h: 108: static near unsigned char IPR2 @ 0xFA2;
+
+"109
+[v _PIR2 `VNuc 1 s@4001 ]
+[; ;pic18fxx2.h: 109: static volatile near unsigned char PIR2 @ 0xFA1;
+
+"110
+[v _PIE2 `Nuc 1 s@4000 ]
+[; ;pic18fxx2.h: 110: static near unsigned char PIE2 @ 0xFA0;
+
+"111
+[v _IPR1 `Nuc 1 s@3999 ]
+[; ;pic18fxx2.h: 111: static near unsigned char IPR1 @ 0xF9F;
+
+"112
+[v _PIR1 `VNuc 1 s@3998 ]
+[; ;pic18fxx2.h: 112: static volatile near unsigned char PIR1 @ 0xF9E;
+
+"113
+[v _PIE1 `Nuc 1 s@3997 ]
+[; ;pic18fxx2.h: 113: static near unsigned char PIE1 @ 0xF9D;
+
+"114
+[v _TRISC `VNuc 1 s@3988 ]
+[; ;pic18fxx2.h: 114: static volatile near unsigned char TRISC @ 0xF94;
+
+"115
+[v _TRISB `VNuc 1 s@3987 ]
+[; ;pic18fxx2.h: 115: static volatile near unsigned char TRISB @ 0xF93;
+
+"116
+[v _TRISA `VNuc 1 s@3986 ]
+[; ;pic18fxx2.h: 116: static volatile near unsigned char TRISA @ 0xF92;
+
+"117
+[v _LATC `VNuc 1 s@3979 ]
+[; ;pic18fxx2.h: 117: static volatile near unsigned char LATC @ 0xF8B;
+
+"118
+[v _LATB `VNuc 1 s@3978 ]
+[; ;pic18fxx2.h: 118: static volatile near unsigned char LATB @ 0xF8A;
+
+"119
+[v _LATA `VNuc 1 s@3977 ]
+[; ;pic18fxx2.h: 119: static volatile near unsigned char LATA @ 0xF89;
+
+"120
+[v _PORTC `VNuc 1 s@3970 ]
+[; ;pic18fxx2.h: 120: static volatile near unsigned char PORTC @ 0xF82;
+
+"121
+[v _PORTB `VNuc 1 s@3969 ]
+[; ;pic18fxx2.h: 121: static volatile near unsigned char PORTB @ 0xF81;
+
+"122
+[v _PORTA `VNuc 1 s@3968 ]
+[; ;pic18fxx2.h: 122: static volatile near unsigned char PORTA @ 0xF80;
+
+"134
+[v _NEGATIVE `VNb 1 s@32452 ]
+[; ;pic18fxx2.h: 134: static volatile near bit NEGATIVE @ ((unsigned)&STATUS*8)+4;
+
+"135
+[v _OVERFLOW `VNb 1 s@32451 ]
+[; ;pic18fxx2.h: 135: static volatile near bit OVERFLOW @ ((unsigned)&STATUS*8)+3;
+
+"136
+[v _ZERO `VNb 1 s@32450 ]
+[; ;pic18fxx2.h: 136: static volatile near bit ZERO @ ((unsigned)&STATUS*8)+2;
+
+"137
+[v _DC `VNb 1 s@32449 ]
+[; ;pic18fxx2.h: 137: static volatile near bit DC @ ((unsigned)&STATUS*8)+1;
+
+"138
+[v _CARRY `VNb 1 s@32448 ]
+[; ;pic18fxx2.h: 138: static volatile near bit CARRY @ ((unsigned)&STATUS*8)+0;
+
+"141
+[v _STKFUL `VNb 1 s@32743 ]
+[; ;pic18fxx2.h: 141: static volatile near bit STKFUL @ ((unsigned)&STKPTR*8)+7;
+
+"142
+[v _STKUNF `VNb 1 s@32742 ]
+[; ;pic18fxx2.h: 142: static volatile near bit STKUNF @ ((unsigned)&STKPTR*8)+6;
+
+"143
+[v _SP4 `VNb 1 s@32740 ]
+[; ;pic18fxx2.h: 143: static volatile near bit SP4 @ ((unsigned)&STKPTR*8)+4;
+
+"144
+[v _SP3 `VNb 1 s@32739 ]
+[; ;pic18fxx2.h: 144: static volatile near bit SP3 @ ((unsigned)&STKPTR*8)+3;
+
+"145
+[v _SP2 `VNb 1 s@32738 ]
+[; ;pic18fxx2.h: 145: static volatile near bit SP2 @ ((unsigned)&STKPTR*8)+2;
+
+"146
+[v _SP1 `VNb 1 s@32737 ]
+[; ;pic18fxx2.h: 146: static volatile near bit SP1 @ ((unsigned)&STKPTR*8)+1;
+
+"147
+[v _SP0 `VNb 1 s@32736 ]
+[; ;pic18fxx2.h: 147: static volatile near bit SP0 @ ((unsigned)&STKPTR*8)+0;
+
+"150
+[v _GIE `Nb 1 s@32663 ]
+[; ;pic18fxx2.h: 150: static near bit GIE @ ((unsigned)&INTCON*8)+7;
+
+"151
+[v _GIEH `Nb 1 s@32663 ]
+[; ;pic18fxx2.h: 151: static near bit GIEH @ ((unsigned)&INTCON*8)+7;
+
+"152
+[v _PEIE `Nb 1 s@32662 ]
+[; ;pic18fxx2.h: 152: static near bit PEIE @ ((unsigned)&INTCON*8)+6;
+
+"153
+[v _GIEL `Nb 1 s@32662 ]
+[; ;pic18fxx2.h: 153: static near bit GIEL @ ((unsigned)&INTCON*8)+6;
+
+"154
+[v _TMR0IE `Nb 1 s@32661 ]
+[; ;pic18fxx2.h: 154: static near bit TMR0IE @ ((unsigned)&INTCON*8)+5;
+
+"155
+[v _INT0IE `Nb 1 s@32660 ]
+[; ;pic18fxx2.h: 155: static near bit INT0IE @ ((unsigned)&INTCON*8)+4;
+
+"156
+[v _RBIE `Nb 1 s@32659 ]
+[; ;pic18fxx2.h: 156: static near bit RBIE @ ((unsigned)&INTCON*8)+3;
+
+"157
+[v _TMR0IF `VNb 1 s@32658 ]
+[; ;pic18fxx2.h: 157: static volatile near bit TMR0IF @ ((unsigned)&INTCON*8)+2;
+
+"158
+[v _INT0IF `VNb 1 s@32657 ]
+[; ;pic18fxx2.h: 158: static volatile near bit INT0IF @ ((unsigned)&INTCON*8)+1;
+
+"159
+[v _RBIF `VNb 1 s@32656 ]
+[; ;pic18fxx2.h: 159: static volatile near bit RBIF @ ((unsigned)&INTCON*8)+0;
+
+"160
+[v _T0IF `VNb 1 s@32658 ]
+[; ;pic18fxx2.h: 160: static volatile near bit T0IF @ ((unsigned)&INTCON*8)+2;
+
+"163
+[v _RBPU `Nb 1 s@32655 ]
+[; ;pic18fxx2.h: 163: static near bit RBPU @ ((unsigned)&INTCON2*8)+7;
+
+"164
+[v _INTEDG0 `Nb 1 s@32654 ]
+[; ;pic18fxx2.h: 164: static near bit INTEDG0 @ ((unsigned)&INTCON2*8)+6;
+
+"165
+[v _INTEDG1 `Nb 1 s@32653 ]
+[; ;pic18fxx2.h: 165: static near bit INTEDG1 @ ((unsigned)&INTCON2*8)+5;
+
+"166
+[v _INTEDG2 `Nb 1 s@32652 ]
+[; ;pic18fxx2.h: 166: static near bit INTEDG2 @ ((unsigned)&INTCON2*8)+4;
+
+"167
+[v _TMR0IP `Nb 1 s@32650 ]
+[; ;pic18fxx2.h: 167: static near bit TMR0IP @ ((unsigned)&INTCON2*8)+2;
+
+"168
+[v _RBIP `Nb 1 s@32648 ]
+[; ;pic18fxx2.h: 168: static near bit RBIP @ ((unsigned)&INTCON2*8)+0;
+
+"169
+[v _T0IP `Nb 1 s@32650 ]
+[; ;pic18fxx2.h: 169: static near bit T0IP @ ((unsigned)&INTCON2*8)+2;
+
+"172
+[v _INT2IP `Nb 1 s@32647 ]
+[; ;pic18fxx2.h: 172: static near bit INT2IP @ ((unsigned)&INTCON3*8)+7;
+
+"173
+[v _INT1IP `Nb 1 s@32646 ]
+[; ;pic18fxx2.h: 173: static near bit INT1IP @ ((unsigned)&INTCON3*8)+6;
+
+"174
+[v _INT2IE `Nb 1 s@32644 ]
+[; ;pic18fxx2.h: 174: static near bit INT2IE @ ((unsigned)&INTCON3*8)+4;
+
+"175
+[v _INT1IE `Nb 1 s@32643 ]
+[; ;pic18fxx2.h: 175: static near bit INT1IE @ ((unsigned)&INTCON3*8)+3;
+
+"176
+[v _INT2IF `VNb 1 s@32641 ]
+[; ;pic18fxx2.h: 176: static volatile near bit INT2IF @ ((unsigned)&INTCON3*8)+1;
+
+"177
+[v _INT1IF `VNb 1 s@32640 ]
+[; ;pic18fxx2.h: 177: static volatile near bit INT1IF @ ((unsigned)&INTCON3*8)+0;
+
+"180
+[v _TMR0ON `Nb 1 s@32431 ]
+[; ;pic18fxx2.h: 180: static near bit TMR0ON @ ((unsigned)&T0CON*8)+7;
+
+"181
+[v _T08BIT `Nb 1 s@32430 ]
+[; ;pic18fxx2.h: 181: static near bit T08BIT @ ((unsigned)&T0CON*8)+6;
+
+"182
+[v _T0CS `Nb 1 s@32429 ]
+[; ;pic18fxx2.h: 182: static near bit T0CS @ ((unsigned)&T0CON*8)+5;
+
+"183
+[v _T0SE `Nb 1 s@32428 ]
+[; ;pic18fxx2.h: 183: static near bit T0SE @ ((unsigned)&T0CON*8)+4;
+
+"184
+[v _PSA `Nb 1 s@32427 ]
+[; ;pic18fxx2.h: 184: static near bit PSA @ ((unsigned)&T0CON*8)+3;
+
+"185
+[v _T0PS2 `Nb 1 s@32426 ]
+[; ;pic18fxx2.h: 185: static near bit T0PS2 @ ((unsigned)&T0CON*8)+2;
+
+"186
+[v _T0PS1 `Nb 1 s@32425 ]
+[; ;pic18fxx2.h: 186: static near bit T0PS1 @ ((unsigned)&T0CON*8)+1;
+
+"187
+[v _T0PS0 `Nb 1 s@32424 ]
+[; ;pic18fxx2.h: 187: static near bit T0PS0 @ ((unsigned)&T0CON*8)+0;
+
+"190
+[v _SCS `Nb 1 s@32408 ]
+[; ;pic18fxx2.h: 190: static near bit SCS @ ((unsigned)&OSCCON*8)+0;
+
+"193
+[v _IRVST `VNb 1 s@32405 ]
+[; ;pic18fxx2.h: 193: static volatile near bit IRVST @ ((unsigned)&LVDCON*8)+5;
+
+"194
+[v _LVDEN `Nb 1 s@32404 ]
+[; ;pic18fxx2.h: 194: static near bit LVDEN @ ((unsigned)&LVDCON*8)+4;
+
+"195
+[v _LVDL3 `Nb 1 s@32403 ]
+[; ;pic18fxx2.h: 195: static near bit LVDL3 @ ((unsigned)&LVDCON*8)+3;
+
+"196
+[v _LVDL2 `Nb 1 s@32402 ]
+[; ;pic18fxx2.h: 196: static near bit LVDL2 @ ((unsigned)&LVDCON*8)+2;
+
+"197
+[v _LVDL1 `Nb 1 s@32401 ]
+[; ;pic18fxx2.h: 197: static near bit LVDL1 @ ((unsigned)&LVDCON*8)+1;
+
+"198
+[v _LVDL0 `Nb 1 s@32400 ]
+[; ;pic18fxx2.h: 198: static near bit LVDL0 @ ((unsigned)&LVDCON*8)+0;
+
+"201
+[v _SWDTEN `Nb 1 s@32392 ]
+[; ;pic18fxx2.h: 201: static near bit SWDTEN @ ((unsigned)&WDTCON*8)+0;
+
+"204
+[v _IPEN `Nb 1 s@32391 ]
+[; ;pic18fxx2.h: 204: static near bit IPEN @ ((unsigned)&RCON*8)+7;
+
+"205
+[v _RI `VNb 1 s@32388 ]
+[; ;pic18fxx2.h: 205: static volatile near bit RI @ ((unsigned)&RCON*8)+4;
+
+"206
+[v _TO `VNb 1 s@32387 ]
+[; ;pic18fxx2.h: 206: static volatile near bit TO @ ((unsigned)&RCON*8)+3;
+
+"207
+[v _PD `VNb 1 s@32386 ]
+[; ;pic18fxx2.h: 207: static volatile near bit PD @ ((unsigned)&RCON*8)+2;
+
+"208
+[v _POR `VNb 1 s@32385 ]
+[; ;pic18fxx2.h: 208: static volatile near bit POR @ ((unsigned)&RCON*8)+1;
+
+"209
+[v _BOR `VNb 1 s@32384 ]
+[; ;pic18fxx2.h: 209: static volatile near bit BOR @ ((unsigned)&RCON*8)+0;
+
+"212
+[v _RD16 `Nb 1 s@32367 ]
+[; ;pic18fxx2.h: 212: static near bit RD16 @ ((unsigned)&T1CON*8)+7;
+
+"213
+[v _T1RD16 `Nb 1 s@32367 ]
+[; ;pic18fxx2.h: 213: static near bit T1RD16 @ ((unsigned)&T1CON*8)+7;
+
+"214
+[v _T1CKPS1 `Nb 1 s@32365 ]
+[; ;pic18fxx2.h: 214: static near bit T1CKPS1 @ ((unsigned)&T1CON*8)+5;
+
+"215
+[v _T1CKPS0 `Nb 1 s@32364 ]
+[; ;pic18fxx2.h: 215: static near bit T1CKPS0 @ ((unsigned)&T1CON*8)+4;
+
+"216
+[v _T1OSCEN `Nb 1 s@32363 ]
+[; ;pic18fxx2.h: 216: static near bit T1OSCEN @ ((unsigned)&T1CON*8)+3;
+
+"217
+[v _T1SYNC `Nb 1 s@32362 ]
+[; ;pic18fxx2.h: 217: static near bit T1SYNC @ ((unsigned)&T1CON*8)+2;
+
+"218
+[v _TMR1CS `Nb 1 s@32361 ]
+[; ;pic18fxx2.h: 218: static near bit TMR1CS @ ((unsigned)&T1CON*8)+1;
+
+"219
+[v _TMR1ON `Nb 1 s@32360 ]
+[; ;pic18fxx2.h: 219: static near bit TMR1ON @ ((unsigned)&T1CON*8)+0;
+
+"222
+[v _TOUTPS3 `Nb 1 s@32342 ]
+[; ;pic18fxx2.h: 222: static near bit TOUTPS3 @ ((unsigned)&T2CON*8)+6;
+
+"223
+[v _TOUTPS2 `Nb 1 s@32341 ]
+[; ;pic18fxx2.h: 223: static near bit TOUTPS2 @ ((unsigned)&T2CON*8)+5;
+
+"224
+[v _TOUTPS1 `Nb 1 s@32340 ]
+[; ;pic18fxx2.h: 224: static near bit TOUTPS1 @ ((unsigned)&T2CON*8)+4;
+
+"225
+[v _TOUTPS0 `Nb 1 s@32339 ]
+[; ;pic18fxx2.h: 225: static near bit TOUTPS0 @ ((unsigned)&T2CON*8)+3;
+
+"226
+[v _TMR2ON `Nb 1 s@32338 ]
+[; ;pic18fxx2.h: 226: static near bit TMR2ON @ ((unsigned)&T2CON*8)+2;
+
+"227
+[v _T2CKPS1 `Nb 1 s@32337 ]
+[; ;pic18fxx2.h: 227: static near bit T2CKPS1 @ ((unsigned)&T2CON*8)+1;
+
+"228
+[v _T2CKPS0 `Nb 1 s@32336 ]
+[; ;pic18fxx2.h: 228: static near bit T2CKPS0 @ ((unsigned)&T2CON*8)+0;
+
+"231
+[v _SMP `Nb 1 s@32319 ]
+[; ;pic18fxx2.h: 231: static near bit SMP @ ((unsigned)&SSPSTAT*8)+7;
+
+"232
+[v _CKE `Nb 1 s@32318 ]
+[; ;pic18fxx2.h: 232: static near bit CKE @ ((unsigned)&SSPSTAT*8)+6;
+
+"233
+[v _DA `VNb 1 s@32317 ]
+[; ;pic18fxx2.h: 233: static volatile near bit DA @ ((unsigned)&SSPSTAT*8)+5;
+
+"234
+[v _P `VNb 1 s@32316 ]
+[; ;pic18fxx2.h: 234: static volatile near bit P @ ((unsigned)&SSPSTAT*8)+4;
+
+"235
+[v _S `VNb 1 s@32315 ]
+[; ;pic18fxx2.h: 235: static volatile near bit S @ ((unsigned)&SSPSTAT*8)+3;
+
+"236
+[v _RW `VNb 1 s@32314 ]
+[; ;pic18fxx2.h: 236: static volatile near bit RW @ ((unsigned)&SSPSTAT*8)+2;
+
+"237
+[v _UA `VNb 1 s@32313 ]
+[; ;pic18fxx2.h: 237: static volatile near bit UA @ ((unsigned)&SSPSTAT*8)+1;
+
+"238
+[v _BF `VNb 1 s@32312 ]
+[; ;pic18fxx2.h: 238: static volatile near bit BF @ ((unsigned)&SSPSTAT*8)+0;
+
+"240
+[v _STOP `VNb 1 s@32316 ]
+[; ;pic18fxx2.h: 240: static volatile near bit STOP @ ((unsigned)&SSPSTAT*8)+4;
+
+"241
+[v _START `VNb 1 s@32315 ]
+[; ;pic18fxx2.h: 241: static volatile near bit START @ ((unsigned)&SSPSTAT*8)+3;
+
+"244
+[v _WCOL `VNb 1 s@32311 ]
+[; ;pic18fxx2.h: 244: static volatile near bit WCOL @ ((unsigned)&SSPCON1*8)+7;
+
+"245
+[v _SSPOV `VNb 1 s@32310 ]
+[; ;pic18fxx2.h: 245: static volatile near bit SSPOV @ ((unsigned)&SSPCON1*8)+6;
+
+"246
+[v _SSPEN `Nb 1 s@32309 ]
+[; ;pic18fxx2.h: 246: static near bit SSPEN @ ((unsigned)&SSPCON1*8)+5;
+
+"247
+[v _CKP `Nb 1 s@32308 ]
+[; ;pic18fxx2.h: 247: static near bit CKP @ ((unsigned)&SSPCON1*8)+4;
+
+"248
+[v _SSPM3 `Nb 1 s@32307 ]
+[; ;pic18fxx2.h: 248: static near bit SSPM3 @ ((unsigned)&SSPCON1*8)+3;
+
+"249
+[v _SSPM2 `Nb 1 s@32306 ]
+[; ;pic18fxx2.h: 249: static near bit SSPM2 @ ((unsigned)&SSPCON1*8)+2;
+
+"250
+[v _SSPM1 `Nb 1 s@32305 ]
+[; ;pic18fxx2.h: 250: static near bit SSPM1 @ ((unsigned)&SSPCON1*8)+1;
+
+"251
+[v _SSPM0 `Nb 1 s@32304 ]
+[; ;pic18fxx2.h: 251: static near bit SSPM0 @ ((unsigned)&SSPCON1*8)+0;
+
+"254
+[v _GCEN `Nb 1 s@32303 ]
+[; ;pic18fxx2.h: 254: static near bit GCEN @ ((unsigned)&SSPCON2*8)+7;
+
+"255
+[v _ACKSTAT `VNb 1 s@32302 ]
+[; ;pic18fxx2.h: 255: static volatile near bit ACKSTAT @ ((unsigned)&SSPCON2*8)+6;
+
+"256
+[v _ACKDT `VNb 1 s@32301 ]
+[; ;pic18fxx2.h: 256: static volatile near bit ACKDT @ ((unsigned)&SSPCON2*8)+5;
+
+"257
+[v _ACKEN `VNb 1 s@32300 ]
+[; ;pic18fxx2.h: 257: static volatile near bit ACKEN @ ((unsigned)&SSPCON2*8)+4;
+
+"258
+[v _RCEN `Nb 1 s@32299 ]
+[; ;pic18fxx2.h: 258: static near bit RCEN @ ((unsigned)&SSPCON2*8)+3;
+
+"259
+[v _PEN `VNb 1 s@32298 ]
+[; ;pic18fxx2.h: 259: static volatile near bit PEN @ ((unsigned)&SSPCON2*8)+2;
+
+"260
+[v _RSEN `VNb 1 s@32297 ]
+[; ;pic18fxx2.h: 260: static volatile near bit RSEN @ ((unsigned)&SSPCON2*8)+1;
+
+"261
+[v _SEN `VNb 1 s@32296 ]
+[; ;pic18fxx2.h: 261: static volatile near bit SEN @ ((unsigned)&SSPCON2*8)+0;
+
+"264
+[v _ADCS1 `Nb 1 s@32279 ]
+[; ;pic18fxx2.h: 264: static near bit ADCS1 @ ((unsigned)&ADCON0*8)+7;
+
+"265
+[v _ADCS0 `Nb 1 s@32278 ]
+[; ;pic18fxx2.h: 265: static near bit ADCS0 @ ((unsigned)&ADCON0*8)+6;
+
+"266
+[v _CHS2 `Nb 1 s@32277 ]
+[; ;pic18fxx2.h: 266: static near bit CHS2 @ ((unsigned)&ADCON0*8)+5;
+
+"267
+[v _CHS1 `Nb 1 s@32276 ]
+[; ;pic18fxx2.h: 267: static near bit CHS1 @ ((unsigned)&ADCON0*8)+4;
+
+"268
+[v _CHS0 `Nb 1 s@32275 ]
+[; ;pic18fxx2.h: 268: static near bit CHS0 @ ((unsigned)&ADCON0*8)+3;
+
+"269
+[v _GODONE `VNb 1 s@32274 ]
+[; ;pic18fxx2.h: 269: static volatile near bit GODONE @ ((unsigned)&ADCON0*8)+2;
+
+"270
+[v _ADON `Nb 1 s@32272 ]
+[; ;pic18fxx2.h: 270: static near bit ADON @ ((unsigned)&ADCON0*8)+0;
+
+"273
+[v _ADFM `Nb 1 s@32271 ]
+[; ;pic18fxx2.h: 273: static near bit ADFM @ ((unsigned)&ADCON1*8)+7;
+
+"274
+[v _ADCS2 `Nb 1 s@32270 ]
+[; ;pic18fxx2.h: 274: static near bit ADCS2 @ ((unsigned)&ADCON1*8)+6;
+
+"275
+[v _PCFG3 `Nb 1 s@32267 ]
+[; ;pic18fxx2.h: 275: static near bit PCFG3 @ ((unsigned)&ADCON1*8)+3;
+
+"276
+[v _PCFG2 `Nb 1 s@32266 ]
+[; ;pic18fxx2.h: 276: static near bit PCFG2 @ ((unsigned)&ADCON1*8)+2;
+
+"277
+[v _PCFG1 `Nb 1 s@32265 ]
+[; ;pic18fxx2.h: 277: static near bit PCFG1 @ ((unsigned)&ADCON1*8)+1;
+
+"278
+[v _PCFG0 `Nb 1 s@32264 ]
+[; ;pic18fxx2.h: 278: static near bit PCFG0 @ ((unsigned)&ADCON1*8)+0;
+
+"281
+[v _DC1B1 `VNb 1 s@32237 ]
+[; ;pic18fxx2.h: 281: static volatile near bit DC1B1 @ ((unsigned)&CCP1CON*8)+5;
+
+"282
+[v _DC1B0 `VNb 1 s@32236 ]
+[; ;pic18fxx2.h: 282: static volatile near bit DC1B0 @ ((unsigned)&CCP1CON*8)+4;
+
+"283
+[v _CCP1M3 `Nb 1 s@32235 ]
+[; ;pic18fxx2.h: 283: static near bit CCP1M3 @ ((unsigned)&CCP1CON*8)+3;
+
+"284
+[v _CCP1M2 `Nb 1 s@32234 ]
+[; ;pic18fxx2.h: 284: static near bit CCP1M2 @ ((unsigned)&CCP1CON*8)+2;
+
+"285
+[v _CCP1M1 `Nb 1 s@32233 ]
+[; ;pic18fxx2.h: 285: static near bit CCP1M1 @ ((unsigned)&CCP1CON*8)+1;
+
+"286
+[v _CCP1M0 `Nb 1 s@32232 ]
+[; ;pic18fxx2.h: 286: static near bit CCP1M0 @ ((unsigned)&CCP1CON*8)+0;
+
+"289
+[v _DC2B1 `VNb 1 s@32213 ]
+[; ;pic18fxx2.h: 289: static volatile near bit DC2B1 @ ((unsigned)&CCP2CON*8)+5;
+
+"290
+[v _DC2B0 `VNb 1 s@32212 ]
+[; ;pic18fxx2.h: 290: static volatile near bit DC2B0 @ ((unsigned)&CCP2CON*8)+4;
+
+"291
+[v _CCP2M3 `Nb 1 s@32211 ]
+[; ;pic18fxx2.h: 291: static near bit CCP2M3 @ ((unsigned)&CCP2CON*8)+3;
+
+"292
+[v _CCP2M2 `Nb 1 s@32210 ]
+[; ;pic18fxx2.h: 292: static near bit CCP2M2 @ ((unsigned)&CCP2CON*8)+2;
+
+"293
+[v _CCP2M1 `Nb 1 s@32209 ]
+[; ;pic18fxx2.h: 293: static near bit CCP2M1 @ ((unsigned)&CCP2CON*8)+1;
+
+"294
+[v _CCP2M0 `Nb 1 s@32208 ]
+[; ;pic18fxx2.h: 294: static near bit CCP2M0 @ ((unsigned)&CCP2CON*8)+0;
+
+"297
+[v _T3RD16 `Nb 1 s@32143 ]
+[; ;pic18fxx2.h: 297: static near bit T3RD16 @ ((unsigned)&T3CON*8)+7;
+
+"298
+[v _T3CCP2 `Nb 1 s@32142 ]
+[; ;pic18fxx2.h: 298: static near bit T3CCP2 @ ((unsigned)&T3CON*8)+6;
+
+"299
+[v _T3CKPS1 `Nb 1 s@32141 ]
+[; ;pic18fxx2.h: 299: static near bit T3CKPS1 @ ((unsigned)&T3CON*8)+5;
+
+"300
+[v _T3CKPS0 `Nb 1 s@32140 ]
+[; ;pic18fxx2.h: 300: static near bit T3CKPS0 @ ((unsigned)&T3CON*8)+4;
+
+"301
+[v _T3CCP1 `Nb 1 s@32139 ]
+[; ;pic18fxx2.h: 301: static near bit T3CCP1 @ ((unsigned)&T3CON*8)+3;
+
+"302
+[v _T3SYNC `Nb 1 s@32138 ]
+[; ;pic18fxx2.h: 302: static near bit T3SYNC @ ((unsigned)&T3CON*8)+2;
+
+"303
+[v _TMR3CS `Nb 1 s@32137 ]
+[; ;pic18fxx2.h: 303: static near bit TMR3CS @ ((unsigned)&T3CON*8)+1;
+
+"304
+[v _TMR3ON `Nb 1 s@32136 ]
+[; ;pic18fxx2.h: 304: static near bit TMR3ON @ ((unsigned)&T3CON*8)+0;
+
+"307
+[v _CSRC `Nb 1 s@32103 ]
+[; ;pic18fxx2.h: 307: static near bit CSRC @ ((unsigned)&TXSTA*8)+7;
+
+"308
+[v _TX9 `Nb 1 s@32102 ]
+[; ;pic18fxx2.h: 308: static near bit TX9 @ ((unsigned)&TXSTA*8)+6;
+
+"309
+[v _TXEN `Nb 1 s@32101 ]
+[; ;pic18fxx2.h: 309: static near bit TXEN @ ((unsigned)&TXSTA*8)+5;
+
+"310
+[v _SYNC `Nb 1 s@32100 ]
+[; ;pic18fxx2.h: 310: static near bit SYNC @ ((unsigned)&TXSTA*8)+4;
+
+"311
+[v _BRGH `Nb 1 s@32098 ]
+[; ;pic18fxx2.h: 311: static near bit BRGH @ ((unsigned)&TXSTA*8)+2;
+
+"312
+[v _TRMT `VNb 1 s@32097 ]
+[; ;pic18fxx2.h: 312: static volatile near bit TRMT @ ((unsigned)&TXSTA*8)+1;
+
+"313
+[v _TX9D `Nb 1 s@32096 ]
+[; ;pic18fxx2.h: 313: static near bit TX9D @ ((unsigned)&TXSTA*8)+0;
+
+"316
+[v _SPEN `Nb 1 s@32095 ]
+[; ;pic18fxx2.h: 316: static near bit SPEN @ ((unsigned)&RCSTA*8)+7;
+
+"317
+[v _RX9 `Nb 1 s@32094 ]
+[; ;pic18fxx2.h: 317: static near bit RX9 @ ((unsigned)&RCSTA*8)+6;
+
+"318
+[v _SREN `Nb 1 s@32093 ]
+[; ;pic18fxx2.h: 318: static near bit SREN @ ((unsigned)&RCSTA*8)+5;
+
+"319
+[v _CREN `Nb 1 s@32092 ]
+[; ;pic18fxx2.h: 319: static near bit CREN @ ((unsigned)&RCSTA*8)+4;
+
+"320
+[v _ADDEN `Nb 1 s@32091 ]
+[; ;pic18fxx2.h: 320: static near bit ADDEN @ ((unsigned)&RCSTA*8)+3;
+
+"321
+[v _FERR `VNb 1 s@32090 ]
+[; ;pic18fxx2.h: 321: static volatile near bit FERR @ ((unsigned)&RCSTA*8)+2;
+
+"322
+[v _OERR `VNb 1 s@32089 ]
+[; ;pic18fxx2.h: 322: static volatile near bit OERR @ ((unsigned)&RCSTA*8)+1;
+
+"323
+[v _RX9D `VNb 1 s@32088 ]
+[; ;pic18fxx2.h: 323: static volatile near bit RX9D @ ((unsigned)&RCSTA*8)+0;
+
+"326
+[v _EEPGD `Nb 1 s@32055 ]
+[; ;pic18fxx2.h: 326: static near bit EEPGD @ ((unsigned)&EECON1*8)+7;
+
+"327
+[v _CFGS `Nb 1 s@32054 ]
+[; ;pic18fxx2.h: 327: static near bit CFGS @ ((unsigned)&EECON1*8)+6;
+
+"329
+[v _EEFS `Nb 1 s@32054 ]
+[; ;pic18fxx2.h: 329: static near bit EEFS @ ((unsigned)&EECON1*8)+6;
+
+"330
+[v _FREE `VNb 1 s@32052 ]
+[; ;pic18fxx2.h: 330: static volatile near bit FREE @ ((unsigned)&EECON1*8)+4;
+
+"331
+[v _WRERR `VNb 1 s@32051 ]
+[; ;pic18fxx2.h: 331: static volatile near bit WRERR @ ((unsigned)&EECON1*8)+3;
+
+"332
+[v _WREN `VNb 1 s@32050 ]
+[; ;pic18fxx2.h: 332: static volatile near bit WREN @ ((unsigned)&EECON1*8)+2;
+
+"333
+[v _WR `VNb 1 s@32049 ]
+[; ;pic18fxx2.h: 333: static volatile near bit WR @ ((unsigned)&EECON1*8)+1;
+
+"334
+[v _RD `VNb 1 s@32048 ]
+[; ;pic18fxx2.h: 334: static volatile near bit RD @ ((unsigned)&EECON1*8)+0;
+
+"337
+[v _EEIP `Nb 1 s@32020 ]
+[; ;pic18fxx2.h: 337: static near bit EEIP @ ((unsigned)&IPR2*8)+4;
+
+"338
+[v _BCLIP `Nb 1 s@32019 ]
+[; ;pic18fxx2.h: 338: static near bit BCLIP @ ((unsigned)&IPR2*8)+3;
+
+"339
+[v _LVDIP `Nb 1 s@32018 ]
+[; ;pic18fxx2.h: 339: static near bit LVDIP @ ((unsigned)&IPR2*8)+2;
+
+"340
+[v _TMR3IP `Nb 1 s@32017 ]
+[; ;pic18fxx2.h: 340: static near bit TMR3IP @ ((unsigned)&IPR2*8)+1;
+
+"341
+[v _CCP2IP `Nb 1 s@32016 ]
+[; ;pic18fxx2.h: 341: static near bit CCP2IP @ ((unsigned)&IPR2*8)+0;
+
+"344
+[v _EEIF `VNb 1 s@32012 ]
+[; ;pic18fxx2.h: 344: static volatile near bit EEIF @ ((unsigned)&PIR2*8)+4;
+
+"345
+[v _BCLIF `VNb 1 s@32011 ]
+[; ;pic18fxx2.h: 345: static volatile near bit BCLIF @ ((unsigned)&PIR2*8)+3;
+
+"346
+[v _LVDIF `VNb 1 s@32010 ]
+[; ;pic18fxx2.h: 346: static volatile near bit LVDIF @ ((unsigned)&PIR2*8)+2;
+
+"347
+[v _TMR3IF `VNb 1 s@32009 ]
+[; ;pic18fxx2.h: 347: static volatile near bit TMR3IF @ ((unsigned)&PIR2*8)+1;
+
+"348
+[v _CCP2IF `VNb 1 s@32008 ]
+[; ;pic18fxx2.h: 348: static volatile near bit CCP2IF @ ((unsigned)&PIR2*8)+0;
+
+"351
+[v _EEIE `Nb 1 s@32004 ]
+[; ;pic18fxx2.h: 351: static near bit EEIE @ ((unsigned)&PIE2*8)+4;
+
+"352
+[v _BCLIE `Nb 1 s@32003 ]
+[; ;pic18fxx2.h: 352: static near bit BCLIE @ ((unsigned)&PIE2*8)+3;
+
+"353
+[v _LVDIE `Nb 1 s@32002 ]
+[; ;pic18fxx2.h: 353: static near bit LVDIE @ ((unsigned)&PIE2*8)+2;
+
+"354
+[v _TMR3IE `Nb 1 s@32001 ]
+[; ;pic18fxx2.h: 354: static near bit TMR3IE @ ((unsigned)&PIE2*8)+1;
+
+"355
+[v _CCP2IE `Nb 1 s@32000 ]
+[; ;pic18fxx2.h: 355: static near bit CCP2IE @ ((unsigned)&PIE2*8)+0;
+
+"358
+[v _PSPIP `Nb 1 s@31999 ]
+[; ;pic18fxx2.h: 358: static near bit PSPIP @ ((unsigned)&IPR1*8)+7;
+
+"359
+[v _ADIP `Nb 1 s@31998 ]
+[; ;pic18fxx2.h: 359: static near bit ADIP @ ((unsigned)&IPR1*8)+6;
+
+"360
+[v _RCIP `Nb 1 s@31997 ]
+[; ;pic18fxx2.h: 360: static near bit RCIP @ ((unsigned)&IPR1*8)+5;
+
+"361
+[v _TXIP `Nb 1 s@31996 ]
+[; ;pic18fxx2.h: 361: static near bit TXIP @ ((unsigned)&IPR1*8)+4;
+
+"362
+[v _SSPIP `Nb 1 s@31995 ]
+[; ;pic18fxx2.h: 362: static near bit SSPIP @ ((unsigned)&IPR1*8)+3;
+
+"363
+[v _CCP1IP `Nb 1 s@31994 ]
+[; ;pic18fxx2.h: 363: static near bit CCP1IP @ ((unsigned)&IPR1*8)+2;
+
+"364
+[v _TMR2IP `Nb 1 s@31993 ]
+[; ;pic18fxx2.h: 364: static near bit TMR2IP @ ((unsigned)&IPR1*8)+1;
+
+"365
+[v _TMR1IP `Nb 1 s@31992 ]
+[; ;pic18fxx2.h: 365: static near bit TMR1IP @ ((unsigned)&IPR1*8)+0;
+
+"368
+[v _PSPIF `VNb 1 s@31991 ]
+[; ;pic18fxx2.h: 368: static volatile near bit PSPIF @ ((unsigned)&PIR1*8)+7;
+
+"369
+[v _ADIF `VNb 1 s@31990 ]
+[; ;pic18fxx2.h: 369: static volatile near bit ADIF @ ((unsigned)&PIR1*8)+6;
+
+"370
+[v _RCIF `VNb 1 s@31989 ]
+[; ;pic18fxx2.h: 370: static volatile near bit RCIF @ ((unsigned)&PIR1*8)+5;
+
+"371
+[v _TXIF `VNb 1 s@31988 ]
+[; ;pic18fxx2.h: 371: static volatile near bit TXIF @ ((unsigned)&PIR1*8)+4;
+
+"372
+[v _SSPIF `VNb 1 s@31987 ]
+[; ;pic18fxx2.h: 372: static volatile near bit SSPIF @ ((unsigned)&PIR1*8)+3;
+
+"373
+[v _CCP1IF `VNb 1 s@31986 ]
+[; ;pic18fxx2.h: 373: static volatile near bit CCP1IF @ ((unsigned)&PIR1*8)+2;
+
+"374
+[v _TMR2IF `VNb 1 s@31985 ]
+[; ;pic18fxx2.h: 374: static volatile near bit TMR2IF @ ((unsigned)&PIR1*8)+1;
+
+"375
+[v _TMR1IF `VNb 1 s@31984 ]
+[; ;pic18fxx2.h: 375: static volatile near bit TMR1IF @ ((unsigned)&PIR1*8)+0;
+
+"378
+[v _PSPIE `Nb 1 s@31983 ]
+[; ;pic18fxx2.h: 378: static near bit PSPIE @ ((unsigned)&PIE1*8)+7;
+
+"379
+[v _ADIE `Nb 1 s@31982 ]
+[; ;pic18fxx2.h: 379: static near bit ADIE @ ((unsigned)&PIE1*8)+6;
+
+"380
+[v _RCIE `Nb 1 s@31981 ]
+[; ;pic18fxx2.h: 380: static near bit RCIE @ ((unsigned)&PIE1*8)+5;
+
+"381
+[v _TXIE `Nb 1 s@31980 ]
+[; ;pic18fxx2.h: 381: static near bit TXIE @ ((unsigned)&PIE1*8)+4;
+
+"382
+[v _SSPIE `Nb 1 s@31979 ]
+[; ;pic18fxx2.h: 382: static near bit SSPIE @ ((unsigned)&PIE1*8)+3;
+
+"383
+[v _CCP1IE `Nb 1 s@31978 ]
+[; ;pic18fxx2.h: 383: static near bit CCP1IE @ ((unsigned)&PIE1*8)+2;
+
+"384
+[v _TMR2IE `Nb 1 s@31977 ]
+[; ;pic18fxx2.h: 384: static near bit TMR2IE @ ((unsigned)&PIE1*8)+1;
+
+"385
+[v _TMR1IE `Nb 1 s@31976 ]
+[; ;pic18fxx2.h: 385: static near bit TMR1IE @ ((unsigned)&PIE1*8)+0;
+
+"409
+[v _TRISC7 `VNb 1 s@31911 ]
+[; ;pic18fxx2.h: 409: static volatile near bit TRISC7 @ ((unsigned)&TRISC*8)+7;
+
+"410
+[v _TRISC6 `VNb 1 s@31910 ]
+[; ;pic18fxx2.h: 410: static volatile near bit TRISC6 @ ((unsigned)&TRISC*8)+6;
+
+"411
+[v _TRISC5 `VNb 1 s@31909 ]
+[; ;pic18fxx2.h: 411: static volatile near bit TRISC5 @ ((unsigned)&TRISC*8)+5;
+
+"412
+[v _TRISC4 `VNb 1 s@31908 ]
+[; ;pic18fxx2.h: 412: static volatile near bit TRISC4 @ ((unsigned)&TRISC*8)+4;
+
+"413
+[v _TRISC3 `VNb 1 s@31907 ]
+[; ;pic18fxx2.h: 413: static volatile near bit TRISC3 @ ((unsigned)&TRISC*8)+3;
+
+"414
+[v _TRISC2 `VNb 1 s@31906 ]
+[; ;pic18fxx2.h: 414: static volatile near bit TRISC2 @ ((unsigned)&TRISC*8)+2;
+
+"415
+[v _TRISC1 `VNb 1 s@31905 ]
+[; ;pic18fxx2.h: 415: static volatile near bit TRISC1 @ ((unsigned)&TRISC*8)+1;
+
+"416
+[v _TRISC0 `VNb 1 s@31904 ]
+[; ;pic18fxx2.h: 416: static volatile near bit TRISC0 @ ((unsigned)&TRISC*8)+0;
+
+"419
+[v _TRISB7 `VNb 1 s@31903 ]
+[; ;pic18fxx2.h: 419: static volatile near bit TRISB7 @ ((unsigned)&TRISB*8)+7;
+
+"420
+[v _TRISB6 `VNb 1 s@31902 ]
+[; ;pic18fxx2.h: 420: static volatile near bit TRISB6 @ ((unsigned)&TRISB*8)+6;
+
+"421
+[v _TRISB5 `VNb 1 s@31901 ]
+[; ;pic18fxx2.h: 421: static volatile near bit TRISB5 @ ((unsigned)&TRISB*8)+5;
+
+"422
+[v _TRISB4 `VNb 1 s@31900 ]
+[; ;pic18fxx2.h: 422: static volatile near bit TRISB4 @ ((unsigned)&TRISB*8)+4;
+
+"423
+[v _TRISB3 `VNb 1 s@31899 ]
+[; ;pic18fxx2.h: 423: static volatile near bit TRISB3 @ ((unsigned)&TRISB*8)+3;
+
+"424
+[v _TRISB2 `VNb 1 s@31898 ]
+[; ;pic18fxx2.h: 424: static volatile near bit TRISB2 @ ((unsigned)&TRISB*8)+2;
+
+"425
+[v _TRISB1 `VNb 1 s@31897 ]
+[; ;pic18fxx2.h: 425: static volatile near bit TRISB1 @ ((unsigned)&TRISB*8)+1;
+
+"426
+[v _TRISB0 `VNb 1 s@31896 ]
+[; ;pic18fxx2.h: 426: static volatile near bit TRISB0 @ ((unsigned)&TRISB*8)+0;
+
+"429
+[v _TRISA6 `VNb 1 s@31894 ]
+[; ;pic18fxx2.h: 429: static volatile near bit TRISA6 @ ((unsigned)&TRISA*8)+6;
+
+"430
+[v _TRISA5 `VNb 1 s@31893 ]
+[; ;pic18fxx2.h: 430: static volatile near bit TRISA5 @ ((unsigned)&TRISA*8)+5;
+
+"431
+[v _TRISA4 `VNb 1 s@31892 ]
+[; ;pic18fxx2.h: 431: static volatile near bit TRISA4 @ ((unsigned)&TRISA*8)+4;
+
+"432
+[v _TRISA3 `VNb 1 s@31891 ]
+[; ;pic18fxx2.h: 432: static volatile near bit TRISA3 @ ((unsigned)&TRISA*8)+3;
+
+"433
+[v _TRISA2 `VNb 1 s@31890 ]
+[; ;pic18fxx2.h: 433: static volatile near bit TRISA2 @ ((unsigned)&TRISA*8)+2;
+
+"434
+[v _TRISA1 `VNb 1 s@31889 ]
+[; ;pic18fxx2.h: 434: static volatile near bit TRISA1 @ ((unsigned)&TRISA*8)+1;
+
+"435
+[v _TRISA0 `VNb 1 s@31888 ]
+[; ;pic18fxx2.h: 435: static volatile near bit TRISA0 @ ((unsigned)&TRISA*8)+0;
+
+"468
+[v _LC0 `VNb 1 s@31832 ]
+[; ;pic18fxx2.h: 468: static volatile near bit LC0 @ ((unsigned)&LATC*8)+0;
+
+"469
+[v _LC1 `VNb 1 s@31833 ]
+[; ;pic18fxx2.h: 469: static volatile near bit LC1 @ ((unsigned)&LATC*8)+1;
+
+"470
+[v _LC2 `VNb 1 s@31834 ]
+[; ;pic18fxx2.h: 470: static volatile near bit LC2 @ ((unsigned)&LATC*8)+2;
+
+"471
+[v _LC3 `VNb 1 s@31835 ]
+[; ;pic18fxx2.h: 471: static volatile near bit LC3 @ ((unsigned)&LATC*8)+3;
+
+"472
+[v _LC4 `VNb 1 s@31836 ]
+[; ;pic18fxx2.h: 472: static volatile near bit LC4 @ ((unsigned)&LATC*8)+4;
+
+"473
+[v _LC5 `VNb 1 s@31837 ]
+[; ;pic18fxx2.h: 473: static volatile near bit LC5 @ ((unsigned)&LATC*8)+5;
+
+"474
+[v _LC6 `VNb 1 s@31838 ]
+[; ;pic18fxx2.h: 474: static volatile near bit LC6 @ ((unsigned)&LATC*8)+6;
+
+"475
+[v _LC7 `VNb 1 s@31839 ]
+[; ;pic18fxx2.h: 475: static volatile near bit LC7 @ ((unsigned)&LATC*8)+7;
+
+"477
+[v _LATC0 `VNb 1 s@31832 ]
+[; ;pic18fxx2.h: 477: static volatile near bit LATC0 @ ((unsigned)&LATC*8)+0;
+
+"478
+[v _LATC1 `VNb 1 s@31833 ]
+[; ;pic18fxx2.h: 478: static volatile near bit LATC1 @ ((unsigned)&LATC*8)+1;
+
+"479
+[v _LATC2 `VNb 1 s@31834 ]
+[; ;pic18fxx2.h: 479: static volatile near bit LATC2 @ ((unsigned)&LATC*8)+2;
+
+"480
+[v _LATC3 `VNb 1 s@31835 ]
+[; ;pic18fxx2.h: 480: static volatile near bit LATC3 @ ((unsigned)&LATC*8)+3;
+
+"481
+[v _LATC4 `VNb 1 s@31836 ]
+[; ;pic18fxx2.h: 481: static volatile near bit LATC4 @ ((unsigned)&LATC*8)+4;
+
+"482
+[v _LATC5 `VNb 1 s@31837 ]
+[; ;pic18fxx2.h: 482: static volatile near bit LATC5 @ ((unsigned)&LATC*8)+5;
+
+"483
+[v _LATC6 `VNb 1 s@31838 ]
+[; ;pic18fxx2.h: 483: static volatile near bit LATC6 @ ((unsigned)&LATC*8)+6;
+
+"484
+[v _LATC7 `VNb 1 s@31839 ]
+[; ;pic18fxx2.h: 484: static volatile near bit LATC7 @ ((unsigned)&LATC*8)+7;
+
+"487
+[v _LB0 `VNb 1 s@31824 ]
+[; ;pic18fxx2.h: 487: static volatile near bit LB0 @ ((unsigned)&LATB*8)+0;
+
+"488
+[v _LB1 `VNb 1 s@31825 ]
+[; ;pic18fxx2.h: 488: static volatile near bit LB1 @ ((unsigned)&LATB*8)+1;
+
+"489
+[v _LB2 `VNb 1 s@31826 ]
+[; ;pic18fxx2.h: 489: static volatile near bit LB2 @ ((unsigned)&LATB*8)+2;
+
+"490
+[v _LB3 `VNb 1 s@31827 ]
+[; ;pic18fxx2.h: 490: static volatile near bit LB3 @ ((unsigned)&LATB*8)+3;
+
+"491
+[v _LB4 `VNb 1 s@31828 ]
+[; ;pic18fxx2.h: 491: static volatile near bit LB4 @ ((unsigned)&LATB*8)+4;
+
+"492
+[v _LB5 `VNb 1 s@31829 ]
+[; ;pic18fxx2.h: 492: static volatile near bit LB5 @ ((unsigned)&LATB*8)+5;
+
+"493
+[v _LB6 `VNb 1 s@31830 ]
+[; ;pic18fxx2.h: 493: static volatile near bit LB6 @ ((unsigned)&LATB*8)+6;
+
+"494
+[v _LB7 `VNb 1 s@31831 ]
+[; ;pic18fxx2.h: 494: static volatile near bit LB7 @ ((unsigned)&LATB*8)+7;
+
+"496
+[v _LATB0 `VNb 1 s@31824 ]
+[; ;pic18fxx2.h: 496: static volatile near bit LATB0 @ ((unsigned)&LATB*8)+0;
+
+"497
+[v _LATB1 `VNb 1 s@31825 ]
+[; ;pic18fxx2.h: 497: static volatile near bit LATB1 @ ((unsigned)&LATB*8)+1;
+
+"498
+[v _LATB2 `VNb 1 s@31826 ]
+[; ;pic18fxx2.h: 498: static volatile near bit LATB2 @ ((unsigned)&LATB*8)+2;
+
+"499
+[v _LATB3 `VNb 1 s@31827 ]
+[; ;pic18fxx2.h: 499: static volatile near bit LATB3 @ ((unsigned)&LATB*8)+3;
+
+"500
+[v _LATB4 `VNb 1 s@31828 ]
+[; ;pic18fxx2.h: 500: static volatile near bit LATB4 @ ((unsigned)&LATB*8)+4;
+
+"501
+[v _LATB5 `VNb 1 s@31829 ]
+[; ;pic18fxx2.h: 501: static volatile near bit LATB5 @ ((unsigned)&LATB*8)+5;
+
+"502
+[v _LATB6 `VNb 1 s@31830 ]
+[; ;pic18fxx2.h: 502: static volatile near bit LATB6 @ ((unsigned)&LATB*8)+6;
+
+"503
+[v _LATB7 `VNb 1 s@31831 ]
+[; ;pic18fxx2.h: 503: static volatile near bit LATB7 @ ((unsigned)&LATB*8)+7;
+
+"506
+[v _LA0 `VNb 1 s@31816 ]
+[; ;pic18fxx2.h: 506: static volatile near bit LA0 @ ((unsigned)&LATA*8)+0;
+
+"507
+[v _LA1 `VNb 1 s@31817 ]
+[; ;pic18fxx2.h: 507: static volatile near bit LA1 @ ((unsigned)&LATA*8)+1;
+
+"508
+[v _LA2 `VNb 1 s@31818 ]
+[; ;pic18fxx2.h: 508: static volatile near bit LA2 @ ((unsigned)&LATA*8)+2;
+
+"509
+[v _LA3 `VNb 1 s@31819 ]
+[; ;pic18fxx2.h: 509: static volatile near bit LA3 @ ((unsigned)&LATA*8)+3;
+
+"510
+[v _LA4 `VNb 1 s@31820 ]
+[; ;pic18fxx2.h: 510: static volatile near bit LA4 @ ((unsigned)&LATA*8)+4;
+
+"511
+[v _LA5 `VNb 1 s@31821 ]
+[; ;pic18fxx2.h: 511: static volatile near bit LA5 @ ((unsigned)&LATA*8)+5;
+
+"512
+[v _LA6 `VNb 1 s@31822 ]
+[; ;pic18fxx2.h: 512: static volatile near bit LA6 @ ((unsigned)&LATA*8)+6;
+
+"514
+[v _LATA0 `VNb 1 s@31816 ]
+[; ;pic18fxx2.h: 514: static volatile near bit LATA0 @ ((unsigned)&LATA*8)+0;
+
+"515
+[v _LATA1 `VNb 1 s@31817 ]
+[; ;pic18fxx2.h: 515: static volatile near bit LATA1 @ ((unsigned)&LATA*8)+1;
+
+"516
+[v _LATA2 `VNb 1 s@31818 ]
+[; ;pic18fxx2.h: 516: static volatile near bit LATA2 @ ((unsigned)&LATA*8)+2;
+
+"517
+[v _LATA3 `VNb 1 s@31819 ]
+[; ;pic18fxx2.h: 517: static volatile near bit LATA3 @ ((unsigned)&LATA*8)+3;
+
+"518
+[v _LATA4 `VNb 1 s@31820 ]
+[; ;pic18fxx2.h: 518: static volatile near bit LATA4 @ ((unsigned)&LATA*8)+4;
+
+"519
+[v _LATA5 `VNb 1 s@31821 ]
+[; ;pic18fxx2.h: 519: static volatile near bit LATA5 @ ((unsigned)&LATA*8)+5;
+
+"520
+[v _LATA6 `VNb 1 s@31822 ]
+[; ;pic18fxx2.h: 520: static volatile near bit LATA6 @ ((unsigned)&LATA*8)+6;
+
+"540
+[v _RC0 `VNb 1 s@31760 ]
+[; ;pic18fxx2.h: 540: static volatile near bit RC0 @ ((unsigned)&PORTC*8)+0;
+
+"541
+[v _RC1 `VNb 1 s@31761 ]
+[; ;pic18fxx2.h: 541: static volatile near bit RC1 @ ((unsigned)&PORTC*8)+1;
+
+"542
+[v _RC2 `VNb 1 s@31762 ]
+[; ;pic18fxx2.h: 542: static volatile near bit RC2 @ ((unsigned)&PORTC*8)+2;
+
+"543
+[v _RC3 `VNb 1 s@31763 ]
+[; ;pic18fxx2.h: 543: static volatile near bit RC3 @ ((unsigned)&PORTC*8)+3;
+
+"544
+[v _RC4 `VNb 1 s@31764 ]
+[; ;pic18fxx2.h: 544: static volatile near bit RC4 @ ((unsigned)&PORTC*8)+4;
+
+"545
+[v _RC5 `VNb 1 s@31765 ]
+[; ;pic18fxx2.h: 545: static volatile near bit RC5 @ ((unsigned)&PORTC*8)+5;
+
+"546
+[v _RC6 `VNb 1 s@31766 ]
+[; ;pic18fxx2.h: 546: static volatile near bit RC6 @ ((unsigned)&PORTC*8)+6;
+
+"547
+[v _RC7 `VNb 1 s@31767 ]
+[; ;pic18fxx2.h: 547: static volatile near bit RC7 @ ((unsigned)&PORTC*8)+7;
+
+"550
+[v _RB0 `VNb 1 s@31752 ]
+[; ;pic18fxx2.h: 550: static volatile near bit RB0 @ ((unsigned)&PORTB*8)+0;
+
+"551
+[v _RB1 `VNb 1 s@31753 ]
+[; ;pic18fxx2.h: 551: static volatile near bit RB1 @ ((unsigned)&PORTB*8)+1;
+
+"552
+[v _RB2 `VNb 1 s@31754 ]
+[; ;pic18fxx2.h: 552: static volatile near bit RB2 @ ((unsigned)&PORTB*8)+2;
+
+"553
+[v _RB3 `VNb 1 s@31755 ]
+[; ;pic18fxx2.h: 553: static volatile near bit RB3 @ ((unsigned)&PORTB*8)+3;
+
+"554
+[v _RB4 `VNb 1 s@31756 ]
+[; ;pic18fxx2.h: 554: static volatile near bit RB4 @ ((unsigned)&PORTB*8)+4;
+
+"555
+[v _RB5 `VNb 1 s@31757 ]
+[; ;pic18fxx2.h: 555: static volatile near bit RB5 @ ((unsigned)&PORTB*8)+5;
+
+"556
+[v _RB6 `VNb 1 s@31758 ]
+[; ;pic18fxx2.h: 556: static volatile near bit RB6 @ ((unsigned)&PORTB*8)+6;
+
+"557
+[v _RB7 `VNb 1 s@31759 ]
+[; ;pic18fxx2.h: 557: static volatile near bit RB7 @ ((unsigned)&PORTB*8)+7;
+
+"560
+[v _RA0 `VNb 1 s@31744 ]
+[; ;pic18fxx2.h: 560: static volatile near bit RA0 @ ((unsigned)&PORTA*8)+0;
+
+"561
+[v _RA1 `VNb 1 s@31745 ]
+[; ;pic18fxx2.h: 561: static volatile near bit RA1 @ ((unsigned)&PORTA*8)+1;
+
+"562
+[v _RA2 `VNb 1 s@31746 ]
+[; ;pic18fxx2.h: 562: static volatile near bit RA2 @ ((unsigned)&PORTA*8)+2;
+
+"563
+[v _RA3 `VNb 1 s@31747 ]
+[; ;pic18fxx2.h: 563: static volatile near bit RA3 @ ((unsigned)&PORTA*8)+3;
+
+"564
+[v _RA4 `VNb 1 s@31748 ]
+[; ;pic18fxx2.h: 564: static volatile near bit RA4 @ ((unsigned)&PORTA*8)+4;
+
+"565
+[v _RA5 `VNb 1 s@31749 ]
+[; ;pic18fxx2.h: 565: static volatile near bit RA5 @ ((unsigned)&PORTA*8)+5;
+
+"566
+[v _RA6 `VNb 1 s@31750 ]
+[; ;pic18fxx2.h: 566: static volatile near bit RA6 @ ((unsigned)&PORTA*8)+6;
+
+[; ;pic18.h: 205: extern unsigned char idloc_read(unsigned char reg_no);
+
+[; ;pic18.h: 206: extern void idloc_write(unsigned char reg_no,unsigned char data);
+
+[; ;pic18.h: 319: extern unsigned char eeprom_read(unsigned int address);
+
+[; ;pic18.h: 320: extern void eeprom_write(unsigned int address,unsigned char data);
+
+[; ;pic18.h: 324: extern unsigned char flash_read(unsigned long addr);
+
+[; ;pic18.h: 328: extern void flash_write(const unsigned char *,unsigned int,far unsigned char *);
+
+[; ;pic18.h: 331: extern void flash_erase(unsigned long addr);
+
+[; ;pic18.h: 349: extern unsigned int config_read(unsigned char reg_no);
+
+[; ;pic18.h: 350: extern void config_write(unsigned char reg_no, unsigned int dataword);
+
+[; ;pic18.h: 353: extern unsigned int device_id_read(void);
+
+[; ;pic18.h: 356: extern void initiate_write(void);
+
+[; ;pic18.h: 361: extern void __delay_400_cycles(unsigned int);
+
+[; ;pic18.h: 380: extern unsigned char checksum8(unsigned long startAddr, unsigned long length);
+
+[; ;pic18.h: 381: extern unsigned int checksum16(unsigned long startAddr, unsigned long length);
+
+[; ;pic18.h: 382: extern unsigned long checksum32(unsigned long startAddr, unsigned long length);
+
+[; ;osd.h: 42: void OsdWrite(unsigned char n,const unsigned char *s, char invert);
+
+[; ;osd.h: 43: void OsdClear(void);
+
+[; ;osd.h: 44: void OsdEnable(void);
+
+[; ;osd.h: 45: void OsdDisable(void);
+
+[; ;osd.h: 46: void OsdReset(unsigned char boot);
+
+[; ;osd.h: 47: void ConfigFilter(unsigned char lores, unsigned char hires);
+
+[; ;osd.h: 48: void ConfigMemory(unsigned char memory);
+
+[; ;osd.h: 49: void ConfigChipset(unsigned char chipset);
+
+[; ;osd.h: 50: void ConfigFloppy(unsigned char drives, unsigned char speed);
+
+[; ;osd.h: 51: void ConfigScanline(unsigned char scanline);
+
+[; ;osd.h: 52: void ConfigIDE(unsigned char gayle, unsigned char master, unsigned char slave);
+
+[; ;osd.h: 53: unsigned char OsdGetCtrl(void);
+
+[; ;osd.h: 54: unsigned char GetASCIIKey(unsigned char keycode);
+
+"5 ..\osdFont.h
+[v F746 `Cuc -> 5 `i t ]
+[; ;osdFont.h: 5: extern const unsigned char charfont[256][5];
+
+[; ;hardware.h: 55: void HardwareInit(void);
+
+[; ;hardware.h: 56: unsigned char SPI(unsigned char data);
+
+[; ;hardware.h: 57: unsigned char OsdCommand(unsigned char data);
+
+[; ;hardware.h: 58: void ShiftFpga(unsigned char data);
+
+[; ;hardware.h: 59: unsigned short GetTimer(unsigned short offset);
+
+[; ;hardware.h: 60: unsigned char CheckTimer(unsigned short t);
+
+[; ;hardware.h: 61: void WaitTimer(unsigned short time);
+
+"54 ..\osd.c
+[v _keycode_table `Cuc -> 128 `i e ]
+[i _keycode_table
+:U ..
+"56
+-> -> 0 `i `uc
+-> -> 49 `ui `uc
+-> -> 50 `ui `uc
+-> -> 51 `ui `uc
+-> -> 52 `ui `uc
+-> -> 53 `ui `uc
+-> -> 54 `ui `uc
+-> -> 55 `ui `uc
+-> -> 56 `ui `uc
+-> -> 57 `ui `uc
+-> -> 48 `ui `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"57
+-> -> 81 `ui `uc
+-> -> 87 `ui `uc
+-> -> 69 `ui `uc
+-> -> 82 `ui `uc
+-> -> 84 `ui `uc
+-> -> 89 `ui `uc
+-> -> 85 `ui `uc
+-> -> 73 `ui `uc
+-> -> 79 `ui `uc
+-> -> 80 `ui `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"58
+-> -> 65 `ui `uc
+-> -> 83 `ui `uc
+-> -> 68 `ui `uc
+-> -> 70 `ui `uc
+-> -> 71 `ui `uc
+-> -> 72 `ui `uc
+-> -> 74 `ui `uc
+-> -> 75 `ui `uc
+-> -> 76 `ui `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"59
+-> -> 0 `i `uc
+-> -> 90 `ui `uc
+-> -> 88 `ui `uc
+-> -> 67 `ui `uc
+-> -> 86 `ui `uc
+-> -> 66 `ui `uc
+-> -> 78 `ui `uc
+-> -> 77 `ui `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"60
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"61
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"62
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"63
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+"64
+-> -> 0 `i `uc
+..
+][; ;osd.c: 54: const char keycode_table[128] =
+
+[; ;osd.c: 55: {
+
+[; ;osd.c: 56: 0,'1','2','3','4','5','6','7','8','9','0', 0, 0, 0, 0, 0,
+
+[; ;osd.c: 57: 'Q','W','E','R','T','Y','U','I','O','P', 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 58: 'A','S','D','F','G','H','J','K','L', 0, 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 59: 0,'Z','X','C','V','B','N','M', 0, 0, 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 60: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 61: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 62: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+[; ;osd.c: 63: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+[; ;osd.c: 64: };
+
+"69
+[v _OsdWrite `(v 1 ef3`uc`*Cuc`uc ]
+{
+[v _n `uc 1 r1 ]
+[v _s `*Cuc 1 r2 ]
+[v _invert `uc 1 r3 ]
+[; ;osd.c: 68: void OsdWrite(unsigned char n, const unsigned char *s, char invert)
+
+[; ;osd.c: 69: {
+
+[e :U _OsdWrite ]
+[f ]
+"70
+[v _byte_cnt `us 1 a ]
+"71
+[v _b `uc 1 a ]
+"72
+[v _p `*Cuc 1 a ]
+[; ;osd.c: 70: unsigned short byte_cnt;
+
+[; ;osd.c: 71: unsigned char b;
+
+[; ;osd.c: 72: const unsigned char *p;
+
+[; ;osd.c: 75: RB5=0;
+
+"75
+[e = _RB5 -> -> 0 `i `b ]
+[; ;osd.c: 78: if (invert)
+
+"78
+[e $ ! != -> _invert `i -> -> -> 0 `i `uc `i 2  ]
+[; ;osd.c: 79: { SPI(0x20|0x10|n); }
+
+"56 ..\hardware.h
+[v _SPI `(uc 0 ef1`uc ]
+"79 ..\osd.c
+[e ( _SPI (1
+ -> | | -> 32 `i -> 16 `i -> _n `i `uc ]
+[e $U 3  ]
+"80
+[e :U 2 ]
+[; ;osd.c: 80: else
+
+[; ;osd.c: 81: { SPI(0x20|n); }
+
+"81
+[e ( _SPI (1
+ -> | -> 32 `i -> _n `i `uc ]
+[e :U 3 ]
+[; ;osd.c: 84: byte_cnt = 0;
+
+"84
+[e = _byte_cnt -> -> 0 `i `us ]
+[; ;osd.c: 87: while(1)
+
+"87
+[e :U 5 ]
+[; ;osd.c: 88: {
+
+[; ;osd.c: 89: b=*(s++);
+
+"89
+[e = _b *U ++ _s * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 92: if (0 == b)
+
+"92
+[e $ ! == -> 0 `i -> _b `i 7  ]
+[; ;osd.c: 93: { break; }
+
+"93
+[e $U 6  ]
+[e $U 8  ]
+"94
+[e :U 7 ]
+[; ;osd.c: 94: else if (0x0d == b || 0x0a == b)
+
+[e $ ! || == -> 13 `i -> _b `i == -> 10 `i -> _b `i 9  ]
+[; ;osd.c: 95: {
+
+[; ;osd.c: 97: for(; byte_cnt < 256; byte_cnt++)
+
+"97
+[e $ < -> _byte_cnt `ui -> -> 256 `i `ui 10  ]
+[e $U 11  ]
+"98
+[e :U 10 ]
+[; ;osd.c: 98: { SPI(0x00); }
+
+[e ( _SPI (1
+ -> -> 0 `i `uc ]
+"97
+[e ++ _byte_cnt -> -> 1 `i `us ]
+[e $ < -> _byte_cnt `ui -> -> 256 `i `ui 10  ]
+[e :U 11 ]
+[; ;osd.c: 101: byte_cnt = 0;
+
+"101
+[e = _byte_cnt -> -> 0 `i `us ]
+[; ;osd.c: 104: if(++n >= 8)
+
+"104
+[e $ ! >= -> =+ _n -> -> 1 `i `uc `i -> 8 `i 13  ]
+[; ;osd.c: 105: { n=0; }
+
+"105
+[e = _n -> -> 0 `i `uc ]
+[e :U 13 ]
+[; ;osd.c: 108: RB5=1;
+
+"108
+[e = _RB5 -> -> 1 `i `b ]
+[; ;osd.c: 109: RB5=0;
+
+"109
+[e = _RB5 -> -> 0 `i `b ]
+[; ;osd.c: 110: SPI(0x20|n);
+
+"110
+[e ( _SPI (1
+ -> | -> 32 `i -> _n `i `uc ]
+"111
+[; ;osd.c: 111: }
+
+[e $U 14  ]
+"112
+[e :U 9 ]
+[; ;osd.c: 112: else
+
+[; ;osd.c: 113: {
+
+[; ;osd.c: 130: SPI(0x00);
+
+"130
+[e ( _SPI (1
+ -> -> 0 `i `uc ]
+[; ;osd.c: 131: SPI(0x00);
+
+"131
+[e ( _SPI (1
+ -> -> 0 `i `uc ]
+[; ;osd.c: 134: p=&charfont[b][0];
+
+"5 ..\osdFont.h
+[v _charfont `F746 -> 0 `x e ]
+"134 ..\osd.c
+[e = _p &U *U + &U *U + &U _charfont * -> _b `ux -> * -> # `Cuc `ui -> -> 5 `i `ui `ux * -> -> -> 0 `i `ui `ux -> -> # `Cuc `ui `ux ]
+[; ;osd.c: 135: SPI(*(p));
+
+"135
+[e ( _SPI (1
+ *U _p ]
+[; ;osd.c: 136: SPI(*(p++));
+
+"136
+[e ( _SPI (1
+ *U ++ _p * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 138: SPI(*(p));
+
+"138
+[e ( _SPI (1
+ *U _p ]
+[; ;osd.c: 139: SPI(*(p++));
+
+"139
+[e ( _SPI (1
+ *U ++ _p * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 141: SPI(*(p));
+
+"141
+[e ( _SPI (1
+ *U _p ]
+[; ;osd.c: 142: SPI(*(p++));
+
+"142
+[e ( _SPI (1
+ *U ++ _p * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 144: SPI(*(p));
+
+"144
+[e ( _SPI (1
+ *U _p ]
+[; ;osd.c: 145: SPI(*(p++));
+
+"145
+[e ( _SPI (1
+ *U ++ _p * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 147: SPI(*(p));
+
+"147
+[e ( _SPI (1
+ *U _p ]
+[; ;osd.c: 148: SPI(*(p++));
+
+"148
+[e ( _SPI (1
+ *U ++ _p * -> -> 1 `i `x -> -> # `Cuc `i `x ]
+[; ;osd.c: 150: byte_cnt += 12;
+
+"150
+[e =+ _byte_cnt -> -> 12 `i `us ]
+"152
+[e :U 14 ]
+[e :U 8 ]
+"153
+[e :U 4 ]
+"87
+[e $U 5  ]
+[e :U 6 ]
+[; ;osd.c: 152: }
+
+[; ;osd.c: 153: }
+
+[; ;osd.c: 156: for(; byte_cnt < 256; byte_cnt++)
+
+"156
+[e $ < -> _byte_cnt `ui -> -> 256 `i `ui 15  ]
+[e $U 16  ]
+"157
+[e :U 15 ]
+[; ;osd.c: 157: { SPI(0x00); }
+
+[e ( _SPI (1
+ -> -> 0 `i `uc ]
+"156
+[e ++ _byte_cnt -> -> 1 `i `us ]
+[e $ < -> _byte_cnt `ui -> -> 256 `i `ui 15  ]
+[e :U 16 ]
+[; ;osd.c: 160: RB5=1;
+
+"160
+[e = _RB5 -> -> 1 `i `b ]
+"161
+[; ;osd.c: 161: }
+
+[e :UE 1 ]
+}
+"166
+[v _OsdClear `(v 1 ef ]
+{
+[; ;osd.c: 165: void OsdClear(void)
+
+[; ;osd.c: 166: {
+
+[e :U _OsdClear ]
+[f ]
+"167
+[v _n `us 1 a ]
+[; ;osd.c: 167: unsigned short n;
+
+[; ;osd.c: 170: RB5=0;
+
+"170
+[e = _RB5 -> -> 0 `i `b ]
+[; ;osd.c: 173: SPI(0x20|0x18);
+
+"173
+[e ( _SPI (1
+ -> | -> 32 `i -> 24 `i `uc ]
+[; ;osd.c: 176: for(n=0; n < (256 * 8); n++)
+
+"176
+[e = _n -> -> 0 `i `us ]
+[e $ < -> _n `ui -> * -> 256 `i -> 8 `i `ui 19  ]
+[e $U 20  ]
+"177
+[e :U 19 ]
+[; ;osd.c: 177: { SPI(0x00); }
+
+[e ( _SPI (1
+ -> -> 0 `i `uc ]
+"176
+[e ++ _n -> -> 1 `i `us ]
+[e $ < -> _n `ui -> * -> 256 `i -> 8 `i `ui 19  ]
+[e :U 20 ]
+[; ;osd.c: 180: RB5=1;
+
+"180
+[e = _RB5 -> -> 1 `i `b ]
+"181
+[; ;osd.c: 181: }
+
+[e :UE 18 ]
+}
+"185
+[v _OsdEnable `(v 1 ef ]
+{
+[; ;osd.c: 184: void OsdEnable(void)
+
+[; ;osd.c: 185: {
+
+[e :U _OsdEnable ]
+[f ]
+[; ;osd.c: 186: OsdCommand(0x60);
+
+"57 ..\hardware.h
+[v _OsdCommand `(uc 0 ef1`uc ]
+"186 ..\osd.c
+[e ( _OsdCommand (1
+ -> -> 96 `i `uc ]
+"187
+[; ;osd.c: 187: }
+
+[e :UE 22 ]
+}
+"191
+[v _OsdDisable `(v 1 ef ]
+{
+[; ;osd.c: 190: void OsdDisable(void)
+
+[; ;osd.c: 191: {
+
+[e :U _OsdDisable ]
+[f ]
+[; ;osd.c: 192: OsdCommand(0x40);
+
+"192
+[e ( _OsdCommand (1
+ -> -> 64 `i `uc ]
+"193
+[; ;osd.c: 193: }
+
+[e :UE 23 ]
+}
+"196
+[v _OsdReset `(v 1 ef1`uc ]
+{
+[v _boot `uc 1 r1 ]
+[; ;osd.c: 195: void OsdReset(unsigned char boot)
+
+[; ;osd.c: 196: {
+
+[e :U _OsdReset ]
+[f ]
+[; ;osd.c: 197: OsdCommand(0x80 | (boot&0x01));
+
+"197
+[e ( _OsdCommand (1
+ -> | -> 128 `i & -> _boot `i -> 1 `i `uc ]
+"198
+[; ;osd.c: 198: }
+
+[e :UE 24 ]
+}
+"201
+[v _ConfigFilter `(v 1 ef2`uc`uc ]
+{
+[v _lores `uc 1 r1 ]
+[v _hires `uc 1 r2 ]
+[; ;osd.c: 200: void ConfigFilter(unsigned char lores, unsigned char hires)
+
+[; ;osd.c: 201: {
+
+[e :U _ConfigFilter ]
+[f ]
+[; ;osd.c: 202: OsdCommand(0xE0 | ((hires&0x03)<<2) | (lores&0x03));
+
+"202
+[e ( _OsdCommand (1
+ -> | | -> 224 `i << & -> _hires `i -> 3 `i -> 2 `i & -> _lores `i -> 3 `i `uc ]
+"203
+[; ;osd.c: 203: }
+
+[e :UE 25 ]
+}
+"206
+[v _ConfigMemory `(v 1 ef1`uc ]
+{
+[v _memory `uc 1 r1 ]
+[; ;osd.c: 205: void ConfigMemory(unsigned char memory)
+
+[; ;osd.c: 206: {
+
+[e :U _ConfigMemory ]
+[f ]
+[; ;osd.c: 207: OsdCommand(0xF0 | (memory&0x0F));
+
+"207
+[e ( _OsdCommand (1
+ -> | -> 240 `i & -> _memory `i -> 15 `i `uc ]
+"208
+[; ;osd.c: 208: }
+
+[e :UE 26 ]
+}
+"211
+[v _ConfigChipset `(v 1 ef1`uc ]
+{
+[v _chipset `uc 1 r1 ]
+[; ;osd.c: 210: void ConfigChipset(unsigned char chipset)
+
+[; ;osd.c: 211: {
+
+[e :U _ConfigChipset ]
+[f ]
+[; ;osd.c: 212: OsdCommand(0xD0 | (chipset&0x0F));
+
+"212
+[e ( _OsdCommand (1
+ -> | -> 208 `i & -> _chipset `i -> 15 `i `uc ]
+"213
+[; ;osd.c: 213: }
+
+[e :UE 27 ]
+}
+"216
+[v _ConfigFloppy `(v 1 ef2`uc`uc ]
+{
+[v _drives `uc 1 r1 ]
+[v _speed `uc 1 r2 ]
+[; ;osd.c: 215: void ConfigFloppy(unsigned char drives, unsigned char speed)
+
+[; ;osd.c: 216: {
+
+[e :U _ConfigFloppy ]
+[f ]
+[; ;osd.c: 217: OsdCommand(0xC0 | ((drives&0x03)<<2) | (speed&0x03));
+
+"217
+[e ( _OsdCommand (1
+ -> | | -> 192 `i << & -> _drives `i -> 3 `i -> 2 `i & -> _speed `i -> 3 `i `uc ]
+"218
+[; ;osd.c: 218: }
+
+[e :UE 28 ]
+}
+"221
+[v _ConfigScanline `(v 1 ef1`uc ]
+{
+[v _scanline `uc 1 r1 ]
+[; ;osd.c: 220: void ConfigScanline(unsigned char scanline)
+
+[; ;osd.c: 221: {
+
+[e :U _ConfigScanline ]
+[f ]
+[; ;osd.c: 222: OsdCommand(0xA0 | (scanline&0x0F));
+
+"222
+[e ( _OsdCommand (1
+ -> | -> 160 `i & -> _scanline `i -> 15 `i `uc ]
+"223
+[; ;osd.c: 223: }
+
+[e :UE 29 ]
+}
+"226
+[v _ConfigIDE `(v 1 ef3`uc`uc`uc ]
+{
+[v _gayle `uc 1 r1 ]
+[v _master `uc 1 r2 ]
+[v _slave `uc 1 r3 ]
+[; ;osd.c: 225: void ConfigIDE(unsigned char gayle, unsigned char master, unsigned char slave)
+
+[; ;osd.c: 226: {
+
+[e :U _ConfigIDE ]
+[f ]
+[; ;osd.c: 227: OsdCommand(0xB0 | (slave ? 4 : 0) | (master ? 2 : 0) | (gayle ? 1 : 0));
+
+"227
+[e ( _OsdCommand (1
+ -> | | | -> 176 `i ? != -> _slave `i -> -> -> 0 `i `uc `i : -> 4 `i -> 0 `i ? != -> _master `i -> -> -> 0 `i `uc `i : -> 2 `i -> 0 `i ? != -> _gayle `i -> -> -> 0 `i `uc `i : -> 1 `i -> 0 `i `uc ]
+"228
+[; ;osd.c: 228: }
+
+[e :UE 30 ]
+}
+"233
+[v _OsdGetCtrl `(uc 1 ef ]
+{
+[; ;osd.c: 232: unsigned char OsdGetCtrl(void)
+
+[; ;osd.c: 233: {
+
+[e :U _OsdGetCtrl ]
+[f ]
+"234
+[v F784 `uc 1 s c2
+ ]
+"235
+[v F785 `us 1 s repeat
+ ]
+"236
+[v _c1 `uc 1 a ]
+[v _c `uc 1 a ]
+[; ;osd.c: 234: static unsigned char c2;
+
+[; ;osd.c: 235: static unsigned short repeat;
+
+[; ;osd.c: 236: unsigned char c1,c;
+
+[; ;osd.c: 239: c1 = OsdCommand(0x00);
+
+"239
+[e = _c1 ( _OsdCommand (1
+ -> -> 0 `i `uc ]
+[; ;osd.c: 242: if ((!RB0))
+
+"242
+[e $ ! ! _RB0 32  ]
+[; ;osd.c: 243: { c1 = 0x88; }
+
+"243
+[e = _c1 -> -> 136 `i `uc ]
+[e :U 32 ]
+[; ;osd.c: 246: c = 0;
+
+"246
+[e = _c -> -> 0 `i `uc ]
+[; ;osd.c: 247: if (c1!=c2)
+
+"247
+[e $ ! != -> _c1 `i -> F784 `i 33  ]
+[; ;osd.c: 248: { c = c1; }
+
+"248
+[e = _c _c1 ]
+[e :U 33 ]
+[; ;osd.c: 250: c2 = c1;
+
+"250
+[e = F784 _c1 ]
+[; ;osd.c: 255: if (!c1)
+
+"255
+[e $ ! ! != -> _c1 `i -> -> -> 0 `i `uc `i 34  ]
+[; ;osd.c: 256: { repeat = GetTimer(50); }
+
+"59 ..\hardware.h
+[v _GetTimer `(us 0 ef1`us ]
+"256 ..\osd.c
+[e = F785 ( _GetTimer (1
+ -> -> 50 `i `us ]
+[e $U 35  ]
+"257
+[e :U 34 ]
+[; ;osd.c: 257: else if (CheckTimer(repeat))
+
+"60 ..\hardware.h
+[v _CheckTimer `(uc 0 ef1`us ]
+"257 ..\osd.c
+[e $ ! != -> ( _CheckTimer (1
+ F785 `i -> -> -> 0 `i `uc `i 36  ]
+[; ;osd.c: 258: {
+
+[; ;osd.c: 259: repeat = GetTimer(2);
+
+"259
+[e = F785 ( _GetTimer (1
+ -> -> 2 `i `us ]
+[; ;osd.c: 260: if (c1==0x4C || c1==0x4D || GetASCIIKey(c1))
+
+"54 ..\osd.h
+[v _GetASCIIKey `(uc 0 ef1`uc ]
+"260 ..\osd.c
+[e $ ! || || == -> _c1 `i -> 76 `i == -> _c1 `i -> 77 `i != -> ( _GetASCIIKey (1
+ _c1 `i -> -> -> 0 `i `uc `i 37  ]
+[; ;osd.c: 261: { c = c1; }
+
+"261
+[e = _c _c1 ]
+[e :U 37 ]
+"262
+[e :U 36 ]
+"265
+[e :U 35 ]
+[; ;osd.c: 262: }
+
+[; ;osd.c: 265: return(c);
+
+[e ) _c ]
+[e $UE 31  ]
+"266
+[; ;osd.c: 266: }
+
+[e :UE 31 ]
+}
+"269
+[v _GetASCIIKey `(uc 1 ef1`uc ]
+{
+[v _keycode `uc 1 r1 ]
+[; ;osd.c: 268: unsigned char GetASCIIKey(unsigned char keycode)
+
+[; ;osd.c: 269: {
+
+[e :U _GetASCIIKey ]
+[f ]
+[; ;osd.c: 270: return keycode&0x80 ? 0 : keycode_table[keycode&0x7F];
+
+"270
+[e ) -> ? != & -> _keycode `i -> 128 `i -> 0 `i : -> 0 `i -> *U + &U _keycode_table * -> -> & -> _keycode `i -> 127 `i `ui `ux -> -> # `Cuc `ui `ux `i `uc ]
+[e $UE 38  ]
+"271
+[; ;osd.c: 271: }
+
+[e :UE 38 ]
+}

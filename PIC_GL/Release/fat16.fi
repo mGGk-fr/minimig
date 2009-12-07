@@ -1,0 +1,53 @@
+FindDrive 70 75
+MMC_Read 78
+MMC_Read 122
+OpenRootDirectory 196
+212
+Open 217 218
+GetDirectoryEntry 224
+GetDirectoryEntry 246
+254
+OpenRootDirectory 259 259
+memset 261
+266
+OpenDirectory 271 271
+memcpy 273
+282
+GetDirectoryEntry 287 289
+FindPreviousDirectoryEntry 299
+memset 310
+FileSeek 313
+MMC_Read 320
+GetLBA 320
+ProcessDirEntry 327
+FileNextSector 338
+343
+FindPreviousDirectoryEntry 351 354
+FileSeek 369
+FileSeek 391
+MMC_Read 397
+GetLBA 397
+463
+ProcessDirEntry 472 474
+memset 504
+memcpy 509
+543
+FileNextSector 548 548
+GetNextClusterIndexFromFAT 554
+557
+FileSeek 561 563
+GetNextClusterIndexFromFAT 597
+606
+GetNextClusterIndexFromFAT 611 613
+MMC_Read 638
+662
+GetLBA 667 668
+684
+FileRead 689 689
+MMC_Read 690
+GetLBA 690
+691
+FileWrite 695 695
+MMC_Write 696
+GetLBA 696
+697

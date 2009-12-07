@@ -1,0 +1,7 @@
+
+<properties>
+  <property name="com.htsoft.hitide.namespace" value="com.htsoft.picc18"/>
+  <property name="com.htsoft.hitide.compNamespace" value="com.htsoft.pic18.std.v9_51PL2"/>
+  <property name="com.htsoft.hitide.chipName" value="18F252"/>
+  <property name="com.htsoft.hitide.package" value="28PDIP"/>
+</properties>
