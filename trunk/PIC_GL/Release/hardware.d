@@ -1,0 +1,1 @@
+hardware.d hardware.obj: ..\hardware.c C:/Program\ Files\ (x86)/HI-TECH\ Software/PICC-18/STD/9.51/include/htc.h ../hardware.h C:/Program\ Files\ (x86)/HI-TECH\ Software/PICC-18/STD/9.51/include/pic18.h C:/Program\ Files\ (x86)/HI-TECH\ Software/PICC-18/STD/9.51/include/pic18fxx2.h C:/Program\ Files\ (x86)/HI-TECH\ Software/PICC-18/STD/9.51/include/errata.h

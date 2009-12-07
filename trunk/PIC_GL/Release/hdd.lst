@@ -1,0 +1,2698 @@
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:01 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	text,global,reloc=2,class=CODE,delta=1
+     4                           	psect	const,global,class=CODE,delta=1
+     5                           	psect	bss,global,class=RAM,space=1,delta=1
+     6                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     7                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+     8  000000                     
+     9                           ;       param _len assigned to ?_SwapBytes+2
+    10  000000                     _SwapBytes$len	set	?_SwapBytes+2
+    11  000000                     
+    12  000000                     
+    13  000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  000000                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000                     
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000                     
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000                     
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                     
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97  000000                     
+    98  000000                     
+    99                           ;pic18fxx2.h: 21: static volatile near unsigned 
+      +                          char TOSU @ 0xFFF;
+   100                           ;pic18fxx2.h: 22: static volatile near unsigned 
+      +                          char TOSH @ 0xFFE;
+   101                           ;pic18fxx2.h: 23: static volatile near unsigned 
+      +                          char TOSL @ 0xFFD;
+   102                           ;pic18fxx2.h: 24: static volatile near unsigned 
+      +                          char STKPTR @ 0xFFC;
+   103                           ;pic18fxx2.h: 25: static volatile near unsigned 
+      +                          char PCLATU @ 0xFFB;
+   104                           ;pic18fxx2.h: 26: static volatile near unsigned 
+      +                          char PCLATH @ 0xFFA;
+   105                           ;pic18fxx2.h: 27: static volatile near unsigned 
+      +                          char PCL @ 0xFF9;
+   106                           ;pic18fxx2.h: 28: static volatile far unsigned c
+      +                          har * TBLPTR @ 0xFF6;
+   107                           ;pic18fxx2.h: 29: static volatile near unsigned 
+      +                          char TBLPTRU @ 0xFF8;
+   108                           ;pic18fxx2.h: 30: static volatile near unsigned 
+      +                          char TBLPTRH @ 0xFF7;
+   109                           ;pic18fxx2.h: 31: static volatile near unsigned 
+      +                          char TBLPTRL @ 0xFF6;
+   110                           ;pic18fxx2.h: 32: static volatile near unsigned 
+      +                          char TABLAT @ 0xFF5;
+   111                           ;pic18fxx2.h: 33: static volatile near unsigned 
+      +                          char PRODH @ 0xFF4;
+   112                           ;pic18fxx2.h: 34: static volatile near unsigned 
+      +                          char PRODL @ 0xFF3;
+   113                           ;pic18fxx2.h: 35: static volatile near unsigned 
+      +                          char INTCON @ 0xFF2;
+   114                           ;pic18fxx2.h: 36: static near unsigned char INTC
+      +                          ON2 @ 0xFF1;
+   115                           ;pic18fxx2.h: 37: static volatile near unsigned 
+      +                          char INTCON3 @ 0xFF0;
+   116                           ;pic18fxx2.h: 38: static volatile near unsigned 
+      +                          char INDF0 @ 0xFEF;
+   117                           ;pic18fxx2.h: 39: static volatile near unsigned 
+      +                          char POSTINC0 @ 0xFEE;
+   118                           ;pic18fxx2.h: 40: static volatile near unsigned 
+      +                          char POSTDEC0 @ 0xFED;
+   119                           ;pic18fxx2.h: 41: static volatile near unsigned 
+      +                          char PREINC0 @ 0xFEC;
+   120                           ;pic18fxx2.h: 42: static volatile near unsigned 
+      +                          char PLUSW0 @ 0xFEB;
+   121                           ;pic18fxx2.h: 43: static volatile near unsigned 
+      +                          char FSR0H @ 0xFEA;
+   122                           ;pic18fxx2.h: 44: static volatile near unsigned 
+      +                          char FSR0L @ 0xFE9;
+   123                           ;pic18fxx2.h: 45: static volatile near unsigned 
+      +                          char WREG @ 0xFE8;
+   124                           ;pic18fxx2.h: 46: static volatile near unsigned 
+      +                          char INDF1 @ 0xFE7;
+   125                           ;pic18fxx2.h: 47: static volatile near unsigned 
+      +                          char POSTINC1 @ 0xFE6;
+   126                           ;pic18fxx2.h: 48: static volatile near unsigned 
+      +                          char POSTDEC1 @ 0xFE5;
+   127                           ;pic18fxx2.h: 49: static volatile near unsigned 
+      +                          char PREINC1 @ 0xFE4;
+   128                           ;pic18fxx2.h: 50: static volatile near unsigned 
+      +                          char PLUSW1 @ 0xFE3;
+   129                           ;pic18fxx2.h: 51: static volatile near unsigned 
+      +                          char FSR1H @ 0xFE2;
+   130                           ;pic18fxx2.h: 52: static volatile near unsigned 
+      +                          char FSR1L @ 0xFE1;
+   131                           ;pic18fxx2.h: 53: static near unsigned char BSR 
+      +                          @ 0xFE0;
+   132                           ;pic18fxx2.h: 54: static volatile near unsigned 
+      +                          char INDF2 @ 0xFDF;
+   133                           ;pic18fxx2.h: 55: static volatile near unsigned 
+      +                          char POSTINC2 @ 0xFDE;
+   134                           ;pic18fxx2.h: 56: static volatile near unsigned 
+      +                          char POSTDEC2 @ 0xFDD;
+   135                           ;pic18fxx2.h: 57: static volatile near unsigned 
+      +                          char PREINC2 @ 0xFDC;
+   136                           ;pic18fxx2.h: 58: static volatile near unsigned 
+      +                          char PLUSW2 @ 0xFDB;
+   137                           ;pic18fxx2.h: 59: static volatile near unsigned 
+      +                          char FSR2H @ 0xFDA;
+   138                           ;pic18fxx2.h: 60: static volatile near unsigned 
+      +                          char FSR2L @ 0xFD9;
+   139                           ;pic18fxx2.h: 61: static volatile near unsigned 
+      +                          char STATUS @ 0xFD8;
+   140                           ;pic18fxx2.h: 62: static volatile near unsigned 
+      +                          int TMR0 @ 0xFD6;
+   141                           ;pic18fxx2.h: 63: static volatile near unsigned 
+      +                          char TMR0H @ 0xFD7;
+   142                           ;pic18fxx2.h: 64: static volatile near unsigned 
+      +                          char TMR0L @ 0xFD6;
+   143                           ;pic18fxx2.h: 65: static near unsigned char T0CO
+      +                          N @ 0xFD5;
+   144                           ;pic18fxx2.h: 66: static volatile near unsigned 
+      +                          char OSCCON @ 0xFD3;
+   145                           ;pic18fxx2.h: 67: static volatile near unsigned 
+      +                          char LVDCON @ 0xFD2;
+   146                           ;pic18fxx2.h: 68: static near unsigned char WDTC
+      +                          ON @ 0xFD1;
+   147                           ;pic18fxx2.h: 69: static volatile near unsigned 
+      +                          char RCON @ 0xFD0;
+   148                           ;pic18fxx2.h: 70: static volatile near unsigned 
+      +                          int TMR1 @ 0xFCE;
+   149                           ;pic18fxx2.h: 71: static volatile near unsigned 
+      +                          char TMR1H @ 0xFCF;
+   150                           ;pic18fxx2.h: 72: static volatile near unsigned 
+      +                          char TMR1L @ 0xFCE;
+   151                           ;pic18fxx2.h: 73: static near unsigned char T1CO
+      +                          N @ 0xFCD;
+   152                           ;pic18fxx2.h: 74: static volatile near unsigned 
+      +                          char TMR2 @ 0xFCC;
+   153                           ;pic18fxx2.h: 75: static volatile near unsigned 
+      +                          char PR2 @ 0xFCB;
+   154                           ;pic18fxx2.h: 76: static near unsigned char T2CO
+      +                          N @ 0xFCA;
+   155                           ;pic18fxx2.h: 77: static volatile near unsigned 
+      +                          char SSPBUF @ 0xFC9;
+   156                           ;pic18fxx2.h: 78: static volatile near unsigned 
+      +                          char SSPADD @ 0xFC8;
+   157                           ;pic18fxx2.h: 79: static volatile near unsigned 
+      +                          char SSPSTAT @ 0xFC7;
+   158                           ;pic18fxx2.h: 80: static volatile near unsigned 
+      +                          char SSPCON1 @ 0xFC6;
+   159                           ;pic18fxx2.h: 81: static volatile near unsigned 
+      +                          char SSPCON2 @ 0xFC5;
+   160                           ;pic18fxx2.h: 82: static volatile near unsigned 
+      +                          int ADRES @ 0xFC3;
+   161                           ;pic18fxx2.h: 83: static volatile near unsigned 
+      +                          char ADRESH @ 0xFC4;
+   162                           ;pic18fxx2.h: 84: static volatile near unsigned 
+      +                          char ADRESL @ 0xFC3;
+   163                           ;pic18fxx2.h: 85: static volatile near unsigned 
+      +                          char ADCON0 @ 0xFC2;
+   164                           ;pic18fxx2.h: 86: static near unsigned char ADCO
+      +                          N1 @ 0xFC1;
+   165                           ;pic18fxx2.h: 87: static volatile near unsigned 
+      +                          int CCPR1 @ 0xFBE;
+   166                           ;pic18fxx2.h: 88: static volatile near unsigned 
+      +                          char CCPR1H @ 0xFBF;
+   167                           ;pic18fxx2.h: 89: static volatile near unsigned 
+      +                          char CCPR1L @ 0xFBE;
+   168                           ;pic18fxx2.h: 90: static volatile near unsigned 
+      +                          char CCP1CON @ 0xFBD;
+   169                           ;pic18fxx2.h: 91: static volatile near unsigned 
+      +                          int CCPR2 @ 0xFBB;
+   170                           ;pic18fxx2.h: 92: static volatile near unsigned 
+      +                          char CCPR2H @ 0xFBC;
+   171                           ;pic18fxx2.h: 93: static volatile near unsigned 
+      +                          char CCPR2L @ 0xFBB;
+   172                           ;pic18fxx2.h: 94: static volatile near unsigned 
+      +                          char CCP2CON @ 0xFBA;
+   173                           ;pic18fxx2.h: 95: static volatile near unsigned 
+      +                          int TMR3 @ 0xFB2;
+   174                           ;pic18fxx2.h: 96: static volatile near unsigned 
+      +                          char TMR3H @ 0xFB3;
+   175                           ;pic18fxx2.h: 97: static volatile near unsigned 
+      +                          char TMR3L @ 0xFB2;
+   176                           ;pic18fxx2.h: 98: static near unsigned char T3CO
+      +                          N @ 0xFB1;
+   177                           ;pic18fxx2.h: 99: static near unsigned char SPBR
+      +                          G @ 0xFAF;
+   178                           ;pic18fxx2.h: 100: static volatile near unsigned
+      +                           char RCREG @ 0xFAE;
+   179                           ;pic18fxx2.h: 101: static volatile near unsigned
+      +                           char TXREG @ 0xFAD;
+   180                           ;pic18fxx2.h: 102: static volatile near unsigned
+      +                           char TXSTA @ 0xFAC;
+   181                           ;pic18fxx2.h: 103: static volatile near unsigned
+      +                           char RCSTA @ 0xFAB;
+   182                           ;pic18fxx2.h: 104: static volatile near unsigned
+      +                           char EEADR @ 0xFA9;
+   183                           ;pic18fxx2.h: 105: static volatile near unsigned
+      +                           char EEDATA @ 0xFA8;
+   184                           ;pic18fxx2.h: 106: static volatile near unsigned
+      +                           char EECON2 @ 0xFA7;
+   185                           ;pic18fxx2.h: 107: static volatile near unsigned
+      +                           char EECON1 @ 0xFA6;
+   186                           ;pic18fxx2.h: 108: static near unsigned char IPR
+      +                          2 @ 0xFA2;
+   187                           ;pic18fxx2.h: 109: static volatile near unsigned
+      +                           char PIR2 @ 0xFA1;
+   188                           ;pic18fxx2.h: 110: static near unsigned char PIE
+      +                          2 @ 0xFA0;
+   189                           ;pic18fxx2.h: 111: static near unsigned char IPR
+      +                          1 @ 0xF9F;
+   190                           ;pic18fxx2.h: 112: static volatile near unsigned
+      +                           char PIR1 @ 0xF9E;
+   191                           ;pic18fxx2.h: 113: static near unsigned char PIE
+      +                          1 @ 0xF9D;
+   192                           ;pic18fxx2.h: 114: static volatile near unsigned
+      +                           char TRISC @ 0xF94;
+   193                           ;pic18fxx2.h: 115: static volatile near unsigned
+      +                           char TRISB @ 0xF93;
+   194                           ;pic18fxx2.h: 116: static volatile near unsigned
+      +                           char TRISA @ 0xF92;
+   195                           ;pic18fxx2.h: 117: static volatile near unsigned
+      +                           char LATC @ 0xF8B;
+   196                           ;pic18fxx2.h: 118: static volatile near unsigned
+      +                           char LATB @ 0xF8A;
+   197                           ;pic18fxx2.h: 119: static volatile near unsigned
+      +                           char LATA @ 0xF89;
+   198                           ;pic18fxx2.h: 120: static volatile near unsigned
+      +                           char PORTC @ 0xF82;
+   199  000000                     _SwapBytes$ptr	set	?_SwapBytes
+   200                           
+   201                           	psect	text
+   202                           ;hdd.c: 47: void SwapBytes(char *ptr, unsigned l
+      +                          ong len)
+   203                           ;hdd.c: 48: {
+   204  0050BE  00E0               	dw	?_SwapBytes
+   205                           ;	_unit assigned to ?a_OpenHardfile+0
+   206  000000                     _OpenHardfile$unit	set	?a_OpenHardfile
+   207                           ;       param _name assigned to ?_OpenHardfile+0
+   208  000000                     _OpenHardfile$name	set	?_OpenHardfile
+   209                           ;	_sptt assigned to ?a_GetHardfileGeometry+20
+   210  000000                     _GetHardfileGeometry$sptt	set	?a_GetHardfileGeom
+      +                          etry+20
+   211                           ;	_head assigned to ?a_GetHardfileGeometry+16
+   212  000000                     _GetHardfileGeometry$head	set	?a_GetHardfileGeom
+      +                          etry+16
+   213                           ;	_cyl assigned to ?a_GetHardfileGeometry+12
+   214  000000                     _GetHardfileGeometry$cyl	set	?a_GetHardfileGeome
+      +                          try+12
+   215                           ;	_i assigned to ?a_GetHardfileGeometry+8
+   216  000000                     _GetHardfileGeometry$i	set	?a_GetHardfileGeometr
+      +                          y+8
+   217                           ;	_spt assigned to ?a_GetHardfileGeometry+4
+   218  000000                     _GetHardfileGeometry$spt	set	?a_GetHardfileGeome
+      +                          try+4
+   219                           ;	_total assigned to ?a_GetHardfileGeometry+0
+   220  000000                     _GetHardfileGeometry$total	set	?a_GetHardfileGeo
+      +                          metry
+   221                           ;       param _pHDF assigned to ?_GetHardfileGeo
+      +                          metry+0
+   222  000000                     _GetHardfileGeometry$pHDF	set	?_GetHardfileGeome
+      +                          try
+   223                           ;	_id assigned to ?a_HandleHDD+22
+   224  000000                     _HandleHDD$id	set	?a_HandleHDD+22
+   225                           ;	_tfr assigned to ?a_HandleHDD+14
+   226  000000                     _HandleHDD$tfr	set	?a_HandleHDD+14
+   227                           ;	_lba assigned to ?a_HandleHDD+10
+   228  000000                     _HandleHDD$lba	set	?a_HandleHDD+10
+   229                           ;	_i assigned to ?a_HandleHDD+8
+   230  000000                     _HandleHDD$i	set	?a_HandleHDD+8
+   231                           ;	_cylinder assigned to ?a_HandleHDD+6
+   232  000000                     _HandleHDD$cylinder	set	?a_HandleHDD+6
+   233                           ;	_buffer assigned to ?a_HandleHDD+4
+   234  000000                     _HandleHDD$buffer	set	?a_HandleHDD+4
+   235                           ;	_unit assigned to ?a_HandleHDD+3
+   236  000000                     _HandleHDD$unit	set	?a_HandleHDD+3
+   237                           ;	_sector assigned to ?a_HandleHDD+2
+   238  000000                     _HandleHDD$sector	set	?a_HandleHDD+2
+   239                           ;	_head assigned to ?a_HandleHDD+1
+   240  000000                     _HandleHDD$head	set	?a_HandleHDD+1
+   241                           ;	_c1 assigned to ?a_HandleHDD+0
+   242  000000                     _HandleHDD$c1	set	?a_HandleHDD
+   243                           ;       param _c2 assigned to ?_HandleHDD+0
+   244  000000                     _HandleHDD$c2	set	?_HandleHDD
+   245                           ;	_status assigned to ?a_WriteStatus+0
+   246  000000                     _WriteStatus$status	set	?a_WriteStatus
+   247                           ;	_error assigned to ?a_WriteTaskFile+0
+   248  000000                     _WriteTaskFile$error	set	?a_WriteTaskFile
+   249                           ;       param _drive_head assigned to ?_WriteTas
+      +                          kFile+4
+   250  000000                     _WriteTaskFile$drive_head	set	?_WriteTaskFile+4
+   251                           ;       param _cylinder_high assigned to ?_Write
+      +                          TaskFile+3
+   252  000000                     _WriteTaskFile$cylinder_high	set	?_WriteTaskFile
+      +                          +3
+   253                           ;       param _cylinder_low assigned to ?_WriteT
+      +                          askFile+2
+   254  000000                     _WriteTaskFile$cylinder_low	set	?_WriteTaskFile+
+      +                          2
+   255                           ;       param _sector_number assigned to ?_Write
+      +                          TaskFile+1
+   256  000000                     _WriteTaskFile$sector_number	set	?_WriteTaskFile
+      +                          +1
+   257                           ;       param _sector_count assigned to ?_WriteT
+      +                          askFile+0
+   258  000000                     _WriteTaskFile$sector_count	set	?_WriteTaskFile
+   259                           ;	_res assigned to ?a_chs2lba+0
+   260  000000                     _chs2lba$res	set	?a_chs2lba
+   261                           ;       param _unit assigned to ?_chs2lba+4
+   262  000000                     _chs2lba$unit	set	?_chs2lba+4
+   263                           ;       param _sector assigned to ?_chs2lba+3
+   264  000000                     _chs2lba$sector	set	?_chs2lba+3
+   265                           ;       param _head assigned to ?_chs2lba+2
+   266  000000                     _chs2lba$head	set	?_chs2lba+2
+   267                           ;       param _cylinder assigned to ?_chs2lba+0
+   268  000000                     _chs2lba$cylinder	set	?_chs2lba
+   269                           ;	_total_sectors assigned to ?a_IdentifyDevice+0
+   270  000000                     _IdentifyDevice$total_sectors	set	?a_IdentifyDev
+      +                          ice
+   271                           ;       param _unit assigned to ?_IdentifyDevice
+      +                          +2
+   272  000000                     _IdentifyDevice$unit	set	?_IdentifyDevice+2
+   273  0050C0                     _SwapBytes:
+   274                           ; errata NOP at function entry point
+   275  0050C0  FFFF               	dw	65535
+   276  0050C2                     f3902:
+   277  000000                     
+   278                           ;hdd.c: 49: char x;
+   279  0050C2  0100               	movlb	__Lparam shr (0+8)
+   280  0050C4  90D8               	bcf	status,0,c
+   281  0050C6  33E5               	rrcf	(?_SwapBytes+5)^(__Lparam& (0+65280)),f,b
+   282  0050C8  33E4               	rrcf	(?_SwapBytes+4)^(__Lparam& (0+65280)),f,b
+   283  0050CA  33E3               	rrcf	(?_SwapBytes+3)^(__Lparam& (0+65280)),f,b
+   284  0050CC  33E2               	rrcf	(?_SwapBytes+2)^(__Lparam& (0+65280)),f,b
+   285                           ; _ptr loaded to fsr2
+   286  0050CE  C0E0  FFD9         	movff	?_SwapBytes,fsr2l
+   287  0050D2  C0E1  FFDA         	movff	?_SwapBytes+1,fsr2h
+   288                           ;hdd.c: 51: while (len--)
+   289  0050D6                     l17:
+   290  0050D6  0100               	movlb	__Lparam shr (0+8)
+   291  0050D8  07E2               	decf	(?_SwapBytes+2)^(__Lparam& (0+65280)),f,b
+   292  0050DA  A0D8               	btfss	status,0,c
+   293  0050DC  07E3               	decf	(?_SwapBytes+3)^(__Lparam& (0+65280)),f,b
+   294  0050DE  A0D8               	btfss	status,0,c
+   295  0050E0  07E4               	decf	(?_SwapBytes+4)^(__Lparam& (0+65280)),f,b
+   296  0050E2  A0D8               	btfss	status,0,c
+   297  0050E4  07E5               	decf	(?_SwapBytes+5)^(__Lparam& (0+65280)),f,b
+   298  0050E6  E313               	bnc	u10
+   299                           ;hdd.c: 52: {
+   300  0050E8  50DF               	movf	indf2,w,c
+   301  0050EA  6EF3               	movwf	prodl,c
+   302                           ;hdd.c: 54: *ptr++ = ptr[1];
+   303  0050EC  EE10 F001          	lfsr	1,1
+   304  0050F0  50D9               	movf	fsr2l,w,c
+   305  0050F2  26E1               	addwf	fsr1l,f,c
+   306  0050F4  50DA               	movf	fsr2h,w,c
+   307  0050F6  22E2               	addwfc	fsr1h,f,c
+   308  0050F8  CFD9 FFE9          	movff	fsr2l,fsr0l
+   309  0050FC  CFDA FFEA          	movff	fsr2h,fsr0h
+   310  005100  4AD9               	infsnz	fsr2l,f,c
+   311  005102  2ADA               	incf	fsr2h,f,c
+   312  005104  CFE7 FFEF          	movff	indf1,indf0
+   313                           ;hdd.c: 55: *ptr++ = x;
+   314  005108  CFF3 FFDE          	movff	prodl,postinc2
+   315  00510C  D7E4               	goto	l17
+   316  00510E                     u10:
+   317                           ;hdd.c: 56: }
+   318  00510E  0012               	return	
+   319  005110  FFFF               	dw	65535	; Nop inserted for errata
+   320  005112  D7D7               	goto	f3902
+   321  005114                     __end_of_SwapBytes:
+   322                           ;       param _id assigned to ?_IdentifyDevice+0
+   323  000000                     _IdentifyDevice$id	set	?_IdentifyDevice
+   324                           ;hdd.c: 61: void IdentifyDevice(struct driveIden
+      +                          tify *id, unsigned char unit)
+   325                           ;hdd.c: 62: {
+   326  005114  00D9               	dw	?_IdentifyDevice
+   327  005116                     _IdentifyDevice:
+   328                           ; errata NOP at function entry point
+   329  005116  FFFF               	dw	65535
+   330  005118                     f3912:
+   331  000000                     
+   332                           ;hdd.c: 63: unsigned long total_sectors = hdf[un
+      +                          it].cylinders * hdf[unit].heads * hdf[unit].sect
+      +                          ors;
+   333  005118  0100               	movlb	__Lparam shr (0+8)
+   334  00511A  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   335  00511C  0D27               	mullw	39
+   336  00511E  0E23               	movlw	low (_hdf+35)
+   337  005120  24F3               	addwf	prodl,w,c
+   338  005122  6EE9               	movwf	fsr0l,c
+   339  005124  0E03               	movlw	high (_hdf+35)
+   340  005126  20F4               	addwfc	prodh,w,c
+   341  005128  6EEA               	movwf	fsr0h,c
+   342  00512A  CFEE F002          	movff	postinc0,btemp+2
+   343  00512E  CFED F003          	movff	postdec0,btemp+3
+   344  005132  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   345  005134  0D27               	mullw	39
+   346  005136  0E21               	movlw	low (_hdf+33)
+   347  005138  24F3               	addwf	prodl,w,c
+   348  00513A  6EE9               	movwf	fsr0l,c
+   349  00513C  0E03               	movlw	high (_hdf+33)
+   350  00513E  20F4               	addwfc	prodh,w,c
+   351  005140  6EEA               	movwf	fsr0h,c
+   352  005142  CFEE F000          	movff	postinc0,btemp
+   353  005146  CFED F001          	movff	postdec0,btemp+1
+   354  00514A  ECA5  F03E         	call	lwmul
+   355  00514E  C004  F000         	movff	btemp+4,btemp
+   356  005152  C005  F001         	movff	btemp+5,btemp+1
+   357  005156  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   358  005158  0D27               	mullw	39
+   359  00515A  0E25               	movlw	low (_hdf+37)
+   360  00515C  24F3               	addwf	prodl,w,c
+   361  00515E  6EE9               	movwf	fsr0l,c
+   362  005160  0E03               	movlw	high (_hdf+37)
+   363  005162  20F4               	addwfc	prodh,w,c
+   364  005164  6EEA               	movwf	fsr0h,c
+   365  005166  CFEE F002          	movff	postinc0,btemp+2
+   366  00516A  CFED F003          	movff	postdec0,btemp+3
+   367  00516E  ECA5  F03E         	call	lwmul
+   368  005172  5004               	movf	btemp+4,w,c
+   369  005174  6FDC               	movwf	?a_IdentifyDevice^(__Lparam& (0+65280)),b
+   370  005176  5005               	movf	btemp+5,w,c
+   371  005178  6FDD               	movwf	(?a_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),b
+   372  00517A  6BDE               	clrf	(?a_IdentifyDevice+2)^(__Lparam& (0+65280)
+      +                          ),b
+   373  00517C  6BDF               	clrf	(?a_IdentifyDevice+3)^(__Lparam& (0+65280)
+      +                          ),b
+   374                           ;hdd.c: 66: memset(id, 0, sizeof(id));
+   375  00517E  C0D9  F0E0         	movff	?_IdentifyDevice,?_memset
+   376  005182  C0DA  F0E1         	movff	?_IdentifyDevice+1,?_memset+1
+   377  005186  6BE2               	clrf	(?_memset+2)^(__Lparam& (0+65280)),b
+   378  005188  6BE3               	clrf	(?_memset+3)^(__Lparam& (0+65280)),b
+   379  00518A  0E02               	movlw	2
+   380  00518C  6FE4               	movwf	(?_memset+4)^(__Lparam& (0+65280)),b
+   381  00518E  6BE5               	clrf	(?_memset+5)^(__Lparam& (0+65280)),b
+   382  005190  EC70  F03E         	call	_memset	;wreg free
+   383                           ;hdd.c: 68: id->general = 1 << 6;
+   384  005194  C0D9  FFE9         	movff	?_IdentifyDevice,fsr0l
+   385  005198  C0DA  FFEA         	movff	?_IdentifyDevice+1,fsr0h
+   386  00519C  0E40               	movlw	64
+   387  00519E  6EEE               	movwf	postinc0,c
+   388  0051A0  6AED               	clrf	postdec0,c
+   389                           ;hdd.c: 69: id->noCylinders = hdf[unit].cylinder
+      +                          s;
+   390  0051A2  0100               	movlb	__Lparam shr (0+8)
+   391  0051A4  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   392  0051A6  0D27               	mullw	39
+   393  0051A8  0E21               	movlw	low (_hdf+33)
+   394  0051AA  24F3               	addwf	prodl,w,c
+   395  0051AC  6EE1               	movwf	fsr1l,c
+   396  0051AE  0E03               	movlw	high (_hdf+33)
+   397  0051B0  20F4               	addwfc	prodh,w,c
+   398  0051B2  6EE2               	movwf	fsr1h,c
+   399  0051B4  EE00 F002          	lfsr	0,2
+   400  0051B8  51D9               	movf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   401  0051BA  26E9               	addwf	fsr0l,f,c
+   402  0051BC  51DA               	movf	(?_IdentifyDevice+1)^(__Lparam& (0+65280))
+      +                          ,w
+   403  0051BE  22EA               	addwfc	fsr0h,f,c
+   404  0051C0  CFE6 FFEE          	movff	postinc1,postinc0
+   405  0051C4  CFE5 FFED          	movff	postdec1,postdec0
+   406                           ;hdd.c: 70: id->noHeads = hdf[unit].heads;
+   407  0051C8  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   408  0051CA  0D27               	mullw	39
+   409  0051CC  0E23               	movlw	low (_hdf+35)
+   410  0051CE  24F3               	addwf	prodl,w,c
+   411  0051D0  6EE1               	movwf	fsr1l,c
+   412  0051D2  0E03               	movlw	high (_hdf+35)
+   413  0051D4  20F4               	addwfc	prodh,w,c
+   414  0051D6  6EE2               	movwf	fsr1h,c
+   415  0051D8  EE00 F006          	lfsr	0,6
+   416  0051DC  51D9               	movf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   417  0051DE  26E9               	addwf	fsr0l,f,c
+   418  0051E0  51DA               	movf	(?_IdentifyDevice+1)^(__Lparam& (0+65280))
+      +                          ,w
+   419  0051E2  22EA               	addwfc	fsr0h,f,c
+   420  0051E4  CFE6 FFEE          	movff	postinc1,postinc0
+   421  0051E8  CFE5 FFED          	movff	postdec1,postdec0
+   422                           ;hdd.c: 71: id->noSectorsPerTrack = hdf[unit].se
+      +                          ctors;
+   423  0051EC  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   424  0051EE  0D27               	mullw	39
+   425  0051F0  0E25               	movlw	low (_hdf+37)
+   426  0051F2  24F3               	addwf	prodl,w,c
+   427  0051F4  6EE1               	movwf	fsr1l,c
+   428  0051F6  0E03               	movlw	high (_hdf+37)
+   429  0051F8  20F4               	addwfc	prodh,w,c
+   430  0051FA  6EE2               	movwf	fsr1h,c
+   431  0051FC  EE00 F00C          	lfsr	0,12
+   432  005200  51D9               	movf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   433  005202  26E9               	addwf	fsr0l,f,c
+   434  005204  51DA               	movf	(?_IdentifyDevice+1)^(__Lparam& (0+65280))
+      +                          ,w
+   435  005206  22EA               	addwfc	fsr0h,f,c
+   436  005208  CFE6 FFEE          	movff	postinc1,postinc0
+   437  00520C  CFE5 FFED          	movff	postdec1,postdec0
+   438                           ;hdd.c: 72: memcpy(&id->serialNo, "1234567890ABC
+      +                          DEFGHIJ", 20);
+   439  005210  0E14               	movlw	20
+   440  005212  25D9               	addwf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   441  005214  6FE0               	movwf	?_memcpy^(__Lparam& (0+65280)),b
+   442  005216  0E00               	movlw	0
+   443  005218  21DA               	addwfc	(?_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),w
+   444  00521A  6FE1               	movwf	(?_memcpy+1)^(__Lparam& (0+65280)),b
+   445  00521C  0E7F               	movlw	low u19
+   446  00521E  6FE2               	movwf	(?_memcpy+2)^(__Lparam& (0+65280)),b
+   447  005220  0E0E               	movlw	high u19
+   448  005222  6FE3               	movwf	(?_memcpy+3)^(__Lparam& (0+65280)),b
+   449  005224  0E14               	movlw	20
+   450  005226  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+   451  005228  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+   452  00522A  ECC6  F03D         	call	_memcpy	;wreg free
+   453                           ;hdd.c: 73: memcpy(&id->firmwareRevision, ".100 
+      +                             ", 8);
+   454  00522E  0100               	movlb	__Lparam shr (0+8)
+   455  005230  0E2E               	movlw	46
+   456  005232  25D9               	addwf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   457  005234  6FE0               	movwf	?_memcpy^(__Lparam& (0+65280)),b
+   458  005236  0E00               	movlw	0
+   459  005238  21DA               	addwfc	(?_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),w
+   460  00523A  6FE1               	movwf	(?_memcpy+1)^(__Lparam& (0+65280)),b
+   461  00523C  0E94               	movlw	low u29
+   462  00523E  6FE2               	movwf	(?_memcpy+2)^(__Lparam& (0+65280)),b
+   463  005240  0E0E               	movlw	high u29
+   464  005242  6FE3               	movwf	(?_memcpy+3)^(__Lparam& (0+65280)),b
+   465  005244  0E08               	movlw	8
+   466  005246  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+   467  005248  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+   468  00524A  ECC6  F03D         	call	_memcpy	;wreg free
+   469                           ;hdd.c: 76: memcpy(&id->modelNumber,"YAQUBE     
+      +                                                       ", 40);
+   470  00524E  0100               	movlb	__Lparam shr (0+8)
+   471  005250  0E36               	movlw	54
+   472  005252  25D9               	addwf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   473  005254  6FE0               	movwf	?_memcpy^(__Lparam& (0+65280)),b
+   474  005256  0E00               	movlw	0
+   475  005258  21DA               	addwfc	(?_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),w
+   476  00525A  6FE1               	movwf	(?_memcpy+1)^(__Lparam& (0+65280)),b
+   477  00525C  0E9D               	movlw	low u39
+   478  00525E  6FE2               	movwf	(?_memcpy+2)^(__Lparam& (0+65280)),b
+   479  005260  0E0E               	movlw	high u39
+   480  005262  6FE3               	movwf	(?_memcpy+3)^(__Lparam& (0+65280)),b
+   481  005264  0E28               	movlw	40
+   482  005266  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+   483  005268  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+   484  00526A  ECC6  F03D         	call	_memcpy	;wreg free
+   485                           ;hdd.c: 78: memcpy(&id->modelNumber[8], hdf[unit
+      +                          ].file.name, 11);
+   486  00526E  0100               	movlb	__Lparam shr (0+8)
+   487  005270  0E3E               	movlw	62
+   488  005272  25D9               	addwf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   489  005274  6FE0               	movwf	?_memcpy^(__Lparam& (0+65280)),b
+   490  005276  0E00               	movlw	0
+   491  005278  21DA               	addwfc	(?_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),w
+   492  00527A  6FE1               	movwf	(?_memcpy+1)^(__Lparam& (0+65280)),b
+   493  00527C  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   494  00527E  0D27               	mullw	39
+   495  005280  0E00               	movlw	low _hdf
+   496  005282  24F3               	addwf	prodl,w,c
+   497  005284  6FE2               	movwf	(?_memcpy+2)^(__Lparam& (0+65280)),b
+   498  005286  0E03               	movlw	high _hdf
+   499  005288  20F4               	addwfc	prodh,w,c
+   500  00528A  6FE3               	movwf	(?_memcpy+3)^(__Lparam& (0+65280)),b
+   501  00528C  0E0B               	movlw	11
+   502  00528E  6FE4               	movwf	(?_memcpy+4)^(__Lparam& (0+65280)),b
+   503  005290  6BE5               	clrf	(?_memcpy+5)^(__Lparam& (0+65280)),b
+   504  005292  ECC6  F03D         	call	_memcpy	;wreg free
+   505                           ;hdd.c: 80: SwapBytes(&id->modelNumber, 40);
+   506  005296  0100               	movlb	__Lparam shr (0+8)
+   507  005298  0E36               	movlw	54
+   508  00529A  25D9               	addwf	?_IdentifyDevice^(__Lparam& (0+65280)),w
+   509  00529C  6FE0               	movwf	?_SwapBytes^(__Lparam& (0+65280)),b
+   510  00529E  0E00               	movlw	0
+   511  0052A0  21DA               	addwfc	(?_IdentifyDevice+1)^(__Lparam& (0+65280
+      +                          )),w
+   512  0052A2  6FE1               	movwf	(?_SwapBytes+1)^(__Lparam& (0+65280)),b
+   513  0052A4  0E28               	movlw	40
+   514  0052A6  6FE2               	movwf	(?_SwapBytes+2)^(__Lparam& (0+65280)),b
+   515  0052A8  6BE3               	clrf	(?_SwapBytes+3)^(__Lparam& (0+65280)),b
+   516  0052AA  6BE4               	clrf	(?_SwapBytes+4)^(__Lparam& (0+65280)),b
+   517  0052AC  6BE5               	clrf	(?_SwapBytes+5)^(__Lparam& (0+65280)),b
+   518  0052AE  DF08               	call	_SwapBytes	;wreg free
+   519                           ;hdd.c: 82: id->isValidCHS = 1;
+   520                           ; _id loaded to fsr2
+   521  0052B0  C0D9  FFD9         	movff	?_IdentifyDevice,fsr2l
+   522  0052B4  C0DA  FFDA         	movff	?_IdentifyDevice+1,fsr2h
+   523  0052B8  EE00 F06A          	lfsr	0,106
+   524  0052BC  50D9               	movf	fsr2l,w,c
+   525  0052BE  26E9               	addwf	fsr0l,f,c
+   526  0052C0  50DA               	movf	fsr2h,w,c
+   527  0052C2  22EA               	addwfc	fsr0h,f,c
+   528  0052C4  0E01               	movlw	1
+   529  0052C6  6EEE               	movwf	postinc0,c
+   530  0052C8  6AED               	clrf	postdec0,c
+   531                           ;hdd.c: 83: id->curNoCylinders = hdf[unit].cylin
+      +                          ders;
+   532  0052CA  0100               	movlb	__Lparam shr (0+8)
+   533  0052CC  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   534  0052CE  0D27               	mullw	39
+   535  0052D0  0E21               	movlw	low (_hdf+33)
+   536  0052D2  24F3               	addwf	prodl,w,c
+   537  0052D4  6EE1               	movwf	fsr1l,c
+   538  0052D6  0E03               	movlw	high (_hdf+33)
+   539  0052D8  20F4               	addwfc	prodh,w,c
+   540  0052DA  6EE2               	movwf	fsr1h,c
+   541  0052DC  EE00 F06C          	lfsr	0,108
+   542  0052E0  50D9               	movf	fsr2l,w,c
+   543  0052E2  26E9               	addwf	fsr0l,f,c
+   544  0052E4  50DA               	movf	fsr2h,w,c
+   545  0052E6  22EA               	addwfc	fsr0h,f,c
+   546  0052E8  CFE6 FFEE          	movff	postinc1,postinc0
+   547  0052EC  CFE5 FFED          	movff	postdec1,postdec0
+   548                           ;hdd.c: 84: id->curNoHeads = hdf[unit].heads;
+   549  0052F0  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   550  0052F2  0D27               	mullw	39
+   551  0052F4  0E23               	movlw	low (_hdf+35)
+   552  0052F6  24F3               	addwf	prodl,w,c
+   553  0052F8  6EE1               	movwf	fsr1l,c
+   554  0052FA  0E03               	movlw	high (_hdf+35)
+   555  0052FC  20F4               	addwfc	prodh,w,c
+   556  0052FE  6EE2               	movwf	fsr1h,c
+   557  005300  EE00 F06E          	lfsr	0,110
+   558  005304  50D9               	movf	fsr2l,w,c
+   559  005306  26E9               	addwf	fsr0l,f,c
+   560  005308  50DA               	movf	fsr2h,w,c
+   561  00530A  22EA               	addwfc	fsr0h,f,c
+   562  00530C  CFE6 FFEE          	movff	postinc1,postinc0
+   563  005310  CFE5 FFED          	movff	postdec1,postdec0
+   564                           ;hdd.c: 85: id->curNoSectorsPerTrack = hdf[unit]
+      +                          .sectors;
+   565  005314  51DB               	movf	(?_IdentifyDevice+2)^(__Lparam& (0+65280))
+      +                          ,w
+   566  005316  0D27               	mullw	39
+   567  005318  0E25               	movlw	low (_hdf+37)
+   568  00531A  24F3               	addwf	prodl,w,c
+   569  00531C  6EE1               	movwf	fsr1l,c
+   570  00531E  0E03               	movlw	high (_hdf+37)
+   571  005320  20F4               	addwfc	prodh,w,c
+   572  005322  6EE2               	movwf	fsr1h,c
+   573  005324  EE00 F070          	lfsr	0,112
+   574  005328  50D9               	movf	fsr2l,w,c
+   575  00532A  26E9               	addwf	fsr0l,f,c
+   576  00532C  50DA               	movf	fsr2h,w,c
+   577  00532E  22EA               	addwfc	fsr0h,f,c
+   578  005330  CFE6 FFEE          	movff	postinc1,postinc0
+   579  005334  CFE5 FFED          	movff	postdec1,postdec0
+   580                           ;hdd.c: 86: id->curCapacityInSectors = total_sec
+      +                          tors;
+   581  005338  EE00 F072          	lfsr	0,114
+   582  00533C  50D9               	movf	fsr2l,w,c
+   583  00533E  26E9               	addwf	fsr0l,f,c
+   584  005340  50DA               	movf	fsr2h,w,c
+   585  005342  22EA               	addwfc	fsr0h,f,c
+   586  005344  C0DC  FFEE         	movff	?a_IdentifyDevice,postinc0
+   587  005348  C0DD  FFEE         	movff	?a_IdentifyDevice+1,postinc0
+   588  00534C  C0DE  FFEE         	movff	?a_IdentifyDevice+2,postinc0
+   589  005350  C0DF  FFEE         	movff	?a_IdentifyDevice+3,postinc0
+   590                           ;hdd.c: 88: }
+   591  005354  0012               	return	
+   592  005356  FFFF               	dw	65535	; Nop inserted for errata
+   593  005358  D6DF               	goto	f3912
+   594  00535A                     __end_of_IdentifyDevice:
+   595                           ;hdd.c: 91: unsigned long chs2lba(unsigned short
+      +                           cylinder, unsigned char head, unsigned char sec
+      +                          tor, unsigned char unit)
+   596                           ;hdd.c: 92: {
+   597  00535A  00D9               	dw	?_chs2lba
+   598  00535C                     _chs2lba:
+   599                           ; errata NOP at function entry point
+   600  00535C  FFFF               	dw	65535
+   601  00535E                     f3942:
+   602  000000                     
+   603                           ;hdd.c: 93: unsigned long res;
+   604  00535E  0100               	movlb	__Lparam shr (0+8)
+   605  005360  51D9               	movf	?_chs2lba^(__Lparam& (0+65280)),w
+   606  005362  6FDE               	movwf	?a_chs2lba^(__Lparam& (0+65280)),b
+   607  005364  51DA               	movf	(?_chs2lba+1)^(__Lparam& (0+65280)),w
+   608  005366  6FDF               	movwf	(?a_chs2lba+1)^(__Lparam& (0+65280)),b
+   609  005368  6BE0               	clrf	(?a_chs2lba+2)^(__Lparam& (0+65280)),b
+   610  00536A  6BE1               	clrf	(?a_chs2lba+3)^(__Lparam& (0+65280)),b
+   611                           ;hdd.c: 97: res *= (unsigned long)hdf[unit].head
+      +                          s;
+   612  00536C  51DD               	movf	(?_chs2lba+4)^(__Lparam& (0+65280)),w
+   613  00536E  0D27               	mullw	39
+   614  005370  0E23               	movlw	low (_hdf+35)
+   615  005372  24F3               	addwf	prodl,w,c
+   616  005374  6EE9               	movwf	fsr0l,c
+   617  005376  0E03               	movlw	high (_hdf+35)
+   618  005378  20F4               	addwfc	prodh,w,c
+   619  00537A  6EEA               	movwf	fsr0h,c
+   620  00537C  CFEE F000          	movff	postinc0,btemp
+   621  005380  CFED F001          	movff	postdec0,btemp+1
+   622  005384  5000               	movf	btemp,w,c
+   623  005386  6E04               	movwf	btemp+4,c
+   624  005388  5001               	movf	btemp+1,w,c
+   625  00538A  6E05               	movwf	btemp+5,c
+   626  00538C  6A06               	clrf	btemp+6,c
+   627  00538E  6A07               	clrf	btemp+7,c
+   628  005390  0EDE               	movlw	low ?a_chs2lba
+   629  005392  6EE9               	movwf	fsr0l,c
+   630  005394  0E00               	movlw	high ?a_chs2lba
+   631  005396  6EEA               	movwf	fsr0h,c
+   632  005398  ECD7  F03E         	call	llmul_f
+   633                           ;hdd.c: 98: res += (unsigned long)head;
+   634  00539C  51DB               	movf	(?_chs2lba+2)^(__Lparam& (0+65280)),w
+   635  00539E  27DE               	addwf	?a_chs2lba^(__Lparam& (0+65280)),f,b
+   636  0053A0  0E01               	movlw	1
+   637  0053A2  B0D8               	btfsc	status,0,c
+   638  0053A4  27DF               	addwf	(?a_chs2lba+1)^(__Lparam& (0+65280)),f,b
+   639  0053A6  B0D8               	btfsc	status,0,c
+   640  0053A8  27E0               	addwf	(?a_chs2lba+2)^(__Lparam& (0+65280)),f,b
+   641  0053AA  B0D8               	btfsc	status,0,c
+   642  0053AC  27E1               	addwf	(?a_chs2lba+3)^(__Lparam& (0+65280)),f,b
+   643                           ;hdd.c: 99: res *= (unsigned long)hdf[unit].sect
+      +                          ors;
+   644  0053AE  51DD               	movf	(?_chs2lba+4)^(__Lparam& (0+65280)),w
+   645  0053B0  0D27               	mullw	39
+   646  0053B2  0E25               	movlw	low (_hdf+37)
+   647  0053B4  24F3               	addwf	prodl,w,c
+   648  0053B6  6EE9               	movwf	fsr0l,c
+   649  0053B8  0E03               	movlw	high (_hdf+37)
+   650  0053BA  20F4               	addwfc	prodh,w,c
+   651  0053BC  6EEA               	movwf	fsr0h,c
+   652  0053BE  CFEE F000          	movff	postinc0,btemp
+   653  0053C2  CFED F001          	movff	postdec0,btemp+1
+   654  0053C6  5000               	movf	btemp,w,c
+   655  0053C8  6E04               	movwf	btemp+4,c
+   656  0053CA  5001               	movf	btemp+1,w,c
+   657  0053CC  6E05               	movwf	btemp+5,c
+   658  0053CE  6A06               	clrf	btemp+6,c
+   659  0053D0  6A07               	clrf	btemp+7,c
+   660  0053D2  0EDE               	movlw	low ?a_chs2lba
+   661  0053D4  6EE9               	movwf	fsr0l,c
+   662  0053D6  0E00               	movlw	high ?a_chs2lba
+   663  0053D8  6EEA               	movwf	fsr0h,c
+   664  0053DA  ECD7  F03E         	call	llmul_f
+   665                           ;hdd.c: 100: res += sector;
+   666  0053DE  51DC               	movf	(?_chs2lba+3)^(__Lparam& (0+65280)),w
+   667  0053E0  27DE               	addwf	?a_chs2lba^(__Lparam& (0+65280)),f,b
+   668  0053E2  0E01               	movlw	1
+   669  0053E4  B0D8               	btfsc	status,0,c
+   670  0053E6  27DF               	addwf	(?a_chs2lba+1)^(__Lparam& (0+65280)),f,b
+   671  0053E8  B0D8               	btfsc	status,0,c
+   672  0053EA  27E0               	addwf	(?a_chs2lba+2)^(__Lparam& (0+65280)),f,b
+   673  0053EC  B0D8               	btfsc	status,0,c
+   674  0053EE  27E1               	addwf	(?a_chs2lba+3)^(__Lparam& (0+65280)),f,b
+   675                           ;hdd.c: 101: res -= 1;
+   676  0053F0  0EFF               	movlw	255
+   677  0053F2  07DE               	decf	?a_chs2lba^(__Lparam& (0+65280)),f,b
+   678  0053F4  23DF               	addwfc	(?a_chs2lba+1)^(__Lparam& (0+65280)),f,b
+   679  0053F6  23E0               	addwfc	(?a_chs2lba+2)^(__Lparam& (0+65280)),f,b
+   680  0053F8  23E1               	addwfc	(?a_chs2lba+3)^(__Lparam& (0+65280)),f,b
+   681                           ;hdd.c: 104: return res;
+   682  0053FA  C0DE  F000         	movff	?a_chs2lba,btemp
+   683  0053FE  C0DF  F001         	movff	?a_chs2lba+1,btemp+1
+   684  005402  C0E0  F002         	movff	?a_chs2lba+2,btemp+2
+   685  005406  C0E1  F003         	movff	?a_chs2lba+3,btemp+3
+   686                           ;hdd.c: 105: }
+   687  00540A  0CFF               	retlw	255
+   688  00540C  FFFF               	dw	65535	; Nop inserted for errata
+   689  00540E  D7A7               	goto	f3942
+   690  005410                     __end_of_chs2lba:
+   691                           ;hdd.c: 108: void WriteTaskFile(unsigned char er
+      +                          ror, unsigned char sector_count, unsigned char s
+      +                          ector_number, unsigned char cylinder_low, unsign
+      +                          ed char cylinder_high, unsigned char drive_head)
+   692                           ;hdd.c: 109: {
+   693  005410  00D9               	dw	?_WriteTaskFile
+   694  005412                     _WriteTaskFile:
+   695                           ; errata NOP at function entry point
+   696  005412  FFFF               	dw	65535
+   697  005414                     f3952:
+   698  000000                     
+   699                           ;_error stored from wreg
+   700  005414  0100               	movlb	__Lparam shr (0+8)
+   701  005416  6FDE               	movwf	?a_WriteTaskFile^(__Lparam& (0+65280)),b
+   702                           ;hdd.c: 110: RA1=0;
+   703  005418  9280               	bcf	3968,1,c	;volatile
+   704                           ;hdd.c: 112: SPI(0x90);
+   705  00541A  0E90               	movlw	144
+   706  00541C  EC35  F03C         	call	_SPI
+   707                           ;hdd.c: 113: SPI(0x00);
+   708  005420  0E00               	movlw	0
+   709  005422  EC35  F03C         	call	_SPI
+   710                           ;hdd.c: 114: SPI(0x00);
+   711  005426  0E00               	movlw	0
+   712  005428  EC35  F03C         	call	_SPI
+   713                           ;hdd.c: 115: SPI(0x00);
+   714  00542C  0E00               	movlw	0
+   715  00542E  EC35  F03C         	call	_SPI
+   716                           ;hdd.c: 116: SPI(0x00);
+   717  005432  0E00               	movlw	0
+   718  005434  EC35  F03C         	call	_SPI
+   719                           ;hdd.c: 117: SPI(0x00);
+   720  005438  0E00               	movlw	0
+   721  00543A  EC35  F03C         	call	_SPI
+   722                           ;hdd.c: 118: SPI(0x00);
+   723  00543E  0E00               	movlw	0
+   724  005440  EC35  F03C         	call	_SPI
+   725                           ;hdd.c: 120: SPI(0x00);
+   726  005444  0E00               	movlw	0
+   727  005446  EC35  F03C         	call	_SPI
+   728                           ;hdd.c: 121: SPI(0x00);
+   729  00544A  0E00               	movlw	0
+   730  00544C  EC35  F03C         	call	_SPI
+   731                           ;hdd.c: 122: SPI(error);
+   732  005450  0100               	movlb	__Lparam shr (0+8)
+   733  005452  51DE               	movf	?a_WriteTaskFile^(__Lparam& (0+65280)),w
+   734  005454  EC35  F03C         	call	_SPI
+   735                           ;hdd.c: 123: SPI(0x00);
+   736  005458  0E00               	movlw	0
+   737  00545A  EC35  F03C         	call	_SPI
+   738                           ;hdd.c: 124: SPI(sector_count);
+   739  00545E  0100               	movlb	__Lparam shr (0+8)
+   740  005460  51D9               	movf	?_WriteTaskFile^(__Lparam& (0+65280)),w
+   741  005462  EC35  F03C         	call	_SPI
+   742                           ;hdd.c: 125: SPI(0x00);
+   743  005466  0E00               	movlw	0
+   744  005468  EC35  F03C         	call	_SPI
+   745                           ;hdd.c: 126: SPI(sector_number);
+   746  00546C  0100               	movlb	__Lparam shr (0+8)
+   747  00546E  51DA               	movf	(?_WriteTaskFile+1)^(__Lparam& (0+65280)),
+      +                          w
+   748  005470  EC35  F03C         	call	_SPI
+   749                           ;hdd.c: 127: SPI(0x00);
+   750  005474  0E00               	movlw	0
+   751  005476  EC35  F03C         	call	_SPI
+   752                           ;hdd.c: 128: SPI(cylinder_low);
+   753  00547A  0100               	movlb	__Lparam shr (0+8)
+   754  00547C  51DB               	movf	(?_WriteTaskFile+2)^(__Lparam& (0+65280)),
+      +                          w
+   755  00547E  EC35  F03C         	call	_SPI
+   756                           ;hdd.c: 129: SPI(0x00);
+   757  005482  0E00               	movlw	0
+   758  005484  EC35  F03C         	call	_SPI
+   759                           ;hdd.c: 130: SPI(cylinder_high);
+   760  005488  0100               	movlb	__Lparam shr (0+8)
+   761  00548A  51DC               	movf	(?_WriteTaskFile+3)^(__Lparam& (0+65280)),
+      +                          w
+   762  00548C  EC35  F03C         	call	_SPI
+   763                           ;hdd.c: 131: SPI(0x00);
+   764  005490  0E00               	movlw	0
+   765  005492  EC35  F03C         	call	_SPI
+   766                           ;hdd.c: 132: SPI(drive_head);
+   767  005496  0100               	movlb	__Lparam shr (0+8)
+   768  005498  51DD               	movf	(?_WriteTaskFile+4)^(__Lparam& (0+65280)),
+      +                          w
+   769  00549A  EC35  F03C         	call	_SPI
+   770                           ;hdd.c: 134: RA1=1;
+   771  00549E  8280               	bsf	3968,1,c	;volatile
+   772                           ;hdd.c: 135: }
+   773  0054A0  0012               	return	
+   774  0054A2  FFFF               	dw	65535	; Nop inserted for errata
+   775  0054A4  D7B7               	goto	f3952
+   776  0054A6                     __end_of_WriteTaskFile:
+   777                           ;hdd.c: 138: void WriteStatus(unsigned char stat
+      +                          us)
+   778                           ;hdd.c: 139: {
+   779  0054A6                     _WriteStatus:
+   780                           ; errata NOP at function entry point
+   781  0054A6  FFFF               	dw	65535
+   782  0054A8                     f3972:
+   783  000000                     
+   784                           ;_status stored from wreg
+   785  0054A8  0100               	movlb	__Lparam shr (0+8)
+   786  0054AA  6FD9               	movwf	?a_WriteStatus^(__Lparam& (0+65280)),b
+   787                           ;hdd.c: 140: RA1=0;
+   788  0054AC  9280               	bcf	3968,1,c	;volatile
+   789                           ;hdd.c: 142: SPI(0xF0);
+   790  0054AE  0EF0               	movlw	240
+   791  0054B0  EC35  F03C         	call	_SPI
+   792                           ;hdd.c: 143: SPI(status);
+   793  0054B4  0100               	movlb	__Lparam shr (0+8)
+   794  0054B6  51D9               	movf	?a_WriteStatus^(__Lparam& (0+65280)),w
+   795  0054B8  EC35  F03C         	call	_SPI
+   796                           ;hdd.c: 144: SPI(0x00);
+   797  0054BC  0E00               	movlw	0
+   798  0054BE  EC35  F03C         	call	_SPI
+   799                           ;hdd.c: 145: SPI(0x00);
+   800  0054C2  0E00               	movlw	0
+   801  0054C4  EC35  F03C         	call	_SPI
+   802                           ;hdd.c: 146: SPI(0x00);
+   803  0054C8  0E00               	movlw	0
+   804  0054CA  EC35  F03C         	call	_SPI
+   805                           ;hdd.c: 147: SPI(0x00);
+   806  0054CE  0E00               	movlw	0
+   807  0054D0  EC35  F03C         	call	_SPI
+   808                           ;hdd.c: 149: RA1=1;
+   809  0054D4  8280               	bsf	3968,1,c	;volatile
+   810                           ;hdd.c: 150: }
+   811  0054D6  0012               	return	
+   812  0054D8  FFFF               	dw	65535	; Nop inserted for errata
+   813  0054DA  D7E6               	goto	f3972
+   814  0054DC                     __end_of_WriteStatus:
+   815                           ;hdd.c: 153: void HandleHDD(unsigned char c1, un
+      +                          signed char c2)
+   816                           ;hdd.c: 154: {
+   817  0054DC  0042               	dw	?_HandleHDD
+   818  0054DE                     _HandleHDD:
+   819                           ; errata NOP at function entry point
+   820  0054DE  FFFF               	dw	65535
+   821  0054E0                     f3982:
+   822  000000                     
+   823                           ;hdd.c: 155: struct driveIdentify id;
+   824  0054E0  A4E8               	btfss	wreg,2,c
+   825  0054E2  D24B               	goto	l25
+   826                           ;hdd.c: 166: {
+   827  0054E4  8881               	bsf	3969,4,c	;volatile
+   828                           ;hdd.c: 169: RA1=0;
+   829  0054E6  9280               	bcf	3968,1,c	;volatile
+   830                           ;hdd.c: 170: SPI(0x80);
+   831  0054E8  0E80               	movlw	128
+   832  0054EA  EC35  F03C         	call	_SPI
+   833                           ;hdd.c: 171: SPI(0x00);
+   834  0054EE  0E00               	movlw	0
+   835  0054F0  EC35  F03C         	call	_SPI
+   836                           ;hdd.c: 172: SPI(0x00);
+   837  0054F4  0E00               	movlw	0
+   838  0054F6  EC35  F03C         	call	_SPI
+   839                           ;hdd.c: 173: SPI(0x00);
+   840  0054FA  0E00               	movlw	0
+   841  0054FC  EC35  F03C         	call	_SPI
+   842                           ;hdd.c: 174: SPI(0x00);
+   843  005500  0E00               	movlw	0
+   844  005502  EC35  F03C         	call	_SPI
+   845                           ;hdd.c: 175: SPI(0x00);
+   846  005506  0E00               	movlw	0
+   847  005508  EC35  F03C         	call	_SPI
+   848                           ;hdd.c: 176: for (i = 0; i < 8; i++)
+   849  00550C  0100               	movlb	__Lparam shr (0+8)
+   850  00550E  6B4B               	clrf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),b
+   851  005510  6B4C               	clrf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),b
+   852  005512                     l26:
+   853                           ;hdd.c: 177: {
+   854  005512  0E00               	movlw	0
+   855  005514  EC35  F03C         	call	_SPI
+   856                           ;hdd.c: 179: tfr[i] = SPI(0);
+   857  005518  0E00               	movlw	0
+   858  00551A  EC35  F03C         	call	_SPI
+   859  00551E  6E00               	movwf	btemp,c
+   860  005520  0100               	movlb	__Lparam shr (0+8)
+   861  005522  EE00  F051         	lfsr	0,?a_HandleHDD+14
+   862  005526  514B               	movf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+   863  005528  26E9               	addwf	fsr0l,f,c
+   864  00552A  514C               	movf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+   865  00552C  22EA               	addwfc	fsr0h,f,c
+   866  00552E  C000  FFEF         	movff	btemp,indf0
+   867  005532  4B4B               	infsnz	(?a_HandleHDD+8)^(__Lparam& (0+65280)),f
+      +                          ,b
+   868  005534  2B4C               	incf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),f,b
+   869  005536  0E00               	movlw	0
+   870  005538  5D4C               	subwf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+   871  00553A  0E08               	movlw	8
+   872  00553C  B4D8               	btfsc	status,2,c
+   873  00553E  5D4B               	subwf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+   874  005540  E3E8               	bnc	l26
+   875                           ;hdd.c: 180: }
+   876  005542  8280               	bsf	3968,1,c	;volatile
+   877                           ;hdd.c: 184: unit = tfr[6] & 0x10 ? 1 : 0;
+   878  005544  0E00               	movlw	0
+   879  005546  B957               	btfsc	(?a_HandleHDD+20)^(__Lparam& (0+65280)),4
+      +                          ,b
+   880  005548  0E01               	movlw	1
+   881  00554A  6F46               	movwf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),b
+   882                           ;hdd.c: 186: if ((tfr[7] & 0xF0) == 0x10)
+   883  00554C  5158               	movf	(?a_HandleHDD+21)^(__Lparam& (0+65280)),w
+   884  00554E  0BF0               	andlw	-16
+   885  005550  0A10               	xorlw	16
+   886  005552  E10D               	bnz	l29
+   887                           ;hdd.c: 187: {
+   888  005554  6BD9               	clrf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+   889  005556  0E01               	movlw	1
+   890  005558  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+   891  00555A  6BDB               	clrf	(?_WriteTaskFile+2)^(__Lparam& (0+65280)),
+      +                          b
+   892  00555C  6BDC               	clrf	(?_WriteTaskFile+3)^(__Lparam& (0+65280)),
+      +                          b
+   893  00555E  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+   894  005560  0BF0               	andlw	-16
+   895  005562  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+   896  005564  0E00               	movlw	0
+   897  005566  DF55               	call	_WriteTaskFile
+   898                           ;hdd.c: 194: WriteStatus(0x80 | 0x10);
+   899  005568  0E90               	movlw	144
+   900  00556A  DF9D               	call	_WriteStatus
+   901                           ;hdd.c: 195: }
+   902  00556C  D205               	goto	l30
+   903  00556E                     l29:
+   904                           ;hdd.c: 196: else if (tfr[7] == 0xEC)
+   905  00556E  0100               	movlb	__Lparam shr (0+8)
+   906  005570  5158               	movf	(?a_HandleHDD+21)^(__Lparam& (0+65280)),w
+   907  005572  0AEC               	xorlw	-20
+   908  005574  E154               	bnz	l31
+   909                           ;hdd.c: 197: {
+   910  005576  0E59               	movlw	low (?a_HandleHDD+22)
+   911  005578  6FD9               	movwf	?_IdentifyDevice^(__Lparam& (0+65280)),b
+   912  00557A  0E00               	movlw	high (?a_HandleHDD+22)
+   913  00557C  6FDA               	movwf	(?_IdentifyDevice+1)^(__Lparam& (0+65280)
+      +                          ),b
+   914  00557E  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+   915  005580  6FDB               	movwf	(?_IdentifyDevice+2)^(__Lparam& (0+65280)
+      +                          ),b
+   916  005582  DDC9               	call	_IdentifyDevice	;wreg free
+   917                           ;hdd.c: 204: WriteTaskFile(0, tfr[2], tfr[3], tf
+      +                          r[4], tfr[5], tfr[6]);
+   918  005584  0100               	movlb	__Lparam shr (0+8)
+   919  005586  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+   920  005588  6FD9               	movwf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+   921  00558A  5154               	movf	(?a_HandleHDD+17)^(__Lparam& (0+65280)),w
+   922  00558C  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+   923  00558E  5155               	movf	(?a_HandleHDD+18)^(__Lparam& (0+65280)),w
+   924  005590  6FDB               	movwf	(?_WriteTaskFile+2)^(__Lparam& (0+65280))
+      +                          ,b
+   925  005592  5156               	movf	(?a_HandleHDD+19)^(__Lparam& (0+65280)),w
+   926  005594  6FDC               	movwf	(?_WriteTaskFile+3)^(__Lparam& (0+65280))
+      +                          ,b
+   927  005596  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+   928  005598  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+   929  00559A  0E00               	movlw	0
+   930  00559C  DF3A               	call	_WriteTaskFile
+   931                           ;hdd.c: 205: WriteStatus(0x08);
+   932  00559E  0E08               	movlw	8
+   933  0055A0  DF82               	call	_WriteStatus
+   934                           ;hdd.c: 206: RA1=0;
+   935  0055A2  9280               	bcf	3968,1,c	;volatile
+   936                           ;hdd.c: 207: SPI(0xA0);
+   937  0055A4  0EA0               	movlw	160
+   938  0055A6  EC35  F03C         	call	_SPI
+   939                           ;hdd.c: 208: SPI(0x00);
+   940  0055AA  0E00               	movlw	0
+   941  0055AC  EC35  F03C         	call	_SPI
+   942                           ;hdd.c: 209: SPI(0x00);
+   943  0055B0  0E00               	movlw	0
+   944  0055B2  EC35  F03C         	call	_SPI
+   945                           ;hdd.c: 210: SPI(0x00);
+   946  0055B6  0E00               	movlw	0
+   947  0055B8  EC35  F03C         	call	_SPI
+   948                           ;hdd.c: 211: SPI(0x00);
+   949  0055BC  0E00               	movlw	0
+   950  0055BE  EC35  F03C         	call	_SPI
+   951                           ;hdd.c: 212: SPI(0x00);
+   952  0055C2  0E00               	movlw	0
+   953  0055C4  EC35  F03C         	call	_SPI
+   954                           ;hdd.c: 213: buffer = (unsigned char*)&id;
+   955  0055C8  0100               	movlb	__Lparam shr (0+8)
+   956  0055CA  0E59               	movlw	low (?a_HandleHDD+22)
+   957  0055CC  6F47               	movwf	(?a_HandleHDD+4)^(__Lparam& (0+65280)),b
+   958  0055CE  0E00               	movlw	high (?a_HandleHDD+22)
+   959  0055D0  6F48               	movwf	(?a_HandleHDD+5)^(__Lparam& (0+65280)),b
+   960                           ;hdd.c: 214: for(i=0; i < (sizeof(id)); i++)
+   961  0055D2  6B4B               	clrf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),b
+   962  0055D4  6B4C               	clrf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),b
+   963  0055D6                     l32:
+   964                           ;hdd.c: 215: { SPI(*(buffer++)); }
+   965  0055D6  C047  FFE9         	movff	?a_HandleHDD+4,fsr0l
+   966  0055DA  C048  FFEA         	movff	?a_HandleHDD+5,fsr0h
+   967  0055DE  0100               	movlb	__Lparam shr (0+8)
+   968  0055E0  4B47               	infsnz	(?a_HandleHDD+4)^(__Lparam& (0+65280)),f
+      +                          ,b
+   969  0055E2  2B48               	incf	(?a_HandleHDD+5)^(__Lparam& (0+65280)),f,b
+   970  0055E4  50EF               	movf	indf0,w,c
+   971  0055E6  EC35  F03C         	call	_SPI
+   972  0055EA  0100               	movlb	__Lparam shr (0+8)
+   973  0055EC  4B4B               	infsnz	(?a_HandleHDD+8)^(__Lparam& (0+65280)),f
+      +                          ,b
+   974  0055EE  2B4C               	incf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),f,b
+   975  0055F0  0E00               	movlw	0
+   976  0055F2  5D4C               	subwf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+   977  0055F4  0E80               	movlw	128
+   978  0055F6  B4D8               	btfsc	status,2,c
+   979  0055F8  5D4B               	subwf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+   980  0055FA  E3ED               	bnc	l32
+   981                           ;hdd.c: 216: for(; i < 512; i++)
+   982  0055FC                     L1:
+   983  0055FC  0E02               	movlw	2
+   984  0055FE  5D4C               	subwf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+   985  005600  0E00               	movlw	0
+   986  005602  B4D8               	btfsc	status,2,c
+   987  005604  5D4B               	subwf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+   988  005606  E207               	bc	l36
+   989                           ;hdd.c: 217: { SPI(0); }
+   990  005608  0E00               	movlw	0
+   991  00560A  EC35  F03C         	call	_SPI
+   992  00560E  0100               	movlb	__Lparam shr (0+8)
+   993  005610  4B4B               	infsnz	(?a_HandleHDD+8)^(__Lparam& (0+65280)),f
+      +                          ,b
+   994  005612  2B4C               	incf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),f,b
+   995  005614  D7F3               	goto	L1
+   996  005616                     l36:
+   997                           ;hdd.c: 218: RA1=1;
+   998  005616  8280               	bsf	3968,1,c	;volatile
+   999                           ;hdd.c: 220: WriteStatus(0x80 | 0x10);
+  1000  005618  0E90               	movlw	144
+  1001  00561A  DF45               	call	_WriteStatus
+  1002                           ;hdd.c: 221: }
+  1003  00561C  D1AD               	goto	l30
+  1004  00561E                     l31:
+  1005                           ;hdd.c: 222: else if (tfr[7] == 0x91)
+  1006  00561E  0100               	movlb	__Lparam shr (0+8)
+  1007  005620  5158               	movf	(?a_HandleHDD+21)^(__Lparam& (0+65280)),w
+  1008  005622  0A91               	xorlw	-111
+  1009  005624  E10F               	bnz	l39
+  1010                           ;hdd.c: 223: {
+  1011  005626  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1012  005628  6FD9               	movwf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+  1013  00562A  5154               	movf	(?a_HandleHDD+17)^(__Lparam& (0+65280)),w
+  1014  00562C  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+  1015  00562E  5155               	movf	(?a_HandleHDD+18)^(__Lparam& (0+65280)),w
+  1016  005630  6FDB               	movwf	(?_WriteTaskFile+2)^(__Lparam& (0+65280))
+      +                          ,b
+  1017  005632  5156               	movf	(?a_HandleHDD+19)^(__Lparam& (0+65280)),w
+  1018  005634  6FDC               	movwf	(?_WriteTaskFile+3)^(__Lparam& (0+65280))
+      +                          ,b
+  1019  005636  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+  1020  005638  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+  1021  00563A  0E00               	movlw	0
+  1022  00563C  DEEA               	call	_WriteTaskFile
+  1023                           ;hdd.c: 230: WriteStatus(0x80 | 0x10);
+  1024  00563E  0E90               	movlw	144
+  1025  005640  DF32               	call	_WriteStatus
+  1026                           ;hdd.c: 231: }
+  1027  005642  D19A               	goto	l30
+  1028  005644                     l39:
+  1029                           ;hdd.c: 232: else if (tfr[7] == 0x20)
+  1030  005644  0100               	movlb	__Lparam shr (0+8)
+  1031  005646  5158               	movf	(?a_HandleHDD+21)^(__Lparam& (0+65280)),w
+  1032  005648  0A20               	xorlw	32
+  1033  00564A  E001 D09B          	bnz	l41
+  1034                           ;hdd.c: 233: {
+  1035  00564E  0E08               	movlw	8
+  1036  005650  DF2A               	call	_WriteStatus
+  1037                           ;hdd.c: 237: sector = tfr[3];
+  1038  005652  0100               	movlb	__Lparam shr (0+8)
+  1039  005654  5154               	movf	(?a_HandleHDD+17)^(__Lparam& (0+65280)),w
+  1040  005656  6F45               	movwf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),b
+  1041                           ;hdd.c: 238: cylinder = tfr[4] | (tfr[5] << 8);
+  1042  005658  5156               	movf	(?a_HandleHDD+19)^(__Lparam& (0+65280)),w
+  1043  00565A  6F4A               	movwf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),b
+  1044  00565C  C055  F049         	movff	?a_HandleHDD+18,?a_HandleHDD+6
+  1045                           ;hdd.c: 239: head = tfr[6] & 0x0F;
+  1046  005660  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+  1047  005662  0B0F               	andlw	15
+  1048  005664  6F44               	movwf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),b
+  1049                           ;hdd.c: 240: lba = chs2lba(cylinder, head, secto
+      +                          r, unit);
+  1050  005666  C049  F0D9         	movff	?a_HandleHDD+6,?_chs2lba
+  1051  00566A  C04A  F0DA         	movff	?a_HandleHDD+7,?_chs2lba+1
+  1052  00566E  5144               	movf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),w
+  1053  005670  6FDB               	movwf	(?_chs2lba+2)^(__Lparam& (0+65280)),b
+  1054  005672  5145               	movf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),w
+  1055  005674  6FDC               	movwf	(?_chs2lba+3)^(__Lparam& (0+65280)),b
+  1056  005676  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1057  005678  6FDD               	movwf	(?_chs2lba+4)^(__Lparam& (0+65280)),b
+  1058  00567A  DE70               	call	_chs2lba	;wreg free
+  1059  00567C  C000  F04D         	movff	btemp,?a_HandleHDD+10
+  1060  005680  C001  F04E         	movff	btemp+1,?a_HandleHDD+11
+  1061  005684  C002  F04F         	movff	btemp+2,?a_HandleHDD+12
+  1062  005688  C003  F050         	movff	btemp+3,?a_HandleHDD+13
+  1063                           ;hdd.c: 249: if (hdf[unit].file.len)
+  1064  00568C  0100               	movlb	__Lparam shr (0+8)
+  1065  00568E  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1066  005690  0D27               	mullw	39
+  1067  005692  0E13               	movlw	low (_hdf+19)
+  1068  005694  24F3               	addwf	prodl,w,c
+  1069  005696  6EE9               	movwf	fsr0l,c
+  1070  005698  0E03               	movlw	high (_hdf+19)
+  1071  00569A  20F4               	addwfc	prodh,w,c
+  1072  00569C  6EEA               	movwf	fsr0h,c
+  1073  00569E  50EE               	movf	postinc0,w,c
+  1074  0056A0  10EE               	iorwf	postinc0,w,c
+  1075  0056A2  10EE               	iorwf	postinc0,w,c
+  1076  0056A4  10EE               	iorwf	postinc0,w,c
+  1077  0056A6  E022               	bz	l42
+  1078                           ;hdd.c: 250: {
+  1079  0056A8  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1080  0056AA  0D27               	mullw	39
+  1081  0056AC  0E00               	movlw	low _hdf
+  1082  0056AE  24F3               	addwf	prodl,w,c
+  1083  0056B0  6FD9               	movwf	?_FileSeek^(__Lparam& (0+65280)),b
+  1084  0056B2  0E03               	movlw	high _hdf
+  1085  0056B4  20F4               	addwfc	prodh,w,c
+  1086  0056B6  6FDA               	movwf	(?_FileSeek+1)^(__Lparam& (0+65280)),b
+  1087  0056B8  C04D  F0DB         	movff	?a_HandleHDD+10,?_FileSeek+2
+  1088  0056BC  C04E  F0DC         	movff	?a_HandleHDD+11,?_FileSeek+3
+  1089  0056C0  C04F  F0DD         	movff	?a_HandleHDD+12,?_FileSeek+4
+  1090  0056C4  C050  F0DE         	movff	?a_HandleHDD+13,?_FileSeek+5
+  1091  0056C8  ECB3  F019         	call	_FileSeek	;wreg free
+  1092                           ;hdd.c: 255: MMC_DIRECT_TRANSFER_MODE = 1;
+  1093  0056CC  0E01               	movlw	1
+  1094  0056CE  CFE8 F359          	movff	wreg,_MMC_DIRECT_TRANSFER_MODE
+  1095                           ;hdd.c: 256: FileRead(&hdf[unit].file);
+  1096  0056D2  0100               	movlb	__Lparam shr (0+8)
+  1097  0056D4  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1098  0056D6  0D27               	mullw	39
+  1099  0056D8  0E00               	movlw	low _hdf
+  1100  0056DA  24F3               	addwf	prodl,w,c
+  1101  0056DC  6FD9               	movwf	?_FileRead^(__Lparam& (0+65280)),b
+  1102  0056DE  0E03               	movlw	high _hdf
+  1103  0056E0  20F4               	addwfc	prodh,w,c
+  1104  0056E2  6FDA               	movwf	(?_FileRead+1)^(__Lparam& (0+65280)),b
+  1105  0056E4  EC9B  F01B         	call	_FileRead	;wreg free
+  1106                           ;hdd.c: 257: MMC_DIRECT_TRANSFER_MODE = 0;
+  1107  0056E8  0103               	movlb	_MMC_DIRECT_TRANSFER_MODE shr (0+8)
+  1108  0056EA  6B59               	clrf	_MMC_DIRECT_TRANSFER_MODE& (0+255),b
+  1109  0056EC                     l42:
+  1110                           ;hdd.c: 277: }
+  1111  0056EC  0100               	movlb	__Lparam shr (0+8)
+  1112  0056EE  0753               	decf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),f,
+      +                          b
+  1113                           ;hdd.c: 282: if (tfr[2])
+  1114  0056F0  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1115  0056F2  E02D               	bz	l43
+  1116                           ;hdd.c: 283: {
+  1117  0056F4  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1118  0056F6  0D27               	mullw	39
+  1119  0056F8  0E25               	movlw	low (_hdf+37)
+  1120  0056FA  24F3               	addwf	prodl,w,c
+  1121  0056FC  6EE9               	movwf	fsr0l,c
+  1122  0056FE  0E03               	movlw	high (_hdf+37)
+  1123  005700  20F4               	addwfc	prodh,w,c
+  1124  005702  6EEA               	movwf	fsr0h,c
+  1125  005704  CFEE F000          	movff	postinc0,btemp
+  1126  005708  CFED F001          	movff	postdec0,btemp+1
+  1127  00570C  C045  FFE8         	movff	?a_HandleHDD+2,wreg
+  1128  005710  1800               	xorwf	btemp,w,c
+  1129  005712  E101               	bnz	u135
+  1130  005714  5201               	movf	btemp+1,f,c
+  1131  005716                     u135:
+  1132  005716  E119               	bnz	l44
+  1133                           ;hdd.c: 285: {
+  1134  005718  0E01               	movlw	1
+  1135  00571A  6F45               	movwf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),b
+  1136                           ;hdd.c: 287: head++;
+  1137  00571C  2B44               	incf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),f,b
+  1138                           ;hdd.c: 288: if (head == hdf[unit].heads)
+  1139  00571E  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1140  005720  0D27               	mullw	39
+  1141  005722  0E23               	movlw	low (_hdf+35)
+  1142  005724  24F3               	addwf	prodl,w,c
+  1143  005726  6EE9               	movwf	fsr0l,c
+  1144  005728  0E03               	movlw	high (_hdf+35)
+  1145  00572A  20F4               	addwfc	prodh,w,c
+  1146  00572C  6EEA               	movwf	fsr0h,c
+  1147  00572E  CFEE F000          	movff	postinc0,btemp
+  1148  005732  CFED F001          	movff	postdec0,btemp+1
+  1149  005736  C044  FFE8         	movff	?a_HandleHDD+1,wreg
+  1150  00573A  1800               	xorwf	btemp,w,c
+  1151  00573C  E101               	bnz	u145
+  1152  00573E  5201               	movf	btemp+1,f,c
+  1153  005740                     u145:
+  1154  005740  E106               	bnz	l43
+  1155                           ;hdd.c: 289: {
+  1156  005742  6B44               	clrf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),b
+  1157                           ;hdd.c: 291: cylinder++;
+  1158  005744  4B49               	infsnz	(?a_HandleHDD+6)^(__Lparam& (0+65280)),f
+      +                          ,b
+  1159  005746  2B4A               	incf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),f,b
+  1160                           ;hdd.c: 292: }
+  1161  005748  D002               	goto	l43
+  1162  00574A                     l44:
+  1163                           ;hdd.c: 294: else
+  1164  00574A  0100               	movlb	__Lparam shr (0+8)
+  1165  00574C  2B45               	incf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),f,b
+  1166  00574E                     l43:
+  1167                           ;hdd.c: 296: }
+  1168  00574E  0100               	movlb	__Lparam shr (0+8)
+  1169  005750  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1170  005752  6FD9               	movwf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+  1171  005754  5145               	movf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),w
+  1172  005756  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+  1173  005758  5149               	movf	(?a_HandleHDD+6)^(__Lparam& (0+65280)),w
+  1174  00575A  6FDB               	movwf	(?_WriteTaskFile+2)^(__Lparam& (0+65280))
+      +                          ,b
+  1175  00575C  514A               	movf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),w
+  1176  00575E  6FDC               	movwf	(?_WriteTaskFile+3)^(__Lparam& (0+65280))
+      +                          ,b
+  1177  005760  C057  F000         	movff	?a_HandleHDD+20,btemp
+  1178  005764  0EF0               	movlw	-16
+  1179  005766  1600               	andwf	btemp,f,c
+  1180  005768  5144               	movf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),w
+  1181  00576A  1000               	iorwf	btemp,w,c
+  1182  00576C  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+  1183  00576E  0E00               	movlw	0
+  1184  005770  DE50               	call	_WriteTaskFile
+  1185                           ;hdd.c: 299: WriteStatus((tfr[2] ? 0 : 0x80) | 0
+      +                          x10);
+  1186  005772  0100               	movlb	__Lparam shr (0+8)
+  1187  005774  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1188  005776  E102               	bnz	u166
+  1189  005778  0E80               	movlw	128
+  1190  00577A  D001               	goto	u168
+  1191  00577C                     u166:
+  1192  00577C  0E00               	movlw	0
+  1193  00577E                     u168:
+  1194  00577E  0910               	iorlw	16
+  1195  005780  DE92               	call	_WriteStatus
+  1196                           ;hdd.c: 300: }
+  1197  005782  D0FA               	goto	l30
+  1198  005784                     l41:
+  1199                           ;hdd.c: 301: else if (tfr[7] == 0x30)
+  1200  005784  0100               	movlb	__Lparam shr (0+8)
+  1201  005786  5158               	movf	(?a_HandleHDD+21)^(__Lparam& (0+65280)),w
+  1202  005788  0A30               	xorlw	48
+  1203  00578A  E001 D0E6          	bnz	l48
+  1204                           ;hdd.c: 302: {
+  1205  00578E  5154               	movf	(?a_HandleHDD+17)^(__Lparam& (0+65280)),w
+  1206  005790  6F45               	movwf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),b
+  1207                           ;hdd.c: 305: cylinder = tfr[4] | (tfr[5] << 8);
+  1208  005792  5156               	movf	(?a_HandleHDD+19)^(__Lparam& (0+65280)),w
+  1209  005794  6F4A               	movwf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),b
+  1210  005796  C055  F049         	movff	?a_HandleHDD+18,?a_HandleHDD+6
+  1211                           ;hdd.c: 306: head = tfr[6] & 0x0F;
+  1212  00579A  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+  1213  00579C  0B0F               	andlw	15
+  1214  00579E  6F44               	movwf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),b
+  1215                           ;hdd.c: 307: lba = chs2lba(cylinder, head, secto
+      +                          r, unit);
+  1216  0057A0  C049  F0D9         	movff	?a_HandleHDD+6,?_chs2lba
+  1217  0057A4  C04A  F0DA         	movff	?a_HandleHDD+7,?_chs2lba+1
+  1218  0057A8  5144               	movf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),w
+  1219  0057AA  6FDB               	movwf	(?_chs2lba+2)^(__Lparam& (0+65280)),b
+  1220  0057AC  5145               	movf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),w
+  1221  0057AE  6FDC               	movwf	(?_chs2lba+3)^(__Lparam& (0+65280)),b
+  1222  0057B0  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1223  0057B2  6FDD               	movwf	(?_chs2lba+4)^(__Lparam& (0+65280)),b
+  1224  0057B4  DDD3               	call	_chs2lba	;wreg free
+  1225  0057B6  C000  F04D         	movff	btemp,?a_HandleHDD+10
+  1226  0057BA  C001  F04E         	movff	btemp+1,?a_HandleHDD+11
+  1227  0057BE  C002  F04F         	movff	btemp+2,?a_HandleHDD+12
+  1228  0057C2  C003  F050         	movff	btemp+3,?a_HandleHDD+13
+  1229                           ;hdd.c: 315: if (hdf[unit].file.len)
+  1230  0057C6  0100               	movlb	__Lparam shr (0+8)
+  1231  0057C8  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1232  0057CA  0D27               	mullw	39
+  1233  0057CC  0E13               	movlw	low (_hdf+19)
+  1234  0057CE  24F3               	addwf	prodl,w,c
+  1235  0057D0  6EE9               	movwf	fsr0l,c
+  1236  0057D2  0E03               	movlw	high (_hdf+19)
+  1237  0057D4  20F4               	addwfc	prodh,w,c
+  1238  0057D6  6EEA               	movwf	fsr0h,c
+  1239  0057D8  50EE               	movf	postinc0,w,c
+  1240  0057DA  10EE               	iorwf	postinc0,w,c
+  1241  0057DC  10EE               	iorwf	postinc0,w,c
+  1242  0057DE  10EE               	iorwf	postinc0,w,c
+  1243  0057E0  E012               	bz	l49
+  1244                           ;hdd.c: 316: {
+  1245  0057E2  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1246  0057E4  0D27               	mullw	39
+  1247  0057E6  0E00               	movlw	low _hdf
+  1248  0057E8  24F3               	addwf	prodl,w,c
+  1249  0057EA  6FD9               	movwf	?_FileSeek^(__Lparam& (0+65280)),b
+  1250  0057EC  0E03               	movlw	high _hdf
+  1251  0057EE  20F4               	addwfc	prodh,w,c
+  1252  0057F0  6FDA               	movwf	(?_FileSeek+1)^(__Lparam& (0+65280)),b
+  1253  0057F2  C04D  F0DB         	movff	?a_HandleHDD+10,?_FileSeek+2
+  1254  0057F6  C04E  F0DC         	movff	?a_HandleHDD+11,?_FileSeek+3
+  1255  0057FA  C04F  F0DD         	movff	?a_HandleHDD+12,?_FileSeek+4
+  1256  0057FE  C050  F0DE         	movff	?a_HandleHDD+13,?_FileSeek+5
+  1257  005802  ECB3  F019         	call	_FileSeek	;wreg free
+  1258  005806                     l49:
+  1259                           ;hdd.c: 318: }
+  1260  005806  0E04               	movlw	4
+  1261  005808  DE4E               	call	_WriteStatus
+  1262  00580A                     l52:
+  1263                           ;hdd.c: 323: do
+  1264                           ;hdd.c: 324: {
+  1265  00580A  9280               	bcf	3968,1,c	;volatile
+  1266                           ;hdd.c: 326: c1 = SPI(0);
+  1267  00580C  0E00               	movlw	0
+  1268  00580E  EC35  F03C         	call	_SPI
+  1269  005812  0100               	movlb	__Lparam shr (0+8)
+  1270  005814  6F43               	movwf	?a_HandleHDD^(__Lparam& (0+65280)),b
+  1271                           ;hdd.c: 327: SPI(0x00);
+  1272  005816  0E00               	movlw	0
+  1273  005818  EC35  F03C         	call	_SPI
+  1274                           ;hdd.c: 328: SPI(0x00);
+  1275  00581C  0E00               	movlw	0
+  1276  00581E  EC35  F03C         	call	_SPI
+  1277                           ;hdd.c: 329: SPI(0x00);
+  1278  005822  0E00               	movlw	0
+  1279  005824  EC35  F03C         	call	_SPI
+  1280                           ;hdd.c: 330: SPI(0x00);
+  1281  005828  0E00               	movlw	0
+  1282  00582A  EC35  F03C         	call	_SPI
+  1283                           ;hdd.c: 331: SPI(0x00);
+  1284  00582E  0E00               	movlw	0
+  1285  005830  EC35  F03C         	call	_SPI
+  1286                           ;hdd.c: 332: RA1=1;
+  1287  005834  8280               	bsf	3968,1,c	;volatile
+  1288                           ;hdd.c: 333: }
+  1289  005836  0100               	movlb	__Lparam shr (0+8)
+  1290  005838  A743               	btfss	?a_HandleHDD^(__Lparam& (0+65280)),3,b
+  1291  00583A  D7E7               	goto	l52
+  1292                           ;hdd.c: 336: RA1=0;
+  1293  00583C  9280               	bcf	3968,1,c	;volatile
+  1294                           ;hdd.c: 337: SPI(0xB0);
+  1295  00583E  0EB0               	movlw	176
+  1296  005840  EC35  F03C         	call	_SPI
+  1297                           ;hdd.c: 338: SPI(0x00);
+  1298  005844  0E00               	movlw	0
+  1299  005846  EC35  F03C         	call	_SPI
+  1300                           ;hdd.c: 339: SPI(0x00);
+  1301  00584A  0E00               	movlw	0
+  1302  00584C  EC35  F03C         	call	_SPI
+  1303                           ;hdd.c: 340: SPI(0x00);
+  1304  005850  0E00               	movlw	0
+  1305  005852  EC35  F03C         	call	_SPI
+  1306                           ;hdd.c: 341: SPI(0x00);
+  1307  005856  0E00               	movlw	0
+  1308  005858  EC35  F03C         	call	_SPI
+  1309                           ;hdd.c: 342: SPI(0x00);
+  1310  00585C  0E00               	movlw	0
+  1311  00585E  EC35  F03C         	call	_SPI
+  1312                           ;hdd.c: 343: for (i = 0; i < 512; i++)
+  1313  005862  0100               	movlb	__Lparam shr (0+8)
+  1314  005864  6B4B               	clrf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),b
+  1315  005866  6B4C               	clrf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),b
+  1316  005868                     l53:
+  1317                           ;hdd.c: 344: { secbuf[i] = SPI(0xFF); }
+  1318  005868  0EFF               	movlw	255
+  1319  00586A  EC35  F03C         	call	_SPI
+  1320  00586E  6E00               	movwf	btemp,c
+  1321  005870  0100               	movlb	__Lparam shr (0+8)
+  1322  005872  EE03  F0FF         	lfsr	0,_secbuf
+  1323  005876  514B               	movf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+  1324  005878  26E9               	addwf	fsr0l,f,c
+  1325  00587A  514C               	movf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+  1326  00587C  22EA               	addwfc	fsr0h,f,c
+  1327  00587E  C000  FFEF         	movff	btemp,indf0
+  1328  005882  4B4B               	infsnz	(?a_HandleHDD+8)^(__Lparam& (0+65280)),f
+      +                          ,b
+  1329  005884  2B4C               	incf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),f,b
+  1330  005886  0E02               	movlw	2
+  1331  005888  5D4C               	subwf	(?a_HandleHDD+9)^(__Lparam& (0+65280)),w
+  1332  00588A  0E00               	movlw	0
+  1333  00588C  B4D8               	btfsc	status,2,c
+  1334  00588E  5D4B               	subwf	(?a_HandleHDD+8)^(__Lparam& (0+65280)),w
+  1335  005890  E3EB               	bnc	l53
+  1336                           ;hdd.c: 345: RA1=1;
+  1337  005892  8280               	bsf	3968,1,c	;volatile
+  1338                           ;hdd.c: 348: if (hdf[unit].file.len)
+  1339  005894  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1340  005896  0D27               	mullw	39
+  1341  005898  0E13               	movlw	low (_hdf+19)
+  1342  00589A  24F3               	addwf	prodl,w,c
+  1343  00589C  6EE9               	movwf	fsr0l,c
+  1344  00589E  0E03               	movlw	high (_hdf+19)
+  1345  0058A0  20F4               	addwfc	prodh,w,c
+  1346  0058A2  6EEA               	movwf	fsr0h,c
+  1347  0058A4  50EE               	movf	postinc0,w,c
+  1348  0058A6  10EE               	iorwf	postinc0,w,c
+  1349  0058A8  10EE               	iorwf	postinc0,w,c
+  1350  0058AA  10EE               	iorwf	postinc0,w,c
+  1351  0058AC  E00A               	bz	l56
+  1352                           ;hdd.c: 349: { FileWrite(&hdf[unit].file); }
+  1353  0058AE  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1354  0058B0  0D27               	mullw	39
+  1355  0058B2  0E00               	movlw	low _hdf
+  1356  0058B4  24F3               	addwf	prodl,w,c
+  1357  0058B6  6FD9               	movwf	?_FileWrite^(__Lparam& (0+65280)),b
+  1358  0058B8  0E03               	movlw	high _hdf
+  1359  0058BA  20F4               	addwfc	prodh,w,c
+  1360  0058BC  6FDA               	movwf	(?_FileWrite+1)^(__Lparam& (0+65280)),b
+  1361  0058BE  ECB3  F01B         	call	_FileWrite	;wreg free
+  1362  0058C2                     l56:
+  1363                           ;hdd.c: 352: tfr[2]--;
+  1364  0058C2  0100               	movlb	__Lparam shr (0+8)
+  1365  0058C4  0753               	decf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),f,
+      +                          b
+  1366                           ;hdd.c: 354: if (tfr[2])
+  1367  0058C6  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1368  0058C8  E02D               	bz	l57
+  1369                           ;hdd.c: 355: {
+  1370  0058CA  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1371  0058CC  0D27               	mullw	39
+  1372  0058CE  0E25               	movlw	low (_hdf+37)
+  1373  0058D0  24F3               	addwf	prodl,w,c
+  1374  0058D2  6EE9               	movwf	fsr0l,c
+  1375  0058D4  0E03               	movlw	high (_hdf+37)
+  1376  0058D6  20F4               	addwfc	prodh,w,c
+  1377  0058D8  6EEA               	movwf	fsr0h,c
+  1378  0058DA  CFEE F000          	movff	postinc0,btemp
+  1379  0058DE  CFED F001          	movff	postdec0,btemp+1
+  1380  0058E2  C045  FFE8         	movff	?a_HandleHDD+2,wreg
+  1381  0058E6  1800               	xorwf	btemp,w,c
+  1382  0058E8  E101               	bnz	u235
+  1383  0058EA  5201               	movf	btemp+1,f,c
+  1384  0058EC                     u235:
+  1385  0058EC  E119               	bnz	l58
+  1386                           ;hdd.c: 357: {
+  1387  0058EE  0E01               	movlw	1
+  1388  0058F0  6F45               	movwf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),b
+  1389                           ;hdd.c: 359: head++;
+  1390  0058F2  2B44               	incf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),f,b
+  1391                           ;hdd.c: 360: if (head == hdf[unit].heads)
+  1392  0058F4  5146               	movf	(?a_HandleHDD+3)^(__Lparam& (0+65280)),w
+  1393  0058F6  0D27               	mullw	39
+  1394  0058F8  0E23               	movlw	low (_hdf+35)
+  1395  0058FA  24F3               	addwf	prodl,w,c
+  1396  0058FC  6EE9               	movwf	fsr0l,c
+  1397  0058FE  0E03               	movlw	high (_hdf+35)
+  1398  005900  20F4               	addwfc	prodh,w,c
+  1399  005902  6EEA               	movwf	fsr0h,c
+  1400  005904  CFEE F000          	movff	postinc0,btemp
+  1401  005908  CFED F001          	movff	postdec0,btemp+1
+  1402  00590C  C044  FFE8         	movff	?a_HandleHDD+1,wreg
+  1403  005910  1800               	xorwf	btemp,w,c
+  1404  005912  E101               	bnz	u245
+  1405  005914  5201               	movf	btemp+1,f,c
+  1406  005916                     u245:
+  1407  005916  E106               	bnz	l57
+  1408                           ;hdd.c: 361: {
+  1409  005918  6B44               	clrf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),b
+  1410                           ;hdd.c: 363: cylinder++;
+  1411  00591A  4B49               	infsnz	(?a_HandleHDD+6)^(__Lparam& (0+65280)),f
+      +                          ,b
+  1412  00591C  2B4A               	incf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),f,b
+  1413                           ;hdd.c: 364: }
+  1414  00591E  D002               	goto	l57
+  1415  005920                     l58:
+  1416                           ;hdd.c: 366: else
+  1417  005920  0100               	movlb	__Lparam shr (0+8)
+  1418  005922  2B45               	incf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),f,b
+  1419  005924                     l57:
+  1420                           ;hdd.c: 368: }
+  1421  005924  0100               	movlb	__Lparam shr (0+8)
+  1422  005926  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1423  005928  6FD9               	movwf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+  1424  00592A  5145               	movf	(?a_HandleHDD+2)^(__Lparam& (0+65280)),w
+  1425  00592C  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+  1426  00592E  5149               	movf	(?a_HandleHDD+6)^(__Lparam& (0+65280)),w
+  1427  005930  6FDB               	movwf	(?_WriteTaskFile+2)^(__Lparam& (0+65280))
+      +                          ,b
+  1428  005932  514A               	movf	(?a_HandleHDD+7)^(__Lparam& (0+65280)),w
+  1429  005934  6FDC               	movwf	(?_WriteTaskFile+3)^(__Lparam& (0+65280))
+      +                          ,b
+  1430  005936  C057  F000         	movff	?a_HandleHDD+20,btemp
+  1431  00593A  0EF0               	movlw	-16
+  1432  00593C  1600               	andwf	btemp,f,c
+  1433  00593E  5144               	movf	(?a_HandleHDD+1)^(__Lparam& (0+65280)),w
+  1434  005940  1000               	iorwf	btemp,w,c
+  1435  005942  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+  1436  005944  0E00               	movlw	0
+  1437  005946  DD65               	call	_WriteTaskFile
+  1438                           ;hdd.c: 371: WriteStatus((tfr[2] ? 0 : 0x80) | 0
+      +                          x10);
+  1439  005948  0100               	movlb	__Lparam shr (0+8)
+  1440  00594A  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1441  00594C  E102               	bnz	u266
+  1442  00594E  0E80               	movlw	128
+  1443  005950  D001               	goto	u268
+  1444  005952                     u266:
+  1445  005952  0E00               	movlw	0
+  1446  005954                     u268:
+  1447  005954  0910               	iorlw	16
+  1448  005956  DDA7               	call	_WriteStatus
+  1449                           ;hdd.c: 372: }
+  1450  005958  D00F               	goto	l30
+  1451  00595A                     l48:
+  1452                           ;hdd.c: 373: else
+  1453  00595A  0100               	movlb	__Lparam shr (0+8)
+  1454  00595C  5153               	movf	(?a_HandleHDD+16)^(__Lparam& (0+65280)),w
+  1455  00595E  6FD9               	movwf	?_WriteTaskFile^(__Lparam& (0+65280)),b
+  1456  005960  5154               	movf	(?a_HandleHDD+17)^(__Lparam& (0+65280)),w
+  1457  005962  6FDA               	movwf	(?_WriteTaskFile+1)^(__Lparam& (0+65280))
+      +                          ,b
+  1458  005964  5155               	movf	(?a_HandleHDD+18)^(__Lparam& (0+65280)),w
+  1459  005966  6FDB               	movwf	(?_WriteTaskFile+2)^(__Lparam& (0+65280))
+      +                          ,b
+  1460  005968  5156               	movf	(?a_HandleHDD+19)^(__Lparam& (0+65280)),w
+  1461  00596A  6FDC               	movwf	(?_WriteTaskFile+3)^(__Lparam& (0+65280))
+      +                          ,b
+  1462  00596C  5157               	movf	(?a_HandleHDD+20)^(__Lparam& (0+65280)),w
+  1463  00596E  6FDD               	movwf	(?_WriteTaskFile+4)^(__Lparam& (0+65280))
+      +                          ,b
+  1464  005970  0E04               	movlw	4
+  1465  005972  DD4F               	call	_WriteTaskFile
+  1466                           ;hdd.c: 380: WriteStatus(0x80 | 0x10 | 0x01);
+  1467  005974  0E91               	movlw	145
+  1468  005976  DD97               	call	_WriteStatus
+  1469  005978                     l30:
+  1470                           ;hdd.c: 381: }
+  1471  005978  9881               	bcf	3969,4,c	;volatile
+  1472  00597A                     l25:
+  1473                           ;hdd.c: 384: }
+  1474  00597A  0012               	return	
+  1475  00597C  FFFF               	dw	65535	; Nop inserted for errata
+  1476  00597E  D5B0               	goto	f3982
+  1477  005980                     __end_of_HandleHDD:
+  1478                           ;hdd.c: 390: void GetHardfileGeometry(struct hdf
+      +                          TYPE *pHDF)
+  1479                           ;hdd.c: 391: {
+  1480  005980  0049               	dw	?_GetHardfileGeometry
+  1481  005982                     _GetHardfileGeometry:
+  1482                           ; errata NOP at function entry point
+  1483  005982  FFFF               	dw	65535
+  1484  005984                     f4042:
+  1485  000000                     
+  1486                           ;hdd.c: 392: unsigned long total;
+  1487  005984  0E3F               	movlw	63
+  1488  005986  0100               	movlb	__Lparam shr (0+8)
+  1489  005988  6F5F               	movwf	(?a_GetHardfileGeometry+20)^(__Lparam& (0
+      +                          +65280)),b
+  1490  00598A  6B60               	clrf	(?a_GetHardfileGeometry+21)^(__Lparam& (0+
+      +                          65280)),b
+  1491  00598C  6B61               	clrf	(?a_GetHardfileGeometry+22)^(__Lparam& (0+
+      +                          65280)),b
+  1492  00598E  6B62               	clrf	(?a_GetHardfileGeometry+23)^(__Lparam& (0+
+      +                          65280)),b
+  1493  005990  0E7F               	movlw	127
+  1494  005992  6F63               	movwf	(?a_GetHardfileGeometry+24)^(__Lparam& (0
+      +                          +65280)),b
+  1495  005994  6B64               	clrf	(?a_GetHardfileGeometry+25)^(__Lparam& (0+
+      +                          65280)),b
+  1496  005996  6B65               	clrf	(?a_GetHardfileGeometry+26)^(__Lparam& (0+
+      +                          65280)),b
+  1497  005998  6B66               	clrf	(?a_GetHardfileGeometry+27)^(__Lparam& (0+
+      +                          65280)),b
+  1498  00599A  6967               	setf	(?a_GetHardfileGeometry+28)^(__Lparam& (0+
+      +                          65280)),b
+  1499  00599C  6B68               	clrf	(?a_GetHardfileGeometry+29)^(__Lparam& (0+
+      +                          65280)),b
+  1500  00599E  6B69               	clrf	(?a_GetHardfileGeometry+30)^(__Lparam& (0+
+      +                          65280)),b
+  1501  0059A0  6B6A               	clrf	(?a_GetHardfileGeometry+31)^(__Lparam& (0+
+      +                          65280)),b
+  1502                           ;hdd.c: 397: if (0 == pHDF->file.len)
+  1503                           ; _pHDF loaded to fsr1
+  1504  0059A2  C049  FFE1         	movff	?_GetHardfileGeometry,fsr1l
+  1505  0059A6  C04A  FFE2         	movff	?_GetHardfileGeometry+1,fsr1h
+  1506  0059AA  EE00 F013          	lfsr	0,19
+  1507  0059AE  50E1               	movf	fsr1l,w,c
+  1508  0059B0  26E9               	addwf	fsr0l,f,c
+  1509  0059B2  50E2               	movf	fsr1h,w,c
+  1510  0059B4  22EA               	addwfc	fsr0h,f,c
+  1511  0059B6  50EE               	movf	postinc0,w,c
+  1512  0059B8  10EE               	iorwf	postinc0,w,c
+  1513  0059BA  10EE               	iorwf	postinc0,w,c
+  1514  0059BC  10EE               	iorwf	postinc0,w,c
+  1515  0059BE  E101 D10F          	bz	l62
+  1516                           ;hdd.c: 398: { return; }
+  1517                           ;hdd.c: 400: total = pHDF->file.len >> 9;
+  1518  0059C2  EE00 F013          	lfsr	0,19
+  1519  0059C6  50E1               	movf	fsr1l,w,c
+  1520  0059C8  26E9               	addwf	fsr0l,f,c
+  1521  0059CA  50E2               	movf	fsr1h,w,c
+  1522  0059CC  22EA               	addwfc	fsr0h,f,c
+  1523  0059CE  CFEE F000          	movff	postinc0,btemp
+  1524  0059D2  CFEE F001          	movff	postinc0,btemp+1
+  1525  0059D6  CFEE F002          	movff	postinc0,btemp+2
+  1526  0059DA  CFEE F003          	movff	postinc0,btemp+3
+  1527  0059DE  0E09               	movlw	9
+  1528  0059E0  ECC1  F03E         	call	llslr
+  1529  0059E4  C000  F04B         	movff	btemp,?a_GetHardfileGeometry
+  1530  0059E8  C001  F04C         	movff	btemp+1,?a_GetHardfileGeometry+1
+  1531  0059EC  C002  F04D         	movff	btemp+2,?a_GetHardfileGeometry+2
+  1532  0059F0  C003  F04E         	movff	btemp+3,?a_GetHardfileGeometry+3
+  1533                           ;hdd.c: 403: for (i = 0; i < 3; i++)
+  1534  0059F4  0100               	movlb	__Lparam shr (0+8)
+  1535  0059F6  6B53               	clrf	(?a_GetHardfileGeometry+8)^(__Lparam& (0+6
+      +                          5280)),b
+  1536  0059F8  6B54               	clrf	(?a_GetHardfileGeometry+9)^(__Lparam& (0+6
+      +                          5280)),b
+  1537  0059FA  6B55               	clrf	(?a_GetHardfileGeometry+10)^(__Lparam& (0+
+      +                          65280)),b
+  1538  0059FC  6B56               	clrf	(?a_GetHardfileGeometry+11)^(__Lparam& (0+
+      +                          65280)),b
+  1539  0059FE                     l64:
+  1540                           ;hdd.c: 404: {
+  1541  0059FE  C053  F000         	movff	?a_GetHardfileGeometry+8,btemp
+  1542  005A02  C054  F001         	movff	?a_GetHardfileGeometry+9,btemp+1
+  1543  005A06  C055  F002         	movff	?a_GetHardfileGeometry+10,btemp+2
+  1544  005A0A  C056  F003         	movff	?a_GetHardfileGeometry+11,btemp+3
+  1545  005A0E  90D8               	bcf	status,0,c
+  1546  005A10  3600               	rlcf	btemp,f,c
+  1547  005A12  3601               	rlcf	btemp+1,f,c
+  1548  005A14  90D8               	bcf	status,0,c
+  1549  005A16  3600               	rlcf	btemp,f,c
+  1550  005A18  3601               	rlcf	btemp+1,f,c
+  1551  005A1A  0E5F               	movlw	low (?a_GetHardfileGeometry+20)
+  1552  005A1C  2400               	addwf	btemp,w,c
+  1553  005A1E  6EE9               	movwf	fsr0l,c
+  1554  005A20  0E00               	movlw	high (?a_GetHardfileGeometry+20)
+  1555  005A22  2001               	addwfc	btemp+1,w,c
+  1556  005A24  6EEA               	movwf	fsr0h,c
+  1557  005A26  CFEE F04F          	movff	postinc0,?a_GetHardfileGeometry+4
+  1558  005A2A  CFEE F050          	movff	postinc0,?a_GetHardfileGeometry+5
+  1559  005A2E  CFEE F051          	movff	postinc0,?a_GetHardfileGeometry+6
+  1560  005A32  CFEE F052          	movff	postinc0,?a_GetHardfileGeometry+7
+  1561                           ;hdd.c: 406: for (head = 4; head <= 16; head++)
+  1562  005A36  0E04               	movlw	4
+  1563  005A38  0100               	movlb	__Lparam shr (0+8)
+  1564  005A3A  6F5B               	movwf	(?a_GetHardfileGeometry+16)^(__Lparam& (0
+      +                          +65280)),b
+  1565  005A3C  6B5C               	clrf	(?a_GetHardfileGeometry+17)^(__Lparam& (0+
+      +                          65280)),b
+  1566  005A3E  6B5D               	clrf	(?a_GetHardfileGeometry+18)^(__Lparam& (0+
+      +                          65280)),b
+  1567  005A40  6B5E               	clrf	(?a_GetHardfileGeometry+19)^(__Lparam& (0+
+      +                          65280)),b
+  1568  005A42                     l67:
+  1569                           ;hdd.c: 407: {
+  1570  005A42  C04F  F004         	movff	?a_GetHardfileGeometry+4,btemp+4
+  1571  005A46  C050  F005         	movff	?a_GetHardfileGeometry+5,btemp+5
+  1572  005A4A  C051  F006         	movff	?a_GetHardfileGeometry+6,btemp+6
+  1573  005A4E  C052  F007         	movff	?a_GetHardfileGeometry+7,btemp+7
+  1574  005A52  C05B  F000         	movff	?a_GetHardfileGeometry+16,btemp
+  1575  005A56  C05C  F001         	movff	?a_GetHardfileGeometry+17,btemp+1
+  1576  005A5A  C05D  F002         	movff	?a_GetHardfileGeometry+18,btemp+2
+  1577  005A5E  C05E  F003         	movff	?a_GetHardfileGeometry+19,btemp+3
+  1578  005A62  ECB1  F01F         	call	llmul
+  1579  005A66  C000  F004         	movff	btemp,btemp+4
+  1580  005A6A  C001  F005         	movff	btemp+1,btemp+5
+  1581  005A6E  C002  F006         	movff	btemp+2,btemp+6
+  1582  005A72  C003  F007         	movff	btemp+3,btemp+7
+  1583  005A76  C04B  F000         	movff	?a_GetHardfileGeometry,btemp
+  1584  005A7A  C04C  F001         	movff	?a_GetHardfileGeometry+1,btemp+1
+  1585  005A7E  C04D  F002         	movff	?a_GetHardfileGeometry+2,btemp+2
+  1586  005A82  C04E  F003         	movff	?a_GetHardfileGeometry+3,btemp+3
+  1587  005A86  ECEE  F03C         	call	lldiv
+  1588  005A8A  C000  F057         	movff	btemp,?a_GetHardfileGeometry+12
+  1589  005A8E  C001  F058         	movff	btemp+1,?a_GetHardfileGeometry+13
+  1590  005A92  C002  F059         	movff	btemp+2,?a_GetHardfileGeometry+14
+  1591  005A96  C003  F05A         	movff	btemp+3,?a_GetHardfileGeometry+15
+  1592                           ;hdd.c: 410: if (pHDF->file.len <= 536870912)
+  1593  005A9A  EE00 F013          	lfsr	0,19
+  1594  005A9E  50E1               	movf	fsr1l,w,c
+  1595  005AA0  26E9               	addwf	fsr0l,f,c
+  1596  005AA2  50E2               	movf	fsr1h,w,c
+  1597  005AA4  22EA               	addwfc	fsr0h,f,c
+  1598  005AA6  52EE               	movf	postinc0,f,c
+  1599  005AA8  52EE               	movf	postinc0,f,c
+  1600  005AAA  52EE               	movf	postinc0,f,c
+  1601  005AAC  0E20               	movlw	32
+  1602  005AAE  5CED               	subwf	postdec0,w,c
+  1603  005AB0  E108               	bnz	u285
+  1604  005AB2  0E00               	movlw	0
+  1605  005AB4  5CED               	subwf	postdec0,w,c
+  1606  005AB6  E105               	bnz	u285
+  1607  005AB8  0E00               	movlw	0
+  1608  005ABA  5CED               	subwf	postdec0,w,c
+  1609  005ABC  E102               	bnz	u285
+  1610  005ABE  0E01               	movlw	1
+  1611  005AC0  5CEF               	subwf	indf0,w,c
+  1612  005AC2                     u285:
+  1613                           ;hdd.c: 411: {
+  1614  005AC2  0100               	movlb	__Lparam shr (0+8)
+  1615  005AC4  E20C               	bc	L2
+  1616  005AC6  0E00               	movlw	0
+  1617  005AC8  5D5A               	subwf	(?a_GetHardfileGeometry+15)^(__Lparam& (0
+      +                          +65280)),w
+  1618  005ACA  E108               	bnz	u295
+  1619  005ACC  0E00               	movlw	0
+  1620  005ACE  5D59               	subwf	(?a_GetHardfileGeometry+14)^(__Lparam& (0
+      +                          +65280)),w
+  1621  005AD0  E105               	bnz	u295
+  1622  005AD2  0E04               	movlw	4
+  1623  005AD4  5D58               	subwf	(?a_GetHardfileGeometry+13)^(__Lparam& (0
+      +                          +65280)),w
+  1624  005AD6  E102               	bnz	u295
+  1625  005AD8  0E00               	movlw	0
+  1626  005ADA  5D57               	subwf	(?a_GetHardfileGeometry+12)^(__Lparam& (0
+      +                          +65280)),w
+  1627  005ADC                     u295:
+  1628  005ADC  D031               	goto	u345
+  1629                           ;hdd.c: 413: { break; }
+  1630                           ;hdd.c: 414: }
+  1631                           ;hdd.c: 415: else
+  1632  005ADE                     L2:
+  1633  005ADE  0E00               	movlw	0
+  1634  005AE0  5D5A               	subwf	(?a_GetHardfileGeometry+15)^(__Lparam& (0
+      +                          +65280)),w
+  1635  005AE2  E108               	bnz	u305
+  1636  005AE4  0E00               	movlw	0
+  1637  005AE6  5D59               	subwf	(?a_GetHardfileGeometry+14)^(__Lparam& (0
+      +                          +65280)),w
+  1638  005AE8  E105               	bnz	u305
+  1639  005AEA  0E3F               	movlw	63
+  1640  005AEC  5D58               	subwf	(?a_GetHardfileGeometry+13)^(__Lparam& (0
+      +                          +65280)),w
+  1641  005AEE  E102               	bnz	u305
+  1642  005AF0  0EFF               	movlw	255
+  1643  005AF2  5D57               	subwf	(?a_GetHardfileGeometry+12)^(__Lparam& (0
+      +                          +65280)),w
+  1644  005AF4                     u305:
+  1645                           ;hdd.c: 418: { break; }
+  1646                           ;hdd.c: 419: if (cyl < 32767 && head >= 5)
+  1647  005AF4  0100               	movlb	__Lparam shr (0+8)
+  1648  005AF6  E338               	bnc	L3
+  1649  005AF8  0E00               	movlw	0
+  1650  005AFA  5D5A               	subwf	(?a_GetHardfileGeometry+15)^(__Lparam& (0
+      +                          +65280)),w
+  1651  005AFC  E108               	bnz	u315
+  1652  005AFE  0E00               	movlw	0
+  1653  005B00  5D59               	subwf	(?a_GetHardfileGeometry+14)^(__Lparam& (0
+      +                          +65280)),w
+  1654  005B02  E105               	bnz	u315
+  1655  005B04  0E7F               	movlw	127
+  1656  005B06  5D58               	subwf	(?a_GetHardfileGeometry+13)^(__Lparam& (0
+      +                          +65280)),w
+  1657  005B08  E102               	bnz	u315
+  1658  005B0A  0EFF               	movlw	255
+  1659  005B0C  5D57               	subwf	(?a_GetHardfileGeometry+12)^(__Lparam& (0
+      +                          +65280)),w
+  1660  005B0E                     u315:
+  1661  005B0E  E20C               	bc	l74
+  1662  005B10  0E00               	movlw	0
+  1663  005B12  5D5E               	subwf	(?a_GetHardfileGeometry+19)^(__Lparam& (0
+      +                          +65280)),w
+  1664  005B14  E108               	bnz	u325
+  1665  005B16  0E00               	movlw	0
+  1666  005B18  5D5D               	subwf	(?a_GetHardfileGeometry+18)^(__Lparam& (0
+      +                          +65280)),w
+  1667  005B1A  E105               	bnz	u325
+  1668  005B1C  0E00               	movlw	0
+  1669  005B1E  5D5C               	subwf	(?a_GetHardfileGeometry+17)^(__Lparam& (0
+      +                          +65280)),w
+  1670  005B20  E102               	bnz	u325
+  1671  005B22  0E05               	movlw	5
+  1672  005B24  5D5B               	subwf	(?a_GetHardfileGeometry+16)^(__Lparam& (0
+      +                          +65280)),w
+  1673  005B26                     u325:
+  1674  005B26  E21F               	bc	l68
+  1675                           ;hdd.c: 420: { break; }
+  1676  005B28                     l74:
+  1677                           ;hdd.c: 421: if (cyl <= 65535)
+  1678  005B28  0100               	movlb	__Lparam shr (0+8)
+  1679  005B2A  0E00               	movlw	0
+  1680  005B2C  5D5A               	subwf	(?a_GetHardfileGeometry+15)^(__Lparam& (0
+      +                          +65280)),w
+  1681  005B2E  E108               	bnz	u345
+  1682  005B30  0E01               	movlw	1
+  1683  005B32  5D59               	subwf	(?a_GetHardfileGeometry+14)^(__Lparam& (0
+      +                          +65280)),w
+  1684  005B34  E105               	bnz	u345
+  1685  005B36  0E00               	movlw	0
+  1686  005B38  5D58               	subwf	(?a_GetHardfileGeometry+13)^(__Lparam& (0
+      +                          +65280)),w
+  1687  005B3A  E102               	bnz	u345
+  1688  005B3C  0E00               	movlw	0
+  1689  005B3E  5D57               	subwf	(?a_GetHardfileGeometry+12)^(__Lparam& (0
+      +                          +65280)),w
+  1690  005B40                     u345:
+  1691                           ;hdd.c: 422: { break; }
+  1692  005B40  0100               	movlb	__Lparam shr (0+8)
+  1693  005B42  E312               	bnc	L3
+  1694  005B44  2B5B               	incf	(?a_GetHardfileGeometry+16)^(__Lparam& (0+
+      +                          65280)),f,b
+  1695  005B46  0E00               	movlw	0
+  1696  005B48  235C               	addwfc	(?a_GetHardfileGeometry+17)^(__Lparam& (
+      +                          0+65280)),f,b
+  1697  005B4A  235D               	addwfc	(?a_GetHardfileGeometry+18)^(__Lparam& (
+      +                          0+65280)),f,b
+  1698  005B4C  235E               	addwfc	(?a_GetHardfileGeometry+19)^(__Lparam& (
+      +                          0+65280)),f,b
+  1699  005B4E  5D5E               	subwf	(?a_GetHardfileGeometry+19)^(__Lparam& (0
+      +                          +65280)),w
+  1700  005B50  E108               	bnz	u355
+  1701  005B52  0E00               	movlw	0
+  1702  005B54  5D5D               	subwf	(?a_GetHardfileGeometry+18)^(__Lparam& (0
+      +                          +65280)),w
+  1703  005B56  E105               	bnz	u355
+  1704  005B58  0E00               	movlw	0
+  1705  005B5A  5D5C               	subwf	(?a_GetHardfileGeometry+17)^(__Lparam& (0
+      +                          +65280)),w
+  1706  005B5C  E102               	bnz	u355
+  1707  005B5E  0E11               	movlw	17
+  1708  005B60  5D5B               	subwf	(?a_GetHardfileGeometry+16)^(__Lparam& (0
+      +                          +65280)),w
+  1709  005B62                     u355:
+  1710  005B62  E201 D76E          	bnc	l67
+  1711  005B66                     l68:
+  1712                           ;hdd.c: 423: }
+  1713  005B66  0100               	movlb	__Lparam shr (0+8)
+  1714  005B68                     L3:
+  1715  005B68  0E00               	movlw	0
+  1716  005B6A  5D5E               	subwf	(?a_GetHardfileGeometry+19)^(__Lparam& (0
+      +                          +65280)),w
+  1717  005B6C  E108               	bnz	u365
+  1718  005B6E  0E00               	movlw	0
+  1719  005B70  5D5D               	subwf	(?a_GetHardfileGeometry+18)^(__Lparam& (0
+      +                          +65280)),w
+  1720  005B72  E105               	bnz	u365
+  1721  005B74  0E00               	movlw	0
+  1722  005B76  5D5C               	subwf	(?a_GetHardfileGeometry+17)^(__Lparam& (0
+      +                          +65280)),w
+  1723  005B78  E102               	bnz	u365
+  1724  005B7A  0E11               	movlw	17
+  1725  005B7C  5D5B               	subwf	(?a_GetHardfileGeometry+16)^(__Lparam& (0
+      +                          +65280)),w
+  1726  005B7E                     u365:
+  1727  005B7E  E312               	bnc	l65
+  1728                           ;hdd.c: 426: { break; }
+  1729  005B80  0100               	movlb	__Lparam shr (0+8)
+  1730  005B82  2B53               	incf	(?a_GetHardfileGeometry+8)^(__Lparam& (0+6
+      +                          5280)),f,b
+  1731  005B84  0E00               	movlw	0
+  1732  005B86  2354               	addwfc	(?a_GetHardfileGeometry+9)^(__Lparam& (0
+      +                          +65280)),f,b
+  1733  005B88  2355               	addwfc	(?a_GetHardfileGeometry+10)^(__Lparam& (
+      +                          0+65280)),f,b
+  1734  005B8A  2356               	addwfc	(?a_GetHardfileGeometry+11)^(__Lparam& (
+      +                          0+65280)),f,b
+  1735  005B8C  5D56               	subwf	(?a_GetHardfileGeometry+11)^(__Lparam& (0
+      +                          +65280)),w
+  1736  005B8E  E108               	bnz	u375
+  1737  005B90  0E00               	movlw	0
+  1738  005B92  5D55               	subwf	(?a_GetHardfileGeometry+10)^(__Lparam& (0
+      +                          +65280)),w
+  1739  005B94  E105               	bnz	u375
+  1740  005B96  0E00               	movlw	0
+  1741  005B98  5D54               	subwf	(?a_GetHardfileGeometry+9)^(__Lparam& (0+
+      +                          65280)),w
+  1742  005B9A  E102               	bnz	u375
+  1743  005B9C  0E03               	movlw	3
+  1744  005B9E  5D53               	subwf	(?a_GetHardfileGeometry+8)^(__Lparam& (0+
+      +                          65280)),w
+  1745  005BA0                     u375:
+  1746  005BA0  E201 D72D          	bnc	l64
+  1747  005BA4                     l65:
+  1748                           ;hdd.c: 427: }
+  1749  005BA4  EE00 F021          	lfsr	0,33
+  1750  005BA8  50E1               	movf	fsr1l,w,c
+  1751  005BAA  26E9               	addwf	fsr0l,f,c
+  1752  005BAC  50E2               	movf	fsr1h,w,c
+  1753  005BAE  22EA               	addwfc	fsr0h,f,c
+  1754  005BB0  C057  FFEE         	movff	?a_GetHardfileGeometry+12,postinc0
+  1755  005BB4  C058  FFED         	movff	?a_GetHardfileGeometry+13,postdec0
+  1756                           ;hdd.c: 430: pHDF->heads = (unsigned short)head;
+  1757  005BB8  EE00 F023          	lfsr	0,35
+  1758  005BBC  50E1               	movf	fsr1l,w,c
+  1759  005BBE  26E9               	addwf	fsr0l,f,c
+  1760  005BC0  50E2               	movf	fsr1h,w,c
+  1761  005BC2  22EA               	addwfc	fsr0h,f,c
+  1762  005BC4  C05B  FFEE         	movff	?a_GetHardfileGeometry+16,postinc0
+  1763  005BC8  C05C  FFED         	movff	?a_GetHardfileGeometry+17,postdec0
+  1764                           ;hdd.c: 431: pHDF->sectors = (unsigned short)spt
+      +                          ;
+  1765  005BCC  EE00 F025          	lfsr	0,37
+  1766  005BD0  50E1               	movf	fsr1l,w,c
+  1767  005BD2  26E9               	addwf	fsr0l,f,c
+  1768  005BD4  50E2               	movf	fsr1h,w,c
+  1769  005BD6  22EA               	addwfc	fsr0h,f,c
+  1770  005BD8  C04F  FFEE         	movff	?a_GetHardfileGeometry+4,postinc0
+  1771  005BDC  C050  FFED         	movff	?a_GetHardfileGeometry+5,postdec0
+  1772                           ;hdd.c: 432: }
+  1773  005BE0                     l62:
+  1774  005BE0  0012               	return	
+  1775  005BE2  FFFF               	dw	65535	; Nop inserted for errata
+  1776  005BE4  D6CF               	goto	f4042
+  1777  005BE6                     __end_of_GetHardfileGeometry:
+  1778                           ;hdd.c: 435: unsigned char OpenHardfile(unsigned
+      +                           char unit, unsigned char *name)
+  1779                           ;hdd.c: 436: {
+  1780  005BE6  0046               	dw	?_OpenHardfile
+  1781  005BE8                     _OpenHardfile:
+  1782                           ; errata NOP at function entry point
+  1783  005BE8  FFFF               	dw	65535
+  1784  005BEA                     f4052:
+  1785  000000                     
+  1786                           ;_unit stored from wreg
+  1787  005BEA  0100               	movlb	__Lparam shr (0+8)
+  1788  005BEC  6F48               	movwf	?a_OpenHardfile^(__Lparam& (0+65280)),b
+  1789                           ;hdd.c: 437: if (name[0])
+  1790  005BEE  C046  FFE9         	movff	?_OpenHardfile,fsr0l
+  1791  005BF2  C047  FFEA         	movff	?_OpenHardfile+1,fsr0h
+  1792  005BF6  50EF               	movf	indf0,w,c
+  1793  005BF8  E02B               	bz	l78
+  1794                           ;hdd.c: 438: {
+  1795  005BFA  5148               	movf	?a_OpenHardfile^(__Lparam& (0+65280)),w
+  1796  005BFC  0D27               	mullw	39
+  1797  005BFE  0E00               	movlw	low _hdf
+  1798  005C00  24F3               	addwf	prodl,w,c
+  1799  005C02  6F49               	movwf	?_Open^(__Lparam& (0+65280)),b
+  1800  005C04  0E03               	movlw	high _hdf
+  1801  005C06  20F4               	addwfc	prodh,w,c
+  1802  005C08  6F4A               	movwf	(?_Open+1)^(__Lparam& (0+65280)),b
+  1803  005C0A  C046  F04B         	movff	?_OpenHardfile,?_Open+2
+  1804  005C0E  C047  F04C         	movff	?_OpenHardfile+1,?_Open+3
+  1805  005C12  ECD4  F014         	call	_Open	;wreg free
+  1806  005C16  6E00               	movwf	btemp,c
+  1807  005C18  C000  F002         	movff	btemp,btemp+2
+  1808  005C1C  6A03               	clrf	btemp+3,c
+  1809  005C1E  5003               	movf	btemp+3,w,c
+  1810  005C20  1002               	iorwf	btemp+2,w,c
+  1811  005C22  E016               	bz	l78
+  1812                           ;hdd.c: 444: {
+  1813  005C24  0100               	movlb	__Lparam shr (0+8)
+  1814  005C26  5148               	movf	?a_OpenHardfile^(__Lparam& (0+65280)),w
+  1815  005C28  0D27               	mullw	39
+  1816  005C2A  0E00               	movlw	low _hdf
+  1817  005C2C  24F3               	addwf	prodl,w,c
+  1818  005C2E  6F49               	movwf	?_GetHardfileGeometry^(__Lparam& (0+65280
+      +                          )),b
+  1819  005C30  0E03               	movlw	high _hdf
+  1820  005C32  20F4               	addwfc	prodh,w,c
+  1821  005C34  6F4A               	movwf	(?_GetHardfileGeometry+1)^(__Lparam& (0+6
+      +                          5280)),b
+  1822  005C36  DEA5               	call	_GetHardfileGeometry	;wreg free
+  1823                           ;hdd.c: 456: hdf[unit].present = 1;
+  1824  005C38  0100               	movlb	__Lparam shr (0+8)
+  1825  005C3A  5148               	movf	?a_OpenHardfile^(__Lparam& (0+65280)),w
+  1826  005C3C  0D27               	mullw	39
+  1827  005C3E  0E1F               	movlw	low (_hdf+31)
+  1828  005C40  24F3               	addwf	prodl,w,c
+  1829  005C42  6EE9               	movwf	fsr0l,c
+  1830  005C44  0E03               	movlw	high (_hdf+31)
+  1831  005C46  20F4               	addwfc	prodh,w,c
+  1832  005C48  6EEA               	movwf	fsr0h,c
+  1833  005C4A  0E01               	movlw	1
+  1834  005C4C  6EEF               	movwf	indf0,c
+  1835                           ;hdd.c: 457: return 1;
+  1836  005C4E  D00B               	goto	l77
+  1837  005C50                     l78:
+  1838                           ;hdd.c: 458: }
+  1839  005C50  0100               	movlb	__Lparam shr (0+8)
+  1840  005C52  5148               	movf	?a_OpenHardfile^(__Lparam& (0+65280)),w
+  1841  005C54  0D27               	mullw	39
+  1842  005C56  0E1F               	movlw	low (_hdf+31)
+  1843  005C58  24F3               	addwf	prodl,w,c
+  1844  005C5A  6EE9               	movwf	fsr0l,c
+  1845  005C5C  0E03               	movlw	high (_hdf+31)
+  1846  005C5E  20F4               	addwfc	prodh,w,c
+  1847  005C60  6EEA               	movwf	fsr0h,c
+  1848  005C62  0E00               	movlw	0
+  1849  005C64  6AEF               	clrf	indf0,c
+  1850                           ;hdd.c: 463: return 0;
+  1851                           ;hdd.c: 464: }
+  1852  005C66                     l77:
+  1853  005C66  0012               	return	
+  1854  005C68  FFFF               	dw	65535	; Nop inserted for errata
+  1855  005C6A  D7BF               	goto	f4052
+  1856  005C6C                     __end_of_OpenHardfile:
+  1857                           
+  1858                           	psect	const
+  1859  000E7F                     u19:
+  1860  000E7F  31                 	db	49	;'1'
+  1861  000E80  32                 	db	50	;'2'
+  1862  000E81  33                 	db	51	;'3'
+  1863  000E82  34                 	db	52	;'4'
+  1864  000E83  35                 	db	53	;'5'
+  1865  000E84  36                 	db	54	;'6'
+  1866  000E85  37                 	db	55	;'7'
+  1867  000E86  38                 	db	56	;'8'
+  1868  000E87  39                 	db	57	;'9'
+  1869  000E88  30                 	db	48	;'0'
+  1870  000E89  41                 	db	65	;'A'
+  1871  000E8A  42                 	db	66	;'B'
+  1872  000E8B  43                 	db	67	;'C'
+  1873  000E8C  44                 	db	68	;'D'
+  1874  000E8D  45                 	db	69	;'E'
+  1875  000E8E  46                 	db	70	;'F'
+  1876  000E8F  47                 	db	71	;'G'
+  1877  000E90  48                 	db	72	;'H'
+  1878  000E91  49                 	db	73	;'I'
+  1879  000E92  4A                 	db	74	;'J'
+  1880  000E93  00                 	db	0
+  1881  000E94                     u29:
+  1882  000E94  2E                 	db	46
+  1883  000E95  31                 	db	49	;'1'
+  1884  000E96  30                 	db	48	;'0'
+  1885  000E97  30                 	db	48	;'0'
+  1886  000E98  20                 	db	32
+  1887  000E99  20                 	db	32
+  1888  000E9A  20                 	db	32
+  1889  000E9B  20                 	db	32
+  1890  000E9C  00                 	db	0
+  1891  000E9D                     u39:
+  1892  000E9D  59                 	db	89	;'Y'
+  1893  000E9E  41                 	db	65	;'A'
+  1894  000E9F  51                 	db	81	;'Q'
+  1895  000EA0  55                 	db	85	;'U'
+  1896  000EA1  42                 	db	66	;'B'
+  1897  000EA2  45                 	db	69	;'E'
+  1898  000EA3  20                 	db	32
+  1899  000EA4  20                 	db	32
+  1900  000EA5  20                 	db	32
+  1901  000EA6  20                 	db	32
+  1902  000EA7  20                 	db	32
+  1903  000EA8  20                 	db	32
+  1904  000EA9  20                 	db	32
+  1905  000EAA  20                 	db	32
+  1906  000EAB  20                 	db	32
+  1907  000EAC  20                 	db	32
+  1908  000EAD  20                 	db	32
+  1909  000EAE  20                 	db	32
+  1910  000EAF  20                 	db	32
+  1911  000EB0  20                 	db	32
+  1912  000EB1  20                 	db	32
+  1913  000EB2  20                 	db	32
+  1914  000EB3  20                 	db	32
+  1915  000EB4  20                 	db	32
+  1916  000EB5  20                 	db	32
+  1917  000EB6  20                 	db	32
+  1918  000EB7  20                 	db	32
+  1919  000EB8  20                 	db	32
+  1920  000EB9  20                 	db	32
+  1921  000EBA  20                 	db	32
+  1922  000EBB  20                 	db	32
+  1923  000EBC  20                 	db	32
+  1924  000EBD  20                 	db	32
+  1925  000EBE  20                 	db	32
+  1926  000EBF  20                 	db	32
+  1927  000EC0  20                 	db	32
+  1928  000EC1  20                 	db	32
+  1929  000EC2  20                 	db	32
+  1930  000EC3  20                 	db	32
+  1931  000EC4  20                 	db	32
+  1932  000EC5  00                 	db	0
+  1933  000000                     
+  1934  000000                     
+  1935  000000                     
+  1936  000000                     
+  1937  000000                     
+  1938  000000                     
+  1939  000000                     
+  1940  000000                     
+  1941  000000                     
+  1942  000000                     
+  1943  000000                     
+  1944  000000                     
+  1945  000000                     
+  1946  000000                     
+  1947  000000                     
+  1948  000000                     
+  1949  000000                     
+  1950  000000                     
+  1951  000000                     
+  1952  000000                     
+  1953  000000                     
+  1954  000000                     
+  1955  000000                     
+  1956  000000                     
+  1957  000000                     
+  1958  000000                     
+  1959  000000                     
+  1960  000000                     
+  1961  000000                     
+  1962  000000                     
+  1963  000000                     
+  1964  000000                     
+  1965  000000                     
+  1966  000000                     
+  1967  000000                     
+  1968  000000                     
+  1969  000000                     
+  1970  000000                     
+  1971  000000                     
+  1972  000000                     
+  1973  000000                     
+  1974  000000                     
+  1975  000000                     
+  1976  000000                     
+  1977  000000                     
+  1978  000000                     
+  1979  000000                     
+  1980  000000                     
+  1981  000000                     
+  1982  000000                     
+  1983  000000                     
+  1984  000000                     
+  1985  000000                     
+  1986  000000                     
+  1987  000000                     
+  1988  000000                     
+  1989  000000                     
+  1990  000000                     
+  1991  000000                     
+  1992  000000                     
+  1993  000000                     
+  1994  000000                     
+  1995  000000                     
+  1996  000000                     
+  1997  000000                     
+  1998  000000                     
+  1999  000000                     
+  2000  000000                     
+  2001  000000                     
+  2002  000000                     
+  2003  000000                     
+  2004  000000                     
+  2005  000000                     
+  2006  000000                     
+  2007  000000                     
+  2008  000000                     
+  2009  000000                     
+  2010  000000                     
+  2011  000000                     
+  2012  000000                     
+  2013  000000                     
+  2014  000000                     
+  2015  000000                     
+  2016  000000                     
+  2017  000000                     
+  2018  000000                     
+  2019  000000                     
+  2020  000000                     
+  2021  000000                     
+  2022  000000                     
+  2023  000000                     
+  2024  000000                     
+  2025  000000                     
+  2026  000000                     
+  2027  000000                     
+  2028  000000                     
+  2029  000000                     
+  2030  000000                     
+  2031  000000                     
+  2032  000000                     
+  2033  000000                     
+  2034  000000                     
+  2035  000000                     
+  2036  000000                     
+  2037  000000                     
+  2038  000000                     
+  2039  000000                     
+  2040  000000                     
+  2041  000000                     
+  2042  000000                     
+  2043  000000                     
+  2044  000000                     
+  2045  000000                     
+  2046  000000                     
+  2047  000000                     
+  2048  000000                     
+  2049  000000                     
+  2050  000000                     
+  2051  000000                     
+  2052  000000                     
+  2053  000000                     
+  2054  000000                     
+  2055  000000                     
+  2056  000000                     
+  2057  000000                     
+  2058  000000                     
+  2059  000000                     
+  2060  000000                     
+  2061  000000                     
+  2062  000000                     
+  2063  000000                     
+  2064  000000                     
+  2065  000000                     
+  2066  000000                     
+  2067  000000                     
+  2068  000000                     
+  2069  000000                     
+  2070  000000                     
+  2071  000000                     
+  2072  000000                     
+  2073  000000                     
+  2074  000000                     
+  2075  000000                     
+  2076  000000                     
+  2077  000000                     
+  2078  000000                     
+  2079  000000                     
+  2080  000000                     
+  2081  000000                     
+  2082  000000                     
+  2083  000000                     
+  2084  000000                     
+  2085  000000                     
+  2086  000000                     
+  2087  000000                     
+  2088  000000                     
+  2089  000000                     
+  2090  000000                     
+  2091  000000                     
+  2092  000000                     
+  2093  000000                     
+  2094  000000                     
+  2095  000000                     
+  2096  000000                     
+  2097  000000                     
+  2098  000000                     
+  2099  000000                     
+  2100  000000                     
+  2101  000000                     
+  2102  000000                     
+  2103  000000                     
+  2104  000000                     
+  2105  000000                     
+  2106  000000                     
+  2107  000000                     
+  2108  000000                     
+  2109  000000                     
+  2110  000000                     
+  2111  000000                     
+  2112  000000                     
+  2113  000000                     
+  2114  000000                     
+  2115  000000                     
+  2116  000000                     
+  2117  000000                     
+  2118  000000                     
+  2119  000000                     
+  2120  000000                     
+  2121  000000                     
+  2122  000000                     
+  2123  000000                     
+  2124  000000                     
+  2125  000000                     
+  2126  000000                     
+  2127  000000                     
+  2128  000000                     
+  2129  000000                     
+  2130  000000                     
+  2131  000000                     
+  2132  000000                     
+  2133  000000                     
+  2134  000000                     
+  2135  000000                     
+  2136  000000                     
+  2137  000000                     
+  2138  000000                     
+  2139  000000                     
+  2140  000000                     
+  2141  000000                     
+  2142  000000                     
+  2143  000000                     
+  2144  000000                     
+  2145  000000                     
+  2146  000000                     
+  2147  000000                     
+  2148  000000                     
+  2149  000000                     
+  2150  000000                     
+  2151  000000                     
+  2152  000000                     
+  2153  000000                     
+  2154  000000                     
+  2155  000000                     
+  2156  000000                     
+  2157  000000                     
+  2158  000000                     
+  2159  000000                     
+  2160  000000                     
+  2161  000000                     
+  2162  000000                     
+  2163  000000                     
+  2164  000000                     
+  2165  000000                     
+  2166  000000                     
+  2167  000000                     
+  2168  000000                     
+  2169  000000                     
+  2170  000000                     
+  2171  000000                     
+  2172  000000                     
+  2173  000000                     
+  2174  000000                     
+  2175  000000                     
+  2176  000000                     
+  2177  000000                     
+  2178  000000                     
+  2179  000000                     
+  2180  000000                     
+  2181  000000                     
+  2182  000000                     
+  2183  000000                     
+  2184  000000                     
+  2185  000000                     
+  2186  000000                     
+  2187  000000                     
+  2188  000000                     
+  2189  000000                     
+  2190  000000                     
+  2191  000000                     
+  2192  000000                     
+  2193  000000                     
+  2194  000000                     
+  2195  000000                     
+  2196  000000                     
+  2197  000000                     
+  2198  000000                     
+  2199  000000                     
+  2200  000000                     
+  2201  000000                     
+  2202  000000                     
+  2203  000000                     
+  2204  000000                     
+  2205  000000                     
+  2206  000000                     
+  2207  000000                     
+  2208  000000                     
+  2209  000000                     
+  2210  000000                     
+  2211  000000                     
+  2212  000000                     
+  2213  000000                     
+  2214  000000                     
+  2215  000000                     
+  2216  000000                     
+  2217  000000                     
+  2218  000000                     
+  2219  000000                     
+  2220  000000                     
+  2221  000000                     
+  2222  000000                     
+  2223  000000                     
+  2224  000000                     
+  2225  000000                     
+  2226  000000                     
+  2227  000000                     
+  2228  000000                     
+  2229  000000                     
+  2230  000000                     
+  2231  000000                     
+  2232  000000                     
+  2233  000000                     
+  2234  000000                     
+  2235  000000                     
+  2236  000000                     
+  2237  000000                     
+  2238  000000                     
+  2239  000000                     
+  2240  000000                     
+  2241  000000                     
+  2242  000000                     
+  2243  000000                     
+  2244  000000                     
+  2245  000000                     
+  2246  000000                     
+  2247  000000                     
+  2248  000000                     
+  2249  000000                     
+  2250  000000                     
+  2251  000000                     
+  2252  000000                     
+  2253  000000                     
+  2254  000000                     
+  2255  000000                     
+  2256  000000                     
+  2257  000000                     
+  2258  000000                     
+  2259  000000                     
+  2260  000000                     
+  2261  000000                     
+  2262  000000                     
+  2263  000000                     
+  2264  000000                     
+  2265  000000                     
+  2266  000000                     
+  2267  000000                     
+  2268  000000                     
+  2269  000000                     
+  2270  000000                     
+  2271  000000                     
+  2272  000000                     
+  2273  000000                     
+  2274  000000                     
+  2275  000000                     
+  2276  000000                     
+  2277  000000                     
+  2278  000000                     
+  2279  000000                     
+  2280  000000                     
+  2281  000000                     
+  2282  000000                     
+  2283  000000                     
+  2284  000000                     
+  2285  000000                     
+  2286  000000                     
+  2287  000000                     
+  2288  000000                     
+  2289  000000                     
+  2290  000000                     
+  2291  000000                     
+  2292  000000                     
+  2293  000000                     
+  2294  000000                     
+  2295  000000                     
+  2296  000000                     
+  2297  000000                     
+  2298  000000                     
+  2299  000000                     
+  2300  000000                     
+  2301  000000                     
+  2302  000000                     
+  2303  000000                     
+  2304  000000                     
+  2305  000000                     
+  2306  000000                     
+  2307  000000                     
+  2308  000000                     
+  2309  000000                     
+  2310  000000                     
+  2311  000000                     
+  2312  000000                     
+  2313  000000                     
+  2314  000000                     
+  2315  000000                     
+  2316  000000                     
+  2317  000000                     
+  2318  000000                     
+  2319  000000                     
+  2320  000000                     
+  2321                           
+  2322                           	psect	bss
+  2323  000300                     _hdf:
+  2324  000300                     	ds	78
+  2325                           
+  2326                           	psect	temp
+  2327  000000                     btemp:
+  2328  000000                     	ds	8
+  2329                           prodh	equ	0xFF4
+  2330                           prodl	equ	0xFF3
+  2331                           indf0	equ	0xFEF
+  2332                           postinc0	equ	0xFEE
+  2333                           postdec0	equ	0xFED
+  2334                           fsr0h	equ	0xFEA
+  2335                           fsr0l	equ	0xFE9
+  2336                           wreg	equ	0xFE8
+  2337                           indf1	equ	0xFE7
+  2338                           postinc1	equ	0xFE6
+  2339                           postdec1	equ	0xFE5
+  2340                           fsr1h	equ	0xFE2
+  2341                           fsr1l	equ	0xFE1
+  2342                           indf2	equ	0xFDF
+  2343                           postinc2	equ	0xFDE
+  2344                           fsr2h	equ	0xFDA
+  2345                           fsr2l	equ	0xFD9
+  2346                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:01 2009
+
+       ?a_GetHardfileGeometry 004B          __end_of_OpenHardfile 5C6C  
+               _WriteTaskFile 5412                            l30 5978  
+                          l31 561E                            l32 55D6  
+                          l41 5784                            l25 597A  
+                          l17 50D6                            l42 56EC  
+                          l26 5512                            l43 574E  
+                          l52 580A                            l44 574A  
+                          l36 5616                            l53 5868  
+                          l29 556E                            l62 5BE0  
+                          l39 5644                            l64 59FE  
+                          l56 58C2                            l48 595A  
+                          l65 5BA4                            l57 5924  
+                          l49 5806                            l74 5B28  
+                          l58 5920                            l67 5A42  
+                          l68 5B66                            l77 5C66  
+                          l78 5C50                            u10 510E  
+                          u19 0E7F                            u29 0E94  
+                          u39 0E9D                   ?a_HandleHDD 0043  
+                         u135 5716                           u305 5AF4  
+                         u145 5740                           u315 5B0E  
+                         u235 58EC                           u325 5B26  
+                         u245 5916                           u166 577C  
+                         u168 577E                           u345 5B40  
+                         u266 5952                           u355 5B62  
+                         u268 5954                           u365 5B7E  
+                         u285 5AC2                           u375 5BA0  
+                         u295 5ADC                           _SPI 786A  
+                         _hdf 0300         __end_of_WriteTaskFile 54A6  
+                   _SwapBytes 50C0                           wreg 000FE8  
+           __end_of_SwapBytes 5114                     ?a_chs2lba 00DE  
+    _MMC_DIRECT_TRANSFER_MODE 0359                    ?_SwapBytes 00E0  
+              ?a_OpenHardfile 0048                          f4042 5984  
+                        f4052 5BEA                          f3902 50C2  
+                        f3912 5118                          f3942 535E  
+                        f3952 5414                          f3972 54A8  
+                        f3982 54E0                          _Open 29A8  
+                        fsr0h 000FEA                          fsr1h 000FE2  
+                        indf0 000FEF                          fsr0l 000FE9  
+                        indf1 000FE7                          fsr1l 000FE1  
+                        indf2 000FDF                          fsr2l 000FD9  
+                        btemp 0000                          lldiv 79DC  
+                        llmul 3F62                          llslr 7D82  
+                        prodh 000FF4                          prodl 000FF3  
+                        lwmul 7D4A                 ?_OpenHardfile 0046  
+              _IdentifyDevice 5116               ?_IdentifyDevice 00D9  
+             __end_of_chs2lba 5410                       ?_memcpy 00E0  
+                     ?_memset 00E0                         ?_Open 0049  
+             ?a_WriteTaskFile 00DE                    used_btemp0 0001  
+                  used_btemp1 0001                    used_btemp2 0001  
+                  used_btemp3 0001                    used_btemp4 0001  
+                  used_btemp5 0001                    used_btemp6 0001  
+                  used_btemp7 0001           _GetHardfileGeometry 5982  
+      __end_of_IdentifyDevice 535A                         status 000FD8  
+ __end_of_GetHardfileGeometry 5BE6                       __Lparam 0037  
+              ?_WriteTaskFile 00D9                       _chs2lba 535C  
+                    ?_chs2lba 00D9                       __ramtop 0600  
+                 _WriteStatus 54A6                       postdec0 000FED  
+                     postdec1 000FE5                       postinc0 000FEE  
+                     postinc1 000FE6                       postinc2 000FDE  
+         __end_of_WriteStatus 54DC                     _HandleHDD 54DE  
+                      _memcpy 7B8C             __end_of_HandleHDD 5980  
+                      _memset 7CE0                        _secbuf 03FF  
+                   _FileWrite 3766                    ?_HandleHDD 0042  
+               ?a_WriteStatus 00D9                    ?_FileWrite 00D9  
+                      llmul_f 7DAE          ?_GetHardfileGeometry 0049  
+                    _FileRead 3736                      _FileSeek 3366  
+                   ?_FileRead 00D9                     ?_FileSeek 00D9  
+            ?a_IdentifyDevice 00DC                  _OpenHardfile 5BE8  

@@ -1,0 +1,1994 @@
+˝
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:01 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	data,global,class=RAM,space=1,delta=1
+     4                           	psect	idata,global,class=CODE,delta=1
+     5                           	psect	text,global,reloc=2,class=CODE,delta=1
+     6                           	psect	bigbss,glob˝al,class=BIGRAM,space=1,delta=
+      +                          1
+     7                           	psect	bss,global,class=RAM,space=1,delta=1
+     8                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     9                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+    10  000000                     
+    11  000000                     
+    12  000000                     
+    13 ˝ 000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  0000˝00                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000   ˝                  
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000        ˝             
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000             ˝        
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                  ˝   
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97  000000                     
+ ˝   98  000000                     
+    99                           
+   100                           	psect	data
+   101                           ;pic18fxx2.h: 21: static volatile near unsigned 
+      +                          char TOSU @ 0xFFF;
+   102                           ;pic18fxx2.h: 22: static volatile near unsigned 
+      +                          char TOSH @ 0xFFE;
+   103                           ;pic18fxx2.h: 23: static volatile near unsigned 
+      +                          char TOSL @ ˝0xFFD;
+   104                           ;pic18fxx2.h: 24: static volatile near unsigned 
+      +                          char STKPTR @ 0xFFC;
+   105                           ;pic18fxx2.h: 25: static volatile near unsigned 
+      +                          char PCLATU @ 0xFFB;
+   106                           ;pic18fxx2.h: 26: static volatile near unsigned 
+      +                          char PCLATH @ 0xFFA;
+   107                           ;pic18fxx2.h: 27: static volatile near unsigned 
+      +     ˝                     char PCL @ 0xFF9;
+   108                           ;pic18fxx2.h: 28: static volatile far unsigned c
+      +                          har * TBLPTR @ 0xFF6;
+   109                           ;pic18fxx2.h: 29: static volatile near unsigned 
+      +                          char TBLPTRU @ 0xFF8;
+   110                           ;pic18fxx2.h: 30: static volatile near unsigned 
+      +                          char TBLPTRH @ 0xFF7;
+   111                           ;pic18fxx2.h: 31: static v˝olatile near unsigned 
+      +                          char TBLPTRL @ 0xFF6;
+   112                           ;pic18fxx2.h: 32: static volatile near unsigned 
+      +                          char TABLAT @ 0xFF5;
+   113                           ;pic18fxx2.h: 33: static volatile near unsigned 
+      +                          char PRODH @ 0xFF4;
+   114                           ;pic18fxx2.h: 34: static volatile near unsigned 
+      +                          char PRODL @ 0xFF3;
+   115                   ˝        ;pic18fxx2.h: 35: static volatile near unsigned 
+      +                          char INTCON @ 0xFF2;
+   116                           ;pic18fxx2.h: 36: static near unsigned char INTC
+      +                          ON2 @ 0xFF1;
+   117                           ;pic18fxx2.h: 37: static volatile near unsigned 
+      +                          char INTCON3 @ 0xFF0;
+   118                           ;pic18fxx2.h: 38: static volatile near unsigned 
+      +                          char INDF0 @ 0xFEF˝;
+   119                           ;pic18fxx2.h: 39: static volatile near unsigned 
+      +                          char POSTINC0 @ 0xFEE;
+   120                           ;pic18fxx2.h: 40: static volatile near unsigned 
+      +                          char POSTDEC0 @ 0xFED;
+   121                           ;pic18fxx2.h: 41: static volatile near unsigned 
+      +                          char PREINC0 @ 0xFEC;
+   122                           ;pic18fxx2.h: 42: static volatile near unsigned 
+      +     ˝                     char PLUSW0 @ 0xFEB;
+   123                           ;pic18fxx2.h: 43: static volatile near unsigned 
+      +                          char FSR0H @ 0xFEA;
+   124                           ;pic18fxx2.h: 44: static volatile near unsigned 
+      +                          char FSR0L @ 0xFE9;
+   125                           ;pic18fxx2.h: 45: static volatile near unsigned 
+      +                          char WREG @ 0xFE8;
+   126                           ;pic18fxx2.h: 46: static volat˝ile near unsigned 
+      +                          char INDF1 @ 0xFE7;
+   127                           ;pic18fxx2.h: 47: static volatile near unsigned 
+      +                          char POSTINC1 @ 0xFE6;
+   128                           ;pic18fxx2.h: 48: static volatile near unsigned 
+      +                          char POSTDEC1 @ 0xFE5;
+   129                           ;pic18fxx2.h: 49: static volatile near unsigned 
+      +                          char PREINC1 @ 0xFE4;
+   130                  ˝         ;pic18fxx2.h: 50: static volatile near unsigned 
+      +                          char PLUSW1 @ 0xFE3;
+   131                           ;pic18fxx2.h: 51: static volatile near unsigned 
+      +                          char FSR1H @ 0xFE2;
+   132                           ;pic18fxx2.h: 52: static volatile near unsigned 
+      +                          char FSR1L @ 0xFE1;
+   133                           ;pic18fxx2.h: 53: static near unsigned char BSR 
+      +                          @ 0xFE0;
+   ˝134                           ;pic18fxx2.h: 54: static volatile near unsigned 
+      +                          char INDF2 @ 0xFDF;
+   135                           ;pic18fxx2.h: 55: static volatile near unsigned 
+      +                          char POSTINC2 @ 0xFDE;
+   136                           ;pic18fxx2.h: 56: static volatile near unsigned 
+      +                          char POSTDEC2 @ 0xFDD;
+   137                           ;pic18fxx2.h: 57: static volatile near unsigned 
+      +            ˝              char PREINC2 @ 0xFDC;
+   138                           ;pic18fxx2.h: 58: static volatile near unsigned 
+      +                          char PLUSW2 @ 0xFDB;
+   139                           ;pic18fxx2.h: 59: static volatile near unsigned 
+      +                          char FSR2H @ 0xFDA;
+   140                           ;pic18fxx2.h: 60: static volatile near unsigned 
+      +                          char FSR2L @ 0xFD9;
+   141                           ;pic18fxx2.h: 61: static volatile ˝near unsigned 
+      +                          char STATUS @ 0xFD8;
+   142                           ;pic18fxx2.h: 62: static volatile near unsigned 
+      +                          int TMR0 @ 0xFD6;
+   143                           ;pic18fxx2.h: 63: static volatile near unsigned 
+      +                          char TMR0H @ 0xFD7;
+   144                           ;pic18fxx2.h: 64: static volatile near unsigned 
+      +                          char TMR0L @ 0xFD6;
+   145                           ;pic˝18fxx2.h: 65: static near unsigned char T0CO
+      +                          N @ 0xFD5;
+   146                           ;pic18fxx2.h: 66: static volatile near unsigned 
+      +                          char OSCCON @ 0xFD3;
+   147                           ;pic18fxx2.h: 67: static volatile near unsigned 
+      +                          char LVDCON @ 0xFD2;
+   148                           ;pic18fxx2.h: 68: static near unsigned char WDTC
+      +                          ON @ 0xFD1;
+   149               ˝            ;pic18fxx2.h: 69: static volatile near unsigned 
+      +                          char RCON @ 0xFD0;
+   150                           ;pic18fxx2.h: 70: static volatile near unsigned 
+      +                          int TMR1 @ 0xFCE;
+   151                           ;pic18fxx2.h: 71: static volatile near unsigned 
+      +                          char TMR1H @ 0xFCF;
+   152                           ;pic18fxx2.h: 72: static volatile near unsigned 
+      +                          char TMR1L @ ˝0xFCE;
+   153                           ;pic18fxx2.h: 73: static near unsigned char T1CO
+      +                          N @ 0xFCD;
+   154                           ;pic18fxx2.h: 74: static volatile near unsigned 
+      +                          char TMR2 @ 0xFCC;
+   155                           ;pic18fxx2.h: 75: static volatile near unsigned 
+      +                          char PR2 @ 0xFCB;
+   156                           ;pic18fxx2.h: 76: static near unsigned char T2CO
+      +                    ˝      N @ 0xFCA;
+   157                           ;pic18fxx2.h: 77: static volatile near unsigned 
+      +                          char SSPBUF @ 0xFC9;
+   158                           ;pic18fxx2.h: 78: static volatile near unsigned 
+      +                          char SSPADD @ 0xFC8;
+   159                           ;pic18fxx2.h: 79: static volatile near unsigned 
+      +                          char SSPSTAT @ 0xFC7;
+   160                           ;pic18fxx2.h: 80: static volatile near unsigned 
+ ˝     +                          char SSPCON1 @ 0xFC6;
+   161                           ;pic18fxx2.h: 81: static volatile near unsigned 
+      +                          char SSPCON2 @ 0xFC5;
+   162                           ;pic18fxx2.h: 82: static volatile near unsigned 
+      +                          int ADRES @ 0xFC3;
+   163                           ;pic18fxx2.h: 83: static volatile near unsigned 
+      +                          char ADRESH @ 0xFC4;
+   164                           ;pic18fxx2.h: 8˝4: static volatile near unsigned 
+      +                          char ADRESL @ 0xFC3;
+   165                           ;pic18fxx2.h: 85: static volatile near unsigned 
+      +                          char ADCON0 @ 0xFC2;
+   166                           ;pic18fxx2.h: 86: static near unsigned char ADCO
+      +                          N1 @ 0xFC1;
+   167                           ;pic18fxx2.h: 87: static volatile near unsigned 
+      +                          int CCPR1 @ 0xFBE;
+   168                  ˝         ;pic18fxx2.h: 88: static volatile near unsigned 
+      +                          char CCPR1H @ 0xFBF;
+   169                           ;pic18fxx2.h: 89: static volatile near unsigned 
+      +                          char CCPR1L @ 0xFBE;
+   170                           ;pic18fxx2.h: 90: static volatile near unsigned 
+      +                          char CCP1CON @ 0xFBD;
+   171                           ;pic18fxx2.h: 91: static volatile near unsigned 
+      +                          int CCPR2˝ @ 0xFBB;
+   172                           ;pic18fxx2.h: 92: static volatile near unsigned 
+      +                          char CCPR2H @ 0xFBC;
+   173                           ;pic18fxx2.h: 93: static volatile near unsigned 
+      +                          char CCPR2L @ 0xFBB;
+   174                           ;pic18fxx2.h: 94: static volatile near unsigned 
+      +                          char CCP2CON @ 0xFBA;
+   175                           ;pic18fxx2.h: 95: static volatile near unsigned 
+      + ˝                         int TMR3 @ 0xFB2;
+   176                           ;pic18fxx2.h: 96: static volatile near unsigned 
+      +                          char TMR3H @ 0xFB3;
+   177                           ;pic18fxx2.h: 97: static volatile near unsigned 
+      +                          char TMR3L @ 0xFB2;
+   178                           ;pic18fxx2.h: 98: static near unsigned char T3CO
+      +                          N @ 0xFB1;
+   179                           ;pic18fxx2.h: 99: static near unsigne˝d char SPBR
+      +                          G @ 0xFAF;
+   180                           ;pic18fxx2.h: 100: static volatile near unsigned
+      +                           char RCREG @ 0xFAE;
+   181                           ;pic18fxx2.h: 101: static volatile near unsigned
+      +                           char TXREG @ 0xFAD;
+   182                           ;pic18fxx2.h: 102: static volatile near unsigned
+      +                           char TXSTA @ 0xFAC;
+   183                           ;pic18fxx2.h˝: 103: static volatile near unsigned
+      +                           char RCSTA @ 0xFAB;
+   184                           ;pic18fxx2.h: 104: static volatile near unsigned
+      +                           char EEADR @ 0xFA9;
+   185                           ;pic18fxx2.h: 105: static volatile near unsigned
+      +                           char EEDATA @ 0xFA8;
+   186                           ;pic18fxx2.h: 106: static volatile near unsigned
+      +                           char EECON2 @ 0xFA7;
+   187  ˝                         ;pic18fxx2.h: 107: static volatile near unsigned
+      +                           char EECON1 @ 0xFA6;
+   188                           ;pic18fxx2.h: 108: static near unsigned char IPR
+      +                          2 @ 0xFA2;
+   189                           ;pic18fxx2.h: 109: static volatile near unsigned
+      +                           char PIR2 @ 0xFA1;
+   190                           ;pic18fxx2.h: 110: static near unsigned char PIE
+      +                          2 @ ˝0xFA0;
+   191                           ;pic18fxx2.h: 111: static near unsigned char IPR
+      +                          1 @ 0xF9F;
+   192                           ;pic18fxx2.h: 112: static volatile near unsigned
+      +                           char PIR1 @ 0xF9E;
+   193                           ;pic18fxx2.h: 113: static near unsigned char PIE
+      +                          1 @ 0xF9D;
+   194                           ;pic18fxx2.h: 114: static volatile near unsigned
+      +                          ˝ char TRISC @ 0xF94;
+   195                           ;pic18fxx2.h: 115: static volatile near unsigned
+      +                           char TRISB @ 0xF93;
+   196                           ;pic18fxx2.h: 116: static volatile near unsigned
+      +                           char TRISA @ 0xF92;
+   197                           ;pic18fxx2.h: 117: static volatile near unsigned
+      +                           char LATC @ 0xF8B;
+   198                           ;pic18fxx2.h: 118: static volatile near unsignedM
+      +                           char LATB @ 0xF8A;
+   199                           ;pic18fxx2.h: 119: static volatile near unsigned
+      +                           char LATA @ 0xF89;
+   200                           ;pic18fxx2.h: 120: static volatile near unsigned
+      +                           char PORTC @ 0xF82;
+   201        4data                        _t_lba:
+    202        4data  s                      	ds	4
+   203                           
+   204                           	psect	idata
+   205        4idata  '   FFFF               	dw	65535
+   206        4idata     ˝  FFFF               	dw	65535
+   207                           
+   208                           	psect	text
+   209                           ;mmc.c: 57: unsigned long t_lba = -1;
+   210                           ;mmc.c: 62: unsigned char MMC_DIRECT_TRANSFER_MO
+      +                          DE = 0;
+   211                           ;mmc.c: 66: void Command_R0(char cmd,unsigned sh
+      +                          ort AdrH,unsigned short AdrL);
+   212                           ;mmc.c: 67: void Command_R˝1(char cmd,unsigned sh
+      +                          ort AdrH,unsigned short AdrL);
+   213                           ;mmc.c: 68: void Command_R2(char cmd,unsigned sh
+      +                          ort AdrH,unsigned short AdrL);
+   214                           ;mmc.c: 69: void Command_R3(char cmd,unsigned sh
+      +                          ort AdrH,unsigned short AdrL);
+   215                           ;mmc.c: 70: void MmcAddCrc7(unsigned char c);
+   216                           ;mmc.c: 80: unsignN ed char MMC_Init(void)
+   217                           ;mmc.c: 81: {
+   218        4text  ˝                     _MMC_Init:
+   219                           ;	_i assigned to ?a_Command_R3+1
+   220  000000                     _Command_R3$i	set	?a_Command_R3+1
+   221                           ;	_cmd assigned to ?a_Command_R3+0
+   222  000000                     _Command_R3$cmd	set	?a_Command_R3
+   223                           ;       param _AdrL assigned to ?_Command_R3+2
+   224  000000                     _Command_R3$AdrL	set	?_Command_R3+2
+   225                           ;       param _AdrH a˝ssigned to ?_Command_R3+0
+   226  000000                     _Command_R3$AdrH	set	?_Command_R3
+   227                           ;	_i assigned to ?a_Command_R2+1
+   228  000000                     _Command_R2$i	set	?a_Command_R2+1
+   229                           ;	_cmd assigned to ?a_Command_R2+0
+   230  000000                     _Command_R2$cmd	set	?a_Command_R2
+   231                           ;       param _AdrL assigned to ?_Command_R2+2
+   232  000000                     _Command_R2$AdrL	set	?_Comm˝and_R2+2
+   233                           ;       param _AdrH assigned to ?_Command_R2+0
+   234  000000                     _Command_R2$AdrH	set	?_Command_R2
+   235                           ;	_i assigned to ?a_Command_R1+1
+   236  000000                     _Command_R1$i	set	?a_Command_R1+1
+   237                           ;	_cmd assigned to ?a_Command_R1+0
+   238  000000                     _Command_R1$cmd	set	?a_Command_R1
+   239                           ;       param _AdrL assigned to ?_Command_R1+2˝
+   240  000000                     _Command_R1$AdrL	set	?_Command_R1+2
+   241                           ;       param _AdrH assigned to ?_Command_R1+0
+   242  000000                     _Command_R1$AdrH	set	?_Command_R1
+   243                           ;	_cmd assigned to ?a_Command_R0+0
+   244  000000                     _Command_R0$cmd	set	?a_Command_R0
+   245                           ;       param _AdrL assigned to ?_Command_R0+2
+   246  000000                     _Command_R0$AdrL	set	?_Command_R0+2
+˝   247                           ;       param _AdrH assigned to ?_Command_R0+0
+   248  000000                     _Command_R0$AdrH	set	?_Command_R0
+   249                           ;	_i assigned to ?a_MMC_Write+0
+   250  000000                     _MMC_Write$i	set	?a_MMC_Write
+   251                           ;       param _WriteData assigned to ?_MMC_Write
+      +                          +4
+   252  000000                     _MMC_Write$WriteData	set	?_MMC_Write+4
+   253                           ;    ˝   param _lba assigned to ?_MMC_Write+0
+   254  000000                     _MMC_Write$lba	set	?_MMC_Write
+   255                           ;       param _ReadData assigned to ?_MMC_Read+4
+   256  000000                     _MMC_Read$ReadData	set	?_MMC_Read+4
+   257                           ;       param _lba assigned to ?_MMC_Read+0
+   258  000000                     _MMC_Read$lba	set	?_MMC_Read
+   259                           ;	_lp assigned to ?a_MMC_Init+0
+   260  000000                     _MMC_Initb $lp	set	?a_MMC_Init
+   261                           ; errata NOP at function entry point
+   262        4text  '   FFFF               	dw	65535
+   263        4text     à                      f3992:
+   264  000000                     
+   265                           ;mmc.c: 82: unsigned short lp;
+   266        4text     '   0E32               	movlw	50
+   267        4text     n   6EC6               	movwf	4038,c	;volatile
+   268                           ;mmc.c: 86: TRISA0 = 1;
+   269        4text     k   8092               	bsf	3986,0,c	;volatile
+   270                           ;mmc.c: 87: RC0 = 1;
+   271        4text     z   8082               	bsf	3970,0,c	;volatile
+   272                           ;mmc.c: 89: for (lp=0; lp<10; lp++)
+   273        4text 
+            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   274        4text        &  k   1 ˇ   __Lparam 
+ ?a_MMC_Init  A                	clrf	?a_MMC_Init^(__Lparam& (0+65280)),b
+   275        4text        ,  k   1 ˇ   __Lparam 
+ ?a_MMC_Init     E                	clrf	(?a_MMC_Init+1)^(__Lparam& (0+65280)),b
+   276        4text     ]                      l3:
+   277                           ;mmc.c: 90: { SPI(0xFF); }
+   278        4text     (   0EFF               	movlw	255
+   279        4text          Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   280        4text             1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   281        4text        &  K   1 ˇ   __Lparam 
+ ?a_MMC_Init  E                	infsnz	?a_MMC_Init^(__Lparam& (0+65280)),f,b
+   282        4text        ,  +   1 ˇ   __Lparam 
+ ?a_MMC_Init     G                	incf	(?a_MMC_Init+1)^(__Lparam& (0+65280)),f,b
+   283        4text     &   0E00               	movlw	0
+   284        4text        ,  ]   1 ˇ   __Lparam 
+ ?a_MMC_Init     F                	subwf	(?a_MMC_Init+1)^(__Lparam& (0+65280)),w
+   285        4text      '   0E0A               	movlw	10
+   286        4text "    /   B4D8               	btfsc	status,2,c
+   287        4text $       &  ]   1 ˇ   __Lparam 
+ ?a_MMC_Init  B                	subwf	?a_MMC_Init^(__Lparam& (0+65280)),w
+   288        4text &    n   E3F4               	bnc	l3
+   289                           ;mmc.c: 92: for (lp=0; lp<56000; lp++);
+   290        4text (    +   6AF3               	clrf	prodl,c
+   291        4text *    +   6AF4               	clrf	prodh,c
+   292        4text ,    !                      l6:
+   293        4text ,    /   4AF3               	infsnz	prodl,f,c
+   294        4text .    -   2AF4               	incf	prodh,f,c
+   295        4text 0    (   0EDA               	movlw	218
+   296        4text 2    .   5CF4               	subwf	prodh,w,c
+   297        4text 4    (   0EC0               	movlw	192
+   298        4text 6    /   B4D8               	btfsc	status,2,c
+   299        4text 8    .   5CF3               	subwf	prodl,w,c
+   300        4text :    [   E3F8               	bnc	l6
+   301                           ;mmc.c: 94: RC0 = 0;
+   302        4text <    s   9082               	bcf	3970,0,c	;volatile
+   303                           ;mmc.c: 97: cardType = 0x00;
+   304        4text >            1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   305        4text @         k   1ˇ   bigbss    
+ v                	clrf	_cardType& (0+255),b
+   306                           ;mmc.c: 100: Command_R1(0x40,0,0);
+   307        4text B            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   308        4text D       '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   309        4text F       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   310        4text H       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   311        4text J       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   312        4text L    '   0E40               	movlw	64
+   313        4text N    u   DA21               	call	_Command_R1
+   314                           ;mmc.c: 101: if (response_1 != 0x01)
+   315        4text P         ¿   ¸bigbss             ¸temp  *          	movff	_response_1,btemp
+   316        4text T            1temp  '                	decf	btemp,w,c
+   317        4text V    T   E005               	bz	l9
+   318                           ;mmc.c: 102: {
+   319        4text X    5   8082               	bsf	3970,0,c	;volatile
+   320        4text Z    (   0EFF               	movlw	255
+   321        4text \         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   322        4text `    _   D09D               	goto	L4
+   323                           ;mmc.c: 108: return(0);
+   324        4text b    Q                      l9:
+   325                           ;mmc.c: 109: }
+   326        4text b            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   327        4text d       '  k   1 ˇ   __Lparam 
+ ?_Command_R3  B                	clrf	?_Command_R3^(__Lparam& (0+65280)),b
+   328        4text f       -  k   1 ˇ   __Lparam 
+ ?_Command_R3     F                	clrf	(?_Command_R3+1)^(__Lparam& (0+65280)),b
+   329        4text h    (   0EAA               	movlw	170
+   330        4text j       -  o   1 ˇ   __Lparam 
+ ?_Command_R3     G                	movwf	(?_Command_R3+2)^(__Lparam& (0+65280)),b
+   331        4text l    &   0E01               	movlw	1
+   332        4text n       -  o   1 ˇ   __Lparam 
+ ?_Command_R3     G                	movwf	(?_Command_R3+3)^(__Lparam& (0+65280)),b
+   333        4text p    '   0E48               	movlw	72
+   334        4text r    z   DA52               	call	_Command_R3
+   335                           ;mmc.c: 113: if(0 == (response_1 & 0x04))
+   336        4text t            1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   337        4text v         µ   1ˇ   bigbss    
+ 7                	btfsc	_response_1& (0+255),2,b
+   338        4text x    W   D010               	goto	l10
+   339                           ;mmc.c: 114: {
+   340        4text z         ¿   ¸bigbss             ¸temp  *          	movff	_response_4,btemp
+   341        4text ~            1temp  '                	decf	btemp,w,c
+   342        4text Ä    &   E107               	bnz	l11
+   343        4text Ç         ¿   ¸bigbss     /   FFE8         	movff	_response_5,wreg
+   344        4text Ü    (   0AAA               	xorlw	-86
+   345        4text à    V   E103               	bnz	l11
+   346                           ;mmc.c: 116: {
+   347        4text ä            1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   348        4text å         É   1ˇ   bigbss    
+ c                	bsf	_cardType& (0+255),1,b
+   349                           ;mmc.c: 121: }
+   350        4text é    '   D018               	goto	l13
+   351        4text ê    U                      l11:
+   352                           ;mmc.c: 122: else
+   353        4text ê    5   8082               	bsf	3970,0,c	;volatile
+   354        4text í    (   0EFF               	movlw	255
+   355        4text î         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   356        4text ò    è   D081               	goto	L4
+   357                           ;mmc.c: 129: return(0);
+   358                           ;mmc.c: 130: }
+   359        4text ö    U                      l10:
+   360                           ;mmc.c: 132: else
+   361        4text ö            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   362        4text ú       '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   363        4text û       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   364        4text †       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   365        4text ¢       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   366        4text §    (   0E77               	movlw	119
+   367        4text ¶    s   D9F5               	call	_Command_R1
+   368                           ;mmc.c: 136: Command_R1(0x69,0,0);
+   369        4text ®            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   370        4text ™       '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   371        4text ¨       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   372        4text Æ       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   373        4text ∞       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   374        4text ≤    (   0E69               	movlw	105
+   375        4text ¥    z   D9EE               	call	_Command_R1
+   376                           ;mmc.c: 137: if(0 == (response_1 & 0x04))
+   377        4text ∂            1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   378        4text ∏         µ   1ˇ   bigbss    
+ 7                	btfsc	_response_1& (0+255),2,b
+   379        4text ∫    W   D002               	goto	l13
+   380                           ;mmc.c: 138: {
+   381        4text º            1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   382        4text æ         Å   1ˇ   bigbss    
+ c                	bsf	_cardType& (0+255),0,b
+   383                           ;mmc.c: 143: }
+   384        4text ¿    R                      l13:
+   385                           ;mmc.c: 150: }
+   386        4text ¿         Ó   ˆ   bss 	   
+         1bss ˇ   
+ "          	lfsr	0,_timeout
+   387        4text ƒ    .   6AEE               	clrf	postinc0,c
+   388        4text ∆    .   6AEE               	clrf	postinc0,c
+   389        4text »    ä                      l17:
+   390                           ;mmc.c: 155: while (1)
+   391                           ;mmc.c: 156: {
+   392        4text »         ¿   ¸bigbss     -   FFE8         	movff	_cardType,wreg
+   393        4text Ã    &   0B03               	andlw	3
+   394        4text Œ    U   E01B               	bz	l19
+   395                           ;mmc.c: 158: {
+   396        4text –            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   397        4text “       &  k   1 ˇ   __Lparam 
+ ?a_MMC_Init  A                	clrf	?a_MMC_Init^(__Lparam& (0+65280)),b
+   398        4text ‘       ,  k   1 ˇ   __Lparam 
+ ?a_MMC_Init     â                	clrf	(?a_MMC_Init+1)^(__Lparam& (0+65280)),b
+   399                           ;mmc.c: 161: if(cardType & (1<<1))
+   400        4text ÷            1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   401        4text ÿ         £   1ˇ   bigbss    
+ 5                	btfss	_cardType& (0+255),1,b
+   402        4text ⁄    f   D004               	goto	l20
+   403                           ;mmc.c: 162: { lp = 0x4000; }
+   404        4text ‹            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   405        4text ﬁ       &  k   1 ˇ   __Lparam 
+ ?a_MMC_Init  A                	clrf	?a_MMC_Init^(__Lparam& (0+65280)),b
+   406        4text ‡    '   0E40               	movlw	64
+   407        4text ‚       ,  o   1 ˇ   __Lparam 
+ ?a_MMC_Init     F                	movwf	(?a_MMC_Init+1)^(__Lparam& (0+65280)),b
+   408        4text ‰    f                      l20:
+   409                           ;mmc.c: 165: Command_R1(0x77,0,0);
+   410        4text ‰            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   411        4text Ê       '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   412        4text Ë       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   413        4text Í       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   414        4text Ï       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   415        4text Ó    (   0E77               	movlw	119
+   416        4text     t   D9D0               	call	_Command_R1
+   417                           ;mmc.c: 166: Command_R1(0x69,lp,0);
+   418        4text Ú         ¿   ¸ ?a_MMC_Init          ¸ ?_Command_R1  1          	movff	?a_MMC_Init,?_Command_R1
+   419        4text ˆ         ¿   ¸ ?a_MMC_Init             ¸ ?_Command_R1     5          	movff	?a_MMC_Init+1,?_Command_R1+1
+   420        4text ˙            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   421        4text ¸       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   422        4text ˛       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   423        4text     (   0E69               	movlw	105
+   424        4text    _   D9C7               	call	_Command_R1
+   425                           ;mmc.c: 167: }
+   426        4text    '   D007               	goto	l21
+   427        4text    U                      l19:
+   428                           ;mmc.c: 168: else
+   429        4text            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   430        4text       '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   431        4text 
+      -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   432        4text       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   433        4text       -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   434        4text    '   0E41               	movlw	65
+   435        4text    /   D9BF               	call	_Command_R1
+   436        4text    R                      l21:
+   437                           ;mmc.c: 172: }
+   438        4text            1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   439        4text         S   1ˇ   bigbss    
+ 6                	movf	_response_1& (0+255),f,b
+   440        4text    ó   E00F               	bz	l18
+   441                           ;mmc.c: 176: { break; }
+   442                           ;mmc.c: 178: timeout++;
+   443        4text            1   bss 	 1                	movlb	_timeout shr (0+8)
+   444        4text         +   1ˇ   bss 
+ 3                	incf	_timeout& (0+255),f,b
+   445        4text    &   0E00               	movlw	0
+   446        4text          #   1ˇ   bss    
+ |                	addwfc	(_timeout+1)& (0+255),f,b
+   447                           ;mmc.c: 179: if (timeout == 1000)
+   448        4text "        Q   1ˇ   bss    
+ 7                	movf	(_timeout+1)& (0+255),w,b
+   449        4text $   &   0A03               	xorlw	3
+   450        4text &   (   0EE8               	movlw	232
+   451        4text (   /   B4D8               	btfsc	status,2,c
+   452        4text *           1ˇ   bss 
+ 4                	xorwf	_timeout& (0+255),w,b
+   453        4text ,   V   E1CD               	bnz	l17
+   454                           ;mmc.c: 180: {
+   455        4text .   5   8082               	bsf	3970,0,c	;volatile
+   456        4text 0   (   0EFF               	movlw	255
+   457        4text 2        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   458        4text 6   _   D032               	goto	L4
+   459                           ;mmc.c: 185: return(0);
+   460        4text 8   R                      l18:
+   461                           ;mmc.c: 186: }
+   462        4text 8           1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   463        4text :        £   1ˇ   bigbss    
+ 5                	btfss	_cardType& (0+255),1,b
+   464        4text <   W   D014               	goto	l24
+   465                           ;mmc.c: 191: {
+   466        4text >           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   467        4text @      '  k   1 ˇ   __Lparam 
+ ?_Command_R3  B                	clrf	?_Command_R3^(__Lparam& (0+65280)),b
+   468        4text B      -  k   1 ˇ   __Lparam 
+ ?_Command_R3     F                	clrf	(?_Command_R3+1)^(__Lparam& (0+65280)),b
+   469        4text D      -  k   1 ˇ   __Lparam 
+ ?_Command_R3     F                	clrf	(?_Command_R3+2)^(__Lparam& (0+65280)),b
+   470        4text F      -  k   1 ˇ   __Lparam 
+ ?_Command_R3     F                	clrf	(?_Command_R3+3)^(__Lparam& (0+65280)),b
+   471        4text H   (   0E7A               	movlw	122
+   472        4text J   l   D9E6               	call	_Command_R3
+   473                           ;mmc.c: 194: if(response_1)
+   474        4text L           1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   475        4text N        S   1ˇ   bigbss    
+ 6                	movf	_response_1& (0+255),f,b
+   476        4text P   U   E005               	bz	l25
+   477                           ;mmc.c: 195: {
+   478        4text R   5   8082               	bsf	3970,0,c	;volatile
+   479        4text T   (   0EFF               	movlw	255
+   480        4text V        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   481        4text Z   _   D020               	goto	L4
+   482                           ;mmc.c: 197: return(0);
+   483        4text \   R                      l25:
+   484                           ;mmc.c: 198: }
+   485        4text \           1   bigbss    	 4                	movlb	_response_2 shr (0+8)
+   486        4text ^        ≠   1ˇ   bigbss    
+ 7                	btfss	_response_2& (0+255),6,b
+   487        4text `   W   D002               	goto	l24
+   488                           ;mmc.c: 201: {
+   489        4text b           1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   490        4text d        Ö   1ˇ   bigbss    
+ 3                	bsf	_cardType& (0+255),2,b
+   491        4text f   R                      l24:
+   492                           ;mmc.c: 206: }
+   493        4text f        Ó   ˆ   bss 	   
+         1bss ˇ   
+ "          	lfsr	0,_timeout
+   494        4text j   .   6AEE               	clrf	postinc0,c
+   495        4text l   .   6AEE               	clrf	postinc0,c
+   496        4text n   â                      l28:
+   497                           ;mmc.c: 211: while(1)
+   498                           ;mmc.c: 212: {
+   499        4text n           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   500        4text p      '  k   1 ˇ   __Lparam 
+ ?_Command_R1  B                	clrf	?_Command_R1^(__Lparam& (0+65280)),b
+   501        4text r      -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+1)^(__Lparam& (0+65280)),b
+   502        4text t      -  k   1 ˇ   __Lparam 
+ ?_Command_R1     F                	clrf	(?_Command_R1+2)^(__Lparam& (0+65280)),b
+   503        4text v   &   0E02               	movlw	2
+   504        4text x      -  o   1 ˇ   __Lparam 
+ ?_Command_R1     G                	movwf	(?_Command_R1+3)^(__Lparam& (0+65280)),b
+   505        4text z   '   0E50               	movlw	80
+   506        4text |   q   D98A               	call	_Command_R1
+   507                           ;mmc.c: 214: if(response_1 == 0)
+   508        4text ~           1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   509        4text Ä        S   1ˇ   bigbss    
+ 6                	movf	_response_1& (0+255),f,b
+   510        4text Ç   ó   E00F               	bz	l29
+   511                           ;mmc.c: 215: { break; }
+   512                           ;mmc.c: 217: timeout++;
+   513        4text Ñ           1   bss 	 1                	movlb	_timeout shr (0+8)
+   514        4text Ü        +   1ˇ   bss 
+ 3                	incf	_timeout& (0+255),f,b
+   515        4text à   &   0E00               	movlw	0
+   516        4text ä        #   1ˇ   bss    
+ z                	addwfc	(_timeout+1)& (0+255),f,b
+   517                           ;mmc.c: 218: if(timeout == 100)
+   518        4text å        Q   1ˇ   bss 
+ 3                	movf	_timeout& (0+255),w,b
+   519        4text é   (   0A64               	xorlw	100
+   520        4text ê           1ˇ   bss    
+ 8                	iorwf	(_timeout+1)& (0+255),w,b
+   521        4text í   V   E1ED               	bnz	l28
+   522                           ;mmc.c: 219: {
+   523        4text î   5   8082               	bsf	3970,0,c	;volatile
+   524        4text ñ   (   0EFF               	movlw	255
+   525        4text ò        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   526        4text ú   !                      L4:
+   527        4text ú   n   9092               	bcf	3986,0,c	;volatile
+   528                           ;mmc.c: 224: return(0);
+   529        4text û   &   0E00               	movlw	0
+   530        4text †   &   D008               	goto	l2
+   531        4text ¢   R                      l29:
+   532                           ;mmc.c: 225: }
+   533        4text ¢   5   8082               	bsf	3970,0,c	;volatile
+   534        4text §   (   0EFF               	movlw	255
+   535        4text ¶        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   536        4text ™   s   9092               	bcf	3986,0,c	;volatile
+   537                           ;mmc.c: 233: SSPCON1 = 0x30;
+   538        4text ¨   '   0E30               	movlw	48
+   539        4text Æ   n   6EC6               	movwf	4038,c	;volatile
+   540                           ;mmc.c: 234: return(1);
+   541        4text ∞   V   0E01               	movlw	1
+   542                           ;mmc.c: 235: }
+   543        4text ≤   !                      l2:
+   544        4text ≤   &   0012               	return	
+   545        4text ¥   A   FFFF               	dw	65535	; Nop inserted for errata
+   546        4text ∂   )   D725               	goto	f3992
+   547        4text ∏   Û                      __end_of_MMC_Init:
+   548                           ;mmc.c: 238: unsigned char MMC_Read(unsigned lon
+      +                          g lba, unsigned char *ReadData)
+   549                           ;mmc.c: 239: {
+   550        4text ∏            2 ?_MMC_Read  &                	dw	?_MMC_Read
+   551        4text ∫   n                      _MMC_Read:
+   552                           ; errata NOP at function entry point
+   553        4text ∫   '   FFFF               	dw	65535
+   554        4text º   Ω                      f4032:
+   555  000000                     
+   556                           ;mmc.c: 240: unsigned short upper_lba, lower_lba
+      +                          ;
+   557        4text º           1   bigbss 	 B                	movlb	_MMC_DIRECT_TRANSFER_MODE shr (0+8)
+   558        4text æ        S   1ˇ   bigbss 
+ D                	movf	_MMC_DIRECT_TRANSFER_MODE& (0+255),f,b
+   559        4text ¿   V   E118               	bnz	l33
+   560                           ;mmc.c: 250: {
+   561        4text ¬        Ó   ˆ   data 	   
+         1data ˇ   
+            	lfsr	0,_t_lba
+   562        4text ∆           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   563        4text »   0   50EE               	movf	postinc0,w,c
+   564        4text        %     1 ˇ   __Lparam 
+ ?_MMC_Read  A                	xorwf	?_MMC_Read^(__Lparam& (0+65280)),w
+   565        4text Ã   '   E108               	bnz	u195
+   566        4text Œ   0   50EE               	movf	postinc0,w,c
+   567        4text –      +     1 ˇ   __Lparam 
+ ?_MMC_Read     E                	xorwf	(?_MMC_Read+1)^(__Lparam& (0+65280)),w
+   568        4text “   '   E105               	bnz	u195
+   569        4text ‘   0   50EE               	movf	postinc0,w,c
+   570        4text ÷      +     1 ˇ   __Lparam 
+ ?_MMC_Read     E                	xorwf	(?_MMC_Read+2)^(__Lparam& (0+65280)),w
+   571        4text ÿ   '   E102               	bnz	u195
+   572        4text ⁄   0   50EE               	movf	postinc0,w,c
+   573        4text ‹      +     1 ˇ   __Lparam 
+ ?_MMC_Read     E                	xorwf	(?_MMC_Read+3)^(__Lparam& (0+65280)),w
+   574        4text ﬁ   #                      u195:
+   575        4text ﬁ   ú   E101 D08D          	bz	L5
+   576                           ;mmc.c: 252: { return(1); }
+   577                           ;mmc.c: 253: t_lba = lba;
+   578        4text ‚        ¿   ¸ ?_MMC_Read          ¸data  *          	movff	?_MMC_Read,_t_lba
+   579        4text Ê        ¿   ¸ ?_MMC_Read             ¸data     .          	movff	?_MMC_Read+1,_t_lba+1
+   580        4text Í        ¿   ¸ ?_MMC_Read             ¸data     .          	movff	?_MMC_Read+2,_t_lba+2
+   581        4text Ó        ¿   ¸ ?_MMC_Read             ¸data     .          	movff	?_MMC_Read+3,_t_lba+3
+   582        4text Ú   R                      l33:
+   583                           ;mmc.c: 254: }
+   584        4text Ú           1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   585        4text Ù        µ   1ˇ   bigbss    
+ 5                	btfsc	_cardType& (0+255),2,b
+   586        4text ˆ   W   D009               	goto	l35
+   587                           ;mmc.c: 266: {
+   588        4text ¯           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   589        4text ˙   &   0E09               	movlw	9
+   590        4text ¸   #                      u215:
+   591        4text ¸   -   90D8               	bcf	status,0,c
+   592        4text ˛      %  7   1 ˇ   __Lparam 
+ ?_MMC_Read  B                	rlcf	?_MMC_Read^(__Lparam& (0+65280)),f,b
+   593        4text        +  7   1 ˇ   __Lparam 
+ ?_MMC_Read     F                	rlcf	(?_MMC_Read+1)^(__Lparam& (0+65280)),f,b
+   594        4text       +  7   1 ˇ   __Lparam 
+ ?_MMC_Read     F                	rlcf	(?_MMC_Read+2)^(__Lparam& (0+65280)),f,b
+   595        4text       +  7   1 ˇ   __Lparam 
+ ?_MMC_Read     F                	rlcf	(?_MMC_Read+3)^(__Lparam& (0+65280)),f,b
+   596        4text    .   2EE8               	decfsz	wreg,f,c
+   597        4text    (   D7F9               	goto	u215
+   598        4text 
+   R                      l35:
+   599                           ;mmc.c: 271: }
+   600        4text 
+        ¿   ¸ ?_MMC_Read     1   FFF3         	movff	?_MMC_Read+2,prodl
+   601        4text         ¿   ¸ ?_MMC_Read     Ä   FFF4         	movff	?_MMC_Read+3,prodh
+   602                           ;mmc.c: 278: lower_lba = (unsigned short)lba;
+   603        4text         ¿   ¸ ?_MMC_Read  1   FFF6         	movff	?_MMC_Read,tblptrl
+   604        4text         ¿   ¸ ?_MMC_Read     t   FFF7         	movff	?_MMC_Read+1,tblptrh
+   605                           ;mmc.c: 280: {TRISA0=1;RC0=0;};
+   606        4text    5   8092               	bsf	3986,0,c	;volatile
+   607        4text    ≠   9082               	bcf	3970,0,c	;volatile
+   608                           ;mmc.c: 282: Command_R1(0x51, upper_lba, lower_l
+      +                          ba);
+   609        4text       CFF3      ¸ ?_Command_R1  ,           	movff	prodl,?_Command_R1
+   610        4text "      CFF4      ¸ ?_Command_R1     .           	movff	prodh,?_Command_R1+1
+   611        4text &      CFF6      ¸ ?_Command_R1     0           	movff	tblptrl,?_Command_R1+2
+   612        4text *      CFF7      ¸ ?_Command_R1     0           	movff	tblptrh,?_Command_R1+3
+   613        4text .   '   0E51               	movlw	81
+   614        4text 0   q   D930               	call	_Command_R1
+   615                           ;mmc.c: 285: if (response_1 !=0)
+   616        4text 2           1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   617        4text 4        S   1ˇ   bigbss    
+ 6                	movf	_response_1& (0+255),f,b
+   618        4text 6   U   E005               	bz	l36
+   619                           ;mmc.c: 286: {
+   620        4text 8   5   8082               	bsf	3970,0,c	;volatile
+   621        4text :   (   0EFF               	movlw	255
+   622        4text <        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   623        4text @   _   D01D               	goto	L6
+   624                           ;mmc.c: 291: return(0);
+   625        4text B   R                      l36:
+   626                           ;mmc.c: 292: }
+   627        4text B        Ó   ˆ   bss 	   
+         1bss ˇ   
+ "          	lfsr	0,_timeout
+   628        4text F   .   6AEE               	clrf	postinc0,c
+   629        4text H   u   6AEE               	clrf	postinc0,c
+   630                           ;mmc.c: 296: while(SPI(0xFF) != 0xFE)
+   631        4text J   "                      l37:
+   632        4text J   (   0EFF               	movlw	255
+   633        4text L        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   634        4text P   '   0AFE               	xorlw	-2
+   635        4text R   V   E017               	bz	u250
+   636                           ;mmc.c: 297: {
+   637        4text T           1   bss 	 1                	movlb	_timeout shr (0+8)
+   638        4text V        ¿   ¸bss          ¸temp  '          	movff	_timeout,btemp
+   639        4text Z        ¿   ¸bss             ¸temp     +          	movff	_timeout+1,btemp+1
+   640        4text ^        (   1temp  '                	incf	btemp,w,c
+   641        4text `        o   1ˇ   bss 
+ 2                	movwf	_timeout& (0+255),b
+   642        4text b   '   E102               	bnz	u231
+   643        4text d        (   1temp     )                	incf	btemp+1,w,c
+   644        4text f        o   1ˇ   bss    
+ 6                	movwf	(_timeout+1)& (0+255),b
+   645        4text h   #                      u231:
+   646        4text h   (   0EC3               	movlw	195
+   647        4text j        \   1temp     *                	subwf	btemp+1,w,c
+   648        4text l   '   0E50               	movlw	80
+   649        4text n   /   B4D8               	btfsc	status,2,c
+   650        4text p        \   1temp  (                	subwf	btemp,w,c
+   651        4text r   V   E3EB               	bnc	l37
+   652                           ;mmc.c: 299: {
+   653        4text t   5   8082               	bsf	3970,0,c	;volatile
+   654        4text v   (   0EFF               	movlw	255
+   655        4text x        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   656        4text |   !                      L6:
+   657        4text |   n   9092               	bcf	3986,0,c	;volatile
+   658                           ;mmc.c: 304: return(0);
+   659        4text ~   &   0E00               	movlw	0
+   660        4text Ä   '   D03E               	goto	l32
+   661        4text Ç   S                      u250:
+   662                           ;mmc.c: 305: }
+   663        4text Ç           1   bigbss 	 B                	movlb	_MMC_DIRECT_TRANSFER_MODE shr (0+8)
+   664        4text Ñ        S   1ˇ   bigbss 
+ D                	movf	_MMC_DIRECT_TRANSFER_MODE& (0+255),f,b
+   665        4text Ü   U   E013               	bz	l41
+   666                           ;mmc.c: 311: {
+   667        4text à   £   9C81               	bcf	3969,6,c	;volatile
+   668                           ;mmc.c: 315: i=128;
+   669                           ; _i allocated to fsr1l
+   670        4text ä   (   0E80               	movlw	128
+   671        4text å   ,   6EE1               	movwf	fsr1l,c
+   672        4text é   É                      l44:
+   673                           ;mmc.c: 316: do
+   674                           ;mmc.c: 317: {
+   675        4text é   o   68C9               	setf	4041,c	;volatile
+   676                           ;mmc.c: 319: while (!BF);
+   677        4text ê   "                      l45:
+   678        4text ê   7   A0C7               	btfss	4039,0,c	;volatile
+   679        4text í   d   D7FE               	goto	l45
+   680                           ;mmc.c: 321: SSPBUF = 0xff;
+   681        4text î   o   68C9               	setf	4041,c	;volatile
+   682                           ;mmc.c: 322: while (!BF);
+   683        4text ñ   "                      l48:
+   684        4text ñ   7   A0C7               	btfss	4039,0,c	;volatile
+   685        4text ò   d   D7FE               	goto	l48
+   686                           ;mmc.c: 324: SSPBUF = 0xff;
+   687        4text ö   o   68C9               	setf	4041,c	;volatile
+   688                           ;mmc.c: 325: while (!BF);
+   689        4text ú   "                      l51:
+   690        4text ú   7   A0C7               	btfss	4039,0,c	;volatile
+   691        4text û   d   D7FE               	goto	l51
+   692                           ;mmc.c: 327: SSPBUF = 0xff;
+   693        4text †   o   68C9               	setf	4041,c	;volatile
+   694                           ;mmc.c: 328: while (!BF);
+   695        4text ¢   "                      l54:
+   696        4text ¢   7   A0C7               	btfss	4039,0,c	;volatile
+   697        4text §   W   D7FE               	goto	l54
+   698                           ;mmc.c: 329: }
+   699        4text ¶   /   2EE1               	decfsz	fsr1l,f,c
+   700        4text ®   ^   D7F2               	goto	l44
+   701                           ;mmc.c: 333: RB6 = 1;
+   702        4text ™   e   8C81               	bsf	3969,6,c	;volatile
+   703                           ;mmc.c: 334: }
+   704        4text ¨   '   D01C               	goto	l57
+   705        4text Æ   U                      l41:
+   706                           ;mmc.c: 335: else
+   707        4text Æ        ¿   ¸ ?_MMC_Read     1   FFE1         	movff	?_MMC_Read+4,fsr1l
+   708        4text ≤        ¿   ¸ ?_MMC_Read     ü   FFE2         	movff	?_MMC_Read+5,fsr1h
+   709                           ;mmc.c: 339: i=128;
+   710                           ; _i allocated to prodl
+   711        4text ∂   (   0E80               	movlw	128
+   712        4text ∏   ,   6EF3               	movwf	prodl,c
+   713        4text ∫   É                      l60:
+   714                           ;mmc.c: 340: do
+   715                           ;mmc.c: 341: {
+   716        4text ∫   o   68C9               	setf	4041,c	;volatile
+   717                           ;mmc.c: 343: while (!BF);
+   718        4text º   "                      l61:
+   719        4text º   7   A0C7               	btfss	4039,0,c	;volatile
+   720        4text æ   f   D7FE               	goto	l61
+   721                           ;mmc.c: 344: *(p++) = SSPBUF;
+   722        4text ¿   y   CFC9 FFE6          	movff	4041,postinc1	;volatile
+   723                           ;mmc.c: 345: SSPBUF = 0xff;
+   724        4text ƒ   o   68C9               	setf	4041,c	;volatile
+   725                           ;mmc.c: 346: while (!BF);
+   726        4text ∆   "                      l64:
+   727        4text ∆   7   A0C7               	btfss	4039,0,c	;volatile
+   728        4text »   f   D7FE               	goto	l64
+   729                           ;mmc.c: 347: *(p++) = SSPBUF;
+   730        4text     y   CFC9 FFE6          	movff	4041,postinc1	;volatile
+   731                           ;mmc.c: 348: SSPBUF = 0xff;
+   732        4text Œ   o   68C9               	setf	4041,c	;volatile
+   733                           ;mmc.c: 349: while (!BF);
+   734        4text –   "                      l67:
+   735        4text –   7   A0C7               	btfss	4039,0,c	;volatile
+   736        4text “   f   D7FE               	goto	l67
+   737                           ;mmc.c: 350: *(p++) = SSPBUF;
+   738        4text ‘   y   CFC9 FFE6          	movff	4041,postinc1	;volatile
+   739                           ;mmc.c: 351: SSPBUF = 0xff;
+   740        4text ÿ   o   68C9               	setf	4041,c	;volatile
+   741                           ;mmc.c: 352: while (!BF);
+   742        4text ⁄   "                      l70:
+   743        4text ⁄   7   A0C7               	btfss	4039,0,c	;volatile
+   744        4text ‹   f   D7FE               	goto	l70
+   745                           ;mmc.c: 353: *(p++) = SSPBUF;
+   746        4text ﬁ   l   CFC9 FFE6          	movff	4041,postinc1	;volatile
+   747                           ;mmc.c: 354: }
+   748        4text ‚   /   2EF3               	decfsz	prodl,f,c
+   749        4text ‰   '   D7EA               	goto	l60
+   750        4text Ê   R                      l57:
+   751                           ;mmc.c: 356: }
+   752        4text Ê   (   0EFF               	movlw	255
+   753        4text Ë        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 U          	call	_SPI
+   754                           ;mmc.c: 383: SPI(0xff);
+   755        4text Ï   (   0EFF               	movlw	255
+   756        4text Ó        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 g          	call	_SPI
+   757                           ;mmc.c: 385: {RC0=1;SPI(0xff);TRISA0=0;};
+   758        4text Ú   5   8082               	bsf	3970,0,c	;volatile
+   759        4text Ù   (   0EFF               	movlw	255
+   760        4text ˆ        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   761        4text ˙   5   9092               	bcf	3986,0,c	;volatile
+   762        4text ¸   Z                      L5:
+   763                           ;mmc.c: 386: return(1);
+   764        4text ¸   V   0E01               	movlw	1
+   765                           ;mmc.c: 387: }
+   766        4text ˛   "                      l32:
+   767        4text ˛   &   0012               	return	
+   768        4text     A   FFFF               	dw	65535	; Nop inserted for errata
+   769        4text    )   D75C               	goto	f4032
+   770        4text    ı                      __end_of_MMC_Read:
+   771                           ;mmc.c: 392: unsigned char MMC_Write(unsigned lo
+      +                          ng lba, unsigned char *WriteData)
+   772                           ;mmc.c: 393: {
+   773        4text             2 ?_MMC_Write  '                	dw	?_MMC_Write
+   774        4text    o                      _MMC_Write:
+   775                           ; errata NOP at function entry point
+   776        4text    '   FFFF               	dw	65535
+   777        4text    Ω                      f4042:
+   778  000000                     
+   779                           ;mmc.c: 394: unsigned short upper_lba, lower_lba
+      +                          ;
+   780        4text         ¿   ¸ ?_MMC_Write          ¸data  +          	movff	?_MMC_Write,_t_lba
+   781        4text         ¿   ¸ ?_MMC_Write             ¸data     /          	movff	?_MMC_Write+1,_t_lba+1
+   782        4text         ¿   ¸ ?_MMC_Write             ¸data     /          	movff	?_MMC_Write+2,_t_lba+2
+   783        4text         ¿   ¸ ?_MMC_Write             ¸data     z          	movff	?_MMC_Write+3,_t_lba+3
+   784                           ;mmc.c: 401: if(0 == (cardType & (1<<2)))
+   785        4text            1   bigbss    	 2                	movlb	_cardType shr (0+8)
+   786        4text         µ   1ˇ   bigbss    
+ 5                	btfsc	_cardType& (0+255),2,b
+   787        4text    W   D009               	goto	l74
+   788                           ;mmc.c: 402: {
+   789        4text            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   790        4text     &   0E09               	movlw	9
+   791        4text "   #                      u365:
+   792        4text "   -   90D8               	bcf	status,0,c
+   793        4text $      &  7   1 ˇ   __Lparam 
+ ?_MMC_Write  C                	rlcf	?_MMC_Write^(__Lparam& (0+65280)),f,b
+   794        4text &      ,  7   1 ˇ   __Lparam 
+ ?_MMC_Write     G                	rlcf	(?_MMC_Write+1)^(__Lparam& (0+65280)),f,b
+   795        4text (      ,  7   1 ˇ   __Lparam 
+ ?_MMC_Write     G                	rlcf	(?_MMC_Write+2)^(__Lparam& (0+65280)),f,b
+   796        4text *      ,  7   1 ˇ   __Lparam 
+ ?_MMC_Write     G                	rlcf	(?_MMC_Write+3)^(__Lparam& (0+65280)),f,b
+   797        4text ,   .   2EE8               	decfsz	wreg,f,c
+   798        4text .   (   D7F9               	goto	u365
+   799        4text 0   R                      l74:
+   800                           ;mmc.c: 407: }
+   801        4text 0        ¿   ¸ ?_MMC_Write     4   FFF6         	movff	?_MMC_Write+2,tblptrl
+   802        4text 4        ¿   ¸ ?_MMC_Write     É   FFF7         	movff	?_MMC_Write+3,tblptrh
+   803                           ;mmc.c: 414: lower_lba = (unsigned short)lba;
+   804        4text 8        ¿   ¸ ?_MMC_Write  0   FFF3         	movff	?_MMC_Write,prodl
+   805        4text <        ¿   ¸ ?_MMC_Write     s   FFF4         	movff	?_MMC_Write+1,prodh
+   806                           ;mmc.c: 416: {TRISA0=1;RC0=0;};
+   807        4text @   5   8092               	bsf	3986,0,c	;volatile
+   808        4text B   ≠   9082               	bcf	3970,0,c	;volatile
+   809                           ;mmc.c: 418: Command_R1(0x58, upper_lba, lower_l
+      +                          ba);
+   810        4text D      CFF6      ¸ ?_Command_R1  .           	movff	tblptrl,?_Command_R1
+   811        4text H      CFF7      ¸ ?_Command_R1     0           	movff	tblptrh,?_Command_R1+1
+   812        4text L      CFF3      ¸ ?_Command_R1     .           	movff	prodl,?_Command_R1+2
+   813        4text P      CFF4      ¸ ?_Command_R1     .           	movff	prodh,?_Command_R1+3
+   814        4text T   '   0E58               	movlw	88
+   815        4text V   q   D89D               	call	_Command_R1
+   816                           ;mmc.c: 420: if (response_1 !=0)
+   817        4text X           1   bigbss    	 4                	movlb	_response_1 shr (0+8)
+   818        4text Z        S   1ˇ   bigbss    
+ 6                	movf	_response_1& (0+255),f,b
+   819        4text \   U   E005               	bz	l75
+   820                           ;mmc.c: 421: {
+   821        4text ^   5   8082               	bsf	3970,0,c	;volatile
+   822        4text `   (   0EFF               	movlw	255
+   823        4text b        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   824        4text f   _   D050               	goto	L8
+   825                           ;mmc.c: 426: return(0);
+   826        4text h   R                      l75:
+   827                           ;mmc.c: 427: }
+   828        4text h   (   0EFF               	movlw	255
+   829        4text j        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 U          	call	_SPI
+   830                           ;mmc.c: 430: SPI(0xFE);
+   831        4text n   (   0EFE               	movlw	254
+   832        4text p        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 Y          	call	_SPI
+   833                           ;mmc.c: 433: p = WriteData;
+   834        4text t        ¿   ¸ ?_MMC_Write     2   FFE1         	movff	?_MMC_Write+4,fsr1l
+   835        4text x        ¿   ¸ ?_MMC_Write     i   FFE2         	movff	?_MMC_Write+5,fsr1h
+   836                           ;mmc.c: 434: i = 128;
+   837        4text |   (   0E80               	movlw	128
+   838        4text ~   ,   6EF3               	movwf	prodl,c
+   839        4text Ä   É                      l78:
+   840                           ;mmc.c: 435: do
+   841                           ;mmc.c: 436: {
+   842        4text Ä   w   CFE6 FFC9          	movff	postinc1,4041	;volatile
+   843                           ;mmc.c: 438: while (!BF);
+   844        4text Ñ   "                      l79:
+   845        4text Ñ   7   A0C7               	btfss	4039,0,c	;volatile
+   846        4text Ü   f   D7FE               	goto	l79
+   847                           ;mmc.c: 439: SSPBUF = *(p++);
+   848        4text à   w   CFE6 FFC9          	movff	postinc1,4041	;volatile
+   849                           ;mmc.c: 440: while (!BF);
+   850        4text å   "                      l82:
+   851        4text å   7   A0C7               	btfss	4039,0,c	;volatile
+   852        4text é   f   D7FE               	goto	l82
+   853                           ;mmc.c: 441: SSPBUF = *(p++);
+   854        4text ê   w   CFE6 FFC9          	movff	postinc1,4041	;volatile
+   855                           ;mmc.c: 442: while (!BF);
+   856        4text î   "                      l85:
+   857        4text î   7   A0C7               	btfss	4039,0,c	;volatile
+   858        4text ñ   f   D7FE               	goto	l85
+   859                           ;mmc.c: 443: SSPBUF = *(p++);
+   860        4text ò   w   CFE6 FFC9          	movff	postinc1,4041	;volatile
+   861                           ;mmc.c: 444: while (!BF);
+   862        4text ú   "                      l88:
+   863        4text ú   7   A0C7               	btfss	4039,0,c	;volatile
+   864        4text û   W   D7FE               	goto	l88
+   865                           ;mmc.c: 445: }
+   866        4text †   /   2EF3               	decfsz	prodl,f,c
+   867        4text ¢   `   D7EE               	goto	l78
+   868                           ;mmc.c: 448: SPI(0xFF);
+   869        4text §   (   0EFF               	movlw	255
+   870        4text ¶        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 U          	call	_SPI
+   871                           ;mmc.c: 449: SPI(0xFF);
+   872        4text ™   (   0EFF               	movlw	255
+   873        4text ¨        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 Y          	call	_SPI
+   874                           ;mmc.c: 451: i = SPI(0xFF);
+   875        4text ∞   (   0EFF               	movlw	255
+   876        4text ≤        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   877        4text ∂           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   878        4text ∏      '  o   1 ˇ   __Lparam 
+ ?a_MMC_Write  Ç                	movwf	?a_MMC_Write^(__Lparam& (0+65280)),b
+   879                           ;mmc.c: 456: i &= 0b00011111;
+   880        4text ∫   '   0E1F               	movlw	31
+   881        4text º      '     1 ˇ   __Lparam 
+ ?a_MMC_Write  à                	andwf	?a_MMC_Write^(__Lparam& (0+65280)),f,b
+   882                           ;mmc.c: 457: if (i != 0b00000101)
+   883        4text æ      '  Q   1 ˇ   __Lparam 
+ ?a_MMC_Write  B                	movf	?a_MMC_Write^(__Lparam& (0+65280)),w
+   884        4text ¿   &   0A05               	xorlw	5
+   885        4text ¬   U   E005               	bz	l91
+   886                           ;mmc.c: 458: {
+   887        4text ƒ   5   8082               	bsf	3970,0,c	;volatile
+   888        4text ∆   (   0EFF               	movlw	255
+   889        4text »        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   890        4text Ã   _   D01D               	goto	L8
+   891                           ;mmc.c: 463: return(0);
+   892        4text Œ   R                      l91:
+   893                           ;mmc.c: 464: }
+   894        4text Œ        Ó   ˆ   bss 	   
+         1bss ˇ   
+ "          	lfsr	0,_timeout
+   895        4text “   .   6AEE               	clrf	postinc0,c
+   896        4text ‘   v   6AEE               	clrf	postinc0,c
+   897                           ;mmc.c: 467: while (SPI(0xFF) == 0x00)
+   898        4text ÷   "                      l92:
+   899        4text ÷   (   0EFF               	movlw	255
+   900        4text ÿ        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   901        4text ‹   &   0900               	iorlw	0
+   902        4text ﬁ   W   E117               	bnz	u450
+   903                           ;mmc.c: 468: {
+   904        4text ‡           1   bss 	 1                	movlb	_timeout shr (0+8)
+   905        4text ‚        ¿   ¸bss          ¸temp  '          	movff	_timeout,btemp
+   906        4text Ê        ¿   ¸bss             ¸temp     +          	movff	_timeout+1,btemp+1
+   907        4text Í        (   1temp  '                	incf	btemp,w,c
+   908        4text Ï        o   1ˇ   bss 
+ 2                	movwf	_timeout& (0+255),b
+   909        4text Ó   '   E102               	bnz	u431
+   910        4text         (   1temp     )                	incf	btemp+1,w,c
+   911        4text Ú        o   1ˇ   bss    
+ 6                	movwf	(_timeout+1)& (0+255),b
+   912        4text Ù   #                      u431:
+   913        4text Ù   (   0EC3               	movlw	195
+   914        4text ˆ        \   1temp     *                	subwf	btemp+1,w,c
+   915        4text ¯   '   0E50               	movlw	80
+   916        4text ˙   /   B4D8               	btfsc	status,2,c
+   917        4text ¸        \   1temp  (                	subwf	btemp,w,c
+   918        4text ˛   V   E3EB               	bnc	l92
+   919                           ;mmc.c: 470: {
+   920        4text     5   8082               	bsf	3970,0,c	;volatile
+   921        4text    (   0EFF               	movlw	255
+   922        4text         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   923        4text    !                      L8:
+   924        4text    n   9092               	bcf	3986,0,c	;volatile
+   925                           ;mmc.c: 475: return(0);
+   926        4text 
+   &   0E00               	movlw	0
+   927        4text    '   D006               	goto	l73
+   928        4text    S                      u450:
+   929                           ;mmc.c: 476: }
+   930        4text    5   8082               	bsf	3970,0,c	;volatile
+   931        4text    (   0EFF               	movlw	255
+   932        4text         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+   933        4text    n   9092               	bcf	3986,0,c	;volatile
+   934                           ;mmc.c: 479: return(1);
+   935        4text    V   0E01               	movlw	1
+   936                           ;mmc.c: 480: }
+   937        4text    "                      l73:
+   938        4text    &   0012               	return	
+   939        4text    A   FFFF               	dw	65535	; Nop inserted for errata
+   940        4text    )   D774               	goto	f4042
+   941        4text     ı                      __end_of_MMC_Write:
+   942                           ;mmc.c: 488: void Command_R0(char cmd, unsigned 
+      +                          short AdrH, unsigned short AdrL)
+   943                           ;mmc.c: 489: {
+   944        4text              2 ?_Command_R0  (                	dw	?_Command_R0
+   945        4text "   p                      _Command_R0:
+   946                           ; errata NOP at function entry point
+   947        4text "   '   FFFF               	dw	65535
+   948        4text $   Ä                      f4052:
+   949  000000                     
+   950                           ;_cmd stored from wreg
+   951        4text $           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   952        4text &      (  o   1 ˇ   __Lparam 
+ ?a_Command_R0  {                	movwf	?a_Command_R0^(__Lparam& (0+65280)),b
+   953                           ;mmc.c: 490: crc_7=0;
+   954        4text (           1   bigbss    	 /                	movlb	_crc_7 shr (0+8)
+   955        4text *        k   1ˇ   bigbss    
+ h                	clrf	_crc_7& (0+255),b
+   956                           ;mmc.c: 491: SPI(0xFF);
+   957        4text ,   (   0EFF               	movlw	255
+   958        4text .        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 T          	call	_SPI
+   959                           ;mmc.c: 493: SPI(cmd);
+   960        4text 2           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   961        4text 4      (  Q   1 ˇ   __Lparam 
+ ?a_Command_R0  C                	movf	?a_Command_R0^(__Lparam& (0+65280)),w
+   962        4text 6        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 [          	call	_SPI
+   963                           ;mmc.c: 494: MmcAddCrc7(cmd);
+   964        4text :           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   965        4text <      (  Q   1 ˇ   __Lparam 
+ ?a_Command_R0  C                	movf	?a_Command_R0^(__Lparam& (0+65280)),w
+   966        4text >   |   D89E               	call	_MmcAddCrc7
+   967                           ;mmc.c: 496: SPI((unsigned char)(AdrH>>8));
+   968        4text @           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   969        4text B      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+1)^(__Lparam& (0+65280)),w
+   970        4text D        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 í          	call	_SPI
+   971                           ;mmc.c: 497: MmcAddCrc7((unsigned char)(AdrH>>8)
+      +                          );
+   972        4text H           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   973        4text J      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+1)^(__Lparam& (0+65280)),w
+   974        4text L   w   D897               	call	_MmcAddCrc7
+   975                           ;mmc.c: 499: SPI((unsigned char)AdrH);
+   976        4text N           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   977        4text P      '  Q   1 ˇ   __Lparam 
+ ?_Command_R0  B                	movf	?_Command_R0^(__Lparam& (0+65280)),w
+   978        4text R        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 k          	call	_SPI
+   979                           ;mmc.c: 500: MmcAddCrc7((unsigned char)AdrH);
+   980        4text V           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   981        4text X      '  Q   1 ˇ   __Lparam 
+ ?_Command_R0  B                	movf	?_Command_R0^(__Lparam& (0+65280)),w
+   982        4text Z   |   D890               	call	_MmcAddCrc7
+   983                           ;mmc.c: 502: SPI((unsigned char)(AdrL>>8));
+   984        4text \           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   985        4text ^      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+3)^(__Lparam& (0+65280)),w
+   986        4text `        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 í          	call	_SPI
+   987                           ;mmc.c: 503: MmcAddCrc7((unsigned char)(AdrL>>8)
+      +                          );
+   988        4text d           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   989        4text f      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+3)^(__Lparam& (0+65280)),w
+   990        4text h   y   D889               	call	_MmcAddCrc7
+   991                           ;mmc.c: 505: SPI((unsigned char)(AdrL));
+   992        4text j           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   993        4text l      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+2)^(__Lparam& (0+65280)),w
+   994        4text n        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	 k          	call	_SPI
+   995                           ;mmc.c: 506: MmcAddCrc7((unsigned char)AdrL);
+   996        4text r           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+   997        4text t      -  Q   1 ˇ   __Lparam 
+ ?_Command_R0     F                	movf	(?_Command_R0+2)^(__Lparam& (0+65280)),w
+   998        4text v   h   D882               	call	_MmcAddCrc7
+   999                           ;mmc.c: 508: crc_7<<=1;
+  1000        4text x      "  Ó   ˆ   bigbss    	   
+         1bigbss    ˇ   
+            	lfsr	0,_crc_7
+  1001        4text |   -   90D8               	bcf	status,0,c
+  1002        4text ~   d   36EF               	rlcf	indf0,f,c
+  1003                           ;mmc.c: 509: crc_7++;
+  1004        4text Ä           1   bigbss    	 /                	movlb	_crc_7 shr (0+8)
+  1005        4text Ç        +   1ˇ   bigbss    
+ k                	incf	_crc_7& (0+255),f,b
+  1006                           ;mmc.c: 511: SPI(crc_7);
+  1007        4text Ñ        ¿   ¸bigbss     *   FFE8         	movff	_crc_7,wreg
+  1008        4text à        Ô   1ˇ       _SPI 	
+         ¸	    _SPI 	 M          	goto	_SPI
+  1009                           ;mmc.c: 512: };
+  1010        4text å   A   FFFF               	dw	65535	; Nop inserted for errata
+  1011        4text é   )   D7CA               	goto	f4052
+  1012        4text ê   ˆ                      __end_of_Command_R0:
+  1013                           ;mmc.c: 515: void Command_R1(char cmd, unsigned 
+      +                          short AdrH, unsigned short AdrL)
+  1014                           ;mmc.c: 516: {
+  1015        4text ê            2 ?_Command_R1  (                	dw	?_Command_R1
+  1016        4text í   p                      _Command_R1:
+  1017                           ; errata NOP at function entry point
+  1018        4text í   '   FFFF               	dw	65535
+  1019        4text î   Ä                      f4072:
+  1020  000000                     
+  1021                           ;_cmd stored from wreg
+  1022        4text î           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1023        4text ñ      (  o   1 ˇ   __Lparam 
+ ?a_Command_R1  â                	movwf	?a_Command_R1^(__Lparam& (0+65280)),b
+  1024                           ;mmc.c: 517: unsigned char i = 100;
+  1025        4text ò   (   0E64               	movlw	100
+  1026        4text ö      .  o   1 ˇ   __Lparam 
+ ?a_Command_R1     ì                	movwf	(?a_Command_R1+1)^(__Lparam& (0+65280)),b
+  1027                           ;mmc.c: 518: Command_R0(cmd, AdrH, AdrL);
+  1028        4text ú        ¿   ¸ ?_Command_R1          ¸ ?_Command_R0  2          	movff	?_Command_R1,?_Command_R0
+  1029        4text †        ¿   ¸ ?_Command_R1             ¸ ?_Command_R0     6          	movff	?_Command_R1+1,?_Command_R0+1
+  1030        4text §        ¿   ¸ ?_Command_R1             ¸ ?_Command_R0     6          	movff	?_Command_R1+2,?_Command_R0+2
+  1031        4text ®        ¿   ¸ ?_Command_R1             ¸ ?_Command_R0     6          	movff	?_Command_R1+3,?_Command_R0+3
+  1032        4text ¨      (  Q   1 ˇ   __Lparam 
+ ?a_Command_R1  C                	movf	?a_Command_R1^(__Lparam& (0+65280)),w
+  1033        4text Æ   /   DFB9               	call	_Command_R0
+  1034        4text ∞   ö                      l100:
+  1035                           ;mmc.c: 519: do
+  1036                           ;mmc.c: 520: response_1 = SPI(0xFF);
+  1037        4text ∞   (   0EFF               	movlw	255
+  1038        4text ≤        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1039        4text ∂      CFE8      ¸bigbss     y           	movff	wreg,_response_1
+  1040                           ;mmc.c: 521: while (response_1==0xFF && --i);
+  1041        4text ∫        ¿   ¸bigbss             ¸temp  *          	movff	_response_1,btemp
+  1042        4text æ        (   1temp  '                	incf	btemp,w,c
+  1043        4text ¿   '   E103               	bnz	u480
+  1044        4text ¬           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1045        4text ƒ      .  /   1 ˇ   __Lparam 
+ ?a_Command_R1     m                	decfsz	(?a_Command_R1+1)^(__Lparam& (0+65280)),
+      +                          f,b
+  1046        4text ∆   (   D7F4               	goto	l100
+  1047        4text »   S                      u480:
+  1048                           ;mmc.c: 522: }
+  1049        4text »   &   0012               	return	
+  1050        4text     A   FFFF               	dw	65535	; Nop inserted for errata
+  1051        4text Ã   )   D7E3               	goto	f4072
+  1052        4text Œ   ˆ                      __end_of_Command_R1:
+  1053                           ;mmc.c: 525: void Command_R2(char cmd, unsigned 
+      +                          short AdrH, unsigned short AdrL)
+  1054                           ;mmc.c: 526: {
+  1055        4text Œ            2 ?_Command_R2  (                	dw	?_Command_R2
+  1056        4text –   p                      _Command_R2:
+  1057                           ; errata NOP at function entry point
+  1058        4text –   '   FFFF               	dw	65535
+  1059        4text “   Ä                      f4082:
+  1060  000000                     
+  1061                           ;_cmd stored from wreg
+  1062        4text “           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1063        4text ‘      (  o   1 ˇ   __Lparam 
+ ?a_Command_R2  â                	movwf	?a_Command_R2^(__Lparam& (0+65280)),b
+  1064                           ;mmc.c: 527: unsigned char i = 100;
+  1065        4text ÷   (   0E64               	movlw	100
+  1066        4text ÿ      .  o   1 ˇ   __Lparam 
+ ?a_Command_R2     ì                	movwf	(?a_Command_R2+1)^(__Lparam& (0+65280)),b
+  1067                           ;mmc.c: 528: Command_R0(cmd, AdrH, AdrL);
+  1068        4text ⁄        ¿   ¸ ?_Command_R2          ¸ ?_Command_R0  2          	movff	?_Command_R2,?_Command_R0
+  1069        4text ﬁ        ¿   ¸ ?_Command_R2             ¸ ?_Command_R0     6          	movff	?_Command_R2+1,?_Command_R0+1
+  1070        4text ‚        ¿   ¸ ?_Command_R2             ¸ ?_Command_R0     6          	movff	?_Command_R2+2,?_Command_R0+2
+  1071        4text Ê        ¿   ¸ ?_Command_R2             ¸ ?_Command_R0     6          	movff	?_Command_R2+3,?_Command_R0+3
+  1072        4text Í      (  Q   1 ˇ   __Lparam 
+ ?a_Command_R2  C                	movf	?a_Command_R2^(__Lparam& (0+65280)),w
+  1073        4text Ï   /   DF9A               	call	_Command_R0
+  1074        4text Ó   ö                      l104:
+  1075                           ;mmc.c: 529: do
+  1076                           ;mmc.c: 530: response_1 = SPI(0xFF);
+  1077        4text Ó   (   0EFF               	movlw	255
+  1078        4text         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1079        4text Ù      CFE8      ¸bigbss     y           	movff	wreg,_response_1
+  1080                           ;mmc.c: 531: while (response_1==0xFF && --i);
+  1081        4text ¯        ¿   ¸bigbss             ¸temp  *          	movff	_response_1,btemp
+  1082        4text ¸        (   1temp  '                	incf	btemp,w,c
+  1083        4text ˛   '   E103               	bnz	u510
+  1084        4text             1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1085        4text       .  /   1 ˇ   __Lparam 
+ ?a_Command_R2     m                	decfsz	(?a_Command_R2+1)^(__Lparam& (0+65280)),
+      +                          f,b
+  1086        4text    (   D7F4               	goto	l104
+  1087        4text    i                      u510:
+  1088                           ;mmc.c: 533: response_2 = SPI(0xFF);
+  1089        4text    (   0EFF               	movlw	255
+  1090        4text         Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1091        4text       CFE8      ¸bigbss     Z           	movff	wreg,_response_2
+  1092                           ;mmc.c: 534: }
+  1093        4text    &   0012               	return	
+  1094        4text    A   FFFF               	dw	65535	; Nop inserted for errata
+  1095        4text    )   D7DE               	goto	f4082
+  1096        4text    ˆ                      __end_of_Command_R2:
+  1097                           ;mmc.c: 537: void Command_R3(char cmd, unsigned 
+      +                          short AdrH, unsigned short AdrL)
+  1098                           ;mmc.c: 538: {
+  1099        4text             2 ?_Command_R3  (                	dw	?_Command_R3
+  1100        4text    p                      _Command_R3:
+  1101                           ; errata NOP at function entry point
+  1102        4text    '   FFFF               	dw	65535
+  1103        4text    Ä                      f4092:
+  1104  000000                     
+  1105                           ;_cmd stored from wreg
+  1106        4text            1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1107        4text       (  o   1 ˇ   __Lparam 
+ ?a_Command_R3  â                	movwf	?a_Command_R3^(__Lparam& (0+65280)),b
+  1108                           ;mmc.c: 539: unsigned char i = 100;
+  1109        4text    (   0E64               	movlw	100
+  1110        4text        .  o   1 ˇ   __Lparam 
+ ?a_Command_R3     ì                	movwf	(?a_Command_R3+1)^(__Lparam& (0+65280)),b
+  1111                           ;mmc.c: 540: Command_R0(cmd, AdrH, AdrL);
+  1112        4text "        ¿   ¸ ?_Command_R3          ¸ ?_Command_R0  2          	movff	?_Command_R3,?_Command_R0
+  1113        4text &        ¿   ¸ ?_Command_R3             ¸ ?_Command_R0     6          	movff	?_Command_R3+1,?_Command_R0+1
+  1114        4text *        ¿   ¸ ?_Command_R3             ¸ ?_Command_R0     6          	movff	?_Command_R3+2,?_Command_R0+2
+  1115        4text .        ¿   ¸ ?_Command_R3             ¸ ?_Command_R0     6          	movff	?_Command_R3+3,?_Command_R0+3
+  1116        4text 2      (  Q   1 ˇ   __Lparam 
+ ?a_Command_R3  C                	movf	?a_Command_R3^(__Lparam& (0+65280)),w
+  1117        4text 4   /   DF76               	call	_Command_R0
+  1118        4text 6   ö                      l108:
+  1119                           ;mmc.c: 541: do
+  1120                           ;mmc.c: 542: response_1 = SPI(0xFF);
+  1121        4text 6   (   0EFF               	movlw	255
+  1122        4text 8        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1123        4text <      CFE8      ¸bigbss     y           	movff	wreg,_response_1
+  1124                           ;mmc.c: 543: while (response_1==0xFF && --i);
+  1125        4text @        ¿   ¸bigbss             ¸temp  *          	movff	_response_1,btemp
+  1126        4text D        (   1temp  '                	incf	btemp,w,c
+  1127        4text F   '   E103               	bnz	u540
+  1128        4text H           1    __Lparam 	 1                	movlb	__Lparam shr (0+8)
+  1129        4text J      .  /   1 ˇ   __Lparam 
+ ?a_Command_R3     m                	decfsz	(?a_Command_R3+1)^(__Lparam& (0+65280)),
+      +                          f,b
+  1130        4text L   (   D7F4               	goto	l108
+  1131        4text N   i                      u540:
+  1132                           ;mmc.c: 545: response_2 = SPI(0xFF);
+  1133        4text N   (   0EFF               	movlw	255
+  1134        4text P        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1135        4text T      CFE8      ¸bigbss     p           	movff	wreg,_response_2
+  1136                           ;mmc.c: 546: response_3 = SPI(0xFF);
+  1137        4text X   (   0EFF               	movlw	255
+  1138        4text Z        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1139        4text ^      CFE8      ¸bigbss     p           	movff	wreg,_response_3
+  1140                           ;mmc.c: 547: response_4 = SPI(0xFF);
+  1141        4text b   (   0EFF               	movlw	255
+  1142        4text d        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1143        4text h      CFE8      ¸bigbss     p           	movff	wreg,_response_4
+  1144                           ;mmc.c: 548: response_5 = SPI(0xFF);
+  1145        4text l   (   0EFF               	movlw	255
+  1146        4text n        Ï   1ˇ       _SPI 	
+         ¸	    _SPI 	           	call	_SPI
+  1147        4text r      CFE8      ¸bigbss     Z           	movff	wreg,_response_5
+  1148                           ;mmc.c: 549: }
+  1149        4text v   &   0012               	return	
+  1150        4text x   A   FFFF               	dw	65535	; Nop inserted for errata
+  1151        4text z   )   D7CF               	goto	f4092
+  1152        4text |   ±                      __end_of_Command_R3:
+  1153                           ;mmc.c: 552: void MmcAddCrc7(unsigned char c)
+  1154                           ;mmc.c: 553: {
+  1155        4text |   p                      _MmcAddCrc7:
+  1156                           ; errata NOP at function entry point
+  1157        4text |   '   FFFF               	dw	65535
+  1158        4text ~   ~                      f4102:
+  1159  000000                     
+  1160                           ; _c loaded to fsr2l
+  1161        4text ~   k   6ED9               	movwf	fsr2l,c
+  1162                           ;mmc.c: 554: unsigned char i;
+  1163        4text Ä   &   0E08               	movlw	8
+  1164        4text Ç   ,   6EE1               	movwf	fsr1l,c
+  1165        4text Ñ   Ñ                      l112:
+  1166                           ;mmc.c: 557: do
+  1167                           ;mmc.c: 558: {
+  1168        4text Ñ      "  Ó   ˆ   bigbss    	   
+         1bigbss    ˇ   
+            	lfsr	0,_crc_7
+  1169        4text à   -   90D8               	bcf	status,0,c
+  1170        4text ä   h   36EF               	rlcf	indf0,f,c
+  1171                           ;mmc.c: 561: crc_7^=0x09;
+  1172        4text å           1   bigbss    	 h                	movlb	_crc_7 shr (0+8)
+  1173                           ;mmc.c: 560: if(c&0x80)
+  1174        4text é   .   AED9               	btfss	fsr2l,7,c
+  1175        4text ê   &   D002               	goto	L9
+  1176        4text í   &   0E09               	movlw	9
+  1177        4text î           1ˇ   bigbss    
+ o                	xorwf	_crc_7& (0+255),f,b
+  1178                           ;mmc.c: 562: if(crc_7&0x80)
+  1179        4text ñ   !                      L9:
+  1180        4text ñ        Ø   1ˇ   bigbss    
+ 2                	btfss	_crc_7& (0+255),7,b
+  1181        4text ò   c   D003               	goto	l114
+  1182                           ;mmc.c: 563: crc_7^=0x09;
+  1183        4text ö           1   bigbss    	 /                	movlb	_crc_7 shr (0+8)
+  1184        4text ú   &   0E09               	movlw	9
+  1185        4text û           1ˇ   bigbss    
+ 2                	xorwf	_crc_7& (0+255),f,b
+  1186        4text †   X                      l114:
+  1187                           ;mmc.c: 564: c<<=1;
+  1188        4text †   -   90D8               	bcf	status,0,c
+  1189        4text ¢   ]   36D9               	rlcf	fsr2l,f,c
+  1190                           ;mmc.c: 565: }
+  1191        4text §   /   2EE1               	decfsz	fsr1l,f,c
+  1192        4text ¶   X   D7EE               	goto	l112
+  1193                           ;mmc.c: 567: }
+  1194        4text ®   &   0012               	return	
+  1195        4text ™   A   FFFF               	dw	65535	; Nop inserted for errata
+  1196        4text ¨   )   D7E8               	goto	f4102
+  1197        4text Æ   ˝                     __end_of_MmcAddCrc7:
+  1198  000000                     
+  1199  000000                     
+  1200  000000                     
+  1201  000000                     
+  1202  000000                     
+  1203  000000                     
+  1204  000000                     
+  1205  000000                     
+  1206  000000                     
+  1207  000000                     
+  1208  000000                     
+  1209  000000                     
+  1210  000000                     ˝
+  1211  000000                     
+  1212  000000                     
+  1213  000000                     
+  1214  000000                     
+  1215  000000                     
+  1216  000000                     
+  1217  000000                     
+  1218  000000                     
+  1219  000000                     
+  1220  000000                     
+  1221  000000                     
+  1222  000000                     
+  1223  000000                     
+  1224  000000                     
+  12˝25  000000                     
+  1226  000000                     
+  1227  000000                     
+  1228  000000                     
+  1229  000000                     
+  1230  000000                     
+  1231  000000                     
+  1232  000000                     
+  1233  000000                     
+  1234  000000                     
+  1235  000000                     
+  1236  000000                     
+  1237  000000                     
+  1238  000000                     
+  1239  0˝00000                     
+  1240  000000                     
+  1241  000000                     
+  1242  000000                     
+  1243  000000                     
+  1244  000000                     
+  1245  000000                     
+  1246  000000                     
+  1247  000000                     
+  1248  000000                     
+  1249  000000                     
+  1250  000000                     
+  1251  000000                     
+  1252  000000                     
+  1253  000000˝                     
+  1254  000000                     
+  1255  000000                     
+  1256  000000                     
+  1257  000000                     
+  1258  000000                     
+  1259  000000                     
+  1260  000000                     
+  1261  000000                     
+  1262  000000                     
+  1263  000000                     
+  1264  000000                     
+  1265  000000                     
+  1266  000000                     
+  1267  000000     ˝                
+  1268  000000                     
+  1269  000000                     
+  1270  000000                     
+  1271  000000                     
+  1272  000000                     
+  1273  000000                     
+  1274  000000                     
+  1275  000000                     
+  1276  000000                     
+  1277  000000                     
+  1278  000000                     
+  1279  000000                     
+  1280  000000                     
+  1281  000000          ˝           
+  1282  000000                     
+  1283  000000                     
+  1284  000000                     
+  1285  000000                     
+  1286  000000                     
+  1287  000000                     
+  1288  000000                     
+  1289  000000                     
+  1290  000000                     
+  1291  000000                     
+  1292  000000                     
+  1293  000000                     
+  1294  000000                     
+  1295  000000               ˝      
+  1296  000000                     
+  1297  000000                     
+  1298  000000                     
+  1299  000000                     
+  1300  000000                     
+  1301  000000                     
+  1302  000000                     
+  1303  000000                     
+  1304  000000                     
+  1305  000000                     
+  1306  000000                     
+  1307  000000                     
+  1308  000000                     
+  1309  000000                    ˝ 
+  1310  000000                     
+  1311  000000                     
+  1312  000000                     
+  1313  000000                     
+  1314  000000                     
+  1315  000000                     
+  1316  000000                     
+  1317  000000                     
+  1318  000000                     
+  1319  000000                     
+  1320  000000                     
+  1321  000000                     
+  1322  000000                     
+  1323  000000                     
+  1˝324  000000                     
+  1325  000000                     
+  1326  000000                     
+  1327  000000                     
+  1328  000000                     
+  1329  000000                     
+  1330  000000                     
+  1331  000000                     
+  1332  000000                     
+  1333  000000                     
+  1334  000000                     
+  1335  000000                     
+  1336  000000                     
+  1337  000000                     
+  1338  ˝000000                     
+  1339  000000                     
+  1340  000000                     
+  1341  000000                     
+  1342  000000                     
+  1343  000000                     
+  1344  000000                     
+  1345  000000                     
+  1346  000000                     
+  1347  000000                     
+  1348  000000                     
+  1349  000000                     
+  1350  000000                     
+  1351  000000                     
+  1352  00000˝0                     
+  1353  000000                     
+  1354  000000                     
+  1355  000000                     
+  1356  000000                     
+  1357  000000                     
+  1358  000000                     
+  1359  000000                     
+  1360  000000                     
+  1361  000000                     
+  1362  000000                     
+  1363  000000                     
+  1364  000000                     
+  1365  000000                     
+  1366  000000    ˝                 
+  1367  000000                     
+  1368  000000                     
+  1369  000000                     
+  1370  000000                     
+  1371  000000                     
+  1372  000000                     
+  1373  000000                     
+  1374  000000                     
+  1375  000000                     
+  1376  000000                     
+  1377  000000                     
+  1378  000000                     
+  1379  000000                     
+  1380  000000         ˝            
+  1381  000000                     
+  1382  000000                     
+  1383  000000                     
+  1384  000000                     
+  1385  000000                     
+  1386  000000                     
+  1387  000000                     
+  1388  000000                     
+  1389  000000                     
+  1390  000000                     
+  1391  000000                     
+  1392  000000                     
+  1393  000000                     
+  1394  000000              ˝       
+  1395  000000                     
+  1396  000000                     
+  1397  000000                     
+  1398  000000                     
+  1399  000000                     
+  1400  000000                     
+  1401  000000                     
+  1402  000000                     
+  1403  000000                     
+  1404  000000                     
+  1405  000000                     
+  1406  000000                     
+  1407  000000                     
+  1408  000000                   ˝  
+  1409  000000                     
+  1410  000000                     
+  1411  000000                     
+  1412  000000                     
+  1413  000000                     
+  1414  000000                     
+  1415  000000                     
+  1416  000000                     
+  1417  000000                     
+  1418  000000                     
+  1419  000000                     
+  1420  000000                     
+  1421  000000                     
+  1422  000000                     
+  ˝1423  000000                     
+  1424  000000                     
+  1425  000000                     
+  1426  000000                     
+  1427  000000                     
+  1428  000000                     
+  1429  000000                     
+  1430  000000                     
+  1431  000000                     
+  1432  000000                     
+  1433  000000                     
+  1434  000000                     
+  1435  000000                     
+  1436  000000                     
+  1437 ˝ 000000                     
+  1438  000000                     
+  1439  000000                     
+  1440  000000                     
+  1441  000000                     
+  1442  000000                     
+  1443  000000                     
+  1444  000000                     
+  1445  000000                     
+  1446  000000                     
+  1447  000000                     
+  1448  000000                     
+  1449  000000                     
+  1450  000000                     
+  1451  0000˝00                     
+  1452  000000                     
+  1453  000000                     
+  1454  000000                     
+  1455  000000                     
+  1456  000000                     
+  1457  000000                     
+  1458  000000                     
+  1459  000000                     
+  1460  000000                     
+  1461  000000                     
+  1462  000000                     
+  1463  000000                     
+  1464  000000                     
+  1465  000000   ˝                  
+  1466  000000                     
+  1467  000000                     
+  1468  000000                     
+  1469  000000                     
+  1470  000000                     
+  1471  000000                     
+  1472  000000                     
+  1473  000000                     
+  1474  000000                     
+  1475  000000                     
+  1476  000000                     
+  1477  000000                     
+  1478  000000                     
+  1479  000000        ˝             
+  1480  000000                     
+  1481  000000                     
+  1482  000000                     
+  1483  000000                     
+  1484  000000                     
+  1485  000000                     
+  1486  000000                     
+  1487  000000                     
+  1488  000000                     
+  1489  000000                     
+  1490  000000                     
+  1491  000000                     
+  1492  000000                     
+  1493  000000             ˝        
+  1494  000000                     
+  1495  000000                     
+  1496  000000                     
+  1497  000000                     
+  1498  000000                     
+  1499  000000                     
+  1500  000000                     
+  1501  000000                     
+  1502  000000                     
+  1503  000000                     
+  1504  000000                     
+  1505  000000                     
+  1506  000000                     
+  1507  000000                  °   
+  1508  000000                     
+  1509  000000                     
+  1510  000000                     
+  1511  000000                     
+  1512  000000                     
+  1513  000000                     
+  1514  000000                     
+  1515  000000                     
+  1516  000000                     
+  1517                           
+  1518                           	psect	bigbss
+  1519        4bigbss  0                      _MMC_DIRECT_TRANSFER_MODE:
+   1520        4bigbss  ˝                     	ds	1
+  1521  000000                     
+  1522  000000                     
+  1523  000000                     
+  1524  000000                     
+  1525  000000                     
+  1526  000000                     
+  1527  000000                     
+  1528  000000                     
+  1529  000000                     
+  1530  000000                     
+  1531  000000                     
+  1532  000000                     
+  1533  000000                     
+  1534  000000˝                     
+  1535  000000                     
+  1536  000000                     
+  1537  000000                     
+  1538  000000                     
+  1539  000000                     
+  1540  000000                     
+  1541  000000                     
+  1542  000000                     
+  1543  000000                     
+  1544  000000                     
+  1545  000000                     
+  1546  000000                     
+  1547  000000                     
+  1548  000000     ˝                
+  1549  000000                     
+  1550  000000                     
+  1551  000000                     
+  1552  000000                     
+  1553  000000                     
+  1554  000000                     
+  1555  000000                     
+  1556  000000                     
+  1557  000000                     
+  1558  000000                     
+  1559  000000                     
+  1560  000000                     
+  1561  000000                     
+  1562  000000          ˝           
+  1563  000000                     
+  1564  000000                     
+  1565  000000                     
+  1566  000000                     
+  1567  000000                     
+  1568  000000                     
+  1569  000000                     
+  1570  000000                     
+  1571  000000                     
+  1572  000000                     
+  1573  000000                     
+  1574  000000                     
+  1575  000000                     
+  1576  000000               Á       
+  1577  000000                     
+  1578  000000                     
+  1579  000000                     
+  1580  000000                     
+  1581  000000                     
+  1582  000000                     
+  1583        4bigbss                         _cardType:
+   1584        4bigbss  #                      	ds	1
+  1585        4bigbss                        _crc_7:
+   1586        4bigbss  #                      	ds	1
+  1587        4bigbss  "                      _response_1:
+   1588        4bigbss  #                      	ds	1
+  1589        4bigbss  "                      _response_2:
+   1590        4bigbss  #                      	ds	1
+  1591        4bigbss  "                      _response_3:
+   1592        4bigbss  #                      	ds	1
+  1593        4bigbss  "                      _response_4:
+   1594        4bigbss  #                      	ds	1
+  1595        4bigbss  "                      _response_5:
+   1596        4bigbss  m                     	ds	1
+  1597  000000                     
+  1598  000000                     
+  1599  000000                     
+  1600  000000                     
+  1601  000000                     
+  1602  000000                     
+  1603  000000                     
+  1604                           
+  1605                           	psect	bss
+  1606        4bss                        _timeout:
+   1607        4bss  r                      	ds	2
+  1608                           
+  1609                           	psect	temp
+  1610        4temp                        btemp:
+   1611        4temp  ˝                     	ds	2
+  1612                           tblptrh	equ	0xFF7
+  1613                           tblptrl	equ	0xFF6
+  1614                           prodh	equ	0xFF4
+  1615                           prodl	equ	0xFF3
+  1616                           indf0	equ	0xFEF
+  1617                           postinc0	equ	0xFEE
+  1618                           wreg	equ	0xFE8
+  1619                           postinc1	equ	0xFE6
+  1620                           fsr1h	equ	0xFE2
+  1621                           fsr1l	equ	0xFE1
+  1622                           fsr2l	equ	0xFD9
+  1623                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:01 2009
+
+                       l2       4text ≤                             l3       4text        
+                       l6       4text ,                              l9       4text b       
+                      l10       4text ö                             l11       4text ê       
+                      l20       4text ‰                             l21       4text       
+                      l13       4text ¿                             l32       4text ˛      
+                      l24       4text f                            l41       4text Æ      
+                      l33       4text Ú                            l25       4text \      
+                      l17       4text »                             l18       4text 8      
+                      l51       4text ú                            l35       4text 
+      
+                      l19       4text                             l60       4text ∫      
+                      l44       4text é                            l36       4text B      
+                      l28       4text n                            l61       4text º      
+                      l45       4text ê                            l37       4text J      
+                      l29       4text ¢                            l70       4text ⁄      
+                      l54       4text ¢                            l64       4text ∆      
+                      l48       4text ñ                            l73       4text       
+                      l57       4text Ê                            l82       4text å      
+                      l74       4text 0                            l91       4text Œ      
+                      l75       4text h                            l67       4text –      
+                      l92       4text ÷                            l85       4text î      
+                      l78       4text Ä                            l79       4text Ñ      
+                      l88       4text ú                           l100       4text ∞      
+                     l112       4text Ñ                           l104       4text Ó      
+                     l114       4text †                           l108       4text 6      
+                     u231       4text h                           u215       4text ¸      
+                     u250       4text Ç                           u510       4text       
+                     u431       4text Ù                           u450       4text       
+                     u195       4text ﬁ                           u540       4text N      
+                     u365       4text "                           u480       4text »      
+                     _SPI       4 _SPI  ?                        wreg 000FE8  
+                _cardType       4bigbss        _MMC_DIRECT_TRANSFER_MODE       4bigbss     
+              _response_1       4bigbss                      _response_2       4bigbss        
+              _response_3       4bigbss                      _response_4       4bigbss        
+              _response_5       4bigbss                            f4102       4text ~      
+                    f4032       4text º                          f4042       4text       
+                    f4052       4text $                          f4072       4text î      
+                    f4082       4text “                          f4092       4text       
+                    f3992       4text     Ñ                       indf0 000FEF  
+                    fsr1l 000FE1                      fsr2l 000FD9  
+                    btemp       4temp  ?                       prodl 000FF3  
+            ?a_Command_R0       4 ?a_Command_R0                 ?a_Command_R1       4 ?a_Command_R1     
+            ?a_Command_R2       4 ?a_Command_R2                 ?a_Command_R3       4 ?a_Command_R3     
+        __end_of_MMC_Init       4text ∏              __end_of_MMC_Read       4text       
+              used_btemp0       4 used_btemp0                   used_btemp1       4 used_btemp1     
+                   _crc_7       4bigbss                           _t_lba       4data  ?   
+                   status 000FD8                   __Lparam       4 __Lparam     
+               _MMC_Write       4text              __end_of_MMC_Write       4text        
+              ?_MMC_Write       4 ?_MMC_Write                      __ramtop       4 __ramtop     
+                 _timeout       4bss                   _Command_R0       4text "      
+              _Command_R1       4text í                    _Command_R2       4text –      
+              _Command_R3       4text             __end_of_Command_R0       4text ê      
+      __end_of_Command_R1       4text Œ            __end_of_Command_R2       4text       
+      __end_of_Command_R3       4text |                    _MmcAddCrc7       4text |      
+      __end_of_MmcAddCrc7       4text Æ                      _MMC_Init       4text     
+                _MMC_Read       4text ∫                   ?_Command_R0       4 ?_Command_R0     
+             ?_Command_R1       4 ?_Command_R1                  ?_Command_R2       4 ?_Command_R2     
+             ?_Command_R3       4 ?_Command_R3                    ?_MMC_Read       4 ?_MMC_Read  b   
+                 postinc0 000FEE                   postinc1 000FE6  
+             ?a_MMC_Write       4 ?a_MMC_Write  ?                     tblptrl 000FF6  
+              ?a_MMC_Init       4 ?a_MMC_Init     
+   

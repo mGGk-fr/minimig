@@ -1,0 +1,1094 @@
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+                                                       Mon Dec 07 22:12:02 2009
+
+
+     1                           	processor	18F252
+     2                           	opt	pw 80
+     3                           	psect	text,global,reloc=2,class=CODE,delta=1
+     4                           	psect	intcode,global,reloc=2,class=CODE,delta=1
+     5                           	psect	bss,global,class=RAM,space=1,delta=1
+     6                           	psect	temp,global,ovrld,common,class=COMRAM,spa
+      +                          ce=1,delta=1
+     7                           	psect	intsave_regs,global,class=BIGRAM,space=1,
+      +                          delta=1
+     8  000000                     
+     9  000000                     
+    10  000000                     
+    11  000000                     
+    12  000000                     
+    13  000000                     
+    14  000000                     
+    15  000000                     
+    16  000000                     
+    17  000000                     
+    18  000000                     
+    19  000000                     
+    20  000000                     
+    21  000000                     
+    22  000000                     
+    23  000000                     
+    24  000000                     
+    25  000000                     
+    26  000000                     
+    27  000000                     
+    28  000000                     
+    29  000000                     
+    30  000000                     
+    31  000000                     
+    32  000000                     
+    33  000000                     
+    34  000000                     
+    35  000000                     
+    36  000000                     
+    37  000000                     
+    38  000000                     
+    39  000000                     
+    40  000000                     
+    41  000000                     
+    42  000000                     
+    43  000000                     
+    44  000000                     
+    45  000000                     
+    46  000000                     
+    47  000000                     
+    48  000000                     
+    49  000000                     
+    50  000000                     
+    51  000000                     
+    52  000000                     
+    53  000000                     
+    54  000000                     
+    55  000000                     
+    56  000000                     
+    57  000000                     
+    58  000000                     
+    59  000000                     
+    60  000000                     
+    61  000000                     
+    62  000000                     
+    63  000000                     
+    64  000000                     
+    65  000000                     
+    66  000000                     
+    67  000000                     
+    68  000000                     
+    69  000000                     
+    70  000000                     
+    71  000000                     
+    72  000000                     
+    73  000000                     
+    74  000000                     
+    75  000000                     
+    76  000000                     
+    77  000000                     
+    78  000000                     
+    79  000000                     
+    80  000000                     
+    81  000000                     
+    82  000000                     
+    83  000000                     
+    84  000000                     
+    85  000000                     
+    86  000000                     
+    87  000000                     
+    88  000000                     
+    89  000000                     
+    90  000000                     
+    91  000000                     
+    92  000000                     
+    93  000000                     
+    94  000000                     
+    95  000000                     
+    96  000000                     
+    97                           
+    98                           	psect	text
+    99                           ;pic18fxx2.h: 21: static volatile near unsigned 
+      +                          char TOSU @ 0xFFF;
+   100                           ;pic18fxx2.h: 22: static volatile near unsigned 
+      +                          char TOSH @ 0xFFE;
+   101                           ;pic18fxx2.h: 23: static volatile near unsigned 
+      +                          char TOSL @ 0xFFD;
+   102                           ;pic18fxx2.h: 24: static volatile near unsigned 
+      +                          char STKPTR @ 0xFFC;
+   103                           ;pic18fxx2.h: 25: static volatile near unsigned 
+      +                          char PCLATU @ 0xFFB;
+   104                           ;pic18fxx2.h: 26: static volatile near unsigned 
+      +                          char PCLATH @ 0xFFA;
+   105                           ;pic18fxx2.h: 27: static volatile near unsigned 
+      +                          char PCL @ 0xFF9;
+   106                           ;pic18fxx2.h: 28: static volatile far unsigned c
+      +                          har * TBLPTR @ 0xFF6;
+   107                           ;pic18fxx2.h: 29: static volatile near unsigned 
+      +                          char TBLPTRU @ 0xFF8;
+   108                           ;pic18fxx2.h: 30: static volatile near unsigned 
+      +                          char TBLPTRH @ 0xFF7;
+   109                           ;pic18fxx2.h: 31: static volatile near unsigned 
+      +                          char TBLPTRL @ 0xFF6;
+   110                           ;pic18fxx2.h: 32: static volatile near unsigned 
+      +                          char TABLAT @ 0xFF5;
+   111                           ;pic18fxx2.h: 33: static volatile near unsigned 
+      +                          char PRODH @ 0xFF4;
+   112                           ;pic18fxx2.h: 34: static volatile near unsigned 
+      +                          char PRODL @ 0xFF3;
+   113                           ;pic18fxx2.h: 35: static volatile near unsigned 
+      +                          char INTCON @ 0xFF2;
+   114                           ;pic18fxx2.h: 36: static near unsigned char INTC
+      +                          ON2 @ 0xFF1;
+   115                           ;pic18fxx2.h: 37: static volatile near unsigned 
+      +                          char INTCON3 @ 0xFF0;
+   116                           ;pic18fxx2.h: 38: static volatile near unsigned 
+      +                          char INDF0 @ 0xFEF;
+   117                           ;pic18fxx2.h: 39: static volatile near unsigned 
+      +                          char POSTINC0 @ 0xFEE;
+   118                           ;pic18fxx2.h: 40: static volatile near unsigned 
+      +                          char POSTDEC0 @ 0xFED;
+   119                           ;pic18fxx2.h: 41: static volatile near unsigned 
+      +                          char PREINC0 @ 0xFEC;
+   120                           ;pic18fxx2.h: 42: static volatile near unsigned 
+      +                          char PLUSW0 @ 0xFEB;
+   121                           ;pic18fxx2.h: 43: static volatile near unsigned 
+      +                          char FSR0H @ 0xFEA;
+   122                           ;pic18fxx2.h: 44: static volatile near unsigned 
+      +                          char FSR0L @ 0xFE9;
+   123                           ;pic18fxx2.h: 45: static volatile near unsigned 
+      +                          char WREG @ 0xFE8;
+   124                           ;pic18fxx2.h: 46: static volatile near unsigned 
+      +                          char INDF1 @ 0xFE7;
+   125                           ;pic18fxx2.h: 47: static volatile near unsigned 
+      +                          char POSTINC1 @ 0xFE6;
+   126                           ;pic18fxx2.h: 48: static volatile near unsigned 
+      +                          char POSTDEC1 @ 0xFE5;
+   127                           ;pic18fxx2.h: 49: static volatile near unsigned 
+      +                          char PREINC1 @ 0xFE4;
+   128                           ;pic18fxx2.h: 50: static volatile near unsigned 
+      +                          char PLUSW1 @ 0xFE3;
+   129                           ;pic18fxx2.h: 51: static volatile near unsigned 
+      +                          char FSR1H @ 0xFE2;
+   130                           ;pic18fxx2.h: 52: static volatile near unsigned 
+      +                          char FSR1L @ 0xFE1;
+   131                           ;pic18fxx2.h: 53: static near unsigned char BSR 
+      +                          @ 0xFE0;
+   132                           ;pic18fxx2.h: 54: static volatile near unsigned 
+      +                          char INDF2 @ 0xFDF;
+   133                           ;pic18fxx2.h: 55: static volatile near unsigned 
+      +                          char POSTINC2 @ 0xFDE;
+   134                           ;pic18fxx2.h: 56: static volatile near unsigned 
+      +                          char POSTDEC2 @ 0xFDD;
+   135                           ;pic18fxx2.h: 57: static volatile near unsigned 
+      +                          char PREINC2 @ 0xFDC;
+   136                           ;pic18fxx2.h: 58: static volatile near unsigned 
+      +                          char PLUSW2 @ 0xFDB;
+   137                           ;pic18fxx2.h: 59: static volatile near unsigned 
+      +                          char FSR2H @ 0xFDA;
+   138                           ;pic18fxx2.h: 60: static volatile near unsigned 
+      +                          char FSR2L @ 0xFD9;
+   139                           ;pic18fxx2.h: 61: static volatile near unsigned 
+      +                          char STATUS @ 0xFD8;
+   140                           ;pic18fxx2.h: 62: static volatile near unsigned 
+      +                          int TMR0 @ 0xFD6;
+   141                           ;pic18fxx2.h: 63: static volatile near unsigned 
+      +                          char TMR0H @ 0xFD7;
+   142                           ;pic18fxx2.h: 64: static volatile near unsigned 
+      +                          char TMR0L @ 0xFD6;
+   143                           ;pic18fxx2.h: 65: static near unsigned char T0CO
+      +                          N @ 0xFD5;
+   144                           ;pic18fxx2.h: 66: static volatile near unsigned 
+      +                          char OSCCON @ 0xFD3;
+   145                           ;pic18fxx2.h: 67: static volatile near unsigned 
+      +                          char LVDCON @ 0xFD2;
+   146                           ;pic18fxx2.h: 68: static near unsigned char WDTC
+      +                          ON @ 0xFD1;
+   147                           ;pic18fxx2.h: 69: static volatile near unsigned 
+      +                          char RCON @ 0xFD0;
+   148                           ;pic18fxx2.h: 70: static volatile near unsigned 
+      +                          int TMR1 @ 0xFCE;
+   149                           ;pic18fxx2.h: 71: static volatile near unsigned 
+      +                          char TMR1H @ 0xFCF;
+   150                           ;pic18fxx2.h: 72: static volatile near unsigned 
+      +                          char TMR1L @ 0xFCE;
+   151                           ;pic18fxx2.h: 73: static near unsigned char T1CO
+      +                          N @ 0xFCD;
+   152                           ;pic18fxx2.h: 74: static volatile near unsigned 
+      +                          char TMR2 @ 0xFCC;
+   153                           ;pic18fxx2.h: 75: static volatile near unsigned 
+      +                          char PR2 @ 0xFCB;
+   154                           ;pic18fxx2.h: 76: static near unsigned char T2CO
+      +                          N @ 0xFCA;
+   155                           ;pic18fxx2.h: 77: static volatile near unsigned 
+      +                          char SSPBUF @ 0xFC9;
+   156                           ;pic18fxx2.h: 78: static volatile near unsigned 
+      +                          char SSPADD @ 0xFC8;
+   157                           ;pic18fxx2.h: 79: static volatile near unsigned 
+      +                          char SSPSTAT @ 0xFC7;
+   158                           ;pic18fxx2.h: 80: static volatile near unsigned 
+      +                          char SSPCON1 @ 0xFC6;
+   159                           ;pic18fxx2.h: 81: static volatile near unsigned 
+      +                          char SSPCON2 @ 0xFC5;
+   160                           ;pic18fxx2.h: 82: static volatile near unsigned 
+      +                          int ADRES @ 0xFC3;
+   161                           ;pic18fxx2.h: 83: static volatile near unsigned 
+      +                          char ADRESH @ 0xFC4;
+   162                           ;pic18fxx2.h: 84: static volatile near unsigned 
+      +                          char ADRESL @ 0xFC3;
+   163                           ;pic18fxx2.h: 85: static volatile near unsigned 
+      +                          char ADCON0 @ 0xFC2;
+   164                           ;pic18fxx2.h: 86: static near unsigned char ADCO
+      +                          N1 @ 0xFC1;
+   165                           ;pic18fxx2.h: 87: static volatile near unsigned 
+      +                          int CCPR1 @ 0xFBE;
+   166                           ;pic18fxx2.h: 88: static volatile near unsigned 
+      +                          char CCPR1H @ 0xFBF;
+   167                           ;pic18fxx2.h: 89: static volatile near unsigned 
+      +                          char CCPR1L @ 0xFBE;
+   168                           ;pic18fxx2.h: 90: static volatile near unsigned 
+      +                          char CCP1CON @ 0xFBD;
+   169                           ;pic18fxx2.h: 91: static volatile near unsigned 
+      +                          int CCPR2 @ 0xFBB;
+   170                           ;pic18fxx2.h: 92: static volatile near unsigned 
+      +                          char CCPR2H @ 0xFBC;
+   171                           ;pic18fxx2.h: 93: static volatile near unsigned 
+      +                          char CCPR2L @ 0xFBB;
+   172                           ;pic18fxx2.h: 94: static volatile near unsigned 
+      +                          char CCP2CON @ 0xFBA;
+   173                           ;pic18fxx2.h: 95: static volatile near unsigned 
+      +                          int TMR3 @ 0xFB2;
+   174                           ;pic18fxx2.h: 96: static volatile near unsigned 
+      +                          char TMR3H @ 0xFB3;
+   175                           ;pic18fxx2.h: 97: static volatile near unsigned 
+      +                          char TMR3L @ 0xFB2;
+   176                           ;pic18fxx2.h: 98: static near unsigned char T3CO
+      +                          N @ 0xFB1;
+   177                           ;pic18fxx2.h: 99: static near unsigned char SPBR
+      +                          G @ 0xFAF;
+   178                           ;pic18fxx2.h: 100: static volatile near unsigned
+      +                           char RCREG @ 0xFAE;
+   179                           ;pic18fxx2.h: 101: static volatile near unsigned
+      +                           char TXREG @ 0xFAD;
+   180                           ;pic18fxx2.h: 102: static volatile near unsigned
+      +                           char TXSTA @ 0xFAC;
+   181                           ;pic18fxx2.h: 103: static volatile near unsigned
+      +                           char RCSTA @ 0xFAB;
+   182                           ;pic18fxx2.h: 104: static volatile near unsigned
+      +                           char EEADR @ 0xFA9;
+   183                           ;pic18fxx2.h: 105: static volatile near unsigned
+      +                           char EEDATA @ 0xFA8;
+   184                           ;pic18fxx2.h: 106: static volatile near unsigned
+      +                           char EECON2 @ 0xFA7;
+   185                           ;pic18fxx2.h: 107: static volatile near unsigned
+      +                           char EECON1 @ 0xFA6;
+   186                           ;pic18fxx2.h: 108: static near unsigned char IPR
+      +                          2 @ 0xFA2;
+   187                           ;pic18fxx2.h: 109: static volatile near unsigned
+      +                           char PIR2 @ 0xFA1;
+   188                           ;pic18fxx2.h: 110: static near unsigned char PIE
+      +                          2 @ 0xFA0;
+   189                           ;pic18fxx2.h: 111: static near unsigned char IPR
+      +                          1 @ 0xF9F;
+   190                           ;pic18fxx2.h: 112: static volatile near unsigned
+      +                           char PIR1 @ 0xF9E;
+   191                           ;pic18fxx2.h: 113: static near unsigned char PIE
+      +                          1 @ 0xF9D;
+   192                           ;pic18fxx2.h: 114: static volatile near unsigned
+      +                           char TRISC @ 0xF94;
+   193                           ;pic18fxx2.h: 115: static volatile near unsigned
+      +                           char TRISB @ 0xF93;
+   194                           ;pic18fxx2.h: 116: static volatile near unsigned
+      +                           char TRISA @ 0xF92;
+   195                           ;pic18fxx2.h: 117: static volatile near unsigned
+      +                           char LATC @ 0xF8B;
+   196                           ;pic18fxx2.h: 118: static volatile near unsigned
+      +                           char LATB @ 0xF8A;
+   197                           ;pic18fxx2.h: 119: static volatile near unsigned
+      +                           char LATA @ 0xF89;
+   198                           ;pic18fxx2.h: 120: static volatile near unsigned
+      +                           char PORTC @ 0xF82;
+   199  00777C                     _HardwareInit:
+   200                           ;       param _time assigned to ?_WaitTimer+0
+   201  000000                     _WaitTimer$time	set	?_WaitTimer
+   202                           ;       param _t assigned to ?_CheckTimer+0
+   203  000000                     _CheckTimer$t	set	?_CheckTimer
+   204                           ; errata NOP at function entry point
+   205  00777C  FFFF               	dw	65535
+   206  00777E                     f3902:
+   207  000000                     
+   208                           ;hardware.c: 45: ADCON1 = 0b00000110;
+   209  00777E  0E06               	movlw	6
+   210  007780  6EC1               	movwf	4033,c
+   211                           ;hardware.c: 48: PORTA = 0b00100011;
+   212  007782  0E23               	movlw	35
+   213  007784  6E80               	movwf	3968,c	;volatile
+   214                           ;hardware.c: 49: PORTB = 0b01100000;
+   215  007786  0E60               	movlw	96
+   216  007788  6E81               	movwf	3969,c	;volatile
+   217                           ;hardware.c: 50: PORTC = 0b00010001;
+   218  00778A  0E11               	movlw	17
+   219  00778C  6E82               	movwf	3970,c	;volatile
+   220                           ;hardware.c: 53: RBPU = 0;
+   221  00778E  9EF1               	bcf	intcon2,7,c
+   222                           ;hardware.c: 56: SSPSTAT = 0x00;
+   223  007790  6AC7               	clrf	4039,c	;volatile
+   224                           ;hardware.c: 57: SSPCON1 = 0x32;
+   225  007792  0E32               	movlw	50
+   226  007794  6EC6               	movwf	4038,c	;volatile
+   227                           ;hardware.c: 60: TRISA = 0b11001100;
+   228  007796  0ECC               	movlw	204
+   229  007798  6E92               	movwf	3986,c	;volatile
+   230                           ;hardware.c: 61: TRISB = 0b00001011;
+   231  00779A  0E0B               	movlw	11
+   232  00779C  6E93               	movwf	3987,c	;volatile
+   233                           ;hardware.c: 62: TRISC = 0b10010000;
+   234  00779E  0E90               	movlw	144
+   235  0077A0  6E94               	movwf	3988,c	;volatile
+   236                           ;hardware.c: 66: SPBRG = 10;
+   237  0077A2  0E0A               	movlw	10
+   238  0077A4  6EAF               	movwf	4015,c
+   239                           ;hardware.c: 67: TXSTA = 0x24;
+   240  0077A6  0E24               	movlw	36
+   241  0077A8  6EAC               	movwf	4012,c	;volatile
+   242                           ;hardware.c: 68: RCSTA = 0x90;
+   243  0077AA  0E90               	movlw	144
+   244  0077AC  6EAB               	movwf	4011,c	;volatile
+   245                           ;hardware.c: 71: T0CON = 0xc7;
+   246  0077AE  0EC7               	movlw	199
+   247  0077B0  6ED5               	movwf	4053,c
+   248                           ;hardware.c: 74: TMR0IE = 1;
+   249  0077B2  8AF2               	bsf	intcon,5,c
+   250                           ;hardware.c: 75: GIE = 1;
+   251  0077B4  8EF2               	bsf	intcon,7,c
+   252                           ;hardware.c: 76: }
+   253  0077B6  0CC7               	retlw	199
+   254  0077B8  FFFF               	dw	65535	; Nop inserted for errata
+   255  0077BA  D7E1               	goto	f3902
+   256  0077BC                     __end_of_HardwareInit:
+   257                           ;hardware.c: 79: void interrupt intservice(void)
+   258                           ;hardware.c: 80: {
+   259  0077BC                     _intservice:
+   260                           ; errata NOP at function entry point
+   261  0077BC  FFFF               	dw	65535
+   262  0077BE                     int_func:
+   263  0077BE                     f3912:
+   264  000000                     
+   265                           ;hardware.c: 82: TMR0IF = 0;
+   266  0077BE  94F2               	bcf	intcon,2,c	;volatile
+   267                           ;hardware.c: 87: TMR0 -= 195;
+   268  0077C0  0E3D               	movlw	61
+   269  0077C2  26D6               	addwf	4054,f,c	;volatile
+   270  0077C4  0EFF               	movlw	255
+   271  0077C6  22D7               	addwfc	4055,f,c	;volatile
+   272                           ;hardware.c: 90: systimer++;
+   273  0077C8  0100               	movlb	_systimer shr (0+8)
+   274  0077CA  2B1C               	incf	_systimer& (0+255),f,b
+   275  0077CC  0E00               	movlw	0
+   276  0077CE  231D               	addwfc	(_systimer+1)& (0+255),f,b
+   277                           ;hardware.c: 91: }
+   278  0077D0                     restore:
+   279  0077D0  0011               	retfie		f
+   280  0077D2  FFFF               	dw	65535	; Nop inserted for errata
+   281  0077D4  D7F4               	goto	f3912
+   282  0077D6                     save:
+   283  0077D6  FFFF               	dw	65535	; Nop inserted for errata
+   284  0077D8  D7F1               	goto	_intservice
+   285  0077DA                     __end_of_intservice:
+   286                           ;       param _offset assigned to ?_GetTimer+0
+   287  000000                     _GetTimer$offset	set	?_GetTimer
+   288                           ;hardware.c: 94: unsigned short GetTimer(unsigne
+      +                          d short offset)
+   289                           ;hardware.c: 95: {
+   290  0077DA  0048               	dw	?_GetTimer
+   291  0077DC                     _GetTimer:
+   292                           ; errata NOP at function entry point
+   293  0077DC  FFFF               	dw	65535
+   294  0077DE                     f3922:
+   295  000000                     
+   296                           ;hardware.c: 96: unsigned short r;
+   297  0077DE  9EF2               	bcf	intcon,7,c
+   298                           ;hardware.c: 100: r = systimer;
+   299  0077E0  C01C  FFF3         	movff	_systimer,prodl
+   300  0077E4  C01D  FFF4         	movff	_systimer+1,prodh
+   301                           ;hardware.c: 101: GIE = 1;
+   302  0077E8  8EF2               	bsf	intcon,7,c
+   303                           ;hardware.c: 104: r += offset;
+   304  0077EA  0100               	movlb	__Lparam shr (0+8)
+   305  0077EC  5148               	movf	?_GetTimer^(__Lparam& (0+65280)),w
+   306  0077EE  26F3               	addwf	prodl,f,c
+   307  0077F0  5149               	movf	(?_GetTimer+1)^(__Lparam& (0+65280)),w
+   308  0077F2  22F4               	addwfc	prodh,f,c
+   309                           ;hardware.c: 106: return(r);
+   310  0077F4  CFF3 F000          	movff	prodl,btemp
+   311  0077F8  CFF4 F001          	movff	prodh,btemp+1
+   312                           ;hardware.c: 107: }
+   313  0077FC  0012               	return	
+   314  0077FE  FFFF               	dw	65535	; Nop inserted for errata
+   315  007800  D7EE               	goto	f3922
+   316  007802                     __end_of_GetTimer:
+   317                           ;hardware.c: 111: unsigned char CheckTimer(unsig
+      +                          ned short t)
+   318                           ;hardware.c: 112: {
+   319  007802  0048               	dw	?_CheckTimer
+   320  007804                     _CheckTimer:
+   321                           ; errata NOP at function entry point
+   322  007804  FFFF               	dw	65535
+   323  007806                     f3932:
+   324  000000                     
+   325                           ;hardware.c: 114: GIE = 0;
+   326  007806  9EF2               	bcf	intcon,7,c
+   327                           ;hardware.c: 115: t -= systimer;
+   328  007808  C01C  F000         	movff	_systimer,btemp
+   329  00780C  C01D  F001         	movff	_systimer+1,btemp+1
+   330  007810  0100               	movlb	__Lparam shr (0+8)
+   331  007812  5000               	movf	btemp,w,c
+   332  007814  5F48               	subwf	?_CheckTimer^(__Lparam& (0+65280)),f,b
+   333  007816  5001               	movf	btemp+1,w,c
+   334  007818  5B49               	subwfb	(?_CheckTimer+1)^(__Lparam& (0+65280)),f
+      +                          ,b
+   335                           ;hardware.c: 116: GIE = 1;
+   336  00781A  8EF2               	bsf	intcon,7,c
+   337                           ;hardware.c: 119: if (t>30000)
+   338  00781C  0E75               	movlw	117
+   339  00781E  5D49               	subwf	(?_CheckTimer+1)^(__Lparam& (0+65280)),w
+   340  007820  0E31               	movlw	49
+   341  007822  B4D8               	btfsc	status,2,c
+   342  007824  5D48               	subwf	?_CheckTimer^(__Lparam& (0+65280)),w
+   343  007826  E302               	bnc	l5
+   344                           ;hardware.c: 120: { return(1); }
+   345  007828  0E01               	movlw	1
+   346  00782A  D001               	goto	l4
+   347  00782C                     l5:
+   348                           ;hardware.c: 121: else
+   349  00782C  0E00               	movlw	0
+   350                           ;hardware.c: 123: }
+   351  00782E                     l4:
+   352  00782E  0012               	return	
+   353  007830  FFFF               	dw	65535	; Nop inserted for errata
+   354  007832  D7E9               	goto	f3932
+   355  007834                     __end_of_CheckTimer:
+   356                           ;hardware.c: 125: void WaitTimer(unsigned short 
+      +                          time)
+   357                           ;hardware.c: 126: {
+   358  007834  0040               	dw	?_WaitTimer
+   359  007836                     _WaitTimer:
+   360                           ; errata NOP at function entry point
+   361  007836  FFFF               	dw	65535
+   362  007838                     f3942:
+   363  000000                     
+   364                           ;hardware.c: 127: time = GetTimer(time);
+   365  007838  C040  F048         	movff	?_WaitTimer,?_GetTimer
+   366  00783C  C041  F049         	movff	?_WaitTimer+1,?_GetTimer+1
+   367  007840  DFCD               	call	_GetTimer	;wreg free
+   368  007842  C000  F040         	movff	btemp,?_WaitTimer
+   369  007846  C001  F041         	movff	btemp+1,?_WaitTimer+1
+   370                           ;hardware.c: 128: while (!CheckTimer(time));
+   371  00784A                     l8:
+   372  00784A  C040  F048         	movff	?_WaitTimer,?_CheckTimer
+   373  00784E  C041  F049         	movff	?_WaitTimer+1,?_CheckTimer+1
+   374  007852  DFD8               	call	_CheckTimer	;wreg free
+   375  007854  6E00               	movwf	btemp,c
+   376  007856  C000  F002         	movff	btemp,btemp+2
+   377  00785A  6A03               	clrf	btemp+3,c
+   378  00785C  5003               	movf	btemp+3,w,c
+   379  00785E  1002               	iorwf	btemp+2,w,c
+   380  007860  A4D8               	btfss	status,2,c
+   381                           ;hardware.c: 129: }
+   382  007862  0012               	return	
+   383  007864  D7F2               	goto	l8
+   384  007866  FFFF               	dw	65535	; Nop inserted for errata
+   385  007868  D7E7               	goto	f3942
+   386  00786A                     __end_of_WaitTimer:
+   387                           ;hardware.c: 133: unsigned char SPI(unsigned cha
+      +                          r d)
+   388                           ;hardware.c: 134: {
+   389  00786A                     _SPI:
+   390                           ; errata NOP at function entry point
+   391  00786A  FFFF               	dw	65535
+   392  00786C                     f3952:
+   393  000000                     
+   394                           ;hardware.c: 135: SSPBUF = d;
+   395  00786C  6EC9               	movwf	4041,c	;volatile
+   396                           ;hardware.c: 136: while (!BF);
+   397  00786E                     l12:
+   398  00786E  A0C7               	btfss	4039,0,c	;volatile
+   399  007870  D7FE               	goto	l12
+   400                           ;hardware.c: 137: return(SSPBUF);
+   401  007872  50C9               	movf	4041,w,c	;volatile
+   402                           ;hardware.c: 138: }
+   403  007874  0012               	return	
+   404  007876  FFFF               	dw	65535	; Nop inserted for errata
+   405  007878  D7F9               	goto	f3952
+   406  00787A                     __end_of_SPI:
+   407                           ;hardware.c: 141: unsigned char OsdCommand(unsig
+      +                          ned char d)
+   408                           ;hardware.c: 142: {
+   409  00787A                     _OsdCommand:
+   410                           ; errata NOP at function entry point
+   411  00787A  FFFF               	dw	65535
+   412  00787C                     f3962:
+   413  000000                     
+   414                           ; _d loaded to fsr1l
+   415  00787C  6EE1               	movwf	fsr1l,c
+   416                           ;hardware.c: 143: unsigned char c;
+   417  00787E  9A81               	bcf	3969,5,c	;volatile
+   418                           ;hardware.c: 146: c = SPI(d);
+   419  007880  50E1               	movf	fsr1l,w,c
+   420  007882  DFF3               	call	_SPI
+   421  007884  6ED9               	movwf	fsr2l,c
+   422                           ;hardware.c: 147: RB5=1;
+   423  007886  8A81               	bsf	3969,5,c	;volatile
+   424                           ;hardware.c: 149: return c;
+   425  007888  50D9               	movf	fsr2l,w,c
+   426                           ;hardware.c: 150: }
+   427  00788A  0012               	return	
+   428  00788C  FFFF               	dw	65535	; Nop inserted for errata
+   429  00788E  D7F6               	goto	f3962
+   430  007890                     __end_of_OsdCommand:
+   431                           ;hardware.c: 153: void ShiftFpga(unsigned char d
+      +                          ata)
+   432                           ;hardware.c: 154: {
+   433  007890                     _ShiftFpga:
+   434                           ; errata NOP at function entry point
+   435  007890  FFFF               	dw	65535
+   436  007892                     f3972:
+   437  000000                     
+   438                           ;hardware.c: 156: LATB7 = 0;
+   439  007892  9E8A               	bcf	3978,7,c	;volatile
+   440                           ;hardware.c: 157: LATA5 = 0;
+   441  007894  9A89               	bcf	3977,5,c	;volatile
+   442                           ;hardware.c: 158: if (data&0x80)
+   443  007896  BEE8               	btfsc	wreg,7,c
+   444                           ;hardware.c: 159: LATB7 = 1;
+   445  007898  8E8A               	bsf	3978,7,c	;volatile
+   446                           ;hardware.c: 160: LATA5 = 1;
+   447  00789A  8A89               	bsf	3977,5,c	;volatile
+   448                           ;hardware.c: 163: LATB7 = 0;
+   449  00789C  9E8A               	bcf	3978,7,c	;volatile
+   450                           ;hardware.c: 164: LATA5 = 0;
+   451  00789E  9A89               	bcf	3977,5,c	;volatile
+   452                           ;hardware.c: 165: if (data&0x40)
+   453  0078A0  BCE8               	btfsc	wreg,6,c
+   454                           ;hardware.c: 166: LATB7 = 1;
+   455  0078A2  8E8A               	bsf	3978,7,c	;volatile
+   456                           ;hardware.c: 167: LATA5 = 1;
+   457  0078A4  8A89               	bsf	3977,5,c	;volatile
+   458                           ;hardware.c: 170: LATB7 = 0;
+   459  0078A6  9E8A               	bcf	3978,7,c	;volatile
+   460                           ;hardware.c: 171: LATA5 = 0;
+   461  0078A8  9A89               	bcf	3977,5,c	;volatile
+   462                           ;hardware.c: 172: if (data&0x20)
+   463  0078AA  BAE8               	btfsc	wreg,5,c
+   464                           ;hardware.c: 173: LATB7 = 1;
+   465  0078AC  8E8A               	bsf	3978,7,c	;volatile
+   466                           ;hardware.c: 174: LATA5 = 1;
+   467  0078AE  8A89               	bsf	3977,5,c	;volatile
+   468                           ;hardware.c: 177: LATB7 = 0;
+   469  0078B0  9E8A               	bcf	3978,7,c	;volatile
+   470                           ;hardware.c: 178: LATA5 = 0;
+   471  0078B2  9A89               	bcf	3977,5,c	;volatile
+   472                           ;hardware.c: 179: if (data&0x10)
+   473  0078B4  B8E8               	btfsc	wreg,4,c
+   474                           ;hardware.c: 180: LATB7 = 1;
+   475  0078B6  8E8A               	bsf	3978,7,c	;volatile
+   476                           ;hardware.c: 181: LATA5 = 1;
+   477  0078B8  8A89               	bsf	3977,5,c	;volatile
+   478                           ;hardware.c: 184: LATB7 = 0;
+   479  0078BA  9E8A               	bcf	3978,7,c	;volatile
+   480                           ;hardware.c: 185: LATA5 = 0;
+   481  0078BC  9A89               	bcf	3977,5,c	;volatile
+   482                           ;hardware.c: 186: if (data&0x08)
+   483  0078BE  B6E8               	btfsc	wreg,3,c
+   484                           ;hardware.c: 187: LATB7 = 1;
+   485  0078C0  8E8A               	bsf	3978,7,c	;volatile
+   486                           ;hardware.c: 188: LATA5 = 1;
+   487  0078C2  8A89               	bsf	3977,5,c	;volatile
+   488                           ;hardware.c: 191: LATB7 = 0;
+   489  0078C4  9E8A               	bcf	3978,7,c	;volatile
+   490                           ;hardware.c: 192: LATA5 = 0;
+   491  0078C6  9A89               	bcf	3977,5,c	;volatile
+   492                           ;hardware.c: 193: if (data&0x04)
+   493  0078C8  B4E8               	btfsc	wreg,2,c
+   494                           ;hardware.c: 194: LATB7 = 1;
+   495  0078CA  8E8A               	bsf	3978,7,c	;volatile
+   496                           ;hardware.c: 195: LATA5 = 1;
+   497  0078CC  8A89               	bsf	3977,5,c	;volatile
+   498                           ;hardware.c: 198: LATB7 = 0;
+   499  0078CE  9E8A               	bcf	3978,7,c	;volatile
+   500                           ;hardware.c: 199: LATA5 = 0;
+   501  0078D0  9A89               	bcf	3977,5,c	;volatile
+   502                           ;hardware.c: 200: if (data&0x02)
+   503  0078D2  B2E8               	btfsc	wreg,1,c
+   504                           ;hardware.c: 201: LATB7 = 1;
+   505  0078D4  8E8A               	bsf	3978,7,c	;volatile
+   506                           ;hardware.c: 202: LATA5 = 1;
+   507  0078D6  8A89               	bsf	3977,5,c	;volatile
+   508                           ;hardware.c: 205: LATB7 = 0;
+   509  0078D8  9E8A               	bcf	3978,7,c	;volatile
+   510                           ;hardware.c: 206: LATA5 = 0;
+   511  0078DA  9A89               	bcf	3977,5,c	;volatile
+   512                           ;hardware.c: 207: if (data&0x01)
+   513  0078DC  B0E8               	btfsc	wreg,0,c
+   514                           ;hardware.c: 208: LATB7 = 1;
+   515  0078DE  8E8A               	bsf	3978,7,c	;volatile
+   516                           ;hardware.c: 209: LATA5 = 1;
+   517  0078E0  8A89               	bsf	3977,5,c	;volatile
+   518                           ;hardware.c: 210: }
+   519  0078E2  0012               	return	
+   520  0078E4  FFFF               	dw	65535	; Nop inserted for errata
+   521  0078E6  D7D5               	goto	f3972
+   522  0078E8                     __end_of_ShiftFpga:
+   523                           ;hardware.c: 214: void putch(unsigned char ch)
+   524                           ;hardware.c: 215: {
+   525  0078E8                     _putch:
+   526                           ; errata NOP at function entry point
+   527  0078E8  FFFF               	dw	65535
+   528  0078EA                     f3982:
+   529  000000                     
+   530                           ;hardware.c: 216: while(TRMT == 0);
+   531  0078EA                     l26:
+   532  0078EA  A2AC               	btfss	4012,1,c	;volatile
+   533  0078EC  D7FE               	goto	l26
+   534                           ;hardware.c: 217: TXREG = ch;
+   535  0078EE  6EAD               	movwf	4013,c	;volatile
+   536                           ;hardware.c: 218: }
+   537  0078F0  0012               	return	
+   538  0078F2  FFFF               	dw	65535	; Nop inserted for errata
+   539  0078F4  D7FA               	goto	f3982
+   540  0078F6                     __end_of_putch:
+   541  000000                     
+   542  000000                     
+   543  000000                     
+   544  000000                     
+   545  000000                     
+   546  000000                     
+   547  000000                     
+   548  000000                     
+   549  000000                     
+   550  000000                     
+   551  000000                     
+   552  000000                     
+   553  000000                     
+   554  000000                     
+   555  000000                     
+   556  000000                     
+   557  000000                     
+   558  000000                     
+   559  000000                     
+   560  000000                     
+   561  000000                     
+   562  000000                     
+   563  000000                     
+   564  000000                     
+   565  000000                     
+   566  000000                     
+   567  000000                     
+   568  000000                     
+   569  000000                     
+   570  000000                     
+   571  000000                     
+   572  000000                     
+   573  000000                     
+   574  000000                     
+   575  000000                     
+   576  000000                     
+   577  000000                     
+   578  000000                     
+   579  000000                     
+   580  000000                     
+   581  000000                     
+   582  000000                     
+   583  000000                     
+   584  000000                     
+   585  000000                     
+   586  000000                     
+   587  000000                     
+   588  000000                     
+   589  000000                     
+   590  000000                     
+   591  000000                     
+   592  000000                     
+   593  000000                     
+   594  000000                     
+   595  000000                     
+   596  000000                     
+   597  000000                     
+   598  000000                     
+   599  000000                     
+   600  000000                     
+   601  000000                     
+   602  000000                     
+   603  000000                     
+   604  000000                     
+   605  000000                     
+   606  000000                     
+   607  000000                     
+   608  000000                     
+   609  000000                     
+   610  000000                     
+   611  000000                     
+   612  000000                     
+   613  000000                     
+   614  000000                     
+   615  000000                     
+   616  000000                     
+   617  000000                     
+   618  000000                     
+   619  000000                     
+   620  000000                     
+   621  000000                     
+   622  000000                     
+   623  000000                     
+   624  000000                     
+   625  000000                     
+   626  000000                     
+   627  000000                     
+   628  000000                     
+   629  000000                     
+   630  000000                     
+   631  000000                     
+   632  000000                     
+   633  000000                     
+   634  000000                     
+   635  000000                     
+   636  000000                     
+   637  000000                     
+   638  000000                     
+   639  000000                     
+   640  000000                     
+   641  000000                     
+   642  000000                     
+   643  000000                     
+   644  000000                     
+   645  000000                     
+   646  000000                     
+   647  000000                     
+   648  000000                     
+   649  000000                     
+   650  000000                     
+   651  000000                     
+   652  000000                     
+   653  000000                     
+   654  000000                     
+   655  000000                     
+   656  000000                     
+   657  000000                     
+   658  000000                     
+   659  000000                     
+   660  000000                     
+   661  000000                     
+   662  000000                     
+   663  000000                     
+   664  000000                     
+   665  000000                     
+   666  000000                     
+   667  000000                     
+   668  000000                     
+   669  000000                     
+   670  000000                     
+   671  000000                     
+   672  000000                     
+   673  000000                     
+   674  000000                     
+   675  000000                     
+   676  000000                     
+   677  000000                     
+   678  000000                     
+   679  000000                     
+   680  000000                     
+   681  000000                     
+   682  000000                     
+   683  000000                     
+   684  000000                     
+   685  000000                     
+   686  000000                     
+   687  000000                     
+   688  000000                     
+   689  000000                     
+   690  000000                     
+   691  000000                     
+   692  000000                     
+   693  000000                     
+   694  000000                     
+   695  000000                     
+   696  000000                     
+   697  000000                     
+   698  000000                     
+   699  000000                     
+   700  000000                     
+   701  000000                     
+   702  000000                     
+   703  000000                     
+   704  000000                     
+   705  000000                     
+   706  000000                     
+   707  000000                     
+   708  000000                     
+   709  000000                     
+   710  000000                     
+   711  000000                     
+   712  000000                     
+   713  000000                     
+   714  000000                     
+   715  000000                     
+   716  000000                     
+   717  000000                     
+   718  000000                     
+   719  000000                     
+   720  000000                     
+   721  000000                     
+   722  000000                     
+   723  000000                     
+   724  000000                     
+   725  000000                     
+   726  000000                     
+   727  000000                     
+   728  000000                     
+   729  000000                     
+   730  000000                     
+   731  000000                     
+   732  000000                     
+   733  000000                     
+   734  000000                     
+   735  000000                     
+   736  000000                     
+   737  000000                     
+   738  000000                     
+   739  000000                     
+   740  000000                     
+   741  000000                     
+   742  000000                     
+   743  000000                     
+   744  000000                     
+   745  000000                     
+   746  000000                     
+   747  000000                     
+   748  000000                     
+   749  000000                     
+   750  000000                     
+   751  000000                     
+   752  000000                     
+   753  000000                     
+   754  000000                     
+   755  000000                     
+   756  000000                     
+   757  000000                     
+   758  000000                     
+   759  000000                     
+   760  000000                     
+   761  000000                     
+   762  000000                     
+   763  000000                     
+   764  000000                     
+   765  000000                     
+   766  000000                     
+   767  000000                     
+   768  000000                     
+   769  000000                     
+   770  000000                     
+   771  000000                     
+   772  000000                     
+   773  000000                     
+   774  000000                     
+   775  000000                     
+   776  000000                     
+   777  000000                     
+   778  000000                     
+   779  000000                     
+   780  000000                     
+   781  000000                     
+   782  000000                     
+   783  000000                     
+   784  000000                     
+   785  000000                     
+   786  000000                     
+   787  000000                     
+   788  000000                     
+   789  000000                     
+   790  000000                     
+   791  000000                     
+   792  000000                     
+   793  000000                     
+   794  000000                     
+   795  000000                     
+   796  000000                     
+   797  000000                     
+   798  000000                     
+   799  000000                     
+   800  000000                     
+   801  000000                     
+   802  000000                     
+   803  000000                     
+   804  000000                     
+   805  000000                     
+   806  000000                     
+   807  000000                     
+   808  000000                     
+   809  000000                     
+   810  000000                     
+   811  000000                     
+   812  000000                     
+   813  000000                     
+   814  000000                     
+   815  000000                     
+   816  000000                     
+   817  000000                     
+   818  000000                     
+   819  000000                     
+   820  000000                     
+   821  000000                     
+   822  000000                     
+   823  000000                     
+   824  000000                     
+   825  000000                     
+   826  000000                     
+   827  000000                     
+   828  000000                     
+   829  000000                     
+   830  000000                     
+   831  000000                     
+   832  000000                     
+   833  000000                     
+   834  000000                     
+   835  000000                     
+   836  000000                     
+   837  000000                     
+   838  000000                     
+   839  000000                     
+   840  000000                     
+   841  000000                     
+   842  000000                     
+   843  000000                     
+   844  000000                     
+   845  000000                     
+   846  000000                     
+   847  000000                     
+   848  000000                     
+   849  000000                     
+   850  000000                     
+   851  000000                     
+   852  000000                     
+   853  000000                     
+   854  000000                     
+   855  000000                     
+   856  000000                     
+   857  000000                     
+   858  000000                     
+   859  000000                     
+   860  000000                     
+   861  000000                     
+   862  000000                     
+   863  000000                     
+   864  000000                     
+   865  000000                     
+   866  000000                     
+   867  000000                     
+   868  000000                     
+   869  000000                     
+   870  000000                     
+   871  000000                     
+   872  000000                     
+   873  000000                     
+   874  000000                     
+   875  000000                     
+   876  000000                     
+   877  000000                     
+   878  000000                     
+   879  000000                     
+   880  000000                     
+   881  000000                     
+   882  000000                     
+   883  000000                     
+   884  000000                     
+   885  000000                     
+   886  000000                     
+   887  000000                     
+   888  000000                     
+   889  000000                     
+   890  000000                     
+   891  000000                     
+   892  000000                     
+   893  000000                     
+   894  000000                     
+   895  000000                     
+   896  000000                     
+   897  000000                     
+   898  000000                     
+   899  000000                     
+   900  000000                     
+   901  000000                     
+   902  000000                     
+   903  000000                     
+   904  000000                     
+   905  000000                     
+   906  000000                     
+   907  000000                     
+   908  000000                     
+   909  000000                     
+   910  000000                     
+   911  000000                     
+   912  000000                     
+   913  000000                     
+   914  000000                     
+   915  000000                     
+   916  000000                     
+   917  000000                     
+   918  000000                     
+   919  000000                     
+   920  000000                     
+   921  000000                     
+   922  000000                     
+   923  000000                     
+   924  000000                     
+   925  000000                     
+   926  000000                     
+   927  000000                     
+   928  000000                     
+   929                           
+   930                           	psect	intcode
+   931  000008  FFFF               	dw	65535	; Nop inserted for errata
+   932  00000A  EFEB  F03B         	goto	save
+   933                           
+   934                           	psect	bss
+   935  00001C                     _systimer:
+   936  00001C                     	ds	2
+   937                           
+   938                           	psect	temp
+   939  000000                     btemp:
+   940  000000                     	ds	4
+   941                           prodh	equ	0xFF4
+   942                           prodl	equ	0xFF3
+   943                           intcon	equ	0xFF2
+   944                           intcon2	equ	0xFF1
+   945                           wreg	equ	0xFE8
+   946                           fsr1l	equ	0xFE1
+   947                           fsr2l	equ	0xFD9
+   948                           status	equ	0xFD8
+
+
+HI-TECH Software PICC-18 Macro Assembler V9.51PL2
+Symbol Table                                           Mon Dec 07 22:12:02 2009
+
+          _intservice 77BC                     l4 782E  
+                   l5 782C                     l8 784A  
+  __end_of_intservice 77DA             _ShiftFpga 7890  
+   __end_of_ShiftFpga 78E8                    l12 786E  
+                  l26 78EA             _WaitTimer 7836  
+   __end_of_WaitTimer 786A            ?_WaitTimer 0040  
+                 _SPI 786A                   save 77D6  
+                 wreg 000FE8                  f3902 777E  
+                f3912 77BE                  f3922 77DE  
+                f3932 7806                  f3942 7838  
+                f3952 786C                  f3962 787C  
+                f3972 7892                  f3982 78EA  
+                fsr1l 000FE1                  fsr2l 000FD9  
+                btemp 0000                  prodl 000FF3  
+       __end_of_putch 78F6              _systimer 001C  
+          used_btemp0 0001            used_btemp1 0001  
+          used_btemp2 0001            used_btemp3 0001  
+               _putch 78E8      __end_of_GetTimer 7802  
+               status 000FD8            _CheckTimer 7804  
+  __end_of_CheckTimer 7834               __Lparam 0037  
+         ?_CheckTimer 0048               __ramtop 0600  
+             int_func 77BE          _HardwareInit 777C  
+__end_of_HardwareInit 77BC           __end_of_SPI 787A  
+              restore 77D0              _GetTimer 77DC  
+           ?_GetTimer 0048            _OsdCommand 787A  
+  __end_of_OsdCommand 7890  

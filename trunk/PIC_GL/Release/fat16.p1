@@ -1,0 +1,1989 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"12 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\stdio.h
+[v _ptrdiff_t `i 1 t ]
+[; ;stdio.h: 12: typedef int ptrdiff_t;
+
+"13
+[v _size_t `ui 1 t ]
+[; ;stdio.h: 13: typedef unsigned size_t;
+
+"14
+[v _wchar_t `us 1 t ]
+[; ;stdio.h: 14: typedef unsigned short wchar_t;
+
+"20 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\stdarg.h
+[v _va_list `*v -> -> 1 `i `ux t ]
+[; ;stdarg.h: 20: typedef void * va_list[1];
+
+[; ;stdarg.h: 23: extern void * __va_start(void);
+
+[; ;stdio.h: 27: extern int errno;
+
+"61 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\stdio.h
+[v F11 `(v 1 tf1`uc ]
+"62
+[s S1 `*uc 1 `*F11 1 ]
+[n S1 __prbuf ptr func ]
+[; ;stdio.h: 58: struct __prbuf
+
+[; ;stdio.h: 59: {
+
+[; ;stdio.h: 60: char * ptr;
+
+[; ;stdio.h: 61: void (* func)(char);
+
+[; ;stdio.h: 62: };
+
+[; ;conio.h: 17: extern int errno;
+
+[; ;conio.h: 20: extern void init_uart(void);
+
+[; ;conio.h: 22: extern char getch(void);
+
+[; ;conio.h: 23: extern char getche(void);
+
+[; ;conio.h: 24: extern void putch(char);
+
+[; ;conio.h: 25: extern void ungetch(char);
+
+[; ;conio.h: 27: extern bit kbhit(void);
+
+[; ;conio.h: 31: extern char * cgets(char *);
+
+[; ;conio.h: 32: extern void cputs(const char *);
+
+[; ;stdio.h: 103: extern int cprintf(char *, ...);
+
+[; ;stdio.h: 108: extern int _doprnt(struct __prbuf *, const register char *, register va_list);
+
+[; ;stdio.h: 195: extern char * gets(char *);
+
+[; ;stdio.h: 196: extern int puts(const char *);
+
+[; ;stdio.h: 197: extern int scanf(const char *, ...);
+
+[; ;stdio.h: 198: extern int sscanf(const char *, const char *, ...);
+
+[; ;stdio.h: 199: extern int vprintf(const char *, va_list);
+
+[; ;stdio.h: 200: extern int vsprintf(char *, const char *, va_list);
+
+[; ;stdio.h: 201: extern int vscanf(const char *, va_list ap);
+
+[; ;stdio.h: 202: extern int vsscanf(const char *, const char *, va_list);
+
+[; ;stdio.h: 206: extern int sprintf(char *, const char *, ...);
+
+[; ;stdio.h: 207: extern int printf(const char *, ...);
+
+[; ;string.h: 28: extern void * memcpy(void *, const void *, size_t);
+
+[; ;string.h: 29: extern void * memmove(void *, const void *, size_t);
+
+[; ;string.h: 30: extern void * memset(void *, int, size_t);
+
+[; ;string.h: 41: extern char * strcat(char *, const char *);
+
+[; ;string.h: 42: extern char * strcpy(char *, const char *);
+
+[; ;string.h: 43: extern char * strncat(char *, const char *, size_t);
+
+[; ;string.h: 44: extern char * strncpy(char *, const char *, size_t);
+
+[; ;string.h: 45: extern char * strdup(const char *);
+
+[; ;string.h: 46: extern char * strtok(char *, const char *);
+
+[; ;string.h: 49: extern int memcmp(const void *, const void *, size_t);
+
+[; ;string.h: 50: extern int strcmp(const char *, const char *);
+
+[; ;string.h: 51: extern int stricmp(const char *, const char *);
+
+[; ;string.h: 52: extern int strncmp(const char *, const char *, size_t);
+
+[; ;string.h: 53: extern int strnicmp(const char *, const char *, size_t);
+
+[; ;string.h: 54: extern size_t strcoll(char *, size_t, char *);
+
+[; ;string.h: 55: extern const void * memchr(const void *, int, size_t);
+
+[; ;string.h: 56: extern size_t strcspn(const char *, const char *);
+
+[; ;string.h: 57: extern const char * strpbrk(const char *, const char *);
+
+[; ;string.h: 58: extern size_t strspn(const char *, const char *);
+
+[; ;string.h: 59: extern const char * strstr(const char *, const char *);
+
+[; ;string.h: 60: extern const char * stristr(const char *, const char *);
+
+[; ;string.h: 61: extern char * strerror(int);
+
+[; ;string.h: 62: extern size_t strlen(const char *);
+
+[; ;string.h: 63: extern const char * strchr(const char *, int);
+
+[; ;string.h: 64: extern const char * strichr(const char *, int);
+
+[; ;string.h: 65: extern const char * strrchr(const char *, int);
+
+[; ;string.h: 66: extern const char * strrichr(const char *, int);
+
+[; ;mmc.h: 80: extern unsigned char MMC_DIRECT_TRANSFER_MODE;
+
+[; ;mmc.h: 84: unsigned char MMC_Init(void);
+
+[; ;mmc.h: 85: unsigned char MMC_Read(unsigned long lba, unsigned char *ReadData);
+
+[; ;mmc.h: 86: unsigned char MMC_Write(unsigned long lba, unsigned char *WriteData);
+
+"57 ..\fat16.h
+[s S2 `uc 1 `uc -> 3 `i `uc 1 `uc -> 3 `i `ul 1 `ul 1 ]
+[n S2 PRIMARY_Partition Status CHSFirstBlock Type CHSLastBlock LBAFirst LBABlocks ]
+[; ;fat16.h: 49: struct PRIMARY_Partition
+
+[; ;fat16.h: 50: {
+
+[; ;fat16.h: 51: unsigned char Status;
+
+[; ;fat16.h: 52: unsigned char CHSFirstBlock[3];
+
+[; ;fat16.h: 53: unsigned char Type;
+
+[; ;fat16.h: 54: unsigned char CHSLastBlock[3];
+
+[; ;fat16.h: 55: unsigned long LBAFirst;
+
+[; ;fat16.h: 56: unsigned long LBABlocks;
+
+[; ;fat16.h: 57: };
+
+"68
+[s S3 `uc -> 440 `i `ul 1 `us 1 `S2 -> 4 `i `us 1 ]
+[n S3 MBR_Disk bootCode diskSignature reserved partitions signature ]
+[; ;fat16.h: 61: struct MBR_Disk
+
+[; ;fat16.h: 62: {
+
+[; ;fat16.h: 63: unsigned char bootCode[440];
+
+[; ;fat16.h: 64: unsigned long diskSignature;
+
+[; ;fat16.h: 65: unsigned short reserved;
+
+[; ;fat16.h: 66: struct PRIMARY_Partition partitions[4];
+
+[; ;fat16.h: 67: unsigned short signature;
+
+[; ;fat16.h: 68: };
+
+"81
+[s S4 `uc 1 `uc 1 `uc 1 `ul 1 `uc -> 11 `i `uc -> 8 `i `uc -> 448 `i ]
+[n S4 FAT16_ExtBiosParams physicalDriveNo reserved extBootSignature ID volumeLabel FATFileSystemType OsBootCode ]
+[; ;fat16.h: 72: struct FAT16_ExtBiosParams
+
+[; ;fat16.h: 73: {
+
+[; ;fat16.h: 74: unsigned char physicalDriveNo;
+
+[; ;fat16.h: 75: unsigned char reserved;
+
+[; ;fat16.h: 76: unsigned char extBootSignature;
+
+[; ;fat16.h: 77: unsigned long ID;
+
+[; ;fat16.h: 78: unsigned char volumeLabel[11];
+
+[; ;fat16.h: 79: unsigned char FATFileSystemType[8];
+
+[; ;fat16.h: 80: unsigned char OsBootCode[448];
+
+[; ;fat16.h: 81: };
+
+"101
+[s S5 `ul 1 `us 1 `us 1 `ul 1 `us 1 `us 1 `uc -> 12 `i `uc 1 `uc 1 `uc 1 `ul 1 `uc -> 11 `i `uc -> 8 `i `uc -> 420 `i ]
+[n S5 FAT32_ExtBiosParams sectorsPerFAT flags version rootDirCluster fsInformationSector bootSectorCopy reserved1 physicalDriveNo reserved2 extBootSignature ID volumeLabel FATFileSystemType OsBootCode ]
+[; ;fat16.h: 85: struct FAT32_ExtBiosParams
+
+[; ;fat16.h: 86: {
+
+[; ;fat16.h: 87: unsigned long sectorsPerFAT;
+
+[; ;fat16.h: 88: unsigned short flags;
+
+[; ;fat16.h: 89: unsigned short version;
+
+[; ;fat16.h: 90: unsigned long rootDirCluster;
+
+[; ;fat16.h: 91: unsigned short fsInformationSector;
+
+[; ;fat16.h: 92: unsigned short bootSectorCopy;
+
+[; ;fat16.h: 93: unsigned char reserved1[12];
+
+[; ;fat16.h: 94: unsigned char physicalDriveNo;
+
+[; ;fat16.h: 95: unsigned char reserved2;
+
+[; ;fat16.h: 96: unsigned char extBootSignature;
+
+[; ;fat16.h: 97: unsigned long ID;
+
+[; ;fat16.h: 98: unsigned char volumeLabel[11];
+
+[; ;fat16.h: 99: unsigned char FATFileSystemType[8];
+
+[; ;fat16.h: 100: unsigned char OsBootCode[420];
+
+[; ;fat16.h: 101: };
+
+"125
+[u S7 `S4 1 `S5 1 ]
+[n S7 . fat16Ext fat32Ext ]
+"127
+[s S6 `uc -> 3 `i `uc -> 8 `i `us 1 `uc 1 `us 1 `uc 1 `us 1 `us 1 `uc 1 `us 1 `us 1 `us 1 `ul 1 `ul 1 `S7 1 `us 1 ]
+[n S6 FAT_Boot_Sector jumpInstruction oemName bytesPerSector sectorsPerCluster reservedSectorCount noOfFATs maxRootEntries totalSectorsFAT16 mediaDescriptor sectorsPerFAT sectorsPerTrack noHeads hiddenSectors totalSectorsFAT32 extParams signature ]
+[; ;fat16.h: 105: struct FAT_Boot_Sector
+
+[; ;fat16.h: 106: {
+
+[; ;fat16.h: 107: unsigned char jumpInstruction[3];
+
+[; ;fat16.h: 108: unsigned char oemName[8];
+
+[; ;fat16.h: 109: unsigned short bytesPerSector;
+
+[; ;fat16.h: 110: unsigned char sectorsPerCluster;
+
+[; ;fat16.h: 111: unsigned short reservedSectorCount;
+
+[; ;fat16.h: 112: unsigned char noOfFATs;
+
+[; ;fat16.h: 113: unsigned short maxRootEntries;
+
+[; ;fat16.h: 114: unsigned short totalSectorsFAT16;
+
+[; ;fat16.h: 115: unsigned char mediaDescriptor;
+
+[; ;fat16.h: 116: unsigned short sectorsPerFAT;
+
+[; ;fat16.h: 117: unsigned short sectorsPerTrack;
+
+[; ;fat16.h: 118: unsigned short noHeads;
+
+[; ;fat16.h: 119: unsigned long hiddenSectors;
+
+[; ;fat16.h: 120: unsigned long totalSectorsFAT32;
+
+[; ;fat16.h: 121: union
+
+[; ;fat16.h: 122: {
+
+[; ;fat16.h: 123: struct FAT16_ExtBiosParams fat16Ext;
+
+[; ;fat16.h: 124: struct FAT32_ExtBiosParams fat32Ext;
+
+[; ;fat16.h: 125: } extParams;
+
+[; ;fat16.h: 126: unsigned short signature;
+
+[; ;fat16.h: 127: };
+
+"137
+[s S9 `uc -> 8 `i `uc -> 3 `i ]
+[n S9 . name ext ]
+"149
+[s S8 `S9 1 `uc 1 `uc 1 `uc 1 `us 1 `us 1 `us 1 `us 1 `us 1 `us 1 `us 1 `ul 1 ]
+[n S8 FAT_dirEntryDefault shortName attributes reserved createTimeFineRes createTime createDate lastAccessDate firstClusterHigh modifiedTime modifiedDate firstClusterLow length ]
+[; ;fat16.h: 131: struct FAT_dirEntryDefault
+
+[; ;fat16.h: 132: {
+
+[; ;fat16.h: 133: struct
+
+[; ;fat16.h: 134: {
+
+[; ;fat16.h: 135: unsigned char name[8];
+
+[; ;fat16.h: 136: unsigned char ext[3];
+
+[; ;fat16.h: 137: } shortName;
+
+[; ;fat16.h: 138: unsigned char attributes;
+
+[; ;fat16.h: 139: unsigned char reserved;
+
+[; ;fat16.h: 140: unsigned char createTimeFineRes;
+
+[; ;fat16.h: 141: unsigned short createTime;
+
+[; ;fat16.h: 142: unsigned short createDate;
+
+[; ;fat16.h: 143: unsigned short lastAccessDate;
+
+[; ;fat16.h: 144: unsigned short firstClusterHigh;
+
+[; ;fat16.h: 145: unsigned short modifiedTime;
+
+[; ;fat16.h: 146: unsigned short modifiedDate;
+
+[; ;fat16.h: 147: unsigned short firstClusterLow;
+
+[; ;fat16.h: 148: unsigned long length;
+
+[; ;fat16.h: 149: };
+
+"163
+[s S10 `uc 1 `us -> 5 `i `uc 1 `uc 1 `uc 1 `us -> 6 `i `us 1 `us -> 2 `i ]
+[n S10 FAT_dirEntryLFN sequenceNo fiveUTF16 attributes type checksum sixUTF16 firstCluster twoUTF16 ]
+[; ;fat16.h: 153: struct FAT_dirEntryLFN
+
+[; ;fat16.h: 154: {
+
+[; ;fat16.h: 155: unsigned char sequenceNo;
+
+[; ;fat16.h: 156: unsigned short fiveUTF16[5];
+
+[; ;fat16.h: 157: unsigned char attributes;
+
+[; ;fat16.h: 158: unsigned char type;
+
+[; ;fat16.h: 159: unsigned char checksum;
+
+[; ;fat16.h: 160: unsigned short sixUTF16[6];
+
+[; ;fat16.h: 161: unsigned short firstCluster;
+
+[; ;fat16.h: 162: unsigned short twoUTF16[2];
+
+[; ;fat16.h: 163: };
+
+"172
+[u S11 `S8 1 `S10 1 `uc -> 32 `i ]
+[n S11 FAT_directoryEntry entry LFN bytes ]
+[; ;fat16.h: 167: union FAT_directoryEntry
+
+[; ;fat16.h: 168: {
+
+[; ;fat16.h: 169: struct FAT_dirEntryDefault entry;
+
+[; ;fat16.h: 170: struct FAT_dirEntryLFN LFN;
+
+[; ;fat16.h: 171: unsigned char bytes[32];
+
+[; ;fat16.h: 172: };
+
+"188
+[s S12 `uc 1 `ul 1 `ul 1 `ul 1 `ul 1 `ul 1 `us 1 `uc 1 `uc 1 `ul 1 ]
+[n S12 partitionTYPE fatType partStart fatStart dataStart rootDirCluster rootDirStart rootDirEntries fatNo clusterSize clusterMask ]
+[; ;fat16.h: 176: struct partitionTYPE
+
+[; ;fat16.h: 177: {
+
+[; ;fat16.h: 178: unsigned char fatType;
+
+[; ;fat16.h: 179: unsigned long partStart;
+
+[; ;fat16.h: 180: unsigned long fatStart;
+
+[; ;fat16.h: 181: unsigned long dataStart;
+
+[; ;fat16.h: 182: unsigned long rootDirCluster;
+
+[; ;fat16.h: 183: unsigned long rootDirStart;
+
+[; ;fat16.h: 184: unsigned short rootDirEntries;
+
+[; ;fat16.h: 185: unsigned char fatNo;
+
+[; ;fat16.h: 186: unsigned char clusterSize;
+
+[; ;fat16.h: 187: unsigned long clusterMask;
+
+[; ;fat16.h: 188: };
+
+"201
+[s S13 `uc -> 12 `i `uc 1 `us 1 `ul 1 `ul 1 `ul 1 `ul 1 ]
+[n S13 fileTYPE name attributes entry sector len cluster firstCluster ]
+[; ;fat16.h: 192: struct fileTYPE
+
+[; ;fat16.h: 193: {
+
+[; ;fat16.h: 194: unsigned char name[12];
+
+[; ;fat16.h: 195: unsigned char attributes;
+
+[; ;fat16.h: 196: unsigned short entry;
+
+[; ;fat16.h: 197: unsigned long sector;
+
+[; ;fat16.h: 198: unsigned long len;
+
+[; ;fat16.h: 199: unsigned long cluster;
+
+[; ;fat16.h: 200: unsigned long firstCluster;
+
+[; ;fat16.h: 201: };
+
+[; ;fat16.h: 205: extern unsigned char secbuf[512];
+
+[; ;fat16.h: 208: extern struct partitionTYPE selectedPartiton;
+
+[; ;fat16.h: 210: extern unsigned char longFilename[128];
+
+[; ;fat16.h: 212: extern struct fileTYPE file;
+
+[; ;fat16.h: 214: extern struct fileTYPE currentDir;
+
+[; ;fat16.h: 218: unsigned char FindDrive(void);
+
+[; ;fat16.h: 220: void OpenRootDirectory(struct fileTYPE *dir);
+
+[; ;fat16.h: 221: void OpenDirectory(struct fileTYPE *file, struct fileTYPE *dir);
+
+[; ;fat16.h: 223: unsigned char Open(struct fileTYPE *file, const unsigned char *name);
+
+[; ;fat16.h: 224: unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir, unsigned char mode);
+
+[; ;fat16.h: 225: unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir, unsigned char mode);
+
+[; ;fat16.h: 226: unsigned char ProcessDirEntry(struct fileTYPE *file, union FAT_directoryEntry * dirEntry);
+
+[; ;fat16.h: 227: unsigned char FileNextSector(struct fileTYPE *file);
+
+[; ;fat16.h: 228: unsigned char FileSeek(struct fileTYPE *file, unsigned long sector);
+
+[; ;fat16.h: 229: unsigned long GetLBA(struct fileTYPE *file);
+
+[; ;fat16.h: 230: unsigned char FileRead(struct fileTYPE *file);
+
+[; ;fat16.h: 231: unsigned char FileWrite(struct fileTYPE *file);
+
+[; ;fat16.h: 232: unsigned char GetNextClusterIndexFromFAT(struct fileTYPE *file);
+
+"54 ..\fat16.c
+[v _secbuf `uc -> 512 `i e ]
+[; ;fat16.c: 54: unsigned char secbuf[512];
+
+"58
+[v _selectedPartiton `S12 1 e ]
+[; ;fat16.c: 58: struct partitionTYPE selectedPartiton;
+
+"60
+[v _longFilename `uc -> 128 `i e ]
+[; ;fat16.c: 60: unsigned char longFilename[128];
+
+"61
+[v _file `S13 1 e ]
+[; ;fat16.c: 61: struct fileTYPE file;
+
+"62
+[v _currentDir `S13 1 e ]
+[; ;fat16.c: 62: struct fileTYPE currentDir;
+
+"65
+[v _charLFNPos `Cuc -> 0 `x s ]
+[i _charLFNPos
+:U ..
+-> -> 1 `i `uc
+-> -> 3 `i `uc
+-> -> 5 `i `uc
+-> -> 7 `i `uc
+-> -> 9 `i `uc
+-> -> 14 `i `uc
+-> -> 16 `i `uc
+-> -> 18 `i `uc
+-> -> 20 `i `uc
+-> -> 22 `i `uc
+-> -> 24 `i `uc
+-> -> 28 `i `uc
+-> -> 30 `i `uc
+..
+][; ;fat16.c: 65: static const unsigned char charLFNPos[] = { 1, 3, 5, 7, 9, 14, 16, 18, 20, 22, 24, 28, 30 };
+
+"70
+[v _FindDrive `(uc 1 ef ]
+{
+[; ;fat16.c: 69: unsigned char FindDrive(void)
+
+[; ;fat16.c: 70: {
+
+[e :U _FindDrive ]
+[f ]
+"71
+[v _fatsize `ul 1 a ]
+"72
+[v _dirsize `ul 1 a ]
+"74
+[v _mbr `*S3 1 a ]
+[; ;fat16.c: 71: unsigned long fatsize;
+
+[; ;fat16.c: 72: unsigned long dirsize;
+
+[; ;fat16.c: 74: struct MBR_Disk *mbr = (struct MBR_Disk *)secbuf;
+
+[e = _mbr -> &U _secbuf `*S3 ]
+"75
+[v _boot `*S6 1 a ]
+[; ;fat16.c: 75: struct FAT_Boot_Sector *boot = (struct FAT_Boot_Sector *)secbuf;
+
+[e = _boot -> &U _secbuf `*S6 ]
+[; ;fat16.c: 78: if (!MMC_Read(0,secbuf))
+
+"85 ..\mmc.h
+[v _MMC_Read `(uc 0 ef2`ul`*uc ]
+"78 ..\fat16.c
+[e $ ! ! != -> ( _MMC_Read (2
+ , -> -> -> 0 `i `l `ul &U _secbuf `i -> -> -> 0 `i `uc `i 15  ]
+[; ;fat16.c: 79: {
+
+[; ;fat16.c: 83: return(0);
+
+"83
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"84
+[e :U 15 ]
+[; ;fat16.c: 84: }
+
+[; ;fat16.c: 87: if (0xAA55 != mbr->signature)
+
+"87
+[e $ ! != -> 43605 `ui -> . *U _mbr 4 `ui 16  ]
+[; ;fat16.c: 88: {
+
+[; ;fat16.c: 92: return(0);
+
+"92
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"93
+[e :U 16 ]
+[; ;fat16.c: 93: }
+
+[; ;fat16.c: 96: switch(mbr->partitions[0].Type)
+
+"96
+[e $U 18  ]
+[; ;fat16.c: 97: {
+
+[; ;fat16.c: 98: case 0x04:
+
+"98
+[e :U 19 ]
+"99
+[e :U 20 ]
+[; ;fat16.c: 99: case 0x06:
+
+[; ;fat16.c: 101: selectedPartiton.fatType = 0x10;
+
+"101
+[e = . _selectedPartiton 0 -> -> 16 `i `uc ]
+[; ;fat16.c: 103: selectedPartiton.partStart = mbr->partitions[0].LBAFirst;
+
+"103
+[e = . _selectedPartiton 1 . *U + &U . *U _mbr 3 * -> -> -> 0 `i `ui `ux -> -> # `S2 `ui `ux 4 ]
+[; ;fat16.c: 104: break;
+
+"104
+[e $U 17  ]
+[; ;fat16.c: 106: case 0x0b:
+
+"106
+[e :U 21 ]
+"107
+[e :U 22 ]
+[; ;fat16.c: 107: case 0x0c:
+
+[; ;fat16.c: 109: selectedPartiton.fatType = 0x20;
+
+"109
+[e = . _selectedPartiton 0 -> -> 32 `i `uc ]
+[; ;fat16.c: 111: selectedPartiton.partStart = mbr->partitions[0].LBAFirst;
+
+"111
+[e = . _selectedPartiton 1 . *U + &U . *U _mbr 3 * -> -> -> 0 `i `ui `ux -> -> # `S2 `ui `ux 4 ]
+[; ;fat16.c: 112: break;
+
+"112
+[e $U 17  ]
+[; ;fat16.c: 114: default:
+
+"114
+[e :U 23 ]
+[; ;fat16.c: 118: return(0);
+
+"118
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"119
+[; ;fat16.c: 119: }
+
+[e $U 17  ]
+"96
+[e :U 18 ]
+[e [\ . *U + &U . *U _mbr 3 * -> -> -> 0 `i `ui `ux -> -> # `S2 `ui `ux 2 , $ -> -> 4 `i `uc 19
+ , $ -> -> 6 `i `uc 20
+ , $ -> -> 11 `i `uc 21
+ , $ -> -> 12 `i `uc 22
+ 23 ]
+"119
+[e :U 17 ]
+[; ;fat16.c: 122: if (!MMC_Read(selectedPartiton.partStart, secbuf))
+
+"122
+[e $ ! ! != -> ( _MMC_Read (2
+ , . _selectedPartiton 1 &U _secbuf `i -> -> -> 0 `i `uc `i 24  ]
+[; ;fat16.c: 123: {
+
+[; ;fat16.c: 127: return(0);
+
+"127
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"128
+[e :U 24 ]
+[; ;fat16.c: 128: }
+
+[; ;fat16.c: 131: if(0xE9 != boot->jumpInstruction[0] && 0xEB != boot->jumpInstruction[0])
+
+"131
+[e $ ! && != -> 233 `i -> *U + &U . *U _boot 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i != -> 235 `i -> *U + &U . *U _boot 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i 25  ]
+[; ;fat16.c: 132: {
+
+[; ;fat16.c: 136: return(0);
+
+"136
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"137
+[e :U 25 ]
+[; ;fat16.c: 137: }
+
+[; ;fat16.c: 140: if (0x200 != boot->bytesPerSector)
+
+"140
+[e $ ! != -> -> 512 `i `ui -> . *U _boot 2 `ui 26  ]
+[; ;fat16.c: 141: {
+
+[; ;fat16.c: 145: return(0);
+
+"145
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"146
+[e :U 26 ]
+[; ;fat16.c: 146: }
+
+[; ;fat16.c: 149: if(0xF8 != boot->mediaDescriptor)
+
+"149
+[e $ ! != -> 248 `i -> . *U _boot 8 `i 27  ]
+[; ;fat16.c: 150: {
+
+[; ;fat16.c: 154: return(0);
+
+"154
+[e ) -> -> 0 `i `uc ]
+[e $UE 14  ]
+"155
+[e :U 27 ]
+[; ;fat16.c: 155: }
+
+[; ;fat16.c: 158: selectedPartiton.clusterSize = boot->sectorsPerCluster;
+
+"158
+[e = . _selectedPartiton 8 . *U _boot 3 ]
+[; ;fat16.c: 160: selectedPartiton.clusterMask = ~(selectedPartiton.clusterSize-1);
+
+"160
+[e = . _selectedPartiton 9 -> -> ~ - -> . _selectedPartiton 8 `i -> 1 `i `l `ul ]
+[; ;fat16.c: 165: selectedPartiton.rootDirEntries = boot->maxRootEntries;
+
+"165
+[e = . _selectedPartiton 6 . *U _boot 6 ]
+[; ;fat16.c: 168: selectedPartiton.fatStart = selectedPartiton.partStart + boot->reservedSectorCount;
+
+"168
+[e = . _selectedPartiton 2 + . _selectedPartiton 1 -> . *U _boot 4 `ul ]
+[; ;fat16.c: 169: selectedPartiton.fatNo = boot->noOfFATs;
+
+"169
+[e = . _selectedPartiton 7 . *U _boot 5 ]
+[; ;fat16.c: 172: if (0x10 == selectedPartiton.fatType)
+
+"172
+[e $ ! == -> 16 `i -> . _selectedPartiton 0 `i 28  ]
+[; ;fat16.c: 173: {
+
+[; ;fat16.c: 174: fatsize = boot->sectorsPerFAT;
+
+"174
+[e = _fatsize -> . *U _boot 9 `ul ]
+[; ;fat16.c: 176: selectedPartiton.rootDirCluster = 0;
+
+"176
+[e = . _selectedPartiton 4 -> -> -> 0 `i `l `ul ]
+[; ;fat16.c: 178: selectedPartiton.rootDirStart = selectedPartiton.fatStart + (selectedPartiton.fatNo * fatsize);
+
+"178
+[e = . _selectedPartiton 5 + . _selectedPartiton 2 * -> . _selectedPartiton 7 `ul _fatsize ]
+[; ;fat16.c: 180: dirsize = ((selectedPartiton.rootDirEntries<<5)+511)>>9;
+
+"180
+[e = _dirsize -> >> + << -> . _selectedPartiton 6 `ui -> 5 `i -> -> 511 `i `ui -> 9 `i `ul ]
+[; ;fat16.c: 182: selectedPartiton.dataStart = selectedPartiton.rootDirStart + dirsize;
+
+"182
+[e = . _selectedPartiton 3 + . _selectedPartiton 5 _dirsize ]
+"183
+[; ;fat16.c: 183: }
+
+[e $U 29  ]
+"184
+[e :U 28 ]
+[; ;fat16.c: 184: else
+
+[; ;fat16.c: 185: {
+
+[; ;fat16.c: 186: fatsize = boot->extParams.fat32Ext.sectorsPerFAT;
+
+"186
+[e = _fatsize . . . *U _boot 14 1 0 ]
+[; ;fat16.c: 188: selectedPartiton.dataStart = selectedPartiton.fatStart + (selectedPartiton.fatNo * fatsize);
+
+"188
+[e = . _selectedPartiton 3 + . _selectedPartiton 2 * -> . _selectedPartiton 7 `ul _fatsize ]
+[; ;fat16.c: 190: selectedPartiton.rootDirCluster = boot->extParams.fat32Ext.rootDirCluster;
+
+"190
+[e = . _selectedPartiton 4 . . . *U _boot 14 1 3 ]
+[; ;fat16.c: 192: selectedPartiton.rootDirStart = selectedPartiton.dataStart + (selectedPartiton.rootDirCluster-2)* selectedPartiton.clusterSize;
+
+"192
+[e = . _selectedPartiton 5 + . _selectedPartiton 3 * - . _selectedPartiton 4 -> -> -> 2 `i `l `ul -> . _selectedPartiton 8 `ul ]
+"193
+[e :U 29 ]
+[; ;fat16.c: 193: }
+
+[; ;fat16.c: 196: OpenRootDirectory(&currentDir);
+
+"220 ..\fat16.h
+[v _OpenRootDirectory `(v 0 ef1`*S13 ]
+"196 ..\fat16.c
+[e ( _OpenRootDirectory (1
+ &U _currentDir ]
+[; ;fat16.c: 211: return(1);
+
+"211
+[e ) -> -> 1 `i `uc ]
+[e $UE 14  ]
+"212
+[; ;fat16.c: 212: }
+
+[e :UE 14 ]
+}
+"217
+[v _Open `(uc 1 ef2`*S13`*Cuc ]
+{
+[v _file `*S13 1 r1 ]
+[v _name `*Cuc 1 r2 ]
+[; ;fat16.c: 216: unsigned char Open(struct fileTYPE *file, const unsigned char *name)
+
+[; ;fat16.c: 217: {
+
+[e :U _Open ]
+[f ]
+"218
+[v _i `uc 1 a ]
+[; ;fat16.c: 218: unsigned char i;
+
+[; ;fat16.c: 224: if (GetDirectoryEntry(file,&currentDir,0))
+
+"224 ..\fat16.h
+[v _GetDirectoryEntry `(uc 0 ef3`*S13`*S13`uc ]
+"224 ..\fat16.c
+[e $ ! != -> ( _GetDirectoryEntry (3
+ , , _file &U _currentDir -> -> 0 `i `uc `i -> -> -> 0 `i `uc `i 31  ]
+[; ;fat16.c: 225: {
+
+[; ;fat16.c: 226: do
+
+"226
+[e :U 34 ]
+[; ;fat16.c: 227: {
+
+[; ;fat16.c: 232: for(i=0; i<11; i++)
+
+"232
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 11 `i 35  ]
+[e $U 36  ]
+"233
+[e :U 35 ]
+[; ;fat16.c: 233: {
+
+[; ;fat16.c: 234: if (file->name[i]!=name[i])
+
+"234
+[e $ ! != -> *U + &U . *U _file 0 * -> _i `ux -> -> # `uc `ui `ux `i -> *U + _name * -> _i `ux -> -> # `Cuc `ui `ux `i 38  ]
+[; ;fat16.c: 235: { break; }
+
+"235
+[e $U 36  ]
+[e :U 38 ]
+"232
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 11 `i 35  ]
+[e :U 36 ]
+[; ;fat16.c: 236: }
+
+[; ;fat16.c: 238: if (i==11)
+
+"238
+[e $ ! == -> _i `i -> 11 `i 39  ]
+[; ;fat16.c: 239: {
+
+[; ;fat16.c: 243: return (1);
+
+"243
+[e ) -> -> 1 `i `uc ]
+[e $UE 30  ]
+"244
+[e :U 39 ]
+"246
+[; ;fat16.c: 244: }
+
+[; ;fat16.c: 245: }
+
+[; ;fat16.c: 246: while (GetDirectoryEntry(file,&currentDir,2));
+
+[e $ != -> ( _GetDirectoryEntry (3
+ , , _file &U _currentDir -> -> 2 `i `uc `i -> -> -> 0 `i `uc `i 34  ]
+[e :U 33 ]
+"247
+[e :U 31 ]
+[; ;fat16.c: 247: }
+
+[; ;fat16.c: 253: return (0);
+
+"253
+[e ) -> -> 0 `i `uc ]
+[e $UE 30  ]
+"254
+[; ;fat16.c: 254: }
+
+[e :UE 30 ]
+}
+"259
+[v _OpenRootDirectory `(v 1 ef1`*S13 ]
+{
+[v _dir `*S13 1 r1 ]
+[; ;fat16.c: 258: void OpenRootDirectory(struct fileTYPE *dir)
+
+[; ;fat16.c: 259: {
+
+[e :U _OpenRootDirectory ]
+[f ]
+[; ;fat16.c: 261: memset(dir,0,sizeof(dir));
+
+"30 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\string.h
+[v _memset `(*v 0 ef3`*v`i`ui ]
+"261 ..\fat16.c
+[e ( _memset (3
+ , , -> _dir `*v -> 0 `i -> # _dir `ui ]
+[; ;fat16.c: 262: dir->name[0] = '/';
+
+"262
+[e = *U + &U . *U _dir 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux -> -> 47 `ui `uc ]
+[; ;fat16.c: 263: dir->attributes = (1 << 4);
+
+"263
+[e = . *U _dir 1 -> << -> 1 `i -> 4 `i `uc ]
+[; ;fat16.c: 264: dir->firstCluster = selectedPartiton.rootDirCluster;
+
+"264
+[e = . *U _dir 6 . _selectedPartiton 4 ]
+[; ;fat16.c: 265: dir->cluster = dir->firstCluster;
+
+"265
+[e = . *U _dir 5 . *U _dir 6 ]
+"266
+[; ;fat16.c: 266: }
+
+[e :UE 40 ]
+}
+"271
+[v _OpenDirectory `(v 1 ef2`*S13`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[v _dir `*S13 1 r2 ]
+[; ;fat16.c: 270: void OpenDirectory(struct fileTYPE *file, struct fileTYPE *dir)
+
+[; ;fat16.c: 271: {
+
+[e :U _OpenDirectory ]
+[f ]
+[; ;fat16.c: 273: memcpy(dir, file, sizeof(struct fileTYPE));
+
+"28 C:\Program Files (x86)\HI-TECH Software\PICC-18\STD\9.51\include\string.h
+[v _memcpy `(*v 0 ef3`*v`*Cv`ui ]
+"273 ..\fat16.c
+[e ( _memcpy (3
+ , , -> _dir `*v -> _file `*Cv -> # `S13 `ui ]
+[; ;fat16.c: 276: dir->cluster = dir->firstCluster;
+
+"276
+[e = . *U _dir 5 . *U _dir 6 ]
+[; ;fat16.c: 277: dir->sector = 0;
+
+"277
+[e = . *U _dir 3 -> -> -> 0 `i `l `ul ]
+"282
+[; ;fat16.c: 282: }
+
+[e :UE 41 ]
+}
+"287
+[v _GetDirectoryEntry `(uc 1 ef3`*S13`*S13`uc ]
+{
+[v _file `*S13 1 r1 ]
+[v _dir `*S13 1 r2 ]
+[v _mode `uc 1 r3 ]
+[; ;fat16.c: 286: unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir, unsigned char mode)
+
+[; ;fat16.c: 287: {
+
+[e :U _GetDirectoryEntry ]
+[f ]
+"288
+[v _entryOffset `s 1 a ]
+"289
+[v _rc `uc 1 a ]
+[; ;fat16.c: 288: short entryOffset;
+
+[; ;fat16.c: 289: char rc;
+
+[; ;fat16.c: 291: switch(mode)
+
+"291
+[e $U 44  ]
+[; ;fat16.c: 292: {
+
+[; ;fat16.c: 293: case 2:
+
+"293
+[e :U 45 ]
+[; ;fat16.c: 294: file->entry++;
+
+"294
+[e ++ . *U _file 2 -> -> 1 `i `us ]
+[; ;fat16.c: 295: break;
+
+"295
+[e $U 43  ]
+[; ;fat16.c: 297: case 3:
+
+"297
+[e :U 46 ]
+"298
+[e :U 47 ]
+[; ;fat16.c: 298: case 1:
+
+[; ;fat16.c: 299: if(!FindPreviousDirectoryEntry(file, dir, mode))
+
+"225 ..\fat16.h
+[v _FindPreviousDirectoryEntry `(uc 0 ef3`*S13`*S13`uc ]
+"299 ..\fat16.c
+[e $ ! ! != -> ( _FindPreviousDirectoryEntry (3
+ , , _file _dir _mode `i -> -> -> 0 `i `uc `i 48  ]
+[; ;fat16.c: 300: { return(0); }
+
+"300
+[e ) -> -> 0 `i `uc ]
+[e $UE 42  ]
+[e :U 48 ]
+[; ;fat16.c: 301: break;
+
+"301
+[e $U 43  ]
+[; ;fat16.c: 303: case 0:
+
+"303
+[e :U 49 ]
+[; ;fat16.c: 304: default:
+
+"304
+[e :U 50 ]
+[; ;fat16.c: 305: file->entry = 0;
+
+"305
+[e = . *U _file 2 -> -> 0 `i `us ]
+[; ;fat16.c: 306: break;
+
+"306
+[e $U 43  ]
+"307
+[; ;fat16.c: 307: }
+
+[e $U 43  ]
+"291
+[e :U 44 ]
+[e [\ _mode , $ -> -> 2 `i `uc 45
+ , $ -> -> 3 `i `uc 46
+ , $ -> -> 1 `i `uc 47
+ , $ -> -> 0 `i `uc 49
+ 50 ]
+"307
+[e :U 43 ]
+[; ;fat16.c: 310: memset(longFilename,0,128);
+
+"310
+[e ( _memset (3
+ , , -> &U _longFilename `*v -> 0 `i -> -> 128 `i `ui ]
+[; ;fat16.c: 313: if(!FileSeek(dir, file->entry >> 4))
+
+"228 ..\fat16.h
+[v _FileSeek `(uc 0 ef2`*S13`ul ]
+"313 ..\fat16.c
+[e $ ! ! != -> ( _FileSeek (2
+ , _dir -> >> -> . *U _file 2 `ui -> 4 `i `ul `i -> -> -> 0 `i `uc `i 51  ]
+[; ;fat16.c: 314: { return(0); }
+
+"314
+[e ) -> -> 0 `i `uc ]
+[e $UE 42  ]
+[e :U 51 ]
+[; ;fat16.c: 317: while(1)
+
+"317
+[e :U 53 ]
+[; ;fat16.c: 318: {
+
+[; ;fat16.c: 320: if (!MMC_Read(GetLBA(dir),secbuf))
+
+"229 ..\fat16.h
+[v _GetLBA `(ul 0 ef1`*S13 ]
+"320 ..\fat16.c
+[e $ ! ! != -> ( _MMC_Read (2
+ , ( _GetLBA (1
+ _dir &U _secbuf `i -> -> -> 0 `i `uc `i 55  ]
+[; ;fat16.c: 321: { return(0); }
+
+"321
+[e ) -> -> 0 `i `uc ]
+[e $UE 42  ]
+[e :U 55 ]
+[; ;fat16.c: 324: entryOffset = (file->entry & 0xF) << 5;
+
+"324
+[e = _entryOffset -> << & -> . *U _file 2 `ui -> -> 15 `i `ui -> 5 `i `s ]
+[; ;fat16.c: 327: rc = ProcessDirEntry(file, (union FAT_directoryEntry *)(secbuf + entryOffset));
+
+"226 ..\fat16.h
+[v _ProcessDirEntry `(uc 0 ef2`*S13`*S11 ]
+"327 ..\fat16.c
+[e = _rc ( _ProcessDirEntry (2
+ , _file -> + &U _secbuf * -> _entryOffset `x -> -> # `uc `i `x `*S11 ]
+[; ;fat16.c: 328: if(!rc)
+
+"328
+[e $ ! ! != -> _rc `i -> -> -> 0 `i `uc `i 56  ]
+[; ;fat16.c: 329: { return (0); }
+
+"329
+[e ) -> -> 0 `i `uc ]
+[e $UE 42  ]
+[e $U 57  ]
+"330
+[e :U 56 ]
+[; ;fat16.c: 330: else if(1 == rc)
+
+[e $ ! == -> 1 `i -> _rc `i 58  ]
+[; ;fat16.c: 331: { return(1); }
+
+"331
+[e ) -> -> 1 `i `uc ]
+[e $UE 42  ]
+[e :U 58 ]
+"334
+[e :U 57 ]
+[; ;fat16.c: 334: file->entry++;
+
+[e ++ . *U _file 2 -> -> 1 `i `us ]
+[; ;fat16.c: 337: if(!(file->entry & 0xF))
+
+"337
+[e $ ! ! != & -> . *U _file 2 `ui -> -> 15 `i `ui -> -> 0 `i `ui 59  ]
+[; ;fat16.c: 338: { FileNextSector(dir); }
+
+"227 ..\fat16.h
+[v _FileNextSector `(uc 0 ef1`*S13 ]
+"338 ..\fat16.c
+[e ( _FileNextSector (1
+ _dir ]
+[e :U 59 ]
+"339
+[e :U 52 ]
+"317
+[e $U 53  ]
+[e :U 54 ]
+[; ;fat16.c: 339: }
+
+[; ;fat16.c: 342: return(0);
+
+"342
+[e ) -> -> 0 `i `uc ]
+[e $UE 42  ]
+"343
+[; ;fat16.c: 343: }
+
+[e :UE 42 ]
+}
+"351
+[v _FindPreviousDirectoryEntry `(uc 1 ef3`*S13`*S13`uc ]
+{
+[v _file `*S13 1 r1 ]
+[v _dir `*S13 1 r2 ]
+[v _mode `uc 1 r3 ]
+[; ;fat16.c: 350: unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir, unsigned char mode)
+
+[; ;fat16.c: 351: {
+
+[e :U _FindPreviousDirectoryEntry ]
+[f ]
+"352
+[v _entryStart `us 1 a ]
+"353
+[v _entrySectorOffset `us 1 a ]
+"354
+[v _dirEntry `*S11 1 a ]
+[; ;fat16.c: 352: unsigned short entryStart;
+
+[; ;fat16.c: 353: unsigned short entrySectorOffset;
+
+[; ;fat16.c: 354: union FAT_directoryEntry * dirEntry;
+
+[; ;fat16.c: 356: if(0 == file->entry )
+
+"356
+[e $ ! == -> -> 0 `i `ui -> . *U _file 2 `ui 61  ]
+[; ;fat16.c: 357: {
+
+[; ;fat16.c: 359: if(3 == mode)
+
+"359
+[e $ ! == -> 3 `i -> _mode `i 62  ]
+[; ;fat16.c: 360: { return(0); }
+
+"360
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+[e $U 63  ]
+"361
+[e :U 62 ]
+[; ;fat16.c: 361: else
+
+[; ;fat16.c: 362: { return(1); }
+
+"362
+[e ) -> -> 1 `i `uc ]
+[e $UE 60  ]
+[e :U 63 ]
+"363
+[e :U 61 ]
+[; ;fat16.c: 363: }
+
+[; ;fat16.c: 366: entryStart = file->entry;
+
+"366
+[e = _entryStart . *U _file 2 ]
+[; ;fat16.c: 369: if(!FileSeek(dir, file->entry >> 4))
+
+"369
+[e $ ! ! != -> ( _FileSeek (2
+ , _dir -> >> -> . *U _file 2 `ui -> 4 `i `ul `i -> -> -> 0 `i `uc `i 64  ]
+[; ;fat16.c: 370: { return(0); }
+
+"370
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+[e :U 64 ]
+[; ;fat16.c: 373: do
+
+"373
+[e :U 67 ]
+[; ;fat16.c: 374: {
+
+[; ;fat16.c: 376: file->entry--;
+
+"376
+[e -- . *U _file 2 -> -> 1 `i `us ]
+[; ;fat16.c: 379: entrySectorOffset = file->entry & 0xF;
+
+"379
+[e = _entrySectorOffset -> & -> . *U _file 2 `ui -> -> 15 `i `ui `us ]
+[; ;fat16.c: 382: if(0xF == entrySectorOffset)
+
+"382
+[e $ ! == -> -> 15 `i `ui -> _entrySectorOffset `ui 68  ]
+[; ;fat16.c: 383: {
+
+[; ;fat16.c: 385: dir->sector = (unsigned long) file->entry >> 4;
+
+"385
+[e = . *U _dir 3 >> -> . *U _file 2 `ul -> 4 `i ]
+[; ;fat16.c: 388: if(~selectedPartiton.clusterMask == (dir->sector & ~selectedPartiton.clusterMask))
+
+"388
+[e $ ! == ~ . _selectedPartiton 9 & . *U _dir 3 ~ . _selectedPartiton 9 69  ]
+[; ;fat16.c: 389: {
+
+[; ;fat16.c: 391: if(!FileSeek(dir, file->entry >> 4))
+
+"391
+[e $ ! ! != -> ( _FileSeek (2
+ , _dir -> >> -> . *U _file 2 `ui -> 4 `i `ul `i -> -> -> 0 `i `uc `i 70  ]
+[; ;fat16.c: 392: { return(0); }
+
+"392
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+[e :U 70 ]
+"393
+[e :U 69 ]
+"394
+[e :U 68 ]
+[; ;fat16.c: 393: }
+
+[; ;fat16.c: 394: }
+
+[; ;fat16.c: 397: if (!MMC_Read(GetLBA(dir),secbuf))
+
+"397
+[e $ ! ! != -> ( _MMC_Read (2
+ , ( _GetLBA (1
+ _dir &U _secbuf `i -> -> -> 0 `i `uc `i 71  ]
+[; ;fat16.c: 398: { return(0); }
+
+"398
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+[e :U 71 ]
+[; ;fat16.c: 401: dirEntry = (union FAT_directoryEntry *)(secbuf + (entrySectorOffset << 5));
+
+"401
+[e = _dirEntry -> + &U _secbuf * -> << -> _entrySectorOffset `ui -> 5 `i `ux -> -> # `uc `ui `ux `*S11 ]
+[; ;fat16.c: 412: if(0x00 == dirEntry->entry.shortName.name[0])
+
+"412
+[e $ ! == -> 0 `i -> *U + &U . . . *U _dirEntry 0 0 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i 72  ]
+[; ;fat16.c: 413: { return(0); }
+
+"413
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+[e :U 72 ]
+[; ;fat16.c: 416: if(0xE5 == dirEntry->entry.shortName.name[0])
+
+"416
+[e $ ! == -> 229 `i -> *U + &U . . . *U _dirEntry 0 0 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i 73  ]
+[; ;fat16.c: 417: { continue; }
+
+"417
+[e $U 65  ]
+[e :U 73 ]
+[; ;fat16.c: 420: if (0 == (dirEntry->entry.attributes & ((1 << 1) | (1 << 2) | (1 << 3))) )
+
+"420
+[e $ ! == -> 0 `i & -> . . *U _dirEntry 0 1 `i | | << -> 1 `i -> 1 `i << -> 1 `i -> 2 `i << -> 1 `i -> 3 `i 74  ]
+[; ;fat16.c: 421: {
+
+[; ;fat16.c: 422: if(1 == mode)
+
+"422
+[e $ ! == -> 1 `i -> _mode `i 75  ]
+[; ;fat16.c: 423: {
+
+[; ;fat16.c: 425: if (1 == (entryStart - file->entry))
+
+"425
+[e $ ! == -> -> 1 `i `ui - -> _entryStart `ui -> . *U _file 2 `ui 76  ]
+[; ;fat16.c: 426: {
+
+[; ;fat16.c: 427: file->entry++;
+
+"427
+[e ++ . *U _file 2 -> -> 1 `i `us ]
+[; ;fat16.c: 428: return(1);
+
+"428
+[e ) -> -> 1 `i `uc ]
+[e $UE 60  ]
+"429
+[e :U 76 ]
+[; ;fat16.c: 429: }
+
+[; ;fat16.c: 432: if(0 == file->entry)
+
+"432
+[e $ ! == -> -> 0 `i `ui -> . *U _file 2 `ui 77  ]
+[; ;fat16.c: 433: { return (1); }
+
+"433
+[e ) -> -> 1 `i `uc ]
+[e $UE 60  ]
+[e :U 77 ]
+"434
+[; ;fat16.c: 434: }
+
+[e $U 78  ]
+"435
+[e :U 75 ]
+[; ;fat16.c: 435: else
+
+[; ;fat16.c: 436: {
+
+[; ;fat16.c: 438: if(0 == file->entry)
+
+"438
+[e $ ! == -> -> 0 `i `ui -> . *U _file 2 `ui 79  ]
+[; ;fat16.c: 439: { return (1); }
+
+"439
+[e ) -> -> 1 `i `uc ]
+[e $UE 60  ]
+[e $U 80  ]
+"440
+[e :U 79 ]
+[; ;fat16.c: 440: else
+
+[; ;fat16.c: 441: {
+
+[; ;fat16.c: 443: mode = 1;
+
+"443
+[e = _mode -> -> 1 `i `uc ]
+[; ;fat16.c: 444: entryStart = file->entry;
+
+"444
+[e = _entryStart . *U _file 2 ]
+"445
+[e :U 80 ]
+"446
+[e :U 78 ]
+"447
+[e :U 74 ]
+[; ;fat16.c: 445: }
+
+[; ;fat16.c: 446: }
+
+[; ;fat16.c: 447: }
+
+[; ;fat16.c: 450: if( ((1 << 3) | (1 << 2) | (1 << 1) | (1 << 0)) == dirEntry->entry.attributes
+
+"451
+[; ;fat16.c: 451: && (dirEntry->LFN.sequenceNo & 0x40))
+
+[e $ ! && == | | | << -> 1 `i -> 3 `i << -> 1 `i -> 2 `i << -> 1 `i -> 1 `i << -> 1 `i -> 0 `i -> . . *U _dirEntry 0 1 `i != & -> . . *U _dirEntry 1 0 `i -> 64 `i -> 0 `i 81  ]
+[; ;fat16.c: 452: {
+
+[; ;fat16.c: 454: if(1 == mode)
+
+"454
+[e $ ! == -> 1 `i -> _mode `i 82  ]
+[; ;fat16.c: 455: { return(1); }
+
+"455
+[e ) -> -> 1 `i `uc ]
+[e $UE 60  ]
+[e :U 82 ]
+"456
+[e :U 81 ]
+"457
+[e :U 65 ]
+"458
+[; ;fat16.c: 456: }
+
+[; ;fat16.c: 457: }
+
+[; ;fat16.c: 458: while(file->entry > 0);
+
+[e $ > -> . *U _file 2 `ui -> -> 0 `i `ui 67  ]
+[e :U 66 ]
+[; ;fat16.c: 461: file->entry = entryStart;
+
+"461
+[e = . *U _file 2 _entryStart ]
+[; ;fat16.c: 462: return (0);
+
+"462
+[e ) -> -> 0 `i `uc ]
+[e $UE 60  ]
+"463
+[; ;fat16.c: 463: }
+
+[e :UE 60 ]
+}
+"472
+[v _ProcessDirEntry `(uc 1 ef2`*S13`*S11 ]
+{
+[v _file `*S13 1 r1 ]
+[v _dirEntry `*S11 1 r2 ]
+[; ;fat16.c: 471: unsigned char ProcessDirEntry(struct fileTYPE *file, union FAT_directoryEntry * dirEntry)
+
+[; ;fat16.c: 472: {
+
+[e :U _ProcessDirEntry ]
+[f ]
+"473
+[v _i `s 1 a ]
+"474
+[v _char_offset `s 1 a ]
+[; ;fat16.c: 473: short i;
+
+[; ;fat16.c: 474: short char_offset;
+
+[; ;fat16.c: 477: if(0x00 == dirEntry->entry.shortName.name[0])
+
+"477
+[e $ ! == -> 0 `i -> *U + &U . . . *U _dirEntry 0 0 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i 84  ]
+[; ;fat16.c: 478: {
+
+[; ;fat16.c: 482: return(0);
+
+"482
+[e ) -> -> 0 `i `uc ]
+[e $UE 83  ]
+"483
+[e :U 84 ]
+[; ;fat16.c: 483: }
+
+[; ;fat16.c: 486: if(0xE5 != dirEntry->entry.shortName.name[0])
+
+"486
+[e $ ! != -> 229 `i -> *U + &U . . . *U _dirEntry 0 0 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i 85  ]
+[; ;fat16.c: 487: {
+
+[; ;fat16.c: 489: if(((1 << 3) | (1 << 2) | (1 << 1) | (1 << 0)) == dirEntry->entry.attributes)
+
+"489
+[e $ ! == | | | << -> 1 `i -> 3 `i << -> 1 `i -> 2 `i << -> 1 `i -> 1 `i << -> 1 `i -> 0 `i -> . . *U _dirEntry 0 1 `i 86  ]
+[; ;fat16.c: 490: {
+
+[; ;fat16.c: 492: char_offset = ((dirEntry->LFN.sequenceNo & 0x3f)-1) * 13;
+
+"492
+[e = _char_offset -> * - & -> . . *U _dirEntry 1 0 `i -> 63 `i -> 1 `i -> 13 `i `s ]
+[; ;fat16.c: 495: for(i = 0; i < 13 && (char_offset + i) < (128 - 1); i++)
+
+"495
+[e = _i -> -> 0 `i `s ]
+[e $U 90  ]
+"496
+[e :U 87 ]
+[; ;fat16.c: 496: { longFilename[char_offset + i] = dirEntry->bytes[charLFNPos[i]]; }
+
+[e = *U + &U _longFilename * -> -> + -> _char_offset `i -> _i `i `ui `ux -> -> # `uc `ui `ux *U + &U . *U _dirEntry 2 * -> *U + &U _charLFNPos * -> -> _i `us `ux -> -> # `Cuc `ui `ux `ux -> -> # `uc `ui `ux ]
+"495
+[e ++ _i -> -> 1 `i `s ]
+[e :U 90 ]
+[e $ && < -> _i `i -> 13 `i < + -> _char_offset `i -> _i `i - -> 128 `i -> 1 `i 87  ]
+[e :U 88 ]
+"497
+[; ;fat16.c: 497: }
+
+[e $U 91  ]
+"498
+[e :U 86 ]
+[; ;fat16.c: 498: else if (dirEntry->entry.attributes & ((1 << 1) | (1 << 2) | (1 << 3)) )
+
+[e $ ! != & -> . . *U _dirEntry 0 1 `i | | << -> 1 `i -> 1 `i << -> 1 `i -> 2 `i << -> 1 `i -> 3 `i -> 0 `i 92  ]
+[; ;fat16.c: 499: {
+
+[; ;fat16.c: 504: memset(longFilename,0,128);
+
+"504
+[e ( _memset (3
+ , , -> &U _longFilename `*v -> 0 `i -> -> 128 `i `ui ]
+"505
+[; ;fat16.c: 505: }
+
+[e $U 93  ]
+"506
+[e :U 92 ]
+[; ;fat16.c: 506: else
+
+[; ;fat16.c: 507: {
+
+[; ;fat16.c: 509: memcpy(&file->name, &dirEntry->entry.shortName, 11);
+
+"509
+[e ( _memcpy (3
+ , , -> &U . *U _file 0 `*v -> &U . . *U _dirEntry 0 0 `*Cv -> -> 11 `i `ui ]
+[; ;fat16.c: 510: file->name[11] = 0x00;
+
+"510
+[e = *U + &U . *U _file 0 * -> -> -> 11 `i `ui `ux -> -> # `uc `ui `ux -> -> 0 `i `uc ]
+[; ;fat16.c: 511: file->attributes = dirEntry->entry.attributes;
+
+"511
+[e = . *U _file 1 . . *U _dirEntry 0 1 ]
+[; ;fat16.c: 512: file->len = dirEntry->entry.length;
+
+"512
+[e = . *U _file 4 . . *U _dirEntry 0 11 ]
+[; ;fat16.c: 513: file->firstCluster = (unsigned long)dirEntry->entry.firstClusterLow;
+
+"513
+[e = . *U _file 6 -> . . *U _dirEntry 0 10 `ul ]
+[; ;fat16.c: 514: file->firstCluster |= ((unsigned long)dirEntry->entry.firstClusterHigh)<<16;
+
+"514
+[e =| . *U _file 6 << -> . . *U _dirEntry 0 7 `ul -> 16 `i ]
+[; ;fat16.c: 515: file->cluster = file->firstCluster;
+
+"515
+[e = . *U _file 5 . *U _file 6 ]
+[; ;fat16.c: 516: file->sector = 0;
+
+"516
+[e = . *U _file 3 -> -> -> 0 `i `l `ul ]
+[; ;fat16.c: 520: if(!longFilename[0] && (file->name[0] != '.') )
+
+"520
+[e $ ! && ! != -> *U + &U _longFilename * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `i -> -> -> 0 `i `uc `i != -> *U + &U . *U _file 0 * -> -> -> 0 `i `ui `ux -> -> # `uc `ui `ux `ui -> 46 `ui 94  ]
+[; ;fat16.c: 521: {
+
+[; ;fat16.c: 522: char_offset = 0;
+
+"522
+[e = _char_offset -> -> 0 `i `s ]
+[; ;fat16.c: 523: for(i=0; i < 11; i++)
+
+"523
+[e = _i -> -> 0 `i `s ]
+[e $ < -> _i `i -> 11 `i 95  ]
+[e $U 96  ]
+"524
+[e :U 95 ]
+[; ;fat16.c: 524: {
+
+[; ;fat16.c: 525: if(file->name[i] != ' ')
+
+"525
+[e $ ! != -> *U + &U . *U _file 0 * -> -> _i `us `ux -> -> # `uc `ui `ux `ui -> 32 `ui 98  ]
+[; ;fat16.c: 526: { longFilename[char_offset++] = file->name[i]; }
+
+"526
+[e = *U + &U _longFilename * -> -> ++ _char_offset -> -> 1 `i `s `us `ux -> -> # `uc `ui `ux *U + &U . *U _file 0 * -> -> _i `us `ux -> -> # `uc `ui `ux ]
+[e :U 98 ]
+[; ;fat16.c: 528: if(7 == i)
+
+"528
+[e $ ! == -> 7 `i -> _i `i 99  ]
+[; ;fat16.c: 529: { longFilename[char_offset++] = '.'; }
+
+"529
+[e = *U + &U _longFilename * -> -> ++ _char_offset -> -> 1 `i `s `us `ux -> -> # `uc `ui `ux -> -> 46 `ui `uc ]
+[e :U 99 ]
+"523
+[e ++ _i -> -> 1 `i `s ]
+[e $ < -> _i `i -> 11 `i 95  ]
+[e :U 96 ]
+[; ;fat16.c: 530: }
+
+[; ;fat16.c: 531: longFilename[char_offset++] = 0x00;
+
+"531
+[e = *U + &U _longFilename * -> -> ++ _char_offset -> -> 1 `i `s `us `ux -> -> # `uc `ui `ux -> -> 0 `i `uc ]
+"532
+[e :U 94 ]
+[; ;fat16.c: 532: }
+
+[; ;fat16.c: 538: return(1);
+
+"538
+[e ) -> -> 1 `i `uc ]
+[e $UE 83  ]
+"539
+[e :U 93 ]
+[e :U 91 ]
+"540
+[e :U 85 ]
+[; ;fat16.c: 539: }
+
+[; ;fat16.c: 540: }
+
+[; ;fat16.c: 542: return (2);
+
+"542
+[e ) -> -> 2 `i `uc ]
+[e $UE 83  ]
+"543
+[; ;fat16.c: 543: }
+
+[e :UE 83 ]
+}
+"548
+[v _FileNextSector `(uc 1 ef1`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[; ;fat16.c: 547: unsigned char FileNextSector(struct fileTYPE *file)
+
+[; ;fat16.c: 548: {
+
+[e :U _FileNextSector ]
+[f ]
+[; ;fat16.c: 550: file->sector++;
+
+"550
+[e ++ . *U _file 3 -> -> -> 1 `i `l `ul ]
+[; ;fat16.c: 553: if ((file->sector & ~selectedPartiton.clusterMask)==0)
+
+"553
+[e $ ! == & . *U _file 3 ~ . _selectedPartiton 9 -> -> -> 0 `i `l `ul 101  ]
+[; ;fat16.c: 554: { GetNextClusterIndexFromFAT(file); }
+
+"232 ..\fat16.h
+[v _GetNextClusterIndexFromFAT `(uc 0 ef1`*S13 ]
+"554 ..\fat16.c
+[e ( _GetNextClusterIndexFromFAT (1
+ _file ]
+[e :U 101 ]
+[; ;fat16.c: 556: return(1);
+
+"556
+[e ) -> -> 1 `i `uc ]
+[e $UE 100  ]
+"557
+[; ;fat16.c: 557: }
+
+[e :UE 100 ]
+}
+"561
+[v _FileSeek `(uc 1 ef2`*S13`ul ]
+{
+[v _file `*S13 1 r1 ]
+[v _sector `ul 1 r2 ]
+[; ;fat16.c: 560: unsigned char FileSeek(struct fileTYPE *file, unsigned long sector)
+
+[; ;fat16.c: 561: {
+
+[e :U _FileSeek ]
+[f ]
+"562
+[v _currentClusterNo `l 1 a ]
+"563
+[v _clusterNo `l 1 a ]
+[; ;fat16.c: 562: long currentClusterNo;
+
+[; ;fat16.c: 563: long clusterNo;
+
+[; ;fat16.c: 566: currentClusterNo = (long)file->sector;
+
+"566
+[e = _currentClusterNo -> . *U _file 3 `l ]
+[; ;fat16.c: 567: currentClusterNo /= (long)selectedPartiton.clusterSize;
+
+"567
+[e =/ _currentClusterNo -> . _selectedPartiton 8 `l ]
+[; ;fat16.c: 570: file->sector = sector;
+
+"570
+[e = . *U _file 3 _sector ]
+[; ;fat16.c: 573: clusterNo = (long)file->sector;
+
+"573
+[e = _clusterNo -> . *U _file 3 `l ]
+[; ;fat16.c: 574: clusterNo /= (long)selectedPartiton.clusterSize;
+
+"574
+[e =/ _clusterNo -> . _selectedPartiton 8 `l ]
+[; ;fat16.c: 577: currentClusterNo -= clusterNo;
+
+"577
+[e =- _currentClusterNo _clusterNo ]
+[; ;fat16.c: 580: if(0 == currentClusterNo)
+
+"580
+[e $ ! == -> -> 0 `i `l _currentClusterNo 103  ]
+[; ;fat16.c: 581: { return(1); }
+
+"581
+[e ) -> -> 1 `i `uc ]
+[e $UE 102  ]
+[e :U 103 ]
+[; ;fat16.c: 584: file->cluster = file->firstCluster;
+
+"584
+[e = . *U _file 5 . *U _file 6 ]
+[; ;fat16.c: 591: if(0 == clusterNo)
+
+"591
+[e $ ! == -> -> 0 `i `l _clusterNo 104  ]
+[; ;fat16.c: 592: { return(1); }
+
+"592
+[e ) -> -> 1 `i `uc ]
+[e $UE 102  ]
+[e :U 104 ]
+[; ;fat16.c: 595: while(--clusterNo >= 0)
+
+"595
+[e $U 105  ]
+[e :U 106 ]
+[; ;fat16.c: 596: {
+
+[; ;fat16.c: 597: GetNextClusterIndexFromFAT(file);
+
+"597
+[e ( _GetNextClusterIndexFromFAT (1
+ _file ]
+"603
+[e :U 105 ]
+"595
+[e $ >= =- _clusterNo -> -> 1 `i `l -> -> 0 `i `l 106  ]
+[e :U 107 ]
+[; ;fat16.c: 603: }
+
+[; ;fat16.c: 605: return(1);
+
+"605
+[e ) -> -> 1 `i `uc ]
+[e $UE 102  ]
+"606
+[; ;fat16.c: 606: }
+
+[e :UE 102 ]
+}
+"611
+[v _GetNextClusterIndexFromFAT `(uc 1 ef1`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[; ;fat16.c: 610: unsigned char GetNextClusterIndexFromFAT(struct fileTYPE *file)
+
+[; ;fat16.c: 611: {
+
+[e :U _GetNextClusterIndexFromFAT ]
+[f ]
+"612
+[v _index `us 1 a ]
+"613
+[v _fatSectorLba `ul 1 a ]
+[; ;fat16.c: 612: unsigned short index;
+
+[; ;fat16.c: 613: unsigned long fatSectorLba;
+
+[; ;fat16.c: 616: fatSectorLba = selectedPartiton.fatStart;
+
+"616
+[e = _fatSectorLba . _selectedPartiton 2 ]
+[; ;fat16.c: 618: if(selectedPartiton.fatType & 0x10)
+
+"618
+[e $ ! != & -> . _selectedPartiton 0 `i -> 16 `i -> 0 `i 109  ]
+[; ;fat16.c: 619: {
+
+[; ;fat16.c: 621: fatSectorLba += (file->cluster) >> 8;
+
+"621
+[e =+ _fatSectorLba >> . *U _file 5 -> 8 `i ]
+[; ;fat16.c: 624: index = (file->cluster) & 0xFF;
+
+"624
+[e = _index -> & . *U _file 5 -> -> -> 255 `i `l `ul `us ]
+[; ;fat16.c: 625: index <<= 1;
+
+"625
+[e =<< _index -> 1 `i ]
+"626
+[; ;fat16.c: 626: }
+
+[e $U 110  ]
+"627
+[e :U 109 ]
+[; ;fat16.c: 627: else
+
+[; ;fat16.c: 628: {
+
+[; ;fat16.c: 630: fatSectorLba += (file->cluster) >> 7;
+
+"630
+[e =+ _fatSectorLba >> . *U _file 5 -> 7 `i ]
+[; ;fat16.c: 633: index = (file->cluster) & 0x7F;
+
+"633
+[e = _index -> & . *U _file 5 -> -> -> 127 `i `l `ul `us ]
+[; ;fat16.c: 634: index <<= 2;
+
+"634
+[e =<< _index -> 2 `i ]
+"635
+[e :U 110 ]
+[; ;fat16.c: 635: }
+
+[; ;fat16.c: 638: if (!MMC_Read(fatSectorLba, secbuf))
+
+"638
+[e $ ! ! != -> ( _MMC_Read (2
+ , _fatSectorLba &U _secbuf `i -> -> -> 0 `i `uc `i 111  ]
+[; ;fat16.c: 639: { return(0); }
+
+"639
+[e ) -> -> 0 `i `uc ]
+[e $UE 108  ]
+[e :U 111 ]
+[; ;fat16.c: 641: if(selectedPartiton.fatType & 0x10)
+
+"641
+[e $ ! != & -> . _selectedPartiton 0 `i -> 16 `i -> 0 `i 112  ]
+[; ;fat16.c: 642: {
+
+[; ;fat16.c: 644: file->cluster = *((unsigned short*)&secbuf[index]);
+
+"644
+[e = . *U _file 5 -> *U -> &U *U + &U _secbuf * -> _index `ux -> -> # `uc `ui `ux `*us `ul ]
+"649
+[; ;fat16.c: 649: }
+
+[e $U 113  ]
+"650
+[e :U 112 ]
+[; ;fat16.c: 650: else
+
+[; ;fat16.c: 651: {
+
+[; ;fat16.c: 653: file->cluster = *((unsigned long*)&secbuf[index]);
+
+"653
+[e = . *U _file 5 *U -> &U *U + &U _secbuf * -> _index `ux -> -> # `uc `ui `ux `*ul ]
+[; ;fat16.c: 654: file->cluster &= 0x0FFFFFFF;
+
+"654
+[e =& . *U _file 5 -> 268435455 `ul ]
+"659
+[e :U 113 ]
+[; ;fat16.c: 659: }
+
+[; ;fat16.c: 661: return (1);
+
+"661
+[e ) -> -> 1 `i `uc ]
+[e $UE 108  ]
+"662
+[; ;fat16.c: 662: }
+
+[e :UE 108 ]
+}
+"667
+[v _GetLBA `(ul 1 ef1`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[; ;fat16.c: 666: unsigned long GetLBA(struct fileTYPE *file)
+
+[; ;fat16.c: 667: {
+
+[e :U _GetLBA ]
+[f ]
+"668
+[v _lba `ul 1 a ]
+[; ;fat16.c: 668: unsigned long lba;
+
+[; ;fat16.c: 671: if(0 == file->firstCluster)
+
+"671
+[e $ ! == -> -> -> 0 `i `l `ul . *U _file 6 115  ]
+[; ;fat16.c: 672: {
+
+[; ;fat16.c: 673: lba = selectedPartiton.rootDirStart;
+
+"673
+[e = _lba . _selectedPartiton 5 ]
+[; ;fat16.c: 674: lba += file->sector;
+
+"674
+[e =+ _lba . *U _file 3 ]
+"675
+[; ;fat16.c: 675: }
+
+[e $U 116  ]
+"676
+[e :U 115 ]
+[; ;fat16.c: 676: else
+
+[; ;fat16.c: 677: {
+
+[; ;fat16.c: 678: lba = selectedPartiton.dataStart;
+
+"678
+[e = _lba . _selectedPartiton 3 ]
+[; ;fat16.c: 679: lba += (file->cluster-2) * selectedPartiton.clusterSize;
+
+"679
+[e =+ _lba * - . *U _file 5 -> -> -> 2 `i `l `ul -> . _selectedPartiton 8 `ul ]
+[; ;fat16.c: 680: lba += file->sector & ~selectedPartiton.clusterMask;
+
+"680
+[e =+ _lba & . *U _file 3 ~ . _selectedPartiton 9 ]
+"681
+[e :U 116 ]
+[; ;fat16.c: 681: }
+
+[; ;fat16.c: 683: return lba;
+
+"683
+[e ) _lba ]
+[e $UE 114  ]
+"684
+[; ;fat16.c: 684: }
+
+[e :UE 114 ]
+}
+"689
+[v _FileRead `(uc 1 ef1`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[; ;fat16.c: 688: unsigned char FileRead(struct fileTYPE *file)
+
+[; ;fat16.c: 689: {
+
+[e :U _FileRead ]
+[f ]
+[; ;fat16.c: 690: return MMC_Read(GetLBA(file),secbuf);
+
+"690
+[e ) ( _MMC_Read (2
+ , ( _GetLBA (1
+ _file &U _secbuf ]
+[e $UE 117  ]
+"691
+[; ;fat16.c: 691: }
+
+[e :UE 117 ]
+}
+"695
+[v _FileWrite `(uc 1 ef1`*S13 ]
+{
+[v _file `*S13 1 r1 ]
+[; ;fat16.c: 694: unsigned char FileWrite(struct fileTYPE *file)
+
+[; ;fat16.c: 695: {
+
+[e :U _FileWrite ]
+[f ]
+[; ;fat16.c: 696: return(MMC_Write(GetLBA(file),secbuf));
+
+"86 ..\mmc.h
+[v _MMC_Write `(uc 0 ef2`ul`*uc ]
+"696 ..\fat16.c
+[e ) ( _MMC_Write (2
+ , ( _GetLBA (1
+ _file &U _secbuf ]
+[e $UE 118  ]
+"697
+[; ;fat16.c: 697: }
+
+[e :UE 118 ]
+}
