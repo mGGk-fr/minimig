@@ -43,6 +43,8 @@ images.
 2009-09-09	- FindPreviousDirectoryEntry created
 2009-10-15	- Removed string buffer reference from main not needed
 2009-12-05	- Open file cleaned code
+2009-12-09	- Fixed FindPreviousDirectoryEntry when just looking for long filename
+			- Fixed '.' not added to filename when no extension.
 */
 
 #include <stdio.h>
@@ -320,7 +322,7 @@ unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir,  un
 		if (!MMC_Read(GetLBA(dir),secbuf))
 		{	return(0);	}
 
-		// Calculate file entry offset in directory sector, 16 entries in sector
+		// Calculate file entry offset in directory sector, 16 entries in sector 32 byte big
 		entryOffset = (file->entry & 0xF) << 5;
 
 		// Process directory entry
@@ -335,7 +337,7 @@ unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir,  un
 		
 		// Check should we seek directory to next sector
 		if(!(file->entry & 0xF))
-		{	 FileNextSector(dir);	}
+		{	FileNextSector(dir);	}
 	}
 
 	// Return error
@@ -401,13 +403,17 @@ unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE 
 		dirEntry = (union FAT_directoryEntry *)(secbuf + (entrySectorOffset << 5));
 
 		#ifdef FAT16_DEBUG
-		printf("Entry:%03d attr: 0x%02X, name: '%c', 0x%02X\r\n",
+		printf("Entry:%03d attr: 0x%02X, name: '%c', 0x%02X, fullname: %s\r\n",
 				file->entry, 
 				dirEntry->entry.attributes, 
 				dirEntry->entry.shortName.name[0], 
-				dirEntry->entry.shortName.name[0]);
+				dirEntry->entry.shortName.name[0],
+				dirEntry->entry.shortName.name
+		);
+		printf("E:%04X A:%02X Name: %s\r\n", file->entry, dirEntry->entry.attributes, file->name);
 		#endif
-		
+
+
 		// Check if we are at directory end
 		if(FAT_ENTRY_FREE == dirEntry->entry.shortName.name[0])
 		{	return(0);	}
@@ -421,16 +427,9 @@ unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE 
 		{
 			if(DIRECTORY_BROWSE_CURRENT == mode)
 			{
-				// No LFN move pointer to original file and exit
-				if (1 == (entryStart - file->entry))
-				{	
-					file->entry++;
-					return(1);
-				}
-				
-				// First nothing to search more
-				if(0 == file->entry)
-				{	return (1);		}
+				// Normal entry found when browsing current, just move to next entry
+				file->entry++;
+				return(1);
 			}
 			else
 			{
@@ -500,7 +499,7 @@ unsigned char ProcessDirEntry(struct fileTYPE *file, union FAT_directoryEntry * 
 			#ifdef FAT16_DEBUG
 			printf ("Skiping entry no:%d attr:0x%02X\r\n", file->entry, dirEntry->entry.attributes);
 			#endif
-			// Clear lognfile name just in case
+			// Clear longfile name just in case
 			memset(longFilename,0,MAX_LFN_SIZE);
 		}
 		else
@@ -528,7 +527,12 @@ unsigned char ProcessDirEntry(struct fileTYPE *file, union FAT_directoryEntry * 
 					if(7 == i)
 					{	longFilename[char_offset++] = '.';		}
 				}
-				longFilename[char_offset++] = 0x00;
+				
+				// Delete Last dot
+				if(longFilename[char_offset-1]=='.')
+				{	char_offset--;	}
+
+				longFilename[char_offset] = 0x00;
 			}
 			
 			#ifdef FAT16_DEBUG
@@ -551,7 +555,9 @@ unsigned char FileNextSector(struct fileTYPE *file)
 
 	// if we are now in another cluster, look up cluster
 	if ((file->sector & ~selectedPartiton.clusterMask)==0)
-	{	GetNextClusterIndexFromFAT(file);	}
+	{
+		GetNextClusterIndexFromFAT(file);
+	}
 
 	return(1);
 }
@@ -721,6 +727,8 @@ void DisplayFileInfo(const unsigned char *info, struct fileTYPE *file)
 	printf(" length: 0x%08lX", file->len);
 	printf(" first cluster: 0x%08lX", file->firstCluster);
 	printf(" cluster: 0x%08lX", file->cluster);
-	printf(" sector: 0x%08lX\r\n\r\n", file->sector);
+	printf(" sector: 0x%08lX", file->sector);
+	printf("\r\n");
 }
+
 #endif

@@ -115,7 +115,7 @@ void ScrollDir(const unsigned char *type, unsigned char mode)
 			seekmode = DIRECTORY_BROWSE_NEXT;
 
 			// Check for valid entry, directory or required file type
-			if ((file.attributes & FAT_ATTRIB_DIR) || (type[0]=='*') || (strncmp(&file.name[8],type,3)==0))
+			if ((file.attributes & FAT_ATTRIB_DIR) || (type[0]=='*') || (0 == strncmp(&file.name[8],type,3)) )
 			{
 				directory[i] = file;
 				i++;
@@ -140,13 +140,13 @@ void ScrollDir(const unsigned char *type, unsigned char mode)
 				if ((file.attributes & FAT_ATTRIB_DIR) && rc)
 				{	break;	}
 			}
-			while ((type[0]!='*') && (strncmp(&file.name[8],type,3)) && rc);
+			while ((type[0]!='*') && (0 != strncmp(&file.name[8],type,3)) && rc);
 
 			// update directory[] if file found
 			if (rc)
 			{
 				// Move Directory entries up
-				for (i=0;i<DIRSIZE-1;i++)
+				for (i=0; i < (DIRSIZE-1); i++)
 				{	directory[i] = directory[i+1];	}
 				// Fill Last Entry in dir list
 				directory[DIRSIZE-1] = file;
@@ -177,7 +177,7 @@ void ScrollDir(const unsigned char *type, unsigned char mode)
 				if ((file.attributes & FAT_ATTRIB_DIR) && rc)
 				{	break;	}
 			}
-			while ((type[0]!='*') && (strncmp(&file.name[8],type,3)) && rc);
+			while ((type[0]!='*') && (0 != strncmp(&file.name[8],type,3)) && rc);
 
 			// update directory[] if file found
 			if (rc)

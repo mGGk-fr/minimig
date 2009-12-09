@@ -44,10 +44,8 @@ This is the Minimig OSD (on-screen-display) handler.
 #define OSD_NO_LINES		8			// number of lines of OSD
 
 #if		defined(PYQ090405)
-//#if	FPGA_REV == PYQ090405
 	#define	OSD_LINE_BYTES		128		// single line length in bytes
 #elif	defined(PGL091207)
-//#elif FPGA_REV == PYQ090911
 	#define	OSD_LINE_BYTES		256		// single line length in bytes
 #endif
 
@@ -114,7 +112,6 @@ void OsdWrite(unsigned char n, const unsigned char *s, char invert)
 		else
 		{
 			#if	defined(PYQ090405)
-			//#if	FPGA_REV == PYQ090405
 				// Send Space
 				SPI(0x00);
 	
@@ -129,7 +126,6 @@ void OsdWrite(unsigned char n, const unsigned char *s, char invert)
 				byte_cnt += 6;
 	
 			#elif	defined(PGL091207)
-			//#elif FPGA_REV == PYQ090911
 				// Send Space
 				SPI(0x00);
 				SPI(0x00);

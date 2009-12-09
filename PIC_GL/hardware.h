@@ -9,12 +9,12 @@
 //#define	PYQ090405	PYQ090405
 #define	PGL091207	PGL091207
 
-// Define Command header
+// Define Command header, FPGA and PIC rev
 #if	defined(PYQ090405)
 	#define	FPGA_CMD_HDR0	0xAA
 	#define	FPGA_CMD_HDR1	0x55
 	#define FPGA_REV 		PYQ090405
-	#define	PIC_REV			PYQ090405
+	#define	PIC_REV			PGL090405
 #elif	defined(PGL091207)
 	#define	FPGA_CMD_HDR0	0xAA
 	#define	FPGA_CMD_HDR1	0x67
