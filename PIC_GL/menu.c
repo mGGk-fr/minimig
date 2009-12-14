@@ -25,12 +25,16 @@ Minimig on screen display menu
 			- Strigs adapted to a new font (arrows)
 			- Added extensions for ADF and HDF display
 2009-12-06	- Fixed Floppy no selection.
-
+2009-12-09	- Added preselect menu after file selection fixes problem when reloading kickstart
+2009-12-14	- Chipset settings modified to support latest Yacube FPGA PYQ090911 bin
+			- Config Floppy speed modified
+			- OsdReset, added constant for reset type
 */
 
 #include <pic18.h>
 #include <stdio.h>
 #include <string.h>
+#include "hardware.h"
 #include "boot.h"
 #include "osd.h"
 #include "fat16.h"
@@ -65,6 +69,7 @@ bit left;
 // File Selection
 const unsigned char *fbFileExt;
 unsigned char fbSelectedState;
+unsigned char fbSelectedStatePreselect;
 unsigned char fbExitState;
 unsigned char fbAllowDirectorySelect;
 
@@ -208,7 +213,7 @@ void HandleUI(void)
 						df[menusub].status = 0;
 						pdfx = &df[menusub];
 						
-						SelectFile(defFloppyExt, MENU_FLOPPY_SELECTED, MENU_MAIN1, 1);
+						SelectFile(defFloppyExt, MENU_FLOPPY_SELECTED, menusub, MENU_MAIN1, 1);
 					}
 				}
 				else if (menusub == MAX_FLOPPY_DRIVES )
@@ -324,6 +329,7 @@ void HandleUI(void)
 					{
 						// File Selected exit File requester
 						menustate = fbSelectedState;
+						menusub = fbSelectedStatePreselect;
 					}
 					OsdClear();
 				}
@@ -356,7 +362,7 @@ void HandleUI(void)
 			if (select && 0 == menusub)
 			{
 				menustate = MENU_NONE1;
-				OsdReset(0);
+				OsdReset(RESET_NORMAL);
 			}
 	
 			if (menu || (select && 1 == menusub)) /*exit menu*/
@@ -447,17 +453,31 @@ void HandleUI(void)
 		case MENU_SETTINGS_CHIPSET1 :
 			OsdWrite(0, " \x1B  -= CHIPSET =-  \x1A", 0);
 	
-			strcpy(s, "      CPU : ");
-			strcat(s, config.chipset & 0x01 ? "28.36MHz " : " 7.09MHz");
-			OsdWrite(2, s, 0 == menusub);
+			#if	defined(PYQ090405)
+				strcpy(s, "      CPU : ");
+				strcat(s, config.chipset & CONFIG_CPU_28MHZ ? "28.36MHz " : " 7.09MHz");
+				OsdWrite(2, s, 0 == menusub);
 	
-			strcpy(s, "  Blitter : ");
-			strcat(s, config.chipset & 0x02 ? "fast  " : "normal");
-			OsdWrite(3, s, 1 == menusub);
+				strcpy(s, "  Blitter : ");
+				strcat(s, config.chipset & CONFIG_BLITTER_FAST ? "fast  " : "normal");
+				OsdWrite(3, s, 1 == menusub);
 	
-			strcpy(s, "    Agnus : ");
-			strcat(s, config.chipset & 0x04 ? "NTSC" : "PAL ");
-			OsdWrite(4, s, 2 == menusub);
+				strcpy(s, "    Agnus : ");
+				strcat(s, config.chipset & CONFIG_AGNUS_NTSC ? "NTSC" : "PAL ");
+				OsdWrite(4, s, 2 == menusub);
+			#elif	defined(PGL091207)
+				strcpy(s, "      CPU : ");
+				strcat(s, config.chipset & CONFIG_CPU_TURBO ? "turbo " : "normal");
+				OsdWrite(2, s, 0 == menusub);
+	
+				strcpy(s, "    Agnus : ");
+				strcat(s, config.chipset & CONFIG_AGNUS_NTSC ? "NTSC  " : "PAL ");
+				OsdWrite(3, s, 1 == menusub);
+	
+				strcpy(s, "    Agnus : ");
+				strcat(s, config.chipset & CONFIG_AGNUS_ECS ? "ECS" : "OCS");
+				OsdWrite(4, s, 2 == menusub);
+			#endif
 	
 			OsdWrite(7, "        exit", 3 == menusub);
 	
@@ -470,30 +490,61 @@ void HandleUI(void)
 	
 			if (select)
 			{
-				if (0 == menusub)
-				{
-					config.chipset ^= 0x01;
-					menustate = MENU_SETTINGS_CHIPSET1;
-					ConfigChipset(config.chipset);
-				}
-				else if (1 == menusub)
-				{
-					config.chipset ^= 0x02;
-					menustate = MENU_SETTINGS_CHIPSET1;
-					ConfigChipset(config.chipset);
-				}
-				else if (2 == menusub)
-				{
-					config.chipset ^= 0x04;
-					menustate = MENU_SETTINGS_CHIPSET1;
-					ConfigChipset(config.chipset);
-				}
-				else if (3 == menusub)/*return to settings menu*/
-				{
-					menustate = MENU_SETTINGS1;
-					menusub = 0;
-					OsdClear();
-				}
+				#if	defined(PYQ090405)
+
+					if (0 == menusub)
+					{
+						config.chipset ^= CONFIG_CPU_28MHZ;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (1 == menusub)
+					{
+						config.chipset ^= CONFIG_BLITTER_FAST;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (2 == menusub)
+					{
+						config.chipset ^= CONFIG_AGNUS_NTSC;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (3 == menusub)/*return to settings menu*/
+					{
+						menustate = MENU_SETTINGS1;
+						menusub = 0;
+						OsdClear();
+					}
+
+				#elif	defined(PGL091207)
+
+					if (0 == menusub)
+					{
+						config.chipset ^= CONFIG_CPU_TURBO;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (1 == menusub)
+					{
+						config.chipset ^= CONFIG_AGNUS_NTSC;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (2 == menusub)
+					{
+						config.chipset ^= CONFIG_AGNUS_ECS;
+						menustate = MENU_SETTINGS_CHIPSET1;
+						ConfigChipset(config.chipset);
+					}
+					else if (3 == menusub)/*return to settings menu*/
+					{
+						menustate = MENU_SETTINGS1;
+						menusub = 0;
+						OsdClear();
+					}
+
+				#endif
 			}
 	
 			if (menu)/*return to settings menu*/
@@ -566,7 +617,7 @@ void HandleUI(void)
 				{
 					// Always Open Rom From Root
 					OpenRootDirectory(&currentDir);
-					SelectFile(defRomExt, MENU_ROMFILESELECTED1, MENU_SETTINGS_MEMORY1, 0);
+					SelectFile(defRomExt, MENU_ROMFILESELECTED1, 0, MENU_SETTINGS_MEMORY1, 0);
 				}
 				else if (3 == menusub)
 				{
@@ -642,8 +693,9 @@ void HandleUI(void)
 				}
 				else if (1 == menusub)
 				{
-					config.floppy_speed++;
-					config.floppy_speed &= 0x01;
+					//config.floppy_speed++;
+					//config.floppy_speed &= 0x01;
+					config.floppy_speed ^= CONFIG_FLOPPY2X; 
 					menustate = MENU_SETTINGS_DRIVES1;
 					ConfigFloppy(config.floppy_drives, config.floppy_speed);
 				}
@@ -739,7 +791,7 @@ void HandleUI(void)
 				{
 					// Always Open Hard disk file from Root
 					OpenRootDirectory(&currentDir);
-					SelectFile(defHardDiskExt, MENU_HARDFILE_SELECTED, MENU_SETTINGS_HARDFILE1, 0);
+					SelectFile(defHardDiskExt, MENU_HARDFILE_SELECTED, menusub, MENU_SETTINGS_HARDFILE1, 0);
 				}
 				else if (4 == menusub) // return to previous menu
 				{
@@ -878,7 +930,7 @@ void HandleUI(void)
 						OsdDisable();
 
 						//reset to bootloader
-						OsdReset(1);
+						OsdReset(RESET_BOOTLOADER);
 						ConfigChipset(config.chipset|0x01);
 						ConfigFloppy(1, 1);
 						
@@ -942,11 +994,12 @@ void HandleUpDown(unsigned char state, unsigned char max)
 }
 
 
-void SelectFile(const char* extension, unsigned char selectedState, unsigned char exitState, unsigned char allowDirectorySelect)
+void SelectFile(const char* extension, unsigned char selectedState, unsigned char selectedStatePreselect, unsigned char exitState, unsigned char allowDirectorySelect)
 {
 	// Set File Browser settings and fill initial directory
 	fbFileExt = extension;
 	fbSelectedState = selectedState;
+	fbSelectedStatePreselect = selectedStatePreselect;
 	fbExitState = exitState;
 	fbAllowDirectorySelect = allowDirectorySelect;
 	

@@ -34,6 +34,7 @@ void InsertFloppy(struct adfTYPE *drive);
 void CheckTrack(struct adfTYPE *drive);
 void ReadTrack(struct adfTYPE *drive);
 void WriteTrack(struct adfTYPE *drive);
+void PrepareGlobalFileHandle(struct adfTYPE *drive);
 unsigned char FindSync(struct adfTYPE *drive);
 unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector);
 unsigned char GetData(void);

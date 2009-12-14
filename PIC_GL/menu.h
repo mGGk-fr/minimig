@@ -39,7 +39,7 @@ extern const char * const config_memory_slow_msg[];
 
 void HandleUI(void);
 void HandleUpDown(unsigned char state, unsigned char max);
-void SelectFile(const char* extension, unsigned char selectedState, unsigned char exitState, unsigned char allowDirectorySelect);
+void SelectFile(const char* extension, unsigned char selectedState, unsigned char selectedStatePreselect, unsigned char exitState, unsigned char allowDirectorySelect);
 
 void ErrorMessage(const char* message, unsigned char code);
 

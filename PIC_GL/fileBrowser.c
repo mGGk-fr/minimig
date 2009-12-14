@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-09-06	- ScrollDir now uses memcpy instead manual dir entry copy to save rom space 
 2009-09-08	- ScrollDir uses direct structure copy beacuse directory is list of file entries smaller memory footprint
 2009-10-15	- Removed extern string buffer reference defined in main
+2009-12-13	- Fixed ScrollDir when searching for file begining with specific character 
 
 */
 #include <pic18.h>
@@ -195,7 +196,7 @@ void ScrollDir(const unsigned char *type, unsigned char mode)
 			dirptr--;
 		}
 	}
-	else if (mode >= 32)
+	else if (32 <= mode)
 	{
 		//find entry beginnig with the given character
 		i = 0;
@@ -212,7 +213,7 @@ void ScrollDir(const unsigned char *type, unsigned char mode)
 			// fill directory with available files
 			while (i<DIRSIZE)
 			{
-				if(!GetDirectoryEntry(&file, &currentDir, seekmode))
+				if(GetDirectoryEntry(&file, &currentDir, seekmode))
 				{
 					//entry found
 					seekmode = DIRECTORY_BROWSE_NEXT;
