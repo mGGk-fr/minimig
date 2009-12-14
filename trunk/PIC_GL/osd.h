@@ -38,6 +38,21 @@
 #define KEY_F9    0x58
 #define KEY_F10   0x59
 
+// Chipset Config bits 
+#define CONFIG_CPU_28MHZ	0x01	// PYQ090405 - CPU 7.09MHz/28.36MHz
+#define CONFIG_CPU_TURBO	0x01	// PYQ090911 - CPU Normal/Turbo
+#define CONFIG_BLITTER_FAST	0x02	// PYQ090405 - Blitter Normal/Fast
+#define CONFIG_AGNUS_NTSC	0x04	// PYQ090405 & PYQ090911 - Agnus PAL/NTSC
+#define CONFIG_AGNUS_ECS	0x08	// PYQ090911 - Agnus: OCS/ECS
+
+// Floppy speed
+#define	CONFIG_FLOPPY1X		0x00	// Normal floppy speed
+#define	CONFIG_FLOPPY2X 	0x01	// Double floppy speed
+
+// OSD Reset type
+#define RESET_NORMAL		0x00	// Reset Amiga
+#define RESET_BOOTLOADER	0x01	// Reset To Boot Loader
+
 /*functions*/
 void OsdWrite(unsigned char n,const unsigned char *s, char invert);
 void OsdClear(void);

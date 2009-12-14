@@ -80,6 +80,7 @@ WriteTrack errors:
 2009-12-05	- Boot Wait before key read replaced with wait function
 2009-12-97	- Pic version changed to PGLYYMMDD
 			- Added FPGA version to display
+2009-12-14	- OsdReset, added constant for reset type
 */
 
 #include <pic18.h>
@@ -176,7 +177,7 @@ void main(void)
 	ConfigChipset(config.chipset|0x01);	//force CPU turbo mode
 
 	if (config.chipset & 0x04)			//reset if NTSC mode requested because FPGA boots in PAL mode by default
-	{	OsdReset(1);	}
+	{	OsdReset(RESET_BOOTLOADER);	}
 
 	ConfigFloppy(1, 1);					//high speed mode for ROM loading
 

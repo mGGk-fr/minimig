@@ -26,6 +26,8 @@ ADF Routines for minimig
 2009-11-14	- HandleFDD moved from main
 			- UpdateDriveStatus moved from main 
 2009-11-30	- Cleaned up global floppy_drives variable, not needed
+2009-12-13	- ReadTrack and WriteTrack modified to properly handle global file handle due to file seek optmisations
+ 			- floppy_drives commented out in HandleFDD, not used any more
 */
 
 #include <pic18.h>
@@ -51,12 +53,13 @@ struct adfTYPE df[MAX_FLOPPY_DRIVES];	// drives information structure
 void HandleFDD(unsigned char c1, unsigned char c2)
 {
 	unsigned char sel;
-	unsigned char floppy_drives = 0;		//curent number of active FPGA floppy drives
 
-	floppy_drives = (c1 >> 4) & 0x03;		//number of active floppy drives
-
-	if (floppy_drives > (MAX_FLOPPY_DRIVES-1))
-	{	floppy_drives = (MAX_FLOPPY_DRIVES-1);	}
+	// Why read No of floppy drives ?
+	// Historical reasons no need any more
+//	unsigned char floppy_drives = 0;		//curent number of active FPGA floppy drives
+//	floppy_drives = (c1 >> 4) & 0x03;		//number of active floppy drives
+//	if (floppy_drives > (MAX_FLOPPY_DRIVES-1))
+//	{	floppy_drives = (MAX_FLOPPY_DRIVES-1);	}
 
 	if (c1 & CMD_RDTRK)
 	{
@@ -139,8 +142,28 @@ void CheckTrack(struct adfTYPE *drive)
 	DisableFpga();
 }
 
+// Prepares global file handle for reading and writing
+void PrepareGlobalFileHandle(struct adfTYPE *drive)
+{
+	// Setup global file handle for reading
+	// Restore previous file params
+	file.firstCluster = drive->firstCluster;
+	if(0 < drive->trackprev)
+	{
+		file.cluster = drive->clusteroffset;
+		file.sector = (unsigned long)drive->trackprev;
+		file.sector *= 11;
+		file.sector += drive->sectoroffset;
+	}
+	else
+	{
+		file.cluster = file.firstCluster;
+		file.sector = 0;
+	}
+}
 
-/*read a track from disk*/
+
+//read a track from disk
 //track number is updated in drive struct before calling this function
 void ReadTrack(struct adfTYPE *drive)
 {
@@ -150,31 +173,34 @@ void ReadTrack(struct adfTYPE *drive)
 	unsigned short n;
 	unsigned long seekSector;
 
-	/*display track number: cylinder & head*/
+	// display track number: cylinder & head
 	#ifdef DEBUG_ADF
 	printf("*%d:", drive->track);
 	#endif
 
+	// Prepare Global File Handle
+	PrepareGlobalFileHandle(drive);
+
+	// track step or track 0, start at beginning of track
 	if (drive->track != drive->trackprev)
 	{
-		/*track step or track 0, start at beginning of track*/
 		drive->trackprev = drive->track;
 		sector = 0;
 
-		file.firstCluster = drive->firstCluster;
+		//file.firstCluster = drive->firstCluster;
 		seekSector = (unsigned long)drive->track;
 		seekSector *=11;
 		FileSeek(&file, seekSector);
 		
-		drive->sectoroffset = sector;
-		drive->clusteroffset = file.cluster;
+//		drive->sectoroffset = sector;
+//		drive->clusteroffset = file.cluster;
 	}
 	else
 	{
 		/*same track, start at next sector in track*/
 		sector = drive->sectoroffset;
-		file.cluster = drive->clusteroffset;
-		file.sector = (drive->track*11) + sector;
+//		file.cluster = drive->clusteroffset;
+//		file.sector = (unsigned long)(drive->track*11) + sector;
 	}
 
 	EnableFpga();
@@ -195,7 +221,7 @@ void ReadTrack(struct adfTYPE *drive)
 	{
 		sector = 0;
 		
-		file.firstCluster = drive->firstCluster;
+//		file.firstCluster = drive->firstCluster;
 		seekSector = (unsigned long)drive->track;
 		seekSector *=11;
 		FileSeek(&file, seekSector);
@@ -207,7 +233,7 @@ void ReadTrack(struct adfTYPE *drive)
 
 		EnableFpga();
 
-		/*check if FPGA is still asking for data*/
+		// check if FPGA is still asking for data
 		c1 = SPI(0);		//read request signal
 		c2 = SPI(0);		//track number (cylinder & head)
 		dsksynch = SPI(0);	//disk sync high byte
@@ -237,7 +263,7 @@ void ReadTrack(struct adfTYPE *drive)
 		//in this case let's start transfer from the beginning
 		if (c2 == drive->track)
 		{
-			/*send sector if fpga is still asking for data*/
+			// send sector if fpga is still asking for data
 			if (c1 & CMD_RDTRK)
 			{
 				if (c3==0 && c4<4)
@@ -246,8 +272,8 @@ void ReadTrack(struct adfTYPE *drive)
 				{
 					n = SectorToFpga(sector, drive->track, dsksynch, dsksyncl);
 
-					#ifdef DEBUG_ADF
 					// printing remaining dma count
+					#ifdef DEBUG_ADF
 					printf("-%04X", n);
 					#endif
 
@@ -273,7 +299,7 @@ void ReadTrack(struct adfTYPE *drive)
 			}
 		}
 
-		/*we are done accessing FPGA*/
+		// we are done accessing FPGA
 		DisableFpga();
 
 		//track has changed
@@ -292,20 +318,24 @@ void ReadTrack(struct adfTYPE *drive)
 			//go to the start of current track
 			sector = 0;
 				
-			file.firstCluster = drive->firstCluster;
+			//file.firstCluster = drive->firstCluster;
 			seekSector = (unsigned long)drive->track;
 			seekSector *=11;
 			FileSeek(&file, seekSector);
 		}
 
 		//remember current sector and cluster
-		drive->sectoroffset = sector;
-		drive->clusteroffset = file.cluster;
+//		drive->sectoroffset = sector;
+//		drive->clusteroffset = file.cluster;
 
 		#ifdef DEBUG_ADF
 		printf("->");
 		#endif
 	}
+
+	//remember current sector and cluster
+	drive->sectoroffset = sector;
+	drive->clusteroffset = file.cluster;
 
 	#ifdef DEBUG_ADF
 	printf(":OK\r\n");
@@ -321,8 +351,11 @@ void WriteTrack(struct adfTYPE *drive)
 	unsigned char writeSector;
 	unsigned long seekSector;
 
+	// Prepare Global File Handle
+	PrepareGlobalFileHandle(drive);
+	
 	//setting file pointer to begining of current track
-	file.firstCluster = drive->firstCluster;
+//	file.firstCluster = drive->firstCluster;
 	seekSector = (unsigned long)drive->track;
 	seekSector *=11;
 	FileSeek(&file, seekSector);
@@ -352,7 +385,7 @@ void WriteTrack(struct adfTYPE *drive)
 					}
 					else
 					{
-						file.firstCluster = drive->firstCluster;
+//						file.firstCluster = drive->firstCluster;
 						seekSector = (unsigned long)drive->track;
 						seekSector *=11;
 						FileSeek(&file, seekSector);
@@ -390,7 +423,10 @@ void WriteTrack(struct adfTYPE *drive)
 			ErrorMessage("  WriteTrack", Error);
 		}
 	}
-
+	
+	//remember current sector and cluster
+	drive->sectoroffset = sector;
+	drive->clusteroffset = file.cluster;
 }
 
 
