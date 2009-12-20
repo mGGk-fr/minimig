@@ -45,6 +45,8 @@ images.
 2009-12-05	- Open file cleaned code
 2009-12-09	- Fixed FindPreviousDirectoryEntry when just looking for long filename
 			- Fixed '.' not added to filename when no extension.
+2009-12-20	- Fixed displaying correct root dir entries when short names and volume entry found
+			- Fixed LFN search when previous entries are either volume or short dir entires
 */
 
 #include <stdio.h>
@@ -289,7 +291,11 @@ unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir,  un
 {
 	short entryOffset;
 	char rc;
-	
+
+	// Clear long file name
+	memset(longFilename,0,MAX_LFN_SIZE);
+
+	// Check for mode
 	switch(mode)
 	{
 		case DIRECTORY_BROWSE_NEXT:
@@ -307,9 +313,6 @@ unsigned char GetDirectoryEntry(struct fileTYPE *file, struct fileTYPE *dir,  un
 			file->entry = 0;
 			break;
 	}
-	
-	// Clear long file name
-	memset(longFilename,0,MAX_LFN_SIZE);
 	
 	//Seek directory to selected file entry
 	if(!FileSeek(dir, file->entry >> 4))
@@ -422,9 +425,16 @@ unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE 
 		if(FAT_ENTRY_DELETED == dirEntry->entry.shortName.name[0])
 		{	continue;	}
 
-		// Check if normal entry
-		if (0 == (dirEntry->entry.attributes & (FAT_ATTRIB_HIDDEN | FAT_ATTRIB_SYSTEM | FAT_ATTRIB_VOLUME)) )
+		// Check if last long filename entry, and just exit
+		if(FAT_ATTRIB_LFN_TEXT == dirEntry->entry.attributes)
 		{
+			// Exit if LFN search and we found it
+			if((DIRECTORY_BROWSE_CURRENT == mode) && (dirEntry->LFN.sequenceNo & FAT_LFN_LAST_MASK))
+			{	return(1);	}
+		}
+		else if (0 == (dirEntry->entry.attributes & (FAT_ATTRIB_HIDDEN | FAT_ATTRIB_SYSTEM | FAT_ATTRIB_VOLUME)) )
+		{
+			// Check if normal entry
 			if(DIRECTORY_BROWSE_CURRENT == mode)
 			{
 				// Normal entry found when browsing current, just move to next entry
@@ -435,7 +445,9 @@ unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE 
 			{
 				// On first entry exit nothing to search more
 				if(0 == file->entry)
-				{	return (1);		}
+				{	
+					return (1);
+				}
 				else
 				{
 					// Entry found, continue searching for LFN
@@ -444,15 +456,13 @@ unsigned char FindPreviousDirectoryEntry(struct fileTYPE *file, struct fileTYPE 
 				}
 			}
 		}
-		
-		// Check if last long filename entry, and just exit
-		if( FAT_ATTRIB_LFN_TEXT == dirEntry->entry.attributes 
-				&& (dirEntry->LFN.sequenceNo & FAT_LFN_LAST_MASK))
+		else if((dirEntry->entry.attributes & FAT_ATTRIB_VOLUME) && (DIRECTORY_BROWSE_CURRENT == mode))
 		{
-			// Exit if LFN search and we found it
-			if(DIRECTORY_BROWSE_CURRENT == mode)
-			{	return(1);	}
+			// Normal entry found when browsing current, just move to next entry
+			file->entry++;
+			return(1);
 		}
+		
 	} 
 	while(file->entry > 0);
 	

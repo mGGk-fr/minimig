@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-08-30	- boot.c to make more clear code
 2009-09-20	- Supporty for new FPGA bin 090911 by yaqube
 2009-11-27	- Code cleanup, SendBootFPGACommand function extracted
+2009-12-20	- Corrected error display when AR or Rom missing
 */
 
 #include <pic18.h>
@@ -28,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fat16.h"
 #include "boot.h"
 
+// Global string buffer 
+extern unsigned char s[25];
 
 
 // Infinite loop for error display
@@ -172,9 +175,8 @@ char UploadKickstart(const unsigned char *name)
 {
 	if (!Open(&file,name))
 	{
-		BootPrint("No \"");
-		BootPrint(name);
-		BootPrint("\" file!");
+		sprintf(s, "No \"%s\" file!", name);
+		BootPrint(s);
 		return 40;
 	}
 
@@ -204,10 +206,8 @@ char UploadActionReplay(const unsigned char *name)
 {
 	if (!Open(&file,name))
 	{
-		BootPrint("No \"");
-		BootPrint(name);
-		BootPrint("\" file!");
-
+		sprintf(s, "No \"%s\" file!", name);
+		BootPrint(s);
 		return 40;
 	}
 
@@ -220,7 +220,6 @@ char UploadActionReplay(const unsigned char *name)
 	else
 	{
 		BootPrint("\nUnsupported AR3.ROM file size!!!");
-
 		return 41;
 	}
 

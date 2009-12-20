@@ -28,11 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-11-22	- Fixed working but slooooow
 2009-11-26	- Added Direct transfer mode to FPGA
 			- Changed cluster size on card to 32kb to test faster transfer, now works better
+2009-12-20	- Added extension check for HD File
 */
 
 #include <pic18.h>
 #include <stdio.h>
 #include <string.h>
+#include "config.h"
 #include "mmc.h"
 #include "fat16.h"
 #include "hdd.h"
@@ -434,7 +436,7 @@ void GetHardfileGeometry(struct hdfTYPE *pHDF)
 
 unsigned char OpenHardfile(unsigned char unit, unsigned char *name)
 {
-	if (name[0])
+	if (name[0] && (0 == strncmp(&name[8],defHardDiskExt,3)))
 	{
 		#ifdef HDD_DEBUG
 		printf("\r\nTrying to open hard file: %s\r\n", name);

@@ -28,6 +28,7 @@ ADF Routines for minimig
 2009-11-30	- Cleaned up global floppy_drives variable, not needed
 2009-12-13	- ReadTrack and WriteTrack modified to properly handle global file handle due to file seek optmisations
  			- floppy_drives commented out in HandleFDD, not used any more
+2009-12-20	- WriteTrack fixed to do correct file seek before writing
 */
 
 #include <pic18.h>
@@ -148,6 +149,7 @@ void PrepareGlobalFileHandle(struct adfTYPE *drive)
 	// Setup global file handle for reading
 	// Restore previous file params
 	file.firstCluster = drive->firstCluster;
+
 	if(0 < drive->trackprev)
 	{
 		file.cluster = drive->clusteroffset;
@@ -187,20 +189,14 @@ void ReadTrack(struct adfTYPE *drive)
 		drive->trackprev = drive->track;
 		sector = 0;
 
-		//file.firstCluster = drive->firstCluster;
 		seekSector = (unsigned long)drive->track;
 		seekSector *=11;
 		FileSeek(&file, seekSector);
-		
-//		drive->sectoroffset = sector;
-//		drive->clusteroffset = file.cluster;
 	}
 	else
 	{
 		/*same track, start at next sector in track*/
 		sector = drive->sectoroffset;
-//		file.cluster = drive->clusteroffset;
-//		file.sector = (unsigned long)(drive->track*11) + sector;
 	}
 
 	EnableFpga();
@@ -221,7 +217,6 @@ void ReadTrack(struct adfTYPE *drive)
 	{
 		sector = 0;
 		
-//		file.firstCluster = drive->firstCluster;
 		seekSector = (unsigned long)drive->track;
 		seekSector *=11;
 		FileSeek(&file, seekSector);
@@ -318,15 +313,10 @@ void ReadTrack(struct adfTYPE *drive)
 			//go to the start of current track
 			sector = 0;
 				
-			//file.firstCluster = drive->firstCluster;
 			seekSector = (unsigned long)drive->track;
 			seekSector *=11;
 			FileSeek(&file, seekSector);
 		}
-
-		//remember current sector and cluster
-//		drive->sectoroffset = sector;
-//		drive->clusteroffset = file.cluster;
 
 		#ifdef DEBUG_ADF
 		printf("->");
@@ -355,15 +345,14 @@ void WriteTrack(struct adfTYPE *drive)
 	PrepareGlobalFileHandle(drive);
 	
 	//setting file pointer to begining of current track
-//	file.firstCluster = drive->firstCluster;
 	seekSector = (unsigned long)drive->track;
 	seekSector *=11;
 	FileSeek(&file, seekSector);
 
 	sector = 0;
 
-	//just to force next read from the start of current track
-	drive->trackprev = drive->track + 1;
+	// Store Requested track to previous track
+	drive->trackprev = drive->track;
 
 	#ifdef DEBUG_ADF
 	printf("*%d:\r", drive->track);
@@ -385,7 +374,6 @@ void WriteTrack(struct adfTYPE *drive)
 					}
 					else
 					{
-//						file.firstCluster = drive->firstCluster;
 						seekSector = (unsigned long)drive->track;
 						seekSector *=11;
 						FileSeek(&file, seekSector);
