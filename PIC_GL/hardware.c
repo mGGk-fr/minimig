@@ -26,6 +26,7 @@ Hardware control routines
 -- Goran Ljubojevic --
 2009-11-13		- OsdCommand added
 2009-11-21		- small cleanup
+2009-12-20		- systimer reset on every hardware init to support propper timings on reset
 
 */
 
@@ -73,6 +74,9 @@ void HardwareInit(void)
 	/*enable interrupt for timer 0*/
 	TMR0IE = 1;
 	GIE = 1;
+	
+	// Clear sys timer
+	systimer = 0;
 }
 
 /*interrupt service routine*/

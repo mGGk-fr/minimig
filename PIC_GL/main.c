@@ -81,6 +81,7 @@ WriteTrack errors:
 2009-12-97	- Pic version changed to PGLYYMMDD
 			- Added FPGA version to display
 2009-12-14	- OsdReset, added constant for reset type
+2009-12-20	- AR3 not generating failure when enabled and no rom found.
 */
 
 #include <pic18.h>
@@ -212,8 +213,11 @@ void main(void)
 
 	//load Action Replay ROM if not disabled
 	if (config.ar3 && !CheckButton())
-	{	
-		if(UploadActionReplay(defARName))
+	{
+		tmp = UploadActionReplay(defARName); 
+		if(40 == tmp)
+		{	config.ar3 = 0;		}
+		else if(41 == tmp)
 		{	FatalError(7);		}
 	}
 

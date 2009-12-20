@@ -29,6 +29,7 @@ Minimig on screen display menu
 2009-12-14	- Chipset settings modified to support latest Yacube FPGA PYQ090911 bin
 			- Config Floppy speed modified
 			- OsdReset, added constant for reset type
+2009-12-20	- Unselecting HD Files Added
 */
 
 #include <pic18.h>
@@ -789,9 +790,17 @@ void HandleUI(void)
 				}
 				else if ((1 == menusub) || (3 == menusub))
 				{
-					// Always Open Hard disk file from Root
-					OpenRootDirectory(&currentDir);
-					SelectFile(defHardDiskExt, MENU_HARDFILE_SELECTED, menusub, MENU_SETTINGS_HARDFILE1, 0);
+					if(hdf[menusub>>1].file.name[0])
+					{
+						memset(&hdf[menusub>>1],0,sizeof(struct hdfTYPE));
+						menustate = MENU_HARDFILE_SELECTED;
+					}
+					else
+					{
+						// Always Open Hard disk file from Root
+						OpenRootDirectory(&currentDir);
+						SelectFile(defHardDiskExt, MENU_HARDFILE_SELECTED, menusub, MENU_SETTINGS_HARDFILE1, 0);
+					}
 				}
 				else if (4 == menusub) // return to previous menu
 				{
