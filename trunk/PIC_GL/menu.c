@@ -30,6 +30,7 @@ Minimig on screen display menu
 			- Config Floppy speed modified
 			- OsdReset, added constant for reset type
 2009-12-20	- Unselecting HD Files Added
+2009-12-23	- Fixed HD file unselection by clearing global file handle when no file selection done
 */
 
 #include <pic18.h>
@@ -790,10 +791,14 @@ void HandleUI(void)
 				}
 				else if ((1 == menusub) || (3 == menusub))
 				{
-					if(hdf[menusub>>1].file.name[0])
+					i = menusub>>1;
+					if(hdf[i].file.name[0])
 					{
-						memset(&hdf[menusub>>1],0,sizeof(struct hdfTYPE));
+						// Clear HD File and File Handle
+						memset(&hdf[i],0,sizeof(struct hdfTYPE));
+						memset(&file,0,sizeof(struct fileTYPE));
 						menustate = MENU_HARDFILE_SELECTED;
+						OsdClear();
 					}
 					else
 					{

@@ -47,6 +47,7 @@ images.
 			- Fixed '.' not added to filename when no extension.
 2009-12-20	- Fixed displaying correct root dir entries when short names and volume entry found
 			- Fixed LFN search when previous entries are either volume or short dir entires
+2009-12-23	- Fixed File Open when no file is found handle is cleared
 */
 
 #include <stdio.h>
@@ -224,7 +225,7 @@ unsigned char Open(struct fileTYPE *file, const unsigned char *name)
 	#ifdef FAT16_DEBUG
 	printf("\r\nOpen file: %s\r\n",name);
 	#endif
-
+	
 	if (GetDirectoryEntry(file,&currentDir,DIRECTORY_BROWSE_START))
 	{
 		do
@@ -232,7 +233,7 @@ unsigned char Open(struct fileTYPE *file, const unsigned char *name)
 			#ifdef FAT16_DEBUG
 			printf(" reading: %s\r\n",file->name);
 			#endif
-
+	
 			for(i=0; i<11; i++)
 			{
 				if (file->name[i]!=name[i])
@@ -249,11 +250,13 @@ unsigned char Open(struct fileTYPE *file, const unsigned char *name)
 		}
 		while (GetDirectoryEntry(file,&currentDir,DIRECTORY_BROWSE_NEXT));
 	}
-
+	
 	#ifdef FAT16_DEBUG
 	printf("NOT Found\r\n");
 	#endif
-	
+
+	// Clear file handle if file Can't be open
+	memset(file,0,sizeof(struct fileTYPE));
 	return (0);
 }
 
