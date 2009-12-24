@@ -65,6 +65,13 @@ WriteTrack errors:
 			- now ESC allows to exit OSD menu
 2009-04-05	- Action Replay may be disabled by pressing MENU button while its ROM upload should start
 2009-11-27	- minor adaptations for 090911 FPGA firmware
+2009-12-10	- changed boot command header id
+2009-12-12	- modified mfm sync word exclusion list
+			- fixed sector header generation
+2009-12-17	- changed inter sector gap length
+2009-12-18	- ReadTrack() function changed
+2009-12-22	- updated mfm sync word exclusion list
+2009-12-24	- updated version number
 */
 
 #include <pic18.h>
@@ -77,7 +84,7 @@ WriteTrack errors:
 
 //#define DEBUG
 
-const char version[] = {"$VER:PYQ090911"};
+const char version[] = {"$VER:PYQ091224"};
 
 void CheckTrack(struct adfTYPE *drive);
 void ReadTrack(struct adfTYPE *drive);
@@ -454,45 +461,45 @@ void main(void)
 				FatalError(6);
 			}
 
-			printf("Bootloading is complete.\r");
+	printf("Bootloading is complete.\r");
 
-			BootPrint("\nExiting bootloader...");
+	BootPrint("\nExiting bootloader...");
 
-			//config memory and chipset features
-			ConfigMemory(config_memory);
-			ConfigChipset(config_chipset);
-			ConfigFloppy(config_floppy_drives, config_floppy_speed);
+	//config memory and chipset features
+	ConfigMemory(config_memory);
+	ConfigChipset(config_chipset);
+	ConfigFloppy(config_floppy_drives, config_floppy_speed);
 
-			BootExit();
+	BootExit();
 
-			ConfigFilter(config_filter_lores, config_filter_hires); //set interpolation filters
-			ConfigScanline(config_scanline); //set scanline effect
+	ConfigFilter(config_filter_lores, config_filter_hires); //set interpolation filters
+	ConfigScanline(config_scanline); //set scanline effect
 
-			df[0].status = 0;
-			df[1].status = 0;
+	df[0].status = 0;
+	df[1].status = 0;
 
-			/******************************************************************************/
-			/*  System is up now                                                          */
-			/******************************************************************************/
+	/******************************************************************************/
+	/*  System is up now                                                          */
+	/******************************************************************************/
 
-			/*fill initial directory*/
-			ScrollDir("ADF",0);
+	/*fill initial directory*/
+	ScrollDir("ADF",0);
 
-			/*get initial timer for checking user interface*/
-			time = GetTimer(5);
+	/*get initial timer for checking user interface*/
+	time = GetTimer(5);
 
-			while (1)
-			{
-				/*handle command*/
-				HandleFpga();
+	while (1)
+	{
+		/*handle command*/
+		HandleFpga();
 
-				/*handle user interface*/
-				if (CheckTimer(time))
-				{
-					time = GetTimer(2);
-					User();
-				}
-			}
+		/*handle user interface*/
+		if (CheckTimer(time))
+		{
+			time = GetTimer(2);
+			User();
+		}
+	}
 }
 
 char UploadKickstart(const unsigned char *name)
@@ -555,7 +562,7 @@ char BootPrint(const char* text)
 				{
 					cmd = 0;
 					SPI(0xAA); //command header 0xAA67
-					SPI(0x67);
+					SPI(0x68);
 					SPI(0x00); //cmd: 0x0001 = print texts
 					SPI(0x01);
 					//data packet size in bytes
@@ -623,7 +630,7 @@ char BootUpload(struct fileTYPE *file, unsigned char base, unsigned char size)
 				{
 					cmd = 0;
 					SPI(0xAA);
-					SPI(0x67);	//command header 0xAA67
+					SPI(0x68);	//command header 0xAA67
 					SPI(0x00);
 					SPI(0x02);	//cmd: 0x0002 = upload memory
 					//memory base address
@@ -672,7 +679,7 @@ void BootExit(void)
 			if (c3==0x80 && c4==0x06)	//command packet size 12 bytes
 			{
 				SPI(0xAA); //command header 0xAA67
-				SPI(0x67);
+				SPI(0x68);
 				SPI(0x00); //cmd: 0x0003 = restart
 				SPI(0x03);
 				//don't care
@@ -711,7 +718,7 @@ void ClearMemory(unsigned char base, unsigned char size)
 			if (c3==0x80 && c4==0x06)//command packet size 12 bytes
 			{
 				SPI(0xAA); //command header 0xAA67
-				SPI(0x67);
+				SPI(0x68);
 				SPI(0x00); //cmd: 0x0004 = clear memory
 				SPI(0x04);
 				//memory base address
@@ -2025,14 +2032,6 @@ void ReadTrack(struct adfTYPE *drive)
 	printf("(%d)[%02X%02X]:", c1>>6, dsksynch, dsksyncl);
 #endif
 
-	// if dma read count is bigger than 11 sectors then we start the transfer from the begining of current track
-	if ((c3>0x17) || (c3==0x17 && c4>=0x60))
-	{
-		sector = 0;
-		file.cluster = drive->cache[drive->track];
-		file.sec = drive->track * 11;
-	}
-
 	while (1)
 	{
 		FileRead(&file);
@@ -2047,14 +2046,16 @@ void ReadTrack(struct adfTYPE *drive)
 		c3 = SPI(0); //msb of mfm words to transfer
 		c4 = SPI(0); //lsb of mfm words to transfer
 
-		if ((dsksynch==0x00 && dsksyncl==0x00) || (dsksynch==0x89 && dsksyncl==0x14)) //work around for Copy Lock in Wiz'n'Liz
-		{ // KS 1.3 doesn't write dsksync register after reset, probably uses soft sync
-			dsksynch = 0x44;
-			dsksyncl = 0x89;
-		}
-		//Wiz'n'Liz (Copy Lock): $8914
-		//Prince of Persia: $4891
-		//Commando: $A245
+        // workaround for Wiz'n'Liz and North&South (might brake other games)
+        if ((dsksynch == 0x00 && dsksyncl == 0x00) || (dsksynch == 0x89 && dsksyncl == 0x14) || (dsksynch == 0xA1 && dsksyncl == 0x44))
+        {
+            dsksynch = 0x44;
+            dsksyncl = 0x89;
+        }
+        // North&South: $A144
+        // Wiz'n'Liz (Copy Lock): $8914
+        // Prince of Persia: $4891
+        // Commando: $A245
 
 #ifdef DEBUG
 		printf("%X:%02X%02X", sector, c3, c4);
@@ -2558,7 +2559,7 @@ unsigned short SectorToFpga(unsigned char sector, unsigned char track, unsigned 
 
 	/*sector label and reserved area (changes nothing to checksum)*/
 	for (i=0;i<32;i++)
-		SPI(0x55);
+		SPI(0xAA);
 
 	/*checksum over header*/
 	SPI((csum[0]>>1)|0xaa);
@@ -2665,19 +2666,19 @@ unsigned short SectorToFpga(unsigned char sector, unsigned char track, unsigned 
 	return((c3<<8)|c4);
 }
 
-
 void SectorGapToFpga()
 {
 	unsigned char i;
-	i = 190;
+	i = 175;
 	do
 	{
+		SPI(0xAA);
+		SPI(0xAA);
 		SPI(0xAA);
 		SPI(0xAA);
 	}
 	while (--i);
 }
-
 
 void SectorHeaderToFpga(unsigned char n, unsigned char dsksynch, unsigned char dsksyncl)
 {

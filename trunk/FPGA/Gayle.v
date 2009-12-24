@@ -29,6 +29,7 @@
 // 2008-12-31	- added hdd enable
 // 2009-05-24	- clean-up & renaming
 // 2009-08-11	- hdd_ena enables Master & Slave drives
+// 2009-11-18	- changed sector buffer size
 
 module gayle
 (
@@ -43,6 +44,7 @@ module gayle
 	input	sel_ide,	//$DAxxxx
 	input	sel_gayle,	//$DExxxx
 	output	irq,
+	output	nrdy,			// fifo is not ready for reading 
 	input	[1:0] hdd_ena, //enables Master & Slave drives
 
 	output	hdd_cmd_req,
@@ -93,29 +95,31 @@ INTRQ	- Interrupt Request
 
 */
 
-wire 	sel_gayleid;
-wire 	sel_tfr;
-wire 	sel_fifo;
-wire 	sel_status;
-wire 	sel_command;
-wire 	sel_intreq;
-wire 	sel_intena;
+// address decoding signals
+wire 	sel_gayleid;	// Gayle ID register select
+wire 	sel_tfr;		// HDD task file registers select
+wire 	sel_fifo;		// HDD data port select (FIFO buffer)
+wire 	sel_status;		// HDD status register select
+wire 	sel_command;	// HDD command register select
+wire 	sel_intreq;		// Gayle interrupt request status register select
+wire 	sel_intena;		// Gayle interrupt enable register select
 
-reg		intena;
-reg		intreq;
-reg		busy;
-reg		pio_in;
-reg		pio_out;
-reg		error;
+// internal registers
+reg		intena;			// Gayle IDE interrupt enable bit
+reg		intreq;			// Gayle IDE interrupt request bit
+reg		busy;			// busy status (command processing state)
+reg		pio_in;			// pio in command type is being processed
+reg		pio_out;		// pio out command type is being processed
+reg		error;			// error status (command processing failed)
 
-reg		dev;	// drive 0/1 select
+reg		dev;			// drive select (Master/Slave)
+wire 	bsy;			// busy
+wire 	drdy;			// drive ready
+wire 	drq;			// data request
+wire 	err;			// error
+wire 	[7:0] status;	// HDD status
 
-wire 	bsy;
-wire 	drdy;
-wire 	drq;
-wire 	err;
-wire 	[7:0] status;
-
+// FIFO control
 wire	fifo_reset;
 wire	[15:0] fifo_data_in;
 wire	[15:0] fifo_data_out;
@@ -125,15 +129,18 @@ wire 	fifo_full;
 wire 	fifo_empty;
 
 // gayle id reg
-reg		[1:0] gayleid_cnt;
-wire	gayleid;
+reg		[1:0] gayleid_cnt; // sequence counter
+wire	gayleid; // output data (one bit wide)
 
+// HDD status register
 assign status = {bsy,drdy,2'b00,drq,2'b00,err};
 
+// HDD status register bits
 assign bsy = busy & ~drq;
 assign drdy = ~(bsy|drq);
 assign err = error;
 
+// address decoding
 assign sel_gayleid = sel_gayle && address_in[15:12]==4'b0001 ? 1 : 0;	//$DE1xxx
 assign sel_tfr = sel_ide && address_in[15:14]==2'b00 && !address_in[12] ? 1 : 0;
 assign sel_status = rd && sel_tfr && address_in[4:2]==3'b111 ? 1 : 0;
@@ -151,18 +158,22 @@ wire	[7:0] tfr_in;
 wire	[7:0] tfr_out;
 wire	tfr_we;
 
+// task file register control
 assign tfr_we = busy ? hdd_wr : sel_tfr & hwr;
 assign tfr_sel = busy ? hdd_addr : address_in[4:2];
 assign tfr_in = busy ? hdd_data_out[7:0] : data_in[15:8];
 
+// input multiplexer for SPI host
 assign hdd_data_in = tfr_sel==0 ? fifo_data_out : {8'h00,tfr_out};
 
+// task file registers
 always @(posedge clk)
 	if (tfr_we)
 		tfr[tfr_sel] <= tfr_in;
 		
 assign tfr_out = tfr[tfr_sel];
 
+// master/slave drive select
 always @(posedge clk)
 	if (reset)
 		dev <= 0;
@@ -179,12 +190,12 @@ always @(posedge clk)
 // gayle id register: reads 1->1->0->1 on MSB
 always @(posedge clk)
 	if (sel_gayleid)
-		if (hwr)
+		if (hwr) // a write resets sequence counter
 			gayleid_cnt <= 0;
 		else if (rd)
 			gayleid_cnt <= gayleid_cnt + 1;
 
-assign gayleid = gayleid_cnt[1:0] == 2'b10 ? 1'b0 : 1'b1;
+assign gayleid = gayleid_cnt[1:0] == 2'b10 ? 1'b0 : 1'b1; // Gayle ID output data
 
 // status register (write only from SPI host)
 // 7 - busy status (write zero to finish command processing: allow host access to task file registers)
@@ -200,60 +211,61 @@ assign gayleid = gayleid_cnt[1:0] == 2'b10 ? 1'b0 : 1'b1;
 always @(posedge clk)
 	if (reset)
 		busy <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[7])	//reset by writing a zero to BSY status bit by SPI host
+	else if (busy && hdd_status_wr && hdd_data_out[7])	// reset by SPI host (by clearing BSY status bit)
 		busy <= 0;
-	else if (sel_command)	//set after writing command register
+	else if (sel_command)	// set when the CPU writes command register
 		busy <= 1;
 
-//IDE interrupt enable register
+// IDE interrupt request register
 always @(posedge clk)
 	if (reset)
 		intreq <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[4] && intena)	//set by SPI host
+	else if (busy && hdd_status_wr && hdd_data_out[4] && intena) // set by SPI host
 		intreq <= 1;
-	else if (sel_intreq && hwr && !data_in[15])
+	else if (sel_intreq && hwr && !data_in[15]) // cleared by the CPU
 		intreq <= 0;
 
-assign irq = intreq;
+assign irq = intreq; // interrupt request line (INT2)
 
-// drq enable bit
+// pio in command type
 always @(posedge clk)
 	if (reset)
 		pio_in <= 0;
-	else if (drdy) //reset when drive finished command processing
+	else if (drdy) // reset when processing of the current command ends
 		pio_in <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[3])	//set by writing a one to DRQ status bit by SPI host
+	else if (busy && hdd_status_wr && hdd_data_out[3])	// set by SPI host 
 		pio_in <= 1;		
 
-// drq enable bit
+// pio out command type
 always @(posedge clk)
 	if (reset)
 		pio_out <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[7]) 	//reset when processing of the current command ends
+	else if (busy && hdd_status_wr && hdd_data_out[7]) 	// reset by SPI host when command processing completes
 		pio_out <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[2])	//set by writing a one by SPI host
+	else if (busy && hdd_status_wr && hdd_data_out[2])	// set by SPI host
 		pio_out <= 1;	
 		
-assign drq = (~fifo_empty & pio_in) | (fifo_empty & pio_out);
+assign drq = (fifo_full & pio_in) | (~fifo_full & pio_out); // HDD data request status bit
 
 // error status
 always @(posedge clk)
 	if (reset)
 		error <= 0;
-	else if (sel_command)	//reset by writing a new command
+	else if (sel_command) // reset by the CPU when command register is written
 		error <= 0;
-	else if (busy && hdd_status_wr && hdd_data_out[0])
+	else if (busy && hdd_status_wr && hdd_data_out[0]) // set by SPI host
 		error <= 1;	
 		
-assign hdd_cmd_req = bsy;
-assign hdd_dat_req = (~fifo_empty & pio_out);
+assign hdd_cmd_req = bsy; // bsy is set when command register is written, tells the SPI host about new command
+assign hdd_dat_req = (fifo_full & pio_out); // the FIFO is full so SPI host may read it
 
+// FIFO in/out multiplexer
 assign fifo_reset = reset | sel_command;
 assign fifo_data_in = pio_in ? hdd_data_out : data_in;
 assign fifo_rd = pio_out ? hdd_data_rd : sel_fifo & rd;
 assign fifo_wr = pio_in ? hdd_data_wr : sel_fifo & hwr & lwr;
 
-//sector data buffer
+//sector data buffer (FIFO)
 fifo256x16 sb1
 (
 	.clk(clk),
@@ -266,8 +278,11 @@ fifo256x16 sb1
 	.empty(fifo_empty)
 );
 
+// fifo is not ready for reading
 
-//data_out multiplexer //dev ? 16'h00_00 :
+assign nrdy = pio_in & sel_fifo & fifo_empty;
+
+//data_out multiplexer
 assign data_out = (sel_fifo && rd ? fifo_data_out : sel_status ? (!dev && hdd_ena[0]) || (dev && hdd_ena[1]) ? {status,8'h00} : 16'h00_00 : sel_tfr && rd ? {tfr_out,8'h00} : 16'h00_00)
 			   | (sel_intreq && rd ? {intreq,15'b000_0000_0000_0000} : 16'h00_00)				
 			   | (sel_intena && rd ? {intena,15'b000_0000_0000_0000} : 16'h00_00)				
@@ -292,47 +307,50 @@ module fifo256x16
 	input	rd,						// read from fifo
 	input	wr,						// write to fifo
 	output	full,					// fifo is full
-	output	reg empty				// fifo is empty
+	output	empty					// fifo is empty
 );
 
 //local signals and registers
-reg 	[15:0] mem [255:0];		// 256 words by 16 bit wide fifo memory
-reg		[8:0] inptr;			// fifo input pointer
-reg		[8:0] outptr;			// fifo output pointer
-wire	equal;					// lower 8 bits of inptr and outptr are equal
+reg 	[15:0] mem [2047:0];		// 256 words by 16 bit wide fifo memory
+reg		[11:0] inptr;				// fifo input pointer
+reg		[11:0] outptr;				// fifo output pointer
+wire	empty_rd;					// fifo empty flag (set immediately after reading the last word)
+reg		empty_wr;					// fifo empty flag (set one clock after writting the empty fifo)
 
-//main fifo memory (implemented using synchronous block ram)
+// main fifo memory (implemented using synchronous block ram)
 always @(posedge clk)
-	if (wr && !full)
-		mem[inptr[7:0]] <= data_in;
+	if (wr)
+		mem[inptr[10:0]] <= data_in;
 		
 always @(posedge clk)
-	data_out <= mem[outptr[7:0]];
+	data_out <= mem[outptr[10:0]];
 
-//fifo write pointer control
+// fifo write pointer control
 always @(posedge clk)
 	if (reset)
 		inptr <= 0;
-	else if (wr && !full)
+	else if (wr)
 		inptr <= inptr + 1;
 
-//fifo read pointer control
+// fifo read pointer control
 always @(posedge clk)
-	if(reset)
+	if (reset)
 		outptr <= 0;
-	else if(rd && !empty)
+	else if (rd)
 		outptr <= outptr + 1;
 
-//check lower 13 bits of pointer to generate equal signal
-assign equal = inptr==outptr ? 1 : 0;
+// the empty flag is set immediately after reading the last word from the fifo
+assign empty_rd = inptr==outptr ? 1 : 0;
 
-//assign output flags, empty is delayed by one clock to handle ram delay
+// after writting empty fifo the empty flag is delayed by one clock to handle ram write delay
 always @(posedge clk)
-	if (inptr[8]==outptr[8])
-		empty <= 1;
-	else
-		empty <= 0;
-		
-assign full = inptr[8]!=outptr[8] ? 1 : 0;	
+	empty_wr <= empty_rd;
+
+assign empty = empty_rd | empty_wr;
+
+// at least 512 bytes are in FIFO 
+// this signal is activated when 512th byte is written to the empty fifo
+// then it's deactivated when 512th byte is read from the fifo (hysteresis)		
+assign full = inptr[11:8]!=outptr[11:8] ? 1 : 0;	
 
 endmodule

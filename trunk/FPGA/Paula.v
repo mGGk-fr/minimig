@@ -51,12 +51,13 @@
 // 2009-04-05	- code clean-up
 // 2009-05-24	- clean-up & renaming
 // 2009-07-10	- implementation of intreq[14] (Unreal needs it)
-//
+// 2009-11-14	- added 28 MHz clock input for sigma-delta modulator
 
 module Paula
 (
 	//bus interface
 	input 	clk,		    		//bus clock
+	input	clk28m,
 	input 	cck,		    		//colour clock enable
 	input 	reset,			   		//reset 
 	input 	[8:1] reg_address_in,	//register address inputs
@@ -272,6 +273,7 @@ floppy pf1
 audio ad1
 (
 	.clk(clk),
+	.clk28m(clk28m),
 	.cck(cck),
 	.reset(reset),
 	.strhor(strhor),
@@ -297,7 +299,6 @@ endmodule
 /*interrupt controller*/
 module intcontroller
 (
-	output	inten,
 	input 	clk,		    	//bus clock
 	input 	reset,			   	//reset 
 	input 	[8:1] reg_address_in,	//register address inputs
@@ -328,8 +329,6 @@ reg		[14:0] intena;			//int enable write register
 reg 	[15:0] intenar;			//int enable read register
 reg		[14:0] intreq;			//int request register
 reg		[15:0] intreqr;			//int request readback
-
-assign inten = intena[14];
 
 //rbf mirror out
 assign rbfmirror = intreq[11];

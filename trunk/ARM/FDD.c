@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// 2009-11-14   - adapted gap size
+// 2009-12-24   - updated sync word list
+//              - fixed sector header generation
+
 #include "AT91SAM7S256.h"
 #include "stdio.h"
 #include "string.h"
@@ -29,20 +33,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 unsigned char DEBUG = 0;
 
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
-adfTYPE *pdfx; // drive select pointer
-adfTYPE df[4]; // drive 0 information structure
+adfTYPE *pdfx;            // drive select pointer
+adfTYPE df[4];            // drive 0 information structure
 
 extern fileTYPE file;
 
 void SectorGapToFpga(void)
 {
-    unsigned char i = 244;
-    do
+    unsigned short i = (12668 - 544*11*2) / 2;
+    while (i--)
     {
         SPI(0xAA);
         SPI(0xAA);
     }
-    while (--i);
 }
 
 void SectorHeaderToFpga(unsigned char n, unsigned char dsksynch, unsigned char dsksyncl)
@@ -123,7 +126,7 @@ unsigned short SectorToFpga(unsigned char sector, unsigned char track, unsigned 
 
     // sector label and reserved area (changes nothing to checksum)
     for (i = 0; i < 32; i++)
-        SPI(0x55);
+        SPI(0xAA);
 
     // checksum over header
     SPI((csum[0] >> 1) | 0xAA);
@@ -263,7 +266,7 @@ void ReadTrack(adfTYPE *drive)
 
     while (1)
     {
-        FileRead(&file);
+        FileRead(&file, sector_buffer);
 
         EnableFpga();
 
@@ -275,11 +278,13 @@ void ReadTrack(adfTYPE *drive)
         c3 = SPI(0); // msb of mfm words to transfer
         c4 = SPI(0); // lsb of mfm words to transfer
 
-        if ((dsksynch == 0x00 && dsksyncl == 0x00) || (dsksynch == 0x89 && dsksyncl == 0x14)) // workaround for Copy Lock in Wiz'n'Liz (might brake other games)
-        { // KS 1.3 doesn't write dsksync register after reset
+        // workaround for Copy Lock in Wiz'n'Liz and North&South (might brake other games)
+        if ((dsksynch == 0x00 && dsksyncl == 0x00) || (dsksynch == 0x89 && dsksyncl == 0x14) || (dsksynch == 0xA1 && dsksyncl == 0x44))
+        {
             dsksynch = 0x44;
             dsksyncl = 0x89;
         }
+        // North&South: $A144
         // Wiz'n'Liz (Copy Lock): $8914
         // Prince of Persia: $4891
         // Commando: $A245
@@ -296,35 +301,35 @@ void ReadTrack(adfTYPE *drive)
         if (c2 == drive->track)
         {
             // send sector if fpga is still asking for data
-        if (c1 & CMD_RDTRK)
-        {
-            if (c3 == 0 && c4 < 4)
-                SectorHeaderToFpga(c4, dsksynch, dsksyncl);
-            else
+            if (c1 & CMD_RDTRK)
             {
-                n = SectorToFpga(sector, drive->track, dsksynch, dsksyncl);
-
-                if (DEBUG) // printing remaining dma count
-                    printf("-%04X", n);
-
-                n--;
-                c3 = (n >> 8) & 0x3F;
-                c4 = (unsigned char)n;
-
                 if (c3 == 0 && c4 < 4)
-                {
                     SectorHeaderToFpga(c4, dsksynch, dsksyncl);
-                    if (DEBUG)
-                        printf("+%X", c4);
-                }
-                else if (sector == 10)
+                else
                 {
-                    SectorGapToFpga();
-                    if (DEBUG)
-                        printf("+++");
+                    n = SectorToFpga(sector, drive->track, dsksynch, dsksyncl);
+
+                    if (DEBUG) // printing remaining dma count
+                        printf("-%04X", n);
+
+                    n--;
+                    c3 = (n >> 8) & 0x3F;
+                    c4 = (unsigned char)n;
+
+                    if (c3 == 0 && c4 < 4)
+                    {
+                        SectorHeaderToFpga(c4, dsksynch, dsksyncl);
+                        if (DEBUG)
+                            printf("+%X", c4);
+                    }
+                    else if (sector == 10)
+                    {
+                        SectorGapToFpga();
+                        if (DEBUG)
+                            printf("+++");
+                    }
                 }
             }
-        }
         }
 
         // we are done accessing FPGA
@@ -675,7 +680,7 @@ void WriteTrack(adfTYPE *drive)
                 if (GetData())
                 {
                     if (drive->status & DSK_WRITABLE)
-                        FileWrite(&file);
+                        FileWrite(&file, sector_buffer);
                     else
                     {
                         Error = 30;
@@ -692,7 +697,6 @@ void WriteTrack(adfTYPE *drive)
             ErrorMessage("  WriteTrack", Error);
         }
     }
-
 }
 
 void UpdateDriveStatus(void)
