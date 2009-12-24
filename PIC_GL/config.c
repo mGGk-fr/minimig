@@ -25,6 +25,7 @@ Minimig configuration Load/Save
 2009-11-30	- Defaults for kickstart and Action Replay Added
 2009-12-04	- IDE Config Load/Save Added
 			- Code Cleaned a bit
+2009-12-24	- Fixed loading saving chipset settings for minimg FPGA firmware PYQ090911 
 */
 
 #include <pic18.h>
@@ -107,7 +108,7 @@ void LoadConfiguration(void)
 	config.memory = GetConfigValue(EEPROM_MEMORY, 0x0F, 0x05);
 
 	//read CPU and chipset configuration
-	config.chipset = GetConfigValue(EEPROM_CHIPSET, 0x07, 0x00);
+	config.chipset = GetConfigValue(EEPROM_CHIPSET, 0x0F, 0x00);
 
 	//read floppy speed configuration
 	config.floppy_speed = GetConfigValue(EEPROM_FLOPPY_SPEED, 0x03, 0x00);
