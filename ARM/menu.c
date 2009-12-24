@@ -18,6 +18,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// 2009-11-14   - OSD labels changed
+// 2009-12-15   - added display of directory name extensions
+
 #include "AT91SAM7S256.h"
 #include "stdio.h"
 #include "string.h"
@@ -771,7 +774,7 @@ void HandleUI(void)
         sprintf(s, "         drives : %d", config.floppy.drives + 1);
         OsdWrite(2, s, menusub == 0);
         strcpy(s, "          speed : ");
-        strcat(s, config.floppy.speed ? "2x " : "1x");
+        strcat(s, config.floppy.speed ? "fast " : "normal");
         OsdWrite(3, s, menusub == 1);
         strcpy(s, "       A600 IDE : ");
         strcat(s, config.enable_ide ? "on " : "off");
@@ -1639,6 +1642,8 @@ void PrintDirectory(void)
     unsigned long len;
     char *lfn;
     char *info;
+    char *p;
+    unsigned char j;
 
     s[32] = 0; // set temporary string length to OSD line length
 
@@ -1657,7 +1662,10 @@ void PrintDirectory(void)
             if (lfn[0]) // item has long name
             {
                 len = strlen(lfn); // get name length
+                info = NULL; // no disk info
 
+                if (!(DirEntry[k].Attributes & ATTR_DIRECTORY)) // if a file
+                {
                 if (len > 4)
                     if (lfn[len-4] == '.')
                         len -= 4; // remove extension
@@ -1666,6 +1674,7 @@ void PrintDirectory(void)
 
                 if (info != NULL)
                    memcpy(DirEntryInfo[i], info, 5); // copy disk number info if present
+                }
 
                 if (len > 30)
                     len = 30; // trim display length if longer than 30 characters
@@ -1678,8 +1687,23 @@ void PrintDirectory(void)
                 else
                     strncpy(s + 1, lfn, len); // display only name
             }
-            else
+            else  // no LFN
+            {
                 strncpy(s + 1, (const char*)DirEntry[k].Name, 8); // if no LFN then display base name (8 chars)
+                if (DirEntry[k].Attributes & ATTR_DIRECTORY && DirEntry[k].Extension[0] != ' ')
+                {
+                    p = (char*)&DirEntry[k].Name[7];
+                    j = 8;
+                    do
+                    {
+                        if (*p-- != ' ')
+                            break;
+                    } while (--j);
+
+                    s[1 + j++] = '.';
+                    strncpy(s + 1 + j, (const char*)DirEntry[k].Extension, 3); // if no LFN then display base name (8 chars)
+                }
+            }
 
             if (DirEntry[k].Attributes & ATTR_DIRECTORY) // mark directory with suffix
                 strcpy(&s[25], " <DIR>");

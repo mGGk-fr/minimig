@@ -69,17 +69,29 @@ parameter	VHPOSW   = 9'h02C;
 parameter	BEAMCON0 = 9'h1DC;
 parameter	BPLCON0  = 9'h100;
 
+parameter	HTOTAL  = 9'h1C0;
+parameter	HSSTOP  = 9'h1C2;
+parameter	HBSTRT  = 9'h1C4;
+parameter	HBSTOP  = 9'h1C6;
+parameter	VTOTAL  = 9'h1C8;
+parameter	VSSTOP  = 9'h1CA;
+parameter	VBSTRT  = 9'h1CC;
+parameter	VBSTOP  = 9'h1CE;
+parameter	BEAMCON = 9'h1DC;
+parameter	HSSTRT  = 9'h1DE;
+parameter	VSSTRT  = 9'h1E0;
+parameter	HCENTER = 9'h1E2;
+
 parameter	hbstrt  = 17+4+4;	// horizontal blanking start
 parameter	hsstrt  = 29+4+4;	// front porch = 1.6us (29)
 parameter	hsstop  = 63-1+4+4;	// hsync pulse duration = 4.7us (63)
 parameter	hbstop  = 103-5+4;	// back porch = 4.7us (103) shorter blanking for overscan visibility
 parameter	hcenter = 256+4+4;	// position of vsync pulse during the long field of interlaced screen
-//parameter	htotal  = 453;	// 
 parameter	vsstrt  = 3;	// vertical sync start
 parameter	vsstop  = 5;	// PAL vsync width: 2.5 lines (NTSC: 3 lines - not implemented)
 parameter	vbstrt  = 0;	// vertical blanking start
 
-wire	[8:0] vtotal;		// total number of lines less one
+wire	[10:0] vtotal;		// total number of lines less one
 wire	[8:0] vbstop;		// vertical blanking stop
 
 wire	end_of_line;
@@ -131,14 +143,15 @@ always @(posedge clk)
 		lace <= 0;
 	else if (reg_address_in[8:1]==BPLCON0[8:1])
 		lace <= data_in[2];
-	
+
 //BEAMCON0 register
 always @(posedge clk)
 	if (reset)
 		pal <= ~ntsc;
+
 	else if (reg_address_in[8:1]==BEAMCON0[8:1])
 		pal <= data_in[5];
-		
+
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
 //   HORIZONTAL BEAM COUNTER                                                            //
@@ -237,13 +250,13 @@ always @(posedge clk)
 //apparently generating csync from vsync alligned with leading edge of hsync results in malfunction of the AD724 CVBS/S-Video encoder (no colour in interlaced mode)
 //to overcome this limitation semi (only present before horizontal sync pulses) vertical sync serration pulses are inserted into csync
 always @(posedge clk)//sync
-	if (hpos==htotal+hsstrt-hsstop+hsstrt)//start of sync pulse (front porch = 1.69us)
+	if (hpos==hsstrt-(hsstop-hsstrt))//start of sync pulse (front porch = 1.69us)
 		vser <= 1;
 	else if (hpos==hsstrt)//end of sync pulse	(sync pulse = 4.65us)
 		vser <= 0;
 		
 //composite sync
-assign _csync = (_hsync & _vsync) | vser; //composite sync with serration pulses
+assign _csync = _hsync & _vsync | vser; //composite sync with serration pulses
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //

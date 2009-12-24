@@ -25,7 +25,6 @@ This is the Minimig OSD (on-screen-display) handler.
 2009-02-03	- added arrows characters (codes 240-243)
 			- added full keyboard support
 			- added configuration functions for floppy, scanline and chipset
-2009-11-27	- minor adaptations for 090911 FPGA firmware
 */
 
 #include <pic18.h>

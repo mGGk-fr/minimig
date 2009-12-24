@@ -179,7 +179,7 @@ always @(posedge clk28m)
 begin
 		_hsync_out <= dblscan ? lbfo2[17] : _csync_in;
 		_vsync_out <= dblscan ? _vsync_in : 1'b1;
-		
+
 		if (~dblscan)
 		begin  //pass through
 			if (osd_blank) //osd window

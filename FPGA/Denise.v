@@ -51,82 +51,74 @@
 // 2009-01-09	- added sprena signal (disables display of sprites until BPL1DAT is written)
 // 2009-03-08	- removed sof and sol inputs as they are no longer used
 // 2009-05-24	- clean-up & renaming
+// 2009-10-04	- implemented DIWHIGH register, pixel pipeline moved to clk28m domain, implemented super hires, changed ID to ECS
+// 2009-12-16	- added ECS enable input (only chip id is affected)
+// 2009-12-20	- DIWHIGH is written only in ECS mode
 
 module Denise
 (
-	input 	clk,		   			//bus clock / lores pixel clock
-	input 	reset,					//reset
-	input	strhor,					//horizontal strobe
-	input 	[8:1] reg_address_in,	//register adress inputs
-	input 	[15:0] data_in,			//bus data in
-	output 	[15:0] data_out,		//bus data out
-	input	blank,					//blanking input
-	output 	[3:0] red, 				//red componenent video out
-	output 	[3:0] green,  			//green component video out
-	output 	[3:0] blue,				//blue component video out
-	output	reg hires				//hires
+	input 	clk28m,					// 35ns pixel clock
+	input 	clk,		   			// bus clock / lores pixel clock
+	input 	c1 ,					// 35ns clock enable signals (for synchronization with clk)
+	input 	c3,
+	input 	cck,					// colour clock enable
+	input 	reset,					// reset
+	input	strhor,					// horizontal strobe
+	input 	[8:1] reg_address_in,	// register adress inputs
+	input 	[15:0] data_in,			// bus data in
+	output 	[15:0] data_out,		// bus data out
+	input	blank,					// blanking input
+	output 	[3:0] red, 				// red componenent video out
+	output 	[3:0] green,  			// green component video out
+	output 	[3:0] blue,				// blue component video out
+	input	ecsena,					// enables ECS chip id
+	output	reg hires				// hires
 );
 
 //register names and adresses		
 parameter DIWSTRT  = 9'h08E;
 parameter DIWSTOP  = 9'h090;
+parameter DIWHIGH  = 9'h1E4;
 parameter BPLCON0  = 9'h100;  		
 parameter BPLCON2  = 9'h104; 
 parameter DENISEID = 9'h07C;
 parameter BPL1DAT  = 9'h110;
 
 //local signals
-reg		[8:0] hpos;				//horizontal beamcounter
-reg		homod;					//HAM mode select
-reg		dblpf;					//double playfield select
-reg		[6:0] bplcon2;			//bplcon2 (playfield video priority) register
+reg		[8:0] hpos;				// horizontal beamcounter
+reg		shres;					// super high resolution select
+reg		homod;					// HAM mode select
+reg		dblpf;					// double playfield select
+reg		[3:0] bpu;				// bitplane enable
+reg		[3:0] l_bpu;			// latched bitplane enable
+reg		[6:0] bplcon2;			// bplcon2 (playfield video priority) register
 
-wire	dclk;					//ddr register select clock
+reg		[8:0] hdiwstrt;			// horizontal display window start position
+reg		[8:0] hdiwstop;			// horizontal display window stop position
 
-reg		[7:0] diwstrt;			//horizontal display window start position
-reg		[7:0] diwstop;			//horizontal display window stop position
+wire	[6:1] bpldata_out;		// bitplane serial data out from shifters
+wire	[6:1] bpldata;			// raw bitplane serial video data
+wire	[3:0] sprdata;			// sprite serial video data
+wire	[5:0] plfdata;			// playfield serial video data
+wire	[2:1] nplayfield;		// playfield 1,2 valid data signals
+wire	[7:0] nsprite;			// sprite 0-7 valid data signals 
+wire	sprsel;					// sprite select
 
-wire	[6:1] bpldata;			//raw bitplane serial video data
-wire	[3:0] sprdata;			//sprite serial video data
-wire	[5:0] plfdata;			//playfield serial video data
-wire	[2:1] nplayfield;		//playfield 1,2 valid data signals
-wire	[7:0] nsprite;			//sprite 0-7 valid data signals 
-wire	sprsel;					//sprite select
+wire	[11:0] ham_rgb;			// hold and modify mode RGB video data
+reg		[5:0] clut_data;		// color table color select in
+wire	[11:0] clut_rgb;		// color table rgb data out
+wire	[11:0] out_rgb;			// final multiplexer rgb output data
+reg		window;					// window enable signal
 
-wire	[11:0] hamrgb;			//hold and modify mode RGB video data
-wire	[5:0] plfdata_d;		//plfdata delayed by one low res pixel
-wire	sprsel_d;				//sprsel delayed by one low res pixel
-reg		[3:0] sprdata_d;		//sprdata delayed by one low res pixel
+wire	[15:0] deniseid_out; 	// deniseid data_out
+wire	[15:0] col_out;			// colision detection data_out
 
-reg		[5:0] tabledata;		//color table color select in
-wire	[11:0] tablergb;		//color table rgb data out
-reg		[11:0] outrgb;			//final multiplexer rgb output data
-reg		window;					//window enable signal
-
-wire	[15:0] deniseid_out; 	//deniseid data_out
-wire	[15:0] col_out;			//colision detection data_out
-
-reg		sprena;					//in OCS sprites are visible between first write to BPL1DAT and end of scanline
+reg		sprena;					// in OCS sprites are visible between first write to BPL1DAT and end of scanline
 
 //--------------------------------------------------------------------------------------
 
 //data out mulitplexer
 assign data_out = col_out | deniseid_out;
-
-//--------------------------------------------------------------------------------------
-
-//generate dclk dclk is in sync with clk but driven by logic instead of general clock
-//dclk is used to drive the multiplexers of the double data rate (hires) registers
-reg dclkl1;
-reg dclkl2;
-
-always @(posedge clk)
-	dclkl1 <= ~dclkl1;
-	
-always @(negedge clk)
-	dclkl2 <= dclkl1;
-	
-assign dclk = dclkl1 ^ dclkl2;
 
 //--------------------------------------------------------------------------------------
 
@@ -148,19 +140,28 @@ always @(posedge clk)
 	else if (reg_address_in[8:1]==BPL1DAT[8:1])
 		sprena <= 1;
 
+//bpu is updated when bpl1dat register is written
+always @(posedge clk)
+	if (reg_address_in[8:1]==BPL1DAT[8:1])
+		l_bpu <= bpu;
+
 //bplcon0 register
 always @(posedge clk)
 	if (reset)
 	begin
 		hires <= 0;
+		shres <= 0;
 		homod <= 0;
 		dblpf <= 0;
+		bpu <= 0;
 	end
 	else if (reg_address_in[8:1]==BPLCON0[8:1])
 	begin
 		hires <= data_in[15];
+		shres <= data_in[6];
 		homod <= data_in[11];
 		dblpf <= data_in[10];
+		bpu <= {data_in[4],data_in[14:12]};
 	end	
 
 //bplcon2 register
@@ -169,26 +170,42 @@ always @(posedge clk)
 		bplcon2 <= 0;
 	else if (reg_address_in[8:1]==BPLCON2[8:1])
 		bplcon2[6:0] <= data_in[6:0];
+
 		
 //diwstart and diwstop registers (vertical and horizontal limits of display window)
+	
+//hdiwstrt
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTRT[8:1])
-		diwstrt[7:0] <= data_in[7:0];
-		
+		hdiwstrt[7:0] <= data_in[7:0];
+
+always @(posedge clk)
+	if (reg_address_in[8:1]==DIWSTRT[8:1])
+		hdiwstrt[8] <= 1'b0; // diwstop H9 = 0
+	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecsena)
+		hdiwstrt[8] <= data_in[5];
+
+//hdiwstop
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTOP[8:1])
-		diwstop[7:0] <= data_in[7:0];
+		hdiwstop[7:0] <= data_in[7:0];
 
-assign deniseid_out = reg_address_in[8:1]==DENISEID[8:1] ? 16'hFF_FF : 16'h00_00;
+always @(posedge clk)
+	if (reg_address_in[8:1]==DIWSTOP[8:1])
+		hdiwstop[8] <= 1'b1; // diwstop H8 = 1
+	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecsena)
+		hdiwstop[8] <= data_in[13];		
+
+assign deniseid_out = reg_address_in[8:1]==DENISEID[8:1] ? ecsena ? 16'hFF_FC : 16'hFF_FF : 16'h00_00;
 
 //--------------------------------------------------------------------------------------
 
 //generate window enable signal
 //true when beamcounter satisfies horizontal diwstrt/diwstop limits
 always @(posedge clk)
-	if (hpos[8:0]=={1'b0,diwstrt[7:0]})
+	if (hpos[8:0]==hdiwstrt[8:0])
 		window <= 1;
-	else if (hpos[8:0]=={1'b1,diwstop[7:0]})
+	else if (hpos[8:0]==hdiwstop[8:0])
 		window <= 0;
 		
 
@@ -198,12 +215,23 @@ always @(posedge clk)
 bitplanes bplm0 
 (
 	.clk(clk),
+	.clk28m(clk28m),
+	.c1(c1),
+	.c3(c3),
 	.reg_address_in(reg_address_in),
 	.data_in(data_in),
 	.hires(hires),
+	.shres(shres & ecsena),
 	.hpos(hpos),
-	.bpldata(bpldata)	
+	.bpldata(bpldata_out)	
 );
+
+assign bpldata[1] = l_bpu > 0 ? bpldata_out[1] : 1'b0;
+assign bpldata[2] = l_bpu > 1 ? bpldata_out[2] : 1'b0;
+assign bpldata[3] = l_bpu > 2 ? bpldata_out[3] : 1'b0;
+assign bpldata[4] = l_bpu > 3 ? bpldata_out[4] : 1'b0;
+assign bpldata[5] = l_bpu > 4 ? bpldata_out[5] : 1'b0;
+assign bpldata[6] = l_bpu > 5 ? bpldata_out[6] : 1'b0;
 
 //instantiate playfield module
 playfields plfm0
@@ -237,24 +265,26 @@ sprpriority spm0
 	.sprsel(sprsel)	
 );
 
-//instantiate color table
-colortable ctbm0
+// instantiate colour look up table
+colortable clut0
 (
 	.clk(clk),
+	.clk28m(clk28m),
 	.reg_address_in(reg_address_in),
 	.data_in(data_in[11:0]),
-	.select(tabledata),
-	.rgb(tablergb)		
+	.select(clut_data),
+	.rgb(clut_rgb) // rgb data is delayed by one clk28m clock cycle
 );
 
 //instantiate HAM (hold and modify) module
 hamgenerator ham0
 (
 	.clk(clk),
+	.clk28m(clk28m),
 	.reg_address_in(reg_address_in),
 	.data_in(data_in[11:0]),
 	.bpldata(bpldata),
-	.rgb(hamrgb)		
+	.rgb(ham_rgb)		
 );
 
 //instantiate collision detection module
@@ -271,70 +301,33 @@ collision col0
 
 //--------------------------------------------------------------------------------------
 
-//sprsel and plfdata latch (ddr)
-//delay those signals by one low res pixel 
-reg [6:0] plfdatal1;
-reg [6:0] plfdatal2;
-
-always @(negedge clk)
-	plfdatal1 <= {sprsel,plfdata[5:0]};
-	
-always @(posedge clk)
-	plfdatal2 <= {sprsel,plfdata[5:0]};
-	
-assign {sprsel_d,plfdata_d[5:0]} = dclk ? plfdatal1 : plfdatal2;
-
-//--------------------------------------------------------------------------------------
-
-//sprdata latch (sdr)
-//delay sprdata by one low res pixel 
-always @(posedge clk)
-	sprdata_d <= sprdata;
-
-//--------------------------------------------------------------------------------------
-
-//sprdata_d / plfdata_d / border multiplexer
-always @(homod or sprsel_d or window or sprdata_d or plfdata_d)
+//
+always @(sprsel or window or sprdata or plfdata)
 begin
-	if (!window)//we are outside the visible window region, display border color
-		tabledata = 6'b000000;
-	else if (homod || sprsel_d)//if HAM mode or sprsel, select sprites
-		tabledata = {2'b01,sprdata_d[3:0]};
-	else//else select playfield data
-		tabledata = plfdata_d;
+	if (!window) // we are outside of the visible window region, display border colour
+		clut_data = 6'b000000;
+	else if (sprsel) // select sprites
+		clut_data = {2'b01,sprdata[3:0]};
+	else // select playfield
+		clut_data = plfdata;
 end
 
-//hamrgb / tablergb multiplexer
-always @(homod or sprsel_d or window or tablergb or hamrgb)
+reg window_del;
+reg sprsel_del;
+
+always @(posedge clk28m)
 begin
-	if (!homod)//if no HAM mode, always select normal (table selected) rgb data
-		outrgb = tablergb;
-	else if (!window || sprsel_d)//else if outside window or sprite priority
-		outrgb = tablergb;
-	else//else select ham generated rgb value
-		outrgb = hamrgb;
+	window_del <= window;
+	sprsel_del <= sprsel;
 end
+
+//ham_rgb / clut_rgb multiplexer
+assign out_rgb = (homod && window_del && !sprsel_del) ? ham_rgb : clut_rgb; //if no HAM mode, always select normal (table selected) rgb data
 
 //--------------------------------------------------------------------------------------
 
-//video output register (ddr) and blanking circuit
-reg [11:0] outrgbl1;
-reg [11:0] outrgbl2;
-
-always @(negedge clk)
-	if (blank)
-		outrgbl1 <= 12'h000;
-	else
-		outrgbl1 <= outrgb;
-		
-always @(posedge clk)
-	if (blank)
-		outrgbl2 <= 12'h000;
-	else
-		outrgbl2 <= outrgb;
-		
-//output ddr mulitplexer
-assign {red[3:0],green[3:0],blue[3:0]} = dclk ? outrgbl1 : outrgbl2;
+//output
+assign {red[3:0],green[3:0],blue[3:0]} = blank ? 12'h000 : out_rgb;
 
 endmodule
 
@@ -349,7 +342,8 @@ endmodule
 module colortable
 (
 	input 	clk,		   			//bus clock / lores pixel clock
-	input 	[8:1] reg_address_in,		//register adress inputs
+	input	clk28m,					//35ns pixel clock
+	input 	[8:1] reg_address_in,	//register adress inputs
 	input 	[11:0] data_in,			//bus data in
 	input	[5:0] select,			//color select input
 	output	reg [11:0] rgb			//RGB output
@@ -362,20 +356,20 @@ parameter COLORBASE = 9'h180;  		//color table base address
 reg 	[11:0] colortable [31:0];	//color table
 wire	[11:0] selcolor; 			//selected color register output
 
-//writing of color table from bus (implemented using dual port distributed ram)
+// writing of color table from bus (implemented using dual port distributed ram)
 always @(posedge clk)
 	if (reg_address_in[8:6]==COLORBASE[8:6])
 		colortable[reg_address_in[5:1]] <= data_in[11:0];
 
-//reading of color table
+// reading of color table
 assign selcolor = colortable[select[4:0]];   
 
-//extra half brite mode shifter
-always @(selcolor or select[5])
-	if (select[5])//half bright, shift every component 1 position to the right
-		rgb = {1'b0,selcolor[11:9],1'b0,selcolor[7:5],1'b0,selcolor[3:1]};
-	else//normal color select
-		rgb = selcolor;
+// extra half brite mode shifter
+always @(posedge clk28m)
+	if (select[5]) // half bright, shift every component 1 position to the right
+		rgb <= {1'b0,selcolor[11:9],1'b0,selcolor[7:5],1'b0,selcolor[3:1]};
+	else // normal color select
+		rgb <= selcolor;
 
 endmodule
 
@@ -446,11 +440,12 @@ endmodule
 //the sprites run simultanously with a HAM playfield
 module hamgenerator
 (
-	input 	clk,		   			//bus clock / lores pixel clock
-	input 	[8:1] reg_address_in,		//register adress inputs
-	input 	[11:0] data_in,			//bus data in
-	input	[5:0] bpldata,			//bitplane data input
-	output	reg [11:0] rgb			//RGB output
+	input 	clk,		   			// bus clock
+	input	clk28m,					// 35ns pixel clock
+	input 	[8:1] reg_address_in,	// register adress inputs
+	input 	[11:0] data_in,			// bus data in
+	input	[5:0] bpldata,			// bitplane data input
+	output	reg [11:0] rgb			// RGB output
 );
 
 //register names and adresses		
@@ -473,7 +468,7 @@ assign selcolor = colortable[bpldata[3:0]];
 //--------------------------------------------------------------------------------------
 
 //HAM instruction decoder/processor
-always @(posedge clk)
+always @(posedge clk28m)
 begin
 	case (bpldata[5:4])
 		2'b00://load rgb output with color from table	
