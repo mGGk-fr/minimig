@@ -22,8 +22,10 @@ This is the Minimig OSD Font Only to make it separate .
 2009-11-14	- Created from osd.c
 			- Fixed vertical position by shifting all chars for 1 bit right
 2009-12-05	- Font reduced to 7bit ASCII to fit in rom
+2009-12-25	- Added constants for font definition
 */
 
+#include "osdFont.h"
 
 // character font
 // Reduced to 7bit ASCII to fit in rom
@@ -31,7 +33,7 @@ This is the Minimig OSD Font Only to make it separate .
 // CCS Formatted Character Font
 // Vertical Character Format
 //*******************************************
-const unsigned char charfont[128][5]=
+const unsigned char charfont[OSD_FONT_CHAR_NUMBER][OSD_FONT_CHAR_WIDTH]=
 {
 	0x00>>1,0x00>>1,0x00>>1,0x00>>1,0x00>>1,		// 0 	[0x0]
 	0x00>>1,0x00>>1,0x00>>1,0x00>>1,0x00>>1,		// 1 	[0x1]
