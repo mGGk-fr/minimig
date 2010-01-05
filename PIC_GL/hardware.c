@@ -27,7 +27,8 @@ Hardware control routines
 2009-11-13		- OsdCommand added
 2009-11-21		- small cleanup
 2009-12-20		- systimer reset on every hardware init to support propper timings on reset
-
+2009-12-30		- Support for new FPGA firmware added in header file
+				- GetFPGAStatus function added
 */
 
 #include <pic18.h>
@@ -212,6 +213,21 @@ void ShiftFpga(unsigned char data)
 		DIN = 1;
 	CCLK = 1;
 }
+
+unsigned char GetFPGAStatus(void)
+{
+	unsigned char status;
+
+	EnableFpga();
+	status = SPI(0);
+	SPI(0);
+	SPI(0);
+	SPI(0);
+	SPI(0);
+	SPI(0);
+	DisableFpga();
+	return status;
+} 
 
 
 /*put out a chacter to the serial port*/

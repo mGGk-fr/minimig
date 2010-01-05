@@ -82,6 +82,11 @@ WriteTrack errors:
 			- Added FPGA version to display
 2009-12-14	- OsdReset, added constant for reset type
 2009-12-20	- AR3 not generating failure when enabled and no rom found.
+2009-12-30	- Boot CPU Speed display modified to turbo/normal
+			- Boot CPU speed set using constant 
+			- Boot Agnus display updated only displayed when old FPGA core is used
+			- PAL/NTSC switch constants used
+			- Code cleanup comments removed
 */
 
 #include <pic18.h>
@@ -114,7 +119,6 @@ void main(void)
 {
 	unsigned short time;
 	unsigned char tmp;
-//	unsigned long t;
 
 	// Reset Floppy status
 	memset(df,0,sizeof(df));
@@ -162,22 +166,22 @@ void main(void)
 	}
 
 	//let's wait some time till reset is inactive so we can get a valid keycode
-//	t = 38000;
-//	while (--t)
-//	{	DISKLED_OFF;	}
-
 	DISKLED_OFF;
 	WaitTimer(50);
 	
 	//get key code
 	tmp = OsdGetCtrl();
 
-	if (tmp == KEY_F1)	{	config.chipset |= 0x04;	}		//force NTSC mode
-	if (tmp == KEY_F2)	{	config.chipset &= ~0x04;	}	//force PAL mode
+	if (tmp == KEY_F1)	{	config.chipset |= CONFIG_AGNUS_NTSC;	}	//force NTSC mode
+	if (tmp == KEY_F2)	{	config.chipset &= ~CONFIG_AGNUS_NTSC;	}	//force PAL mode
 
-	ConfigChipset(config.chipset|0x01);	//force CPU turbo mode
+	#if	defined(PYQ090405)
+		ConfigChipset(config.chipset|CONFIG_CPU_28MHZ);			//force CPU turbo mode
+	#elif	defined(PGL091207) || defined(PGL091230)
+		ConfigChipset(config.chipset|CONFIG_CPU_TURBO);			//force CPU turbo mode
+	#endif
 
-	if (config.chipset & 0x04)			//reset if NTSC mode requested because FPGA boots in PAL mode by default
+	if (config.chipset & CONFIG_AGNUS_NTSC)		//reset if NTSC mode requested because FPGA boots in PAL mode by default
 	{	OsdReset(RESET_BOOTLOADER);	}
 
 	ConfigFloppy(1, 1);					//high speed mode for ROM loading
@@ -185,21 +189,22 @@ void main(void)
 	sprintf(s, "PIC firmware %s\n", version+5);
 	BootPrint(s);
 
-	sprintf(s, "CPU clock     : %s MHz", config.chipset & 0x01 ? "28.36": "7.09");
-	BootPrint(s);
-
-	sprintf(s, "Blitter speed : %s", config.chipset & 0x02 ? "fast": "normal");
-	BootPrint(s);
+	#if	defined(PYQ090405)
+		sprintf(s, "CPU clock     : %s MHz", config.chipset & CONFIG_CPU_28MHZ ? "28.36": "7.09");
+		BootPrint(s);
+		sprintf(s, "Blitter speed : %s", config.chipset & CONFIG_BLITTER_FAST ? "fast": "normal");
+		BootPrint(s);
+	#elif	defined(PGL091207) || defined(PGL091230)
+		sprintf(s, "CPU clock     : %s", config.chipset & CONFIG_CPU_TURBO ? "turbo": "normal");
+		BootPrint(s);
+	#endif
 	
 	sprintf(s, "Chip RAM size : %s", config_memory_chip_msg[config.memory&3]);
 	BootPrint(s);
-	
 	sprintf(s, "Slow RAM size : %s", config_memory_slow_msg[config.memory>>2&3]);
 	BootPrint(s);
-
 	sprintf(s, "Floppy drives : %d", config.floppy_drives + 1);
 	BootPrint(s);
-
 	sprintf(s, "Floppy speed  : %s\n", config.floppy_speed ? "2x": "1x");
 	BootPrint(s);
 

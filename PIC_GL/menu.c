@@ -31,6 +31,7 @@ Minimig on screen display menu
 			- OsdReset, added constant for reset type
 2009-12-20	- Unselecting HD Files Added
 2009-12-23	- Fixed HD file unselection by clearing global file handle when no file selection done
+2009-12-30	- Kickstart reloading code cleanup
 */
 
 #include <pic18.h>
@@ -467,7 +468,7 @@ void HandleUI(void)
 				strcpy(s, "    Agnus : ");
 				strcat(s, config.chipset & CONFIG_AGNUS_NTSC ? "NTSC" : "PAL ");
 				OsdWrite(4, s, 2 == menusub);
-			#elif	defined(PGL091207)
+			#elif	defined(PGL091207) || defined(PGL091230)
 				strcpy(s, "      CPU : ");
 				strcat(s, config.chipset & CONFIG_CPU_TURBO ? "turbo " : "normal");
 				OsdWrite(2, s, 0 == menusub);
@@ -519,7 +520,7 @@ void HandleUI(void)
 						OsdClear();
 					}
 
-				#elif	defined(PGL091207)
+				#elif	defined(PGL091207) || defined(PGL091230)
 
 					if (0 == menusub)
 					{
@@ -945,7 +946,13 @@ void HandleUI(void)
 
 						//reset to bootloader
 						OsdReset(RESET_BOOTLOADER);
-						ConfigChipset(config.chipset|0x01);
+						
+						#if	defined(PYQ090405)
+							ConfigChipset(config.chipset|CONFIG_CPU_28MHZ);			//force CPU turbo mode
+						#elif	defined(PGL091207) || defined(PGL091230)
+							ConfigChipset(config.chipset|CONFIG_CPU_TURBO);			//force CPU turbo mode
+						#endif
+
 						ConfigFloppy(1, 1);
 						
 						if (0 == UploadKickstart(config.kickname))

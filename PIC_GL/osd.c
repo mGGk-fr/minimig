@@ -45,7 +45,7 @@ This is the Minimig OSD (on-screen-display) handler.
 
 #if		defined(PYQ090405)
 	#define	OSD_LINE_BYTES		128		// single line length in bytes
-#elif	defined(PGL091207)
+#elif	defined(PGL091207) || defined(PGL091230)
 	#define	OSD_LINE_BYTES		256		// single line length in bytes
 #endif
 
@@ -125,7 +125,7 @@ void OsdWrite(unsigned char n, const unsigned char *s, char invert)
 				
 				byte_cnt += 6;
 	
-			#elif	defined(PGL091207)
+			#elif	defined(PGL091207) || defined(PGL091230)
 				// Send Space
 				SPI(0x00);
 				SPI(0x00);
