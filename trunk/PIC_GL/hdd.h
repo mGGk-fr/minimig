@@ -22,6 +22,15 @@
 #define IDE_STATUS_REQ		0x04
 #define IDE_STATUS_ERR		0x01
 
+#define ACMD_RECALIBRATE					0x10
+#define ACMD_IDENTIFY_DEVICE				0xEC
+#define ACMD_INITIALIZE_DEVICE_PARAMETERS	0x91 
+#define ACMD_READ_SECTORS					0x20
+#define ACMD_WRITE_SECTORS					0x30
+#define ACMD_READ_MULTIPLE					0xC4
+#define ACMD_WRITE_MULTIPLE					0xC5
+#define ACMD_SET_MULTIPLE_MODE				0xC6
+
 
 // Device identifycation struct
 typedef struct driveIdentify
@@ -98,6 +107,27 @@ typedef struct driveIdentify
 												//	+===========================================================================+
 };
 
+
+#define	IDEREGS_DRIVE_MASK	0x10	// Mask for drive number
+#define IDEREGS_HEAD_MASK	0x0F	// Mask for current head
+#define IDEREGS_MODE_MASK	0x40	// Mask for mode LBA/CHS
+
+typedef union ideREGS
+{
+	struct
+	{
+		unsigned char	dummy;				// Dummy
+		unsigned char	error;				// Error code
+		unsigned char	count;				// Sector Count to transfer
+		unsigned char	sector;				// Current sector
+		unsigned short	cylinder;			// Current cylinder
+		unsigned char	mode_drive_head;	// Current mode/drive/head
+		unsigned char	cmd;				// Current IDE command, writing here triggers command
+	} regs;
+	unsigned char		tfr[8];
+};
+
+
 // Harddisk file type
 typedef struct hdfTYPE 
 {
@@ -117,6 +147,7 @@ void IdentifyDevice(struct driveIdentify *id, unsigned char unit);
 unsigned long chs2lba(unsigned short cylinder, unsigned char head, unsigned char sector, unsigned char unit);
 void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned char sector_number, unsigned char cylinder_low, unsigned char cylinder_high, unsigned char drive_head);
 void WriteStatus(unsigned char status);
+void BeginHDDTransfer(unsigned char cmd, unsigned char status);
 void HandleHDD(unsigned char c1, unsigned char c2);
 void GetHardfileGeometry(struct hdfTYPE *hdf);
 unsigned char OpenHardfile(unsigned char unit, unsigned char *name);

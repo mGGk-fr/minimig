@@ -5,9 +5,10 @@
 #define _DEF_TO_STRING(str)	#str
 #define DEF_TO_STRING(str)	_DEF_TO_STRING(str)
 
-// FPGA firmware revision
+// PIC firmware revision
 //#define	PYQ090405	PYQ090405
-#define	PGL091207	PGL091207
+//#define	PGL091207	PGL091207
+#define	PGL091230	PGL091230
 
 // Define Command header, FPGA and PIC rev
 #if	defined(PYQ090405)
@@ -20,6 +21,11 @@
 	#define	FPGA_CMD_HDR1	0x67
 	#define FPGA_REV 		PYQ090911
 	#define	PIC_REV			PGL091207
+#elif	defined(PGL091230)
+	#define	FPGA_CMD_HDR0	0xAA
+	#define	FPGA_CMD_HDR1	0x68
+	#define FPGA_REV 		PYQ091224
+	#define	PIC_REV			PGL091230
 #endif
 
 
@@ -61,5 +67,6 @@ void ShiftFpga(unsigned char data);
 unsigned short GetTimer(unsigned short offset);
 unsigned char CheckTimer(unsigned short t);
 void WaitTimer(unsigned short time);
+unsigned char GetFPGAStatus(void);
 
 #endif

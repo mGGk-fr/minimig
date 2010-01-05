@@ -29,6 +29,11 @@ ADF Routines for minimig
 2009-12-13	- ReadTrack and WriteTrack modified to properly handle global file handle due to file seek optmisations
  			- floppy_drives commented out in HandleFDD, not used any more
 2009-12-20	- WriteTrack fixed to do correct file seek before writing
+2009-12-30	(Copy from Yaqube Arm release YQ091230)
+			- updated sync word list 
+			- adapted gap size
+			- fixed sector header generation
+			- removed DMA size check from ReadTrack
 */
 
 #include <pic18.h>
@@ -54,13 +59,6 @@ struct adfTYPE df[MAX_FLOPPY_DRIVES];	// drives information structure
 void HandleFDD(unsigned char c1, unsigned char c2)
 {
 	unsigned char sel;
-
-	// Why read No of floppy drives ?
-	// Historical reasons no need any more
-//	unsigned char floppy_drives = 0;		//curent number of active FPGA floppy drives
-//	floppy_drives = (c1 >> 4) & 0x03;		//number of active floppy drives
-//	if (floppy_drives > (MAX_FLOPPY_DRIVES-1))
-//	{	floppy_drives = (MAX_FLOPPY_DRIVES-1);	}
 
 	if (c1 & CMD_RDTRK)
 	{
@@ -213,14 +211,14 @@ void ReadTrack(struct adfTYPE *drive)
 	#endif
 
 	// if dma read count is bigger than 11 sectors then we start the transfer from the begining of current track
-	if ((c3>0x17) || (c3==0x17 && c4>=0x60))
-	{
-		sector = 0;
+//	if ((c3>0x17) || (c3==0x17 && c4>=0x60))
+//	{
+//		sector = 0;
 		
-		seekSector = (unsigned long)drive->track;
-		seekSector *=11;
-		FileSeek(&file, seekSector);
-	}
+//		seekSector = (unsigned long)drive->track;
+//		seekSector *=11;
+//		FileSeek(&file, seekSector);
+//	}
 
 	while (1)
 	{
@@ -236,12 +234,13 @@ void ReadTrack(struct adfTYPE *drive)
 		c3 = SPI(0);		//msb of mfm words to transfer
 		c4 = SPI(0);		//lsb of mfm words to transfer
 
-		if ((dsksynch==0x00 && dsksyncl==0x00) || (dsksynch==0x89 && dsksyncl==0x14)) //work around for Copy Lock in Wiz'n'Liz
+		if ((dsksynch==0x00 && dsksyncl==0x00) || (dsksynch==0x89 && dsksyncl==0x14) || (dsksynch == 0xA1 && dsksyncl == 0x44)) //work around for Copy Lock in Wiz'n'Liz
 		{
 			// KS 1.3 doesn't write dsksync register after reset, probably uses soft sync
 			dsksynch = 0x44;
 			dsksyncl = 0x89;
 		}
+		//North&South: $A144
 		//Wiz'n'Liz (Copy Lock): $8914
 		//Prince of Persia: $4891
 		//Commando: $A245
@@ -765,7 +764,7 @@ unsigned short SectorToFpga(unsigned char sector, unsigned char track, unsigned 
 
 	/*sector label and reserved area (changes nothing to checksum)*/
 	for (i=0;i<32;i++)
-		SPI(0x55);
+	{	SPI(0xAA);	}
 
 	/*checksum over header*/
 	SPI((csum[0]>>1)|0xaa);
@@ -875,14 +874,13 @@ unsigned short SectorToFpga(unsigned char sector, unsigned char track, unsigned 
 
 void SectorGapToFpga()
 {
-	unsigned char i;
-	i = 190;
-	do
+	unsigned short i = (12668 - 544*11*2) / 2;
+
+	while (i--);
 	{
 		SPI(0xAA);
 		SPI(0xAA);
 	}
-	while (--i);
 }
 
 

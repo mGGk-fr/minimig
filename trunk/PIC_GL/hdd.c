@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-11-26	- Added Direct transfer mode to FPGA
 			- Changed cluster size on card to 32kb to test faster transfer, now works better
 2009-12-20	- Added extension check for HD File
+2009-12-30	- Added constants for detected ide commands
+			- Added ideREGS structure to simplify ide handling code
 */
 
 #include <pic18.h>
@@ -107,29 +109,50 @@ unsigned long chs2lba(unsigned short cylinder, unsigned char head, unsigned char
 }
 
 
-void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned char sector_number, unsigned char cylinder_low, unsigned char cylinder_high, unsigned char drive_head)
+void BeginHDDTransfer(unsigned char cmd, unsigned char status)
 {
     EnableFpga();
+    SPI(cmd);
+    SPI(status);
+    SPI(0x00);
+    SPI(0x00);
+    SPI(0x00);
+    SPI(0x00);
+}
 
-    SPI(CMD_IDE_REGS_WR);	// write task file registers command
-    SPI(0x00);
-    SPI(0x00);				// dummy
-    SPI(0x00);
-    SPI(0x00);				// dummy
-    SPI(0x00);
-    SPI(0x00);				// dummy
-
-    SPI(0x00);
-    SPI(0x00);
-    SPI(error);				// error
-    SPI(0x00);
+void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned char sector_number, unsigned char cylinder_low, unsigned char cylinder_high, unsigned char drive_head)
+{
+	/*
+	EnableFpga();
+	SPI(CMD_IDE_REGS_WR);	// write task file registers command
+	SPI(0x00);
+	SPI(0x00);				// dummy
+	SPI(0x00);
+	SPI(0x00);				// dummy
+	SPI(0x00);
+	*/
+	
+	// write task file registers command
+	BeginHDDTransfer(CMD_IDE_REGS_WR, 0x00);
+	
+	SPI(0x00);				// dummy
+	SPI(0x00);
+	
+	SPI(0x00);
+	SPI(error);				// error
+    
+	SPI(0x00);
     SPI(sector_count);		// sector count
+    
     SPI(0x00);
     SPI(sector_number);		//sector number
+    
     SPI(0x00);
     SPI(cylinder_low);		// cylinder low
+    
     SPI(0x00);
     SPI(cylinder_high);		// cylinder high
+    
     SPI(0x00);
     SPI(drive_head);		// drive/head
 
@@ -139,7 +162,8 @@ void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned cha
 
 void WriteStatus(unsigned char status)
 {
-    EnableFpga();
+/*
+	EnableFpga();
 
     SPI(CMD_IDE_STATUS_WR);
     SPI(status);
@@ -147,7 +171,8 @@ void WriteStatus(unsigned char status)
     SPI(0x00);
     SPI(0x00);
     SPI(0x00);
-
+*/
+	BeginHDDTransfer(CMD_IDE_STATUS_WR, status);
     DisableFpga();
 }
 
@@ -168,6 +193,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 	{
 		DISKLED_ON;
 
+		/*
 		EnableFpga();
 		SPI(CMD_IDE_REGS_RD); // read task file registers
 		SPI(0x00);
@@ -175,6 +201,8 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 		SPI(0x00);
 		SPI(0x00);
 		SPI(0x00);
+		*/
+		BeginHDDTransfer(CMD_IDE_REGS_RD, 0x00);
 		for (i = 0; i < 8; i++)
 		{
 			SPI(0);
@@ -183,9 +211,9 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 		DisableFpga();
 
 		// master/slave selection
-		unit = tfr[6] & 0x10 ? 1 : 0;
+		unit = tfr[6] & IDEREGS_DRIVE_MASK ? 1 : 0;
 
-		if ((tfr[7] & 0xF0) == 0x10)
+		if ((tfr[7] & 0xF0) == ACMD_RECALIBRATE)
 		{
 			// Recalibrate 0x10-0x1F (class 3 command: no data)
 			#ifdef HDD_DEBUG
@@ -195,7 +223,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 			WriteTaskFile(0, 0, 1, 0, 0, tfr[6] & 0xF0);
 			WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
 		}
-		else if (tfr[7] == 0xEC)
+		else if (tfr[7] == ACMD_IDENTIFY_DEVICE)
 		{
 			// Identify Device 0xEC
 			#ifdef HDD_DEBUG
@@ -205,6 +233,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         	IdentifyDevice(&id, unit);
         	WriteTaskFile(0, tfr[2], tfr[3], tfr[4], tfr[5], tfr[6]);
         	WriteStatus(IDE_STATUS_RDY); // pio in (class 1) command type
+        	/*
         	EnableFpga();
         	SPI(CMD_IDE_DATA_WR); // write data command
         	SPI(0x00);
@@ -212,6 +241,8 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         	SPI(0x00);
         	SPI(0x00);
         	SPI(0x00);
+        	*/
+    		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
         	buffer = (unsigned char*)&id;
         	for(i=0; i < (sizeof(id)); i++)
 	        {	SPI(*(buffer++));	}
@@ -221,7 +252,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 
         	WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
         }
-        else if (tfr[7] == 0x91)
+        else if (tfr[7] == ACMD_INITIALIZE_DEVICE_PARAMETERS)
         {
         	// Initiallize Device Parameters
 			#ifdef HDD_DEBUG
@@ -231,7 +262,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         	WriteTaskFile(0, tfr[2], tfr[3], tfr[4], tfr[5], tfr[6]);
         	WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
         }
-        else if (tfr[7] == 0x20)
+        else if (tfr[7] == ACMD_READ_SECTORS)
         {
         	// Read Sectors 0x20
         	WriteStatus(IDE_STATUS_RDY); // pio in (class 1) command type
@@ -261,15 +292,18 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         		#else
         		
 	        		FileRead(&hdf[unit].file);
-	        		// Replace with direct transfer mode
-	            	EnableFpga();
+	        		/*
 	            	// write data command
+	        		EnableFpga();
 	            	SPI(CMD_IDE_DATA_WR);
 	            	SPI(0x00);
 	            	SPI(0x00);
 	            	SPI(0x00);
 	            	SPI(0x00);
 	            	SPI(0x00);
+	            	*/
+	            	// write data command
+	        		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
 	            	// Send Sector
 	            	for(i=0; i < 512; i++)
 		            {	SPI(secbuf[i]);	}
@@ -300,7 +334,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         	WriteTaskFile(0, tfr[2], sector, (unsigned char)cylinder, (unsigned char)(cylinder >> 8), (tfr[6] & 0xF0) | head);
         	WriteStatus((tfr[2] ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
         }
-        else if (tfr[7] == 0x30)
+        else if (tfr[7] == ACMD_WRITE_SECTORS)
         {
         	// write sectors
             sector = tfr[3];
@@ -312,16 +346,17 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 			HDD_Debug("Write\r\n", tfr);
         	printf("Write LBA:0x%08lX/SC:0x%02X\r\n", lba, tfr[2]);
 			#endif
-            
+
         	// TODO: Optimize file size check
-            if (hdf[unit].file.len)
-            {
-            	FileSeek(&hdf[unit].file, lba);
-            }
+			if (hdf[unit].file.len)
+			{
+        		FileSeek(&hdf[unit].file, lba);
+			}
 
             // pio out (class 2) command type
             WriteStatus(IDE_STATUS_REQ);
 
+/*
             do
             {
                 EnableFpga();
@@ -334,7 +369,11 @@ void HandleHDD(unsigned char c1, unsigned char c2)
                 DisableFpga();
             }
             while (!(c1 & CMD_IDEDAT));
+*/
+            // cmd request and drive number
+            while (!(GetFPGAStatus()& CMD_IDEDAT));
 
+            /*
             EnableFpga();
             SPI(CMD_IDE_DATA_RD); // read data command
             SPI(0x00);
@@ -342,6 +381,8 @@ void HandleHDD(unsigned char c1, unsigned char c2)
             SPI(0x00);
             SPI(0x00);
             SPI(0x00);
+            */
+    		BeginHDDTransfer(CMD_IDE_DATA_RD, 0x00);
             for (i = 0; i < 512; i++)
             {  	secbuf[i] = SPI(0xFF);		}
             DisableFpga();

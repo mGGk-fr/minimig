@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-09-20	- Supporty for new FPGA bin 090911 by yaqube
 2009-11-27	- Code cleanup, SendBootFPGACommand function extracted
 2009-12-20	- Corrected error display when AR or Rom missing
+2009-12-30	- SendFile optimized a bit to save rom
 */
 
 #include <pic18.h>
@@ -386,19 +387,8 @@ void SendFile(struct fileTYPE *file)
 		// read sector from mmc
 		FileRead(file);
 
-		do
-		{
-			// read command from FPGA
-			EnableFpga();
-			c1 = SPI(0);
-			c2 = SPI(0);
-			SPI(0);
-			SPI(0);
-			SPI(0);
-			SPI(0);
-			DisableFpga();
-		}
-		while (!(c1&CMD_RDTRK));
+		// read command from FPGA
+		while (!(GetFPGAStatus()& CMD_RDTRK));
 
 		putchar('*');
 
@@ -412,17 +402,11 @@ void SendFile(struct fileTYPE *file)
 		SPI(0);
 
 		p=secbuf;
-		j=128;
+		j=256;
 		do
 		{
-			SSPBUF=*(p++);
-			while (!BF);
-			SSPBUF=*(p++);
-			while (!BF);
-			SSPBUF=*(p++);
-			while (!BF);
-			SSPBUF=*(p++);
-			while (!BF);
+			SPI(*(p++));
+			SPI(*(p++));
 		}
 		while (--j);
 		DisableFpga();
