@@ -1,6 +1,9 @@
 #ifndef MENU_H_
 #define MENU_H_
 
+// Enables / Disables Alternate core loading
+#define ALTERNATE_CORES
+
 // menu states
 enum MENU
 {
@@ -31,11 +34,17 @@ enum MENU
 	MENU_SETTINGS_HARDFILE1,
 	MENU_SETTINGS_HARDFILE2,
 	MENU_HARDFILE_SELECTED,
+	#ifdef ALTERNATE_CORES
+	MENU_ALTCORE_SELECTED,
+	#endif
 };
 
 // Extern exposed variables
 extern const char * const config_memory_chip_msg[];
 extern const char * const config_memory_slow_msg[];
+
+// Alternate Core Loaded
+extern unsigned char bAlternateCoreLoaded;
 
 void HandleUI(void);
 void HandleUpDown(unsigned char state, unsigned char max);

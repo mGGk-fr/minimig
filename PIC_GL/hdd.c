@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-12-20	- Added extension check for HD File
 2009-12-30	- Added constants for detected ide commands
 			- Added ideREGS structure to simplify ide handling code
+			- WriteIDERegs replaced WriteTaskFile
+			- WriteStatus renamed to WriteIDEStatus
+2009-01-24	- ReadHDDSectors, WriteHDDSectors refactored out of HandleHDD
+			- Removed variable for handling direct transfer mode, ReadFileEx is used with NULL param for buffer
 */
 
 #include <pic18.h>
@@ -92,16 +96,16 @@ void IdentifyDevice(struct driveIdentify *id, unsigned char unit)
 }
 
 
-unsigned long chs2lba(unsigned short cylinder, unsigned char head, unsigned char sector, unsigned char unit)
+unsigned long chs2lba(union ideRegsTYPE *ideRegs, unsigned char unit)
 {
 	unsigned long res;
 
 	// TODO: Optimize calculation
-	res = cylinder;
+	res = (unsigned long)ideRegs->regs.cylinder;
 	res *= (unsigned long)hdf[unit].heads;
-	res += (unsigned long)head;
+	res += (unsigned long)(ideRegs->regs.mode_drive_head & IDEREGS_HEAD_MASK);
 	res *= (unsigned long)hdf[unit].sectors;
-	res += sector;
+	res += (unsigned long)ideRegs->regs.sector;
 	res -= 1;
 	
 //	return(cylinder * hdf[unit].heads + head) * hdf[unit].sectors + sector - 1;
@@ -120,60 +124,50 @@ void BeginHDDTransfer(unsigned char cmd, unsigned char status)
     SPI(0x00);
 }
 
-void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned char sector_number, unsigned char cylinder_low, unsigned char cylinder_high, unsigned char drive_head)
-{
-	/*
-	EnableFpga();
-	SPI(CMD_IDE_REGS_WR);	// write task file registers command
-	SPI(0x00);
-	SPI(0x00);				// dummy
-	SPI(0x00);
-	SPI(0x00);				// dummy
-	SPI(0x00);
-	*/
-	
-	// write task file registers command
-	BeginHDDTransfer(CMD_IDE_REGS_WR, 0x00);
-	
-	SPI(0x00);				// dummy
-	SPI(0x00);
-	
-	SPI(0x00);
-	SPI(error);				// error
-    
-	SPI(0x00);
-    SPI(sector_count);		// sector count
-    
-    SPI(0x00);
-    SPI(sector_number);		//sector number
-    
-    SPI(0x00);
-    SPI(cylinder_low);		// cylinder low
-    
-    SPI(0x00);
-    SPI(cylinder_high);		// cylinder high
-    
-    SPI(0x00);
-    SPI(drive_head);		// drive/head
 
-    DisableFpga();
+void WriteIDERegs(union ideRegsTYPE *ideRegs)
+{
+	unsigned short i;
+	
+	// Write All IDE regs back to FPGA except for Command
+	BeginHDDTransfer(CMD_IDE_REGS_WR, 0x00);
+	for (i = 0; i < 7; i++)
+	{
+		SPI(0);
+		SPI(ideRegs->tfr[i]);
+	}
+	DisableFpga();
 }
 
 
-void WriteStatus(unsigned char status)
+void WriteIDEStatus(unsigned char status)
 {
-/*
-	EnableFpga();
-
-    SPI(CMD_IDE_STATUS_WR);
-    SPI(status);
-    SPI(0x00);
-    SPI(0x00);
-    SPI(0x00);
-    SPI(0x00);
-*/
 	BeginHDDTransfer(CMD_IDE_STATUS_WR, status);
     DisableFpga();
+}
+
+void NextHDDSector(union ideRegsTYPE *ideRegs, unsigned char unit)
+{
+	unsigned char head;
+	
+	// advance to next sector unless the last one is to be transmitted
+   	if (ideRegs->regs.count)
+	{
+		if (ideRegs->regs.sector == hdf[unit].sectors)
+		{
+			ideRegs->regs.sector = 1;
+			head = ideRegs->regs.mode_drive_head & IDEREGS_HEAD_MASK;
+			head++;
+			if (head == hdf[unit].heads)
+			{
+				head = 0;
+				ideRegs->regs.cylinder++;
+			}
+			ideRegs->regs.mode_drive_head = (ideRegs->regs.mode_drive_head & (~IDEREGS_HEAD_MASK)) | head;
+		}
+		else
+		{	ideRegs->regs.sector++;	}
+	}
 }
 
 
@@ -181,67 +175,69 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 {
 	struct driveIdentify	id;
 	unsigned char	*buffer;
-	unsigned char	tfr[8];
+	union ideRegsTYPE	ideRegs;
 	unsigned short	i;
-	unsigned long	lba;
-	unsigned char	sector;
-	unsigned short	cylinder;
-	unsigned char	head;
+//	unsigned long	lba;
 	unsigned char	unit;
 
 	if (c1 & CMD_IDECMD)
 	{
 		DISKLED_ON;
 
-		/*
-		EnableFpga();
-		SPI(CMD_IDE_REGS_RD); // read task file registers
-		SPI(0x00);
-		SPI(0x00);
-		SPI(0x00);
-		SPI(0x00);
-		SPI(0x00);
-		*/
+		// read task file registers
 		BeginHDDTransfer(CMD_IDE_REGS_RD, 0x00);
 		for (i = 0; i < 8; i++)
 		{
 			SPI(0);
-			tfr[i] = SPI(0);
+			ideRegs.tfr[i] = SPI(0);
 		}
 		DisableFpga();
 
 		// master/slave selection
-		unit = tfr[6] & IDEREGS_DRIVE_MASK ? 1 : 0;
+		unit = ideRegs.regs.mode_drive_head & IDEREGS_DRIVE_MASK ? 1 : 0;
 
-		if ((tfr[7] & 0xF0) == ACMD_RECALIBRATE)
+		if (0 == hdf[unit].file.len)
+		{
+			// Abort if file length is 0
+			#ifdef HDD_DEBUG
+			HDD_Debug("Abort if file length is 0\r\nIDE:", ideRegs.tfr);
+			#endif
+
+			ideRegs.regs.error = IDE_ERROR_ABRT;
+			WriteIDERegs(&ideRegs);
+			WriteIDEStatus(IDE_STATUS_END | IDE_STATUS_IRQ | IDE_STATUS_ERR);
+		}
+		else if ((ideRegs.regs.cmd & 0xF0) == ACMD_RECALIBRATE)
 		{
 			// Recalibrate 0x10-0x1F (class 3 command: no data)
 			#ifdef HDD_DEBUG
-			HDD_Debug("Recalibrate\r\n", tfr);
+			HDD_Debug("Recalibrate\r\n", ideRegs.tfr);
 			#endif
 
-			WriteTaskFile(0, 0, 1, 0, 0, tfr[6] & 0xF0);
-			WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
+			ideRegs.regs.error = 0;
+			ideRegs.regs.count = 0;
+			ideRegs.regs.sector = 1;
+			ideRegs.regs.cylinder = 0;
+			ideRegs.regs.mode_drive_head = ideRegs.regs.mode_drive_head & (~IDEREGS_HEAD_MASK);
+			WriteIDERegs(&ideRegs);
+
+			WriteIDEStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
 		}
-		else if (tfr[7] == ACMD_IDENTIFY_DEVICE)
+		else if (ideRegs.regs.cmd == ACMD_IDENTIFY_DEVICE)
 		{
 			// Identify Device 0xEC
 			#ifdef HDD_DEBUG
-			HDD_Debug("Identify Device\r\n", tfr);
+			HDD_Debug("Identify Device\r\n", ideRegs.tfr);
 			#endif
 
         	IdentifyDevice(&id, unit);
-        	WriteTaskFile(0, tfr[2], tfr[3], tfr[4], tfr[5], tfr[6]);
-        	WriteStatus(IDE_STATUS_RDY); // pio in (class 1) command type
-        	/*
-        	EnableFpga();
-        	SPI(CMD_IDE_DATA_WR); // write data command
-        	SPI(0x00);
-        	SPI(0x00);
-        	SPI(0x00);
-        	SPI(0x00);
-        	SPI(0x00);
-        	*/
+
+        	ideRegs.regs.error = 0;
+			WriteIDERegs(&ideRegs);
+
+			WriteIDEStatus(IDE_STATUS_RDY); // pio in (class 1) command type
+
+        	// write data command
     		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
         	buffer = (unsigned char*)&id;
         	for(i=0; i < (sizeof(id)); i++)
@@ -250,181 +246,220 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 	        {	SPI(0);		}
         	DisableFpga();
 
-        	WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
+        	WriteIDEStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
         }
-        else if (tfr[7] == ACMD_INITIALIZE_DEVICE_PARAMETERS)
+        else if (ideRegs.regs.cmd == ACMD_INITIALIZE_DEVICE_PARAMETERS)
         {
         	// Initiallize Device Parameters
 			#ifdef HDD_DEBUG
-			HDD_Debug("Initialize Device Parametars\r\n", tfr);
+			HDD_Debug("Initialize Device Parametars\r\n", ideRegs.tfr);
 			#endif
 
-        	WriteTaskFile(0, tfr[2], tfr[3], tfr[4], tfr[5], tfr[6]);
-        	WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
+			ideRegs.regs.error = 0;
+			WriteIDERegs(&ideRegs);
+
+			WriteIDEStatus(IDE_STATUS_END | IDE_STATUS_IRQ);
         }
-        else if (tfr[7] == ACMD_READ_SECTORS)
+        else if (ideRegs.regs.cmd == ACMD_READ_SECTORS)		// Read Sectors 0x20
         {
-        	// Read Sectors 0x20
-        	WriteStatus(IDE_STATUS_RDY); // pio in (class 1) command type
-
-        	sector = tfr[3];
-        	cylinder = tfr[4] | (tfr[5] << 8);
-        	head = tfr[6] & 0x0F;
-        	lba = chs2lba(cylinder, head, sector, unit);
-
-			#ifdef HDD_DEBUG
-			HDD_Debug("Read\r\n", tfr);
-			printf("CHS: %d.%d.%d\r\n", cylinder, head, sector);
-        	printf("Read LBA:0x%08lX/SC:0x%02X\r\n", lba, tfr[2]);
-        	#endif
-
-        	// TODO: Optimize file size check 
-        	if (hdf[unit].file.len)
-        	{
-        		FileSeek(&hdf[unit].file, lba);
-        		
-				#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
-        		
-        			MMC_DIRECT_TRANSFER_MODE = 1;
-        			FileRead(&hdf[unit].file);
-        			MMC_DIRECT_TRANSFER_MODE = 0;
-
-        		#else
-        		
-	        		FileRead(&hdf[unit].file);
-	        		/*
-	            	// write data command
-	        		EnableFpga();
-	            	SPI(CMD_IDE_DATA_WR);
-	            	SPI(0x00);
-	            	SPI(0x00);
-	            	SPI(0x00);
-	            	SPI(0x00);
-	            	SPI(0x00);
-	            	*/
-	            	// write data command
-	        		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
-	            	// Send Sector
-	            	for(i=0; i < 512; i++)
-		            {	SPI(secbuf[i]);	}
-	            	DisableFpga();
-
-            	#endif
-        	}
-
-        	// decrease sector count
-        	tfr[2]--;
-        	// advance to next sector unless the last one is to be transmitted
-        	if (tfr[2])
-        	{
-        		if (sector == hdf[unit].sectors)
-        		{
-        			sector = 1;
-        			head++;
-        			if (head == hdf[unit].heads)
-        			{
-        				head = 0;
-        				cylinder++;
-        			}
-        		}
-        		else
-        		{	sector++;	}
-        	}
-
-        	WriteTaskFile(0, tfr[2], sector, (unsigned char)cylinder, (unsigned char)(cylinder >> 8), (tfr[6] & 0xF0) | head);
-        	WriteStatus((tfr[2] ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+        	ReadHDDSectors(&ideRegs,unit);
         }
-        else if (tfr[7] == ACMD_WRITE_SECTORS)
+        else if (ideRegs.regs.cmd == ACMD_WRITE_SECTORS)
         {
-        	// write sectors
-            sector = tfr[3];
-			cylinder = tfr[4] | (tfr[5] << 8);
-            head = tfr[6] & 0x0F;
-            lba = chs2lba(cylinder, head, sector, unit);
-            
-			#ifdef HDD_DEBUG
-			HDD_Debug("Write\r\n", tfr);
-        	printf("Write LBA:0x%08lX/SC:0x%02X\r\n", lba, tfr[2]);
-			#endif
-
-        	// TODO: Optimize file size check
-			if (hdf[unit].file.len)
-			{
-        		FileSeek(&hdf[unit].file, lba);
-			}
-
-            // pio out (class 2) command type
-            WriteStatus(IDE_STATUS_REQ);
-
-/*
-            do
-            {
-                EnableFpga();
-                c1 = SPI(0); // cmd request and drive number
-                SPI(0x00);
-                SPI(0x00);
-                SPI(0x00);
-                SPI(0x00);
-                SPI(0x00);
-                DisableFpga();
-            }
-            while (!(c1 & CMD_IDEDAT));
-*/
-            // cmd request and drive number
-            while (!(GetFPGAStatus()& CMD_IDEDAT));
-
-            /*
-            EnableFpga();
-            SPI(CMD_IDE_DATA_RD); // read data command
-            SPI(0x00);
-            SPI(0x00);
-            SPI(0x00);
-            SPI(0x00);
-            SPI(0x00);
-            */
-    		BeginHDDTransfer(CMD_IDE_DATA_RD, 0x00);
-            for (i = 0; i < 512; i++)
-            {  	secbuf[i] = SPI(0xFF);		}
-            DisableFpga();
-
-        	// TODO: Optimize file size check
-            if (hdf[unit].file.len)
-            {	FileWrite(&hdf[unit].file);	}
-
-            // decrease sector count
-            tfr[2]--;
-            // advance to next sector unless the last one is to be transmitted
-            if (tfr[2])
-            {
-                if (sector == hdf[unit].sectors)
-                {
-                    sector = 1;
-                    head++;
-                    if (head == hdf[unit].heads)
-                    {
-                        head = 0;
-                        cylinder++;
-                    }
-                }
-                else
-                {   sector++;	}
-            }
-
-            WriteTaskFile(0, tfr[2], sector, (unsigned char)cylinder, (unsigned char)(cylinder >> 8), (tfr[6] & 0xF0) | head);
-            WriteStatus((tfr[2] ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+        	WriteHDDSectors(&ideRegs,unit);
         }
         else
         {
 			#ifdef HDD_DEBUG
-			HDD_Debug("Unknown ATA command\r\nIDE:", tfr);
+			HDD_Debug("Unknown ATA command\r\nIDE:", ideRegs.tfr);
 			#endif
 
-            WriteTaskFile(0x04, tfr[2], tfr[3], tfr[4], tfr[5], tfr[6]);
-            WriteStatus(IDE_STATUS_END | IDE_STATUS_IRQ | IDE_STATUS_ERR);
+			ideRegs.regs.error = IDE_ERROR_ABRT;
+			WriteIDERegs(&ideRegs);
+			WriteIDEStatus(IDE_STATUS_END | IDE_STATUS_IRQ | IDE_STATUS_ERR);
         }
 
         DISKLED_OFF;
     }
+}
+
+
+// Read HDD Sectors
+void ReadHDDSectors(union ideRegsTYPE *ideRegs, unsigned char unit)
+{
+	unsigned short	i;
+	unsigned long	lba;
+
+	WriteIDEStatus(IDE_STATUS_RDY); // pio in (class 1) command type
+
+	lba = chs2lba(ideRegs, unit);
+
+	#ifdef HDD_DEBUG
+	HDD_Debug("Read\r\n", ideRegs->tfr);
+	printf("CHS: %d.%d.%d\r\n", ideRegs->regs.cylinder, ideRegs->regs.mode_drive_head & IDEREGS_HEAD_MASK, ideRegs->regs.sector);
+	printf("Read LBA:0x%08lX/SC:0x%02X\r\n", lba, ideRegs->tfr[2]);
+	#endif
+
+	FileSeek(&hdf[unit].file, lba);
+	
+	do
+	{
+		// Wait for IDE cmd
+	    while (!(GetFPGAStatus()& CMD_IDECMD));
+
+	    #ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
+		
+//		MMC_DIRECT_TRANSFER_MODE = 1;
+//		FileRead(&hdf[unit].file);
+		FileReadEx(&hdf[unit].file, NULL);
+//		MMC_DIRECT_TRANSFER_MODE = 0;
+		
+		#else
+		
+		// Read sector to buffer
+		FileRead(&hdf[unit].file);
+		
+		// Send Sector to FPGA
+		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
+		for(i=0; i < 512; i++)
+		{	SPI(secbuf[i]);	}
+		DisableFpga();
+		
+		#endif
+		
+		// decrease sector count
+		ideRegs->regs.count--;
+
+		// Go to next file sector
+		FileNextSector(&hdf[unit].file);
+
+		// advance to next sector unless the last one is to be transmitted
+		//NextHDDSector(ideRegs,unit);
+		//WriteIDERegs(ideRegs);
+		
+		//WriteIDEStatus((ideRegs->regs.count ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+		WriteIDEStatus(IDE_STATUS_IRQ);
+	}
+	while(ideRegs->regs.count);
+
+	WriteIDEStatus(IDE_STATUS_END);
+
+	/*
+	WriteIDEStatus(IDE_STATUS_RDY); // pio in (class 1) command type
+
+	lba = chs2lba(&ideRegs, unit);
+
+	#ifdef HDD_DEBUG
+	HDD_Debug("Read\r\n", ideRegs.tfr);
+	printf("CHS: %d.%d.%d\r\n", ideRegs.regs.cylinder, ideRegs.regs.mode_drive_head & IDEREGS_HEAD_MASK, ideRegs.regs.sector);
+	printf("Read LBA:0x%08lX/SC:0x%02X\r\n", lba, ideRegs.tfr[2]);
+	#endif
+
+	FileSeek(&hdf[unit].file, lba);
+	
+	#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
+	
+		MMC_DIRECT_TRANSFER_MODE = 1;
+		FileRead(&hdf[unit].file);
+		MMC_DIRECT_TRANSFER_MODE = 0;
+
+	#else
+
+		// Read sector to buffer
+		FileRead(&hdf[unit].file);
+
+    	// Send Sector to FPGA
+		BeginHDDTransfer(CMD_IDE_DATA_WR, 0x00);
+    	for(i=0; i < 512; i++)
+        {	SPI(secbuf[i]);	}
+    	DisableFpga();
+
+	#endif
+
+	// decrease sector count
+	ideRegs.regs.count--;
+	// advance to next sector unless the last one is to be transmitted
+	NextHDDSector(&ideRegs,unit);
+	WriteIDERegs(&ideRegs);
+	
+	WriteIDEStatus((ideRegs.regs.count ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+	*/
+}
+
+
+// Write HDD sectors
+void WriteHDDSectors(union ideRegsTYPE *ideRegs, unsigned char unit)
+{
+	unsigned short	i;
+	unsigned long	lba;
+
+    // pio out (class 2) command type
+	WriteIDEStatus(IDE_STATUS_REQ);
+
+	// write sectors
+	lba = chs2lba(ideRegs, unit);
+    
+	#ifdef HDD_DEBUG
+	HDD_Debug("Write\r\n", ideRegs->tfr);
+	printf("Write LBA:0x%08lX/SC:0x%02X\r\n", lba, ideRegs->tfr[2]);
+	#endif
+
+	FileSeek(&hdf[unit].file, lba);
+
+    // cmd request and drive number
+    while (!(GetFPGAStatus()& CMD_IDEDAT));
+
+    // Read Sector from FPGA
+	BeginHDDTransfer(CMD_IDE_DATA_RD, 0x00);
+    for (i = 0; i < 512; i++)
+    {  	secbuf[i] = SPI(0xFF);		}
+    DisableFpga();
+
+    // Write sector to file
+	FileWrite(&hdf[unit].file);	
+
+    // decrease sector count
+	ideRegs->regs.count--;
+    // advance to next sector unless the last one is to be transmitted
+	NextHDDSector(ideRegs,unit);
+	WriteIDERegs(ideRegs);
+	
+	WriteIDEStatus((ideRegs->regs.count ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+
+	/*
+	// write sectors
+	lba = chs2lba(&ideRegs, unit);
+    
+	#ifdef HDD_DEBUG
+	HDD_Debug("Write\r\n", ideRegs.tfr);
+	printf("Write LBA:0x%08lX/SC:0x%02X\r\n", lba, ideRegs.tfr[2]);
+	#endif
+
+	FileSeek(&hdf[unit].file, lba);
+
+    // pio out (class 2) command type
+	WriteIDEStatus(IDE_STATUS_REQ);
+
+    // cmd request and drive number
+    while (!(GetFPGAStatus()& CMD_IDEDAT));
+
+    // read data command
+	BeginHDDTransfer(CMD_IDE_DATA_RD, 0x00);
+    for (i = 0; i < 512; i++)
+    {  	secbuf[i] = SPI(0xFF);		}
+    DisableFpga();
+
+    // Write sector to file
+	FileWrite(&hdf[unit].file);	
+
+    // decrease sector count
+	ideRegs.regs.count--;
+    // advance to next sector unless the last one is to be transmitted
+	NextHDDSector(&ideRegs,unit);
+	WriteIDERegs(&ideRegs);
+	
+	WriteIDEStatus((ideRegs.regs.count ? 0 : IDE_STATUS_END) | IDE_STATUS_IRQ);
+	*/
 }
 
 
@@ -434,7 +469,6 @@ void GetHardfileGeometry(struct hdfTYPE *pHDF)
 {
 	unsigned long total;
 	unsigned long i, head, cyl, spt;
-//	unsigned long sptt[] = { 63, 127, 255, -1 };
 	unsigned long sptt[] = { 63, 127, 255 };
 
 	if (0 == pHDF->file.len)
@@ -442,7 +476,6 @@ void GetHardfileGeometry(struct hdfTYPE *pHDF)
 
 	total = pHDF->file.len >> 9;		//total = pHDF->file.len / 512
 
-//	for (i = 0; sptt[i] >= 0; i++)
 	for (i = 0; i < 3; i++)
 	{
 		spt = sptt[i];

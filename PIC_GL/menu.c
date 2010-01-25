@@ -76,6 +76,8 @@ unsigned char fbSelectedStatePreselect;
 unsigned char fbExitState;
 unsigned char fbAllowDirectorySelect;
 
+// Alternate Core Loaded
+unsigned char bAlternateCoreLoaded;
 
 void HandleUI(void)
 {
@@ -241,9 +243,16 @@ void HandleUI(void)
 		/******************************************************************/
 		case MENU_MAIN_EXT1:
 			OsdWrite(0, "\x1B **Minimig Menu**", 0);
+			#ifdef ALTERNATE_CORES
+			OsdWrite(2, "      settings", 0 == menusub);	// settings
+			OsdWrite(3, "      alternate core", 1 == menusub);	// load alternate core
+			OsdWrite(4, "      reset", 2 == menusub);		// reset system
+			OsdWrite(7, "        exit", 3 == menusub);		// exit menu
+			#else
 			OsdWrite(2, "      settings", 0 == menusub);	// settings
 			OsdWrite(3, "      reset", 1 == menusub);		// reset system
-			OsdWrite(7, "        exit", 2 == menusub);	// exit menu
+			OsdWrite(7, "        exit", 2 == menusub);		// exit menu
+			#endif
 			menustate = MENU_MAIN_EXT2;
 			break;
 
@@ -252,29 +261,55 @@ void HandleUI(void)
 
 			if (select) 
 			{
-				// select pressed
-				if (0 == menusub)
-				{
-					// settings
-					menustate = MENU_SETTINGS1;
-					OsdClear();
-				}
-				else if (1 == menusub)
-				{
-					// reset
-					menustate = MENU_RESET1;
-					OsdClear();
-				}
-				else if (2 == menusub)
-				{
-					// exit menu
-					menustate = MENU_NONE1;
-				}
+				#ifdef ALTERNATE_CORES
+					// select pressed
+					if (0 == menusub)
+					{
+						// settings
+						menustate = MENU_SETTINGS1;
+						OsdClear();
+					}
+					else if (1 == menusub)
+					{
+						// Select Alternate Core
+						SelectFile(defCoreExt, MENU_ALTCORE_SELECTED, menusub, MENU_MAIN_EXT1, 0);
+					}
+					else if (2 == menusub)
+					{
+						// reset
+						menustate = MENU_RESET1;
+						menusub = 1;
+						OsdClear();
+					}
+					else if (3 == menusub)
+					{
+						// exit menu
+						menustate = MENU_NONE1;
+					}
+				#else
+					// select pressed
+					if (0 == menusub)
+					{
+						// settings
+						menustate = MENU_SETTINGS1;
+						OsdClear();
+					}
+					else if (1 == menusub)
+					{
+						// reset
+						menustate = MENU_RESET1;
+						OsdClear();
+					}
+					else if (2 == menusub)
+					{
+						// exit menu
+						menustate = MENU_NONE1;
+					}
+				#endif
 			}
 			
 			if (menu)
 			{
-				//menustate = MENU_NONE1;
 				menustate = MENU_MAIN1;
 			}
 			else if (left)
@@ -664,13 +699,15 @@ void HandleUI(void)
 			sprintf(s,"   drives   : %d", config.floppy_drives + 1);
 			OsdWrite(2, s, 0 == menusub);
 	
-			strcpy(s, "   speed    : ");
-			strcat(s, config.floppy_speed ? "2x " : "1x");
+			//strcpy(s, "   speed    : ");
+			//strcat(s, config.floppy_speed ? "2x " : "1x");
+			sprintf(s,"   speed    : %s", config.floppy_speed ? "2x " : "1x");
 			OsdWrite(3, s, 1 == menusub);
 	
-	        strcpy(s, "   A600 IDE : ");
-	        strcat(s, config.ide ? "on " : "off");
-	        OsdWrite(4, s, menusub == 2);
+	        //strcpy(s, "   A600 IDE : ");
+	        //strcat(s, config.ide ? "on " : "off");
+			sprintf(s,"   A600 IDE : %s", config.ide ? "on " : "off");
+			OsdWrite(4, s, menusub == 2);
 	
 	        sprintf(s,"  hardfiles : %d", (hdf[0].present & hdf[0].enabled) + (hdf[1].present & hdf[1].enabled));
 	        OsdWrite(5,s, 3 == menusub);
@@ -978,6 +1015,42 @@ void HandleUI(void)
 				OsdClear();
 			}
 			break;
+
+		#ifdef ALTERNATE_CORES
+		/******************************************************************/
+		/*Alternate Core Selected */
+		/******************************************************************/
+		case MENU_ALTCORE_SELECTED:
+			
+			// Check if default core selected
+			for(i=0; i<11; i++)
+			{
+				if (directory[dirptr].name[i]!=defFPGAName[i])
+				{	break;	}
+			}
+			
+			if (11 != i)
+			{
+				// Close Menu
+				OsdDisable();
+				menustate = MENU_NONE1;
+
+				// Load Selected core
+				if (ConfigureFpga(directory[dirptr].name))
+				{
+					// Mark Alternate Core Loaded
+					bAlternateCoreLoaded = 1;
+				}
+			}
+			else
+			{
+				// Default Core Selected Exit
+				menustate = MENU_MAIN_EXT1;
+				menusub = 1;
+				OsdClear();
+			}
+			break;
+		#endif
 
 		/******************************************************************/
 		/*error message menu*/

@@ -5,6 +5,8 @@
 //#define DEBUG_SDMMC
 
 // Enable / Disable Direct to FPGA Transfer mode
+// if DIRECT TRANSFER MODE is enabled MMC_Read() function activates special FPGA chip select line
+// which allows direct transfer of data from the SD card to the FPGA (only reads are supported)
 #define	ALOW_MMC_DIRECT_TRANSFER_MODE;
 
 /*MMC commandset*/
@@ -72,13 +74,6 @@
 #define		CMD61		0x7d		/*--*/
 #define		CMD62		0x7e		/*--*/
 #define		CMD63		0x7f		/*--*/
-
-
-#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
-// if MMC_DIRECT_TRANSFER_MODE is set MMC_Read() function activates special FPGA chip select line
-// which allows direct transfer of data from the SD card to the FPGA (only reads are supported)
-extern unsigned char MMC_DIRECT_TRANSFER_MODE;
-#endif
 
 
 unsigned char MMC_Init(void);

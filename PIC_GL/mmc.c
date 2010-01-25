@@ -21,6 +21,7 @@
 					- CMD definitions moved to header file
 					- IO definitions used from hardware.h
 	2009-11-25		- Added direct to FPGA transfer mode when reading for HDD support
+	2010-01-24		- Removed MMC_DIRECT_TRANSFER_MODE variable, direct transfer mode is used when read buffer is null
 */
 
 /*------------------------------------------------------------------------------------------*/
@@ -55,12 +56,6 @@ unsigned char response_4;		/*byte that holds the fourth response byte*/
 unsigned char response_5;		/*byte that holds the fifth response byte*/
 
 unsigned long t_lba = -1;		//address of the sector in buffer
-
-#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
-// if MMC_DIRECT_TRANSFER_MODE is set MMC_Read() function activates special FPGA chip select line
-// which allows direct transfer of data from the SD card to the FPGA (only reads are supported)
-unsigned char MMC_DIRECT_TRANSFER_MODE = 0;
-#endif
 
 /*internal functions*/
 void Command_R0(char cmd,unsigned short AdrH,unsigned short AdrL);
@@ -234,7 +229,10 @@ unsigned char MMC_Init(void)
 	return(TRUE);
 }
 
-/*Read single block (with block-size set by CMD16 to 512 by default)*/
+// Read single block (with block-size set by CMD16 to 512 by default)
+// if DIRECT TRANSFER MODE is allowed MMC_Read() function activates special FPGA chip select line
+// which allows direct transfer of data from the SD card to the FPGA (only reads are supported)
+// this only happends when ReadData buffer pointer is NULL
 unsigned char MMC_Read(unsigned long lba, unsigned char *ReadData)
 {
 	unsigned short upper_lba, lower_lba;
@@ -245,8 +243,7 @@ unsigned char MMC_Read(unsigned long lba, unsigned char *ReadData)
 	#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
 
 		// When direct tranfer mode sector is not read in buffer
-		// TODO: Fix this we might read it anyway
-		if(!MMC_DIRECT_TRANSFER_MODE)
+		if(NULL != ReadData)
 		{
 			if (lba == t_lba)
 			{	return(TRUE);	}
@@ -307,7 +304,7 @@ unsigned char MMC_Read(unsigned long lba, unsigned char *ReadData)
 
 	#ifdef ALOW_MMC_DIRECT_TRANSFER_MODE
 
-		if(MMC_DIRECT_TRANSFER_MODE)
+		if(NULL == ReadData)
 		{
 			// Enable Line for direct tranfer to FPGA 
 			_F_CS2 = 0;

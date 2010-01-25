@@ -40,12 +40,14 @@ struct configType
 extern struct configType	config;
 
 // Defaults extern variables 
+extern const unsigned char defFPGAName[];		// Default FPGA Binary name
 extern const unsigned char defKickName[];		// Default Kickstart name
 extern const unsigned char defARName[];			// Default Action Replay name
 extern const unsigned char defHDFileName[];		// Default Hard disk file format
 extern const unsigned char defFloppyExt[];		// Defult floppy extension
 extern const unsigned char defRomExt[];			// Defult rom extension
 extern const unsigned char defHardDiskExt[];	// Defult hard disk file extension
+extern const unsigned char defCoreExt[];		// Defult core extension
 
 
 void LoadConfiguration(void);

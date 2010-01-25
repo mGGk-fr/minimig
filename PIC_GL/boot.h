@@ -6,7 +6,7 @@
 
 void FatalError(unsigned char code);
 
-unsigned char ConfigureFpga(void);
+unsigned char ConfigureFpga(const unsigned char *FPGAFileName);
 
 char UploadKickstart(const unsigned char *name);
 char UploadActionReplay(const unsigned char *name);

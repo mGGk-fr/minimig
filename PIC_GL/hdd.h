@@ -22,6 +22,16 @@
 #define IDE_STATUS_REQ		0x04
 #define IDE_STATUS_ERR		0x01
 
+#define IDE_ERROR_BBK		1<<7
+#define IDE_ERROR_UNC		1<<6
+#define IDE_ERROR_MC		1<<5
+#define IDE_ERROR_IDNF		1<<4
+#define IDE_ERROR_MCR		1<<3
+#define IDE_ERROR_ABRT		1<<2
+#define IDE_ERROR_TK0NF		1<<1
+#define IDE_ERROR_AMNF		1<<0
+
+
 #define ACMD_RECALIBRATE					0x10
 #define ACMD_IDENTIFY_DEVICE				0xEC
 #define ACMD_INITIALIZE_DEVICE_PARAMETERS	0x91 
@@ -112,7 +122,8 @@ typedef struct driveIdentify
 #define IDEREGS_HEAD_MASK	0x0F	// Mask for current head
 #define IDEREGS_MODE_MASK	0x40	// Mask for mode LBA/CHS
 
-typedef union ideREGS
+// Host IDE registers
+typedef union ideRegsTYPE
 {
 	struct
 	{
@@ -144,13 +155,18 @@ extern struct hdfTYPE hdf[2];
 
 // Functions
 void IdentifyDevice(struct driveIdentify *id, unsigned char unit);
-unsigned long chs2lba(unsigned short cylinder, unsigned char head, unsigned char sector, unsigned char unit);
-void WriteTaskFile(unsigned char error, unsigned char sector_count, unsigned char sector_number, unsigned char cylinder_low, unsigned char cylinder_high, unsigned char drive_head);
-void WriteStatus(unsigned char status);
+unsigned long chs2lba(union ideRegsTYPE *ideRegs, unsigned char unit);
+void NextHDDSector(union ideRegsTYPE *ideRegs, unsigned char unit);
+void WriteIDERegs(union ideRegsTYPE *ideRegs);
+void WriteIDEStatus(unsigned char status);
 void BeginHDDTransfer(unsigned char cmd, unsigned char status);
 void HandleHDD(unsigned char c1, unsigned char c2);
 void GetHardfileGeometry(struct hdfTYPE *hdf);
 unsigned char OpenHardfile(unsigned char unit, unsigned char *name);
+
+void ReadHDDSectors(union ideRegsTYPE *ideRegs, unsigned char unit);
+void WriteHDDSectors(union ideRegsTYPE *ideRegs, unsigned char unit);
+
 
 #ifdef HDD_DEBUG
 void HDD_Debug(const char *msg, unsigned char *tfr);

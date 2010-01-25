@@ -87,6 +87,7 @@ WriteTrack errors:
 			- Boot Agnus display updated only displayed when old FPGA core is used
 			- PAL/NTSC switch constants used
 			- Code cleanup comments removed
+			- ConfigureFpga modified to accept default string filename
 */
 
 #include <pic18.h>
@@ -124,7 +125,9 @@ void main(void)
 	memset(df,0,sizeof(df));
 	// Reset HD status
 	memset(hdf,0,sizeof(hdf));
-
+	// Reset Alternate Core Loaded Status on reset 
+	bAlternateCoreLoaded = 0;
+	
 	// initialize hardware
 	HardwareInit();
 
@@ -151,10 +154,10 @@ void main(void)
 
 //	if (DONE) //FPGA has not been configured yet
 //	{		printf("FPGA already configured\r\n");		}
-	else
-	{
+//	else
+//	{
 		/*configure FPGA*/
-		if (ConfigureFpga())
+		if (ConfigureFpga(defFPGAName))
 		{	printf("\r\nFPGA configured\r\n");	}
 		else
 		{
@@ -163,7 +166,7 @@ void main(void)
 			#endif
 			FatalError(3);
 		}
-	}
+//	}
 
 	//let's wait some time till reset is inactive so we can get a valid keycode
 	DISKLED_OFF;
@@ -311,15 +314,22 @@ void main(void)
 
 	while (1)
 	{
-		// handle command
-		HandleFpga();
-
-		// handle user interface
-		if (CheckTimer(time))
+		if (!bAlternateCoreLoaded)
 		{
-			time = GetTimer(2);
-			HandleUI();
+			// handle command
+			HandleFpga();
+
+			// handle user interface
+			if (CheckTimer(time))
+			{
+				time = GetTimer(2);
+				HandleUI();
+			}
 		}
+		//else
+		//{
+		//	//TODO: Handle Alternate Core Requests
+		//}
 	}
 }
 

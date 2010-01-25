@@ -228,6 +228,7 @@ unsigned char FileNextSector(struct fileTYPE *file);
 unsigned char FileSeek(struct fileTYPE *file, unsigned long sector);
 unsigned long GetLBA(struct fileTYPE *file);
 unsigned char FileRead(struct fileTYPE *file);
+unsigned char FileReadEx(struct fileTYPE *file, unsigned char* data);
 unsigned char FileWrite(struct fileTYPE *file);
 unsigned char GetNextClusterIndexFromFAT(struct fileTYPE *file);
 
