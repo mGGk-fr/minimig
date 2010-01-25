@@ -76,6 +76,7 @@ __EEPROM_DATA(0,0,0,0,0,0,0,0);
 struct configType	config;
 
 // Defaults
+const unsigned char defFPGAName[]	= "MINIMIG1BIN";
 const unsigned char defKickName[]	= "KICK    ROM";
 const unsigned char defARName[] 	= "AR3     ROM";
 const unsigned char	defHDFileName[]	= "HDFILE%02dHDF";
@@ -84,6 +85,7 @@ const unsigned char	defHDFileName[]	= "HDFILE%02dHDF";
 const unsigned char defFloppyExt[]		= "ADF";	// Defult floppy extension
 const unsigned char defRomExt[]			= "ROM";	// Defult rom extension
 const unsigned char defHardDiskExt[]	= "HDF";	// Defult hard disk file extension
+const unsigned char defCoreExt[]		= "BIN";	// Defult core extension
 
 
 void LoadConfiguration(void)

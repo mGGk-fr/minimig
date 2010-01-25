@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-11-27	- Code cleanup, SendBootFPGACommand function extracted
 2009-12-20	- Corrected error display when AR or Rom missing
 2009-12-30	- SendFile optimized a bit to save rom
+			- ConfigureFpga modified to support any FPGA bin length divisable by eight
 */
 
 #include <pic18.h>
@@ -63,9 +64,10 @@ void FatalError(unsigned char code)
 
 
 // configure FPGA
-unsigned char ConfigureFpga(void)
+unsigned char ConfigureFpga(const unsigned char *FPGAFileName)
 {
 	unsigned short t;
+	unsigned short n;
 	unsigned char *ptr;
 
 	// reset FGPA configuration sequence
@@ -81,7 +83,6 @@ unsigned char ConfigureFpga(void)
 			#ifdef BOOT_DEBUG
 			printf("FPGA init is NOT high!\r\n");
 			#endif
-
 			FatalError(3);
 		}
 	}
@@ -100,7 +101,7 @@ unsigned char ConfigureFpga(void)
 	}
 
 	// open bitstream file
-	if (Open(&file, "MINIMIG1BIN")==0)
+	if (Open(&file, FPGAFileName)==0)
 	{
 		#ifdef BOOT_DEBUG
 		printf("No FPGA configuration file found!\r\n");
@@ -115,6 +116,7 @@ unsigned char ConfigureFpga(void)
 
 	// send all bytes to FPGA in loop
 	t = 0;
+	n = file.len>>3;
 	do
 	{
 		// read sector if 512 (64*8) bytes done
@@ -148,7 +150,7 @@ unsigned char ConfigureFpga(void)
 		if (t%64==0)
 		{	FileNextSector(&file);	}
 	}
-	while (t<26549);
+	while (t<n);
 
 	#ifdef BOOT_DEBUG
 	printf("\r\nFPGA bitstream loaded\r\n");
@@ -402,13 +404,20 @@ void SendFile(struct fileTYPE *file)
 		SPI(0);
 
 		p=secbuf;
-		j=256;
+		//j=256;
+		j=255;
 		do
 		{
-			SPI(*(p++));
-			SPI(*(p++));
+			//SPI(*(p++));
+			//SPI(*(p++));
+			SSPBUF = *(p++);
+			while (!BF);
+
+			SSPBUF = *(p++);
+			while (!BF);
 		}
-		while (--j);
+		//while (--j);
+		while (j--);
 		DisableFpga();
 
 		FileNextSector(file);

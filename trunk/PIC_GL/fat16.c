@@ -48,6 +48,7 @@ images.
 2009-12-20	- Fixed displaying correct root dir entries when short names and volume entry found
 			- Fixed LFN search when previous entries are either volume or short dir entires
 2009-12-23	- Fixed File Open when no file is found handle is cleared
+2010-01-24	- Added FileReadEx function
 */
 
 #include <stdio.h>
@@ -706,7 +707,13 @@ unsigned long GetLBA(struct fileTYPE *file)
 // read sector into buffer
 unsigned char FileRead(struct fileTYPE *file)
 {
-	return MMC_Read(GetLBA(file),secbuf);
+//	return MMC_Read(GetLBA(file),secbuf);
+	return FileReadEx(file, secbuf);
+}
+
+unsigned char FileReadEx(struct fileTYPE *file, unsigned char* data)
+{
+	return MMC_Read(GetLBA(file),data);
 }
 
 // write buffer to sector
