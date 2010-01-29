@@ -29,6 +29,7 @@ Hardware control routines
 2009-12-20		- systimer reset on every hardware init to support propper timings on reset
 2009-12-30		- Support for new FPGA firmware added in header file
 				- GetFPGAStatus function added
+2010-01-29		- ResetFPGA() macro added to header file.
 */
 
 #include <pic18.h>

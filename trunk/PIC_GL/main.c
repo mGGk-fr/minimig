@@ -88,6 +88,8 @@ WriteTrack errors:
 			- PAL/NTSC switch constants used
 			- Code cleanup comments removed
 			- ConfigureFpga modified to accept default string filename
+2009-01-29	- FPGA Core reset on PIC reset to allow reseting cores that are messed up SPI lines to SD card e.g. VIC20
+			- Main loop added handling for alternate core, for future alternate core requests
 */
 
 #include <pic18.h>
@@ -130,6 +132,9 @@ void main(void)
 	
 	// initialize hardware
 	HardwareInit();
+	// Reset FPGA to programming mode to allow core changes
+	// This is for problematic cores that messup SD card SPI
+	ResetFPGA();
 
 	printf("Minimig by Dennis van Weeren\r\n");
 	printf("Bug fixes, mods and extensions by Jakub Bednarski\r\n");
