@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 2009-12-20	- Corrected error display when AR or Rom missing
 2009-12-30	- SendFile optimized a bit to save rom
 			- ConfigureFpga modified to support any FPGA bin length divisable by eight
+2009-01-29	- Added proper FPGA core reset sequence to alow core reloading
 */
 
 #include <pic18.h>
@@ -71,8 +72,10 @@ unsigned char ConfigureFpga(const unsigned char *FPGAFileName)
 	unsigned char *ptr;
 
 	// reset FGPA configuration sequence
-	PROG_B = 0;
-	PROG_B = 1;
+//	PROG_B_VAL = 0;	// Set PROG_B Low
+//	PROG_B = 0;		// Set PROG_B As Input (Disable)
+//	PROG_B = 1;		// Set PROG_B As Output (Value is written out)
+	ResetFPGA();
 
 	// now wait for INIT to go high
 	t = 50000;

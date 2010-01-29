@@ -31,6 +31,7 @@
 
 /*IO defines*/
 #define	PROG_B		TRISA2			/*FPGA config*/
+#define	PROG_B_VAL	RA2				/*FPGA config*/
 #define	DONE		RB3				/*FPGA config*/
 #define	INIT_B		RA3				/*FPGA config*/
 #define	CCLK		LATA5			/*FPGA config*/
@@ -57,6 +58,7 @@
 #define		EnableCard()	{_M_CD=1;_M_CS=0;}
 #define		DisableCard()	{_M_CS=1;SPI(0xff);_M_CD=0;}
 #define		CheckButton()	(!_SW0)
+#define		ResetFPGA()		{	PROG_B_VAL = 0; PROG_B=0; PROG_B=1;	}
 
 
 // functions
