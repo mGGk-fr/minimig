@@ -23,6 +23,7 @@
 ; 2009-12-17	- changed header signature and updated version number
 ;		- added step pulse for updating disk change latch
 ; 2009-12-24	- updated version number
+; 2010-04-14	- changed header signature and updated version number ($AA69)
 ;
 ;
 ; how to build:
@@ -207,7 +208,7 @@ read_cmd:
 	bsr	DiskRead
 
 	move.l	#disk_buffer,A0
-	cmp.w	#$AA68,(A0)+
+	cmp.w	#$AA69,(A0)+
 	bne	bad_header
 
 	move.w	(A0)+,D0

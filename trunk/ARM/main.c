@@ -29,6 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 2009-11-14   - adapted floppy gap size
 //              - changes to OSD labels
 // 2009-12-24   - updated version number
+// 2010-01-09   - changes to floppy handling
+// 2010-07-28   - improved menu button handling
+//              - improved FPGA configuration routines
+//              - added support for OSD vsync
+// 2010-08-15   - support for joystick emulation
+// 2010-08-18   - clean-up
 
 #include "AT91SAM7S256.h"
 #include "stdio.h"
@@ -45,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "menu.h"
 #include "config.h"
 
-const char version[] = {"$VER:AYQ091224"};
+const char version[] = {"$VER:AYQ100818"};
 
 extern char *config_filter_msg[];
 extern char *config_memory_chip_msg[];

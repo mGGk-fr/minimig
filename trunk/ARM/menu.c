@@ -20,8 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // 2009-11-14   - OSD labels changed
 // 2009-12-15   - added display of directory name extensions
+// 2010-01-09   - support for variable number of tracks
 
 #include "AT91SAM7S256.h"
+#include "stdbool.h"
 #include "stdio.h"
 #include "string.h"
 #include "errors.h"
@@ -37,9 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "menu.h"
 
 // time delay after which file/dir name starts to scroll
-#define SCROLL_DELAY 1000
-// scroll period (should match a multiple of vertical refresh period)
-#define SCROLL_REPEAT 40
+#define SCROLL_DELAY 500
 
 unsigned long scroll_offset; // file/dir name scrolling position
 unsigned long scroll_timer;  // file/dir name scrolling timer
@@ -49,6 +49,8 @@ unsigned long scroll_timer;  // file/dir name scrolling timer
 
 unsigned char menustate = MENU_NONE1;
 unsigned char menusub = 0;
+unsigned long menu_timer;
+
 
 extern unsigned char drives;
 extern adfTYPE df[4];
@@ -75,10 +77,16 @@ const char *config_memory_chip_msg[] = {"0.5 MB", "1.0 MB", "1.5 MB", "2.0 MB"};
 const char *config_memory_slow_msg[] = {"none  ", "0.5 MB", "1.0 MB", "1.5 MB"};
 const char *config_scanlines_msg[] = {"off", "dim", "blk"};
 
+const char *config_chipset_msg[] = {"OCS-A500", "OCS-A1000", "ECS", "---"};
+
+char *config_autofire_msg[] = {"        AUTOFIRE OFF", "        AUTOFIRE FAST", "        AUTOFIRE MEDIUM", "        AUTOFIRE SLOW"};
+
 extern char UploadKickstart(char *name);
 extern unsigned char SaveConfiguration(char *filename);
 
 extern unsigned char DEBUG;
+
+unsigned char config_autofire = 0;
 
 // file selection menu variables
 char *fs_pFileExt = NULL;
@@ -109,32 +117,93 @@ void HandleUI(void)
     unsigned char i, c, up, down, select, menu, right, left;
     unsigned long len;
     static hardfileTYPE t_hardfile[2]; // temporary copy of former hardfile configuration
+    static unsigned char ctrl = false;
+    static unsigned char lalt = false;
 
     // get user control codes
     c = OsdGetCtrl();
 
     // decode and set events
-    up = 0;
-    down = 0;
-    select = 0;
-    menu = 0;
-    right = 0;
-    left = 0;
+    menu = false;
+    select = false;
+    up = false;
+    down = false;
+    left = false;
+    right = false;
 
-    if (c == KEY_UP)
-        up = 1;
-    if (c == KEY_DOWN)
-        down = 1;
-    if (c == KEY_ENTER || c == KEY_SPACE)
-        select = 1;
-    if (c == KEY_MENU)
-        menu = 1;
-    if (c == KEY_RIGHT)
-        right = 1;
-    if (c == KEY_LEFT)
-        left = 1;
-    if (c == KEY_ESC && menustate != MENU_NONE2)
-        menu = 1;
+    switch (c)
+    {
+    case KEY_CTRL :
+        ctrl = true;
+        break;
+    case KEY_CTRL | KEY_UPSTROKE :
+        ctrl = false;
+        break;
+    case KEY_LALT :
+        lalt = true;
+        break;
+    case KEY_LALT | KEY_UPSTROKE :
+        lalt = false;
+        break;
+    case KEY_KPPLUS :
+        if (ctrl && lalt)
+        {
+            config.chipset |= CONFIG_TURBO;
+            ConfigChipset(config.chipset);
+            if (menustate == MENU_SETTINGS_CHIPSET2)
+                menustate = MENU_SETTINGS_CHIPSET1;
+            else if (menustate == MENU_NONE2 || menustate == MENU_INFO)
+                InfoMessage("             TURBO");
+        }
+        break;
+    case KEY_KPMINUS :
+        if (ctrl && lalt)
+        {
+            config.chipset &= ~CONFIG_TURBO;
+            ConfigChipset(config.chipset);
+            if (menustate == MENU_SETTINGS_CHIPSET2)
+                menustate = MENU_SETTINGS_CHIPSET1;
+            else if (menustate == MENU_NONE2 || menustate == MENU_INFO)
+                InfoMessage("             NORMAL");
+        }
+        break;
+    case KEY_KP0 :
+        if (ctrl && lalt)
+        {
+            if (menustate == MENU_NONE2 || menustate == MENU_INFO)
+            {
+                config_autofire++;
+                config_autofire &= 3;
+                ConfigAutofire(config_autofire);
+                if (menustate == MENU_NONE2 || menustate == MENU_INFO)
+                    InfoMessage(config_autofire_msg[config_autofire]);
+            }
+        }
+        break;
+    case KEY_MENU :
+        menu = true;
+        break;
+    case KEY_ESC :
+        if (menustate != MENU_NONE2)
+            menu = true;
+        break;
+    case KEY_ENTER :
+    case KEY_SPACE :
+        select = true;
+        break;
+    case KEY_UP :
+        up = true;
+        break;
+    case KEY_DOWN :
+        down = true;
+        break;
+    case KEY_LEFT :
+        left = true;
+        break;
+    case KEY_RIGHT :
+        right = true;
+        break;
+    }
 
     switch (menustate)
     {
@@ -154,7 +223,7 @@ void HandleUI(void)
             menustate = MENU_MAIN1;
             menusub = 0;
             OsdClear();
-            OsdEnable();
+            OsdEnable(DISABLE_KEYBOARD);
         }
         break;
 
@@ -453,6 +522,7 @@ void HandleUI(void)
                     strncpy(file.long_name, DirEntryLFN[sort_table[iSelectedEntry]], len);
                     strncpy(DiskInfo, DirEntryInfo[iSelectedEntry], sizeof(DiskInfo));
 
+                    file.size = DirEntry[sort_table[iSelectedEntry]].FileSize;
                     file.attributes = DirEntry[sort_table[iSelectedEntry]].Attributes;
                     file.start_cluster = DirEntry[sort_table[iSelectedEntry]].StartCluster + (fat32 ? (DirEntry[sort_table[iSelectedEntry]].HighCluster & 0x0FFF) << 16 : 0);
                     file.cluster = file.start_cluster;
@@ -603,11 +673,11 @@ void HandleUI(void)
         strcpy(s, "            CPU : ");
         strcat(s, config.chipset & CONFIG_TURBO ? "turbo" : "normal");
         OsdWrite(2, s, menusub == 0);
-        strcpy(s, "          Agnus : ");
+        strcpy(s, "          Video : ");
         strcat(s, config.chipset & CONFIG_NTSC ? "NTSC" : "PAL");
         OsdWrite(3, s, menusub == 1);
-        strcpy(s, "          Agnus : ");
-        strcat(s, config.chipset & CONFIG_ECS ? "ECS" : "OCS");
+        strcpy(s, "        Chipset : ");
+        strcat(s, config_chipset_msg[config.chipset >> 2 & 3]);
         OsdWrite(4, s, menusub == 2);
         OsdWrite(5, "", 0);
         OsdWrite(6, "", 0);
@@ -646,7 +716,11 @@ void HandleUI(void)
             }
             else if (menusub == 2)
             {
-                config.chipset ^= CONFIG_ECS;
+                if (config.chipset & CONFIG_ECS)
+                   config.chipset &= ~(CONFIG_ECS|CONFIG_A1000);
+                else
+                    config.chipset += CONFIG_A1000;
+
                 menustate = MENU_SETTINGS_CHIPSET1;
                 ConfigChipset(config.chipset);
             }
@@ -1210,7 +1284,7 @@ void HandleUI(void)
 
         OsdWrite(0, "        *** Firmware ***", 0);
         OsdWrite(1, "", 0);
-        sprintf(s, "     ARM version: %s", version + 5);
+        sprintf(s, "     ARM s/w ver. %s", version + 5);
         OsdWrite(2, s, 0);
         OsdWrite(3, "", 0);
         OsdWrite(4, "             update", menusub == 0);
@@ -1503,16 +1577,27 @@ void HandleUI(void)
     case MENU_ERROR :
 
         if (menu)
-        {
+            menustate = MENU_MAIN1;
+
+        break;
+
+        /******************************************************************/
+        /* popup info menu                                                */
+        /******************************************************************/
+    case MENU_INFO :
+
+        if (menu)
+            menustate = MENU_MAIN1;
+        else if (CheckTimer(menu_timer))
             menustate = MENU_NONE1;
-        }
+
         break;
 
         /******************************************************************/
         /* we should never come here                                      */
         /******************************************************************/
     default :
-    
+
         break;
     }
 }
@@ -1528,10 +1613,15 @@ void ScrollLongName(void)
     long len;
     long max_len;
     char k = sort_table[iSelectedEntry];
+    static unsigned long pioa_old;
+    unsigned long pioa;
+
+    pioa = *AT91C_PIOA_PDSR;
 
     if (DirEntryLFN[k][0] && CheckTimer(scroll_timer)) // scroll if long name and timer delay elapsed
+    if ((pioa ^ pioa_old) & INIT_B)
     {
-        scroll_timer = GetTimer(SCROLL_REPEAT); // reset scroll timer to repeat delay
+        scroll_timer = GetTimer(0); // reset scroll timer to repeat delay
 
         scroll_offset++; // increase scroll position (2 pixel unit)
         memset(s, ' ', 32); // clear buffer
@@ -1567,6 +1657,7 @@ void ScrollLongName(void)
             OSD_PrintText((unsigned char)iSelectedEntry, s, 8, (max_len - 1) << 3, (scroll_offset & 0x3) << 1, 1); // OSD print function with pixel precision
         }
     }
+    pioa_old = pioa;
 }
 
 char* GetDiskInfo(char* lfn, long len)
@@ -1736,9 +1827,19 @@ void _strncpy(char* pStr1, const char* pStr2, size_t nCount)
 void InsertFloppy(adfTYPE *drive)
 {
     unsigned char i, j;
+    unsigned long tracks;
+
+    // calculate number of tracks in the ADF image file
+    tracks = file.size / (512*11);
+    if (tracks > MAX_TRACKS)
+    {
+        printf("UNSUPPORTED ADF SIZE!!! Too many tracks: %lu\r", tracks);
+        tracks = MAX_TRACKS;
+    }
+    drive->tracks = (unsigned char)tracks;
 
     // fill index cache
-    for (i = 0; i < 160; i++) // for every track get its start position within image file
+    for (i = 0; i < tracks; i++) // for every track get its start position within image file
     {
         drive->cache[i] = file.cluster; // start of the track within image file
         for (j = 0; j < 11; j++)
@@ -1772,27 +1873,50 @@ void InsertFloppy(adfTYPE *drive)
 
     // some debug info
     if (file.long_name[0])
-        printf("Inserting floppy: \"%s\", attributes: 0x%02X\r", file.long_name, file.attributes);
+        printf("Inserting floppy: \"%s\"\r", file.long_name);
     else
-        printf("Inserting floppy: \"%.11s\", attributes: 0x%02X\r", file.name, file.attributes);
+        printf("Inserting floppy: \"%.11s\"\r", file.name);
 
+    printf("file attributes: 0x%02X\r", file.attributes);
+    printf("file size: %lu (%lu KB)\r", file.size, file.size >> 10);
+    printf("drive tracks: %u\r", drive->tracks);
     printf("drive status: 0x%02X\r", drive->status);
 }
 
 /*  Error Message */
-void ErrorMessage(const char *message, unsigned char code)
+void ErrorMessage(char *message, unsigned char code)
 {
-    menustate = MENU_ERROR;
-    OsdClear();
-    OsdWrite(0, "          *** ERROR ***", 1);
-    strncpy(s, message, 32);
-    s[32] = 0;
-    OsdWrite(2, s, 0);
-    if (code)
-    {
-        sprintf(s, "    error code: #%d", code);
-        OsdWrite(4, s, 0);
-    }
+    if (menustate == MENU_NONE2)
+        menustate = MENU_ERROR;
 
-    OsdEnable();
+    if (menustate == MENU_ERROR)
+    {
+        OsdClear();
+        OsdWrite(0, "         *** ERROR ***", 1);
+        strncpy(s, message, 32);
+        s[32] = 0;
+        OsdWrite(2, s, 0);
+
+        s[0] = 0;
+        if (code)
+            sprintf(s, "    #%d", code);
+
+        OsdWrite(4, s, 0);
+
+        OsdEnable(0); // do not disable KEYBOARD
+    }
 }
+
+void InfoMessage(char *message)
+{
+    OsdWaitVBL();
+    if (menustate != MENU_INFO)
+    {
+        OsdClear();
+        OsdEnable(0); // do not disable keyboard
+    }
+    OsdWrite(1, message, 0);
+    menu_timer = GetTimer(1000);
+    menustate = MENU_INFO;
+}
+

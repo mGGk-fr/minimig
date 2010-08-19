@@ -123,6 +123,11 @@
 // 2009-12-15	- improved blitter data flow
 // 2009-12-16	- improved bitplane dma timing
 // 				- Denise id is selectable
+// 2010-05-30	- htotal changed
+// 2010-07-27	- fixed isue with external reset
+// 2010-07-28	- added vsync for the MCU
+// 2010-08-05	- added cache for the CPU
+// 2010-08-15	- added joystick emulation
 
 module Minimig1
 (
@@ -135,7 +140,7 @@ module Minimig1
 	input	_cpu_lds,			// m68k lower data strobe
 	input	cpu_r_w,			// m68k read / write
 	output	_cpu_dtack,			// m68k data acknowledge
-	output	_cpu_reset,			// m68k reset
+	inout	_cpu_reset,			// m68k reset
 	output	cpu_clk,			// m68k clock
 	// sram pins
 	inout	[15:0] ram_data,	// sram data bus
@@ -176,12 +181,14 @@ module Minimig1
 	output	left,				// audio bitstream left
 	output	right,				// audio bitstream right
 	// user i/o
-	output	gpio
+	output	gpio,
+	// unused pins
+	output	init_b				// vertical sync for MCU (sync OSD update)
 );
 
 //--------------------------------------------------------------------------------------
 
-	parameter NTSC = 0;	// Agnus type (PAL/NTSC)
+	parameter NTSC = 0;			// Agnus type (PAL/NTSC)
 
 //--------------------------------------------------------------------------------------
 
@@ -225,7 +232,8 @@ wire		[8:1] reg_address; 		// main register address bus
 
 // rest of local signals
 wire		kbdrst;					// keyboard reset
-wire		reset;					// global reset
+wire		reset_out;				// reset from reset generator
+reg			reset;					// reset from the CPU
 wire		clk;					// bus clock
 wire		clk28m;					// 28MHz clock for Amber (and ECS Denise in future)
 wire		c1,c3;					// clock enable signals
@@ -249,6 +257,9 @@ wire		int2;					// intterrupt 2
 wire		int3;					// intterrupt 3 
 wire		int6;					// intterrupt 6
 wire		[7:0] osd_ctrl;			// OSD control
+wire		kb_lmb;
+wire		kb_rmb;
+wire		[5:0] kb_joy2;
 wire		freeze;					// Action Replay freeze button
 wire		_fire0;					// joystick 1 fire signal to cia A
 wire		_fire1;					// joystick 2 fire signal to cia A
@@ -262,6 +273,7 @@ wire		index;					// disk index interrupt
 wire		blank;					// blanking signal
 wire		sol;					// start of video line
 wire		sof;					// start of video frame
+wire		vbl_int;				// vertical blanking interrupt
 wire		strhor_denise;			// horizontal strobe for Denise
 wire		strhor_paula;			// horizontal strobe for Paula
 wire		[3:0]red_i;				// denise red (internal)
@@ -272,7 +284,7 @@ wire		osd_pixel;				// osd pixel(video) data
 wire		_hsync_i;				// horizontal sync (internal)
 wire		_vsync_i;				// vertical sync (internal)
 wire		_csync_i;				// composite sync (internal)
-wire		[8:0] htotal;			// video line length (140ns units)
+wire		[8:1] htotal;			// video line length (140ns units)
 
 // local floppy signals (CIA<-->Paula)
 wire		_step;					// step heads of disk
@@ -308,7 +320,7 @@ wire	cpu_speed;				// requests CPU to switch speed mode
 wire	turbo;					// CPU is working in turbo mode
 wire	[3:0] memory_config;	// memory configuration
 wire	[3:0] floppy_config;	// floppy drives configuration (drive number and speed)
-wire	[3:0] chipset_config;	// CPU & blitter speed and video mode selection
+wire	[3:0] chipset_config;	// chipset features selection
 wire	[2:0] ide_config;		// HDD & HDC config: bit #0 enables Gayle, bit #1 enables Master drive, bit #2 enables Slave drive
 
 // gayle stuff
@@ -330,19 +342,20 @@ wire	hdd_data_rd;			// data port read strobe
 
 wire	[7:0] bank;				// memory bank select
 
-wire	keyboard_disable;		// disables Amiga keyboard while OSD is active
+wire	keyboard_disabled;		// disables Amiga keyboard while OSD is active
 wire	disk_led;				// floppy disk activity LED
 
 reg		ntsc = NTSC;			// PAL/NTSC video mode selection
 
 //--------------------------------------------------------------------------------------
+
+
 //--------------------------------------------------------------------------------------
 
-// NTSC/PAL switching is controlled by OSD menu, change requires reset to take effect
-always @(posedge clk)
-	if (reset)
-		ntsc <= chipset_config[2];
-		
+// SPI clock buffer
+wire buf_sck;
+BUFG sckbuf1 ( .I(sck), .O(buf_sck) );
+
 // power led control
 // when _led=0, pwrled=on
 // when _led=1, pwrled=powered by weak pullup
@@ -351,23 +364,24 @@ assign pwrled = _led ? 1'bz : 1'b1;
 // unused i/o pin
 assign gpio = 1'bz;
 
-// SPI clock buffer
-wire buf_sck;
-BUFG sckbuf1 ( .I(sck), .O(buf_sck) );
-
-//--------------------------------------------------------------------------------------
-
-// index signal generation, this signal is the disk index interrupt and is needed to let some loaders function correctly
-// index is asserted every 10 video frames to simulate disk at 300 RPM
-reg [3:0] index_cnt;
+// NTSC/PAL switching is controlled by OSD menu, change requires reset to take effect
 always @(posedge clk)
-	if (index)
-		index_cnt[3:0] <= 4'b0000;
-	else if (sof)
-		index_cnt[3:0] <= index_cnt[3:0] + 1;
-		
-assign index = index_cnt[3:0]==9 && sof ? 1'b1 : 1'b0;
+	if (reset)
+		ntsc <= chipset_config[1];
+
+// vertical sync for the MCU
+reg vsync_del = 1'b0; 	// delayed vsync signal for edge detection
+reg	vsync_t = 1'b0;		// toggled vsync output
+
+always @(posedge clk)
+	vsync_del <= _vsync_i;
 	
+always @(posedge clk)
+	if (~_vsync_i && vsync_del)
+		vsync_t <= ~vsync_t;
+
+assign init_b = vsync_t;
+
 //--------------------------------------------------------------------------------------
 
 // instantiate agnus
@@ -394,6 +408,7 @@ Agnus AGNUS1
 	.blank(blank),
 	.sol(sol),
 	.sof(sof),
+	.vbl_int(vbl_int),
 	.strhor_denise(strhor_denise),
 	.strhor_paula(strhor_paula),
 	.htotal(htotal),
@@ -404,7 +419,8 @@ Agnus AGNUS1
 	.disk_dmas(disk_dmas),
 	.bls(bls),
 	.ntsc(ntsc),
-	.ecsena(chipset_config[3]),
+	.a1k(chipset_config[2]),
+	.ecs(chipset_config[3]),
 	.floppy_speed(floppy_config[0]),
 	.turbo(turbo)
 );
@@ -421,8 +437,10 @@ Paula PAULA1
 	.data_out(paula_data_out),
 	.txd(txd),
 	.rxd(rxd),
-	.strhor(strhor_paula),
+	.ntsc(ntsc),
 	.sof(sof),
+	.strhor(strhor_paula),
+	.vblint(vbl_int),
 	.int2(int2|gayle_irq),
 	.int3(int3),
 	.int6(int6),
@@ -440,6 +458,7 @@ Paula PAULA1
 	._change(_change),
 	._ready(_ready),
 	._wprot(_wprot),
+	.index(index),
 	.disk_led(disk_led),
 	._scs(_scs[0]),
 	.sdi(sdi),
@@ -481,9 +500,11 @@ userio USERIO1
 	._fire0(_fire0),
 	._fire1(_fire1),
 	._joy1(_joy1),
-	._joy2(_joy2),
+	._joy2(_joy2 & kb_joy2),
+	._lmb(kb_lmb),
+	._rmb(kb_rmb),
 	.osd_ctrl(osd_ctrl),
-	.keydis(keyboard_disable),
+	.keyboard_disabled(keyboard_disabled),
 	._scs(_scs[1]),
 	.sdi(sdi),
 	.sdo(user_sdo),
@@ -520,7 +541,7 @@ Denise DENISE1
 	.red(red_i),
 	.green(green_i),
 	.blue(blue_i),
-	.ecsena(chipset_config[3]),
+	.ecs(chipset_config[3]),
 	.hires(hires)
 );
 
@@ -560,7 +581,7 @@ ciaa CIAA1
 	.rs(cpu_address_out[11:8]),
 	.data_in(cpu_data_out[7:0]),
 	.data_out(cia_data_out[7:0]),
-	.tick(sof), // vsync count
+	.tick(_vsync_i),
 	.eclk(eclk[9]),
 	.irq(int2),
 	.porta_in({_fire1,_fire0,_ready,_track0,_wprot,_change}),
@@ -568,8 +589,11 @@ ciaa CIAA1
 	.kbdrst(kbdrst),
 	.kbddat(kbddat),
 	.kbdclk(kbdclk),
-	.keydis(keyboard_disable),
+	.keyboard_disabled(keyboard_disabled),
 	.osd_ctrl(osd_ctrl),
+	._lmb(kb_lmb),
+	._rmb(kb_rmb),
+	._joy2(kb_joy2),
 	.freeze(freeze),
 	.disk_led(disk_led)
 );
@@ -585,7 +609,7 @@ ciab CIAB1
 	.rs(cpu_address_out[11:8]),
 	.data_in(cpu_data_out[15:8]),
 	.data_out(cia_data_out[15:8]),
-	.tick(sol), // hsync count
+	.tick(_hsync_i),
 	.eclk(eclk[9]),
 	.flag(index),
 	.irq(int6),
@@ -593,6 +617,7 @@ ciab CIAB1
 	.porta_out({dtr,rts}),
 	.portb_out({_motor,_sel3,_sel2,_sel1,_sel0,side,direc,_step})
 );
+
 
 
 // instantiate cpu bridge
@@ -603,6 +628,7 @@ m68k_bridge CPU1
 	.c3(c3),
 	.cck(cck),
 	.clk(clk),
+	.cpu_clk(cpu_clk),
 	.eclk(eclk),
 	.vpa(sel_cia),
 	.dbr(dbr),
@@ -611,6 +637,7 @@ m68k_bridge CPU1
 	.nrdy(gayle_nrdy),
 	.bls(bls),
 	.cpu_speed(cpu_speed),
+	.memory_config(memory_config),
 	.turbo(turbo),
 	._as(_cpu_as),
 	._lds(_cpu_lds),
@@ -776,7 +803,7 @@ syscontrol CONTROL1
 	.cnt(sof),
 	.mrst(kbdrst | usrrst),
 	.boot_done(sel_cia_a & sel_cia_b),
-	.reset(reset),
+	.reset(reset_out),
 	.boot(boot),
 	.boot_rst(bootrst)
 );
@@ -817,9 +844,19 @@ assign sdo = (!_scs[0] || !_scs[1]) ? (paula_sdo | user_sdo) : 1'bz;
 
 //--------------------------------------------------------------------------------------
 
-// cpu reset and clock
-assign _cpu_reset = ~reset;
+reg	rst_sel = 1'b0;
 
+always @(posedge clk)
+	rst_sel <= ~rst_sel;
+
+// cpu reset output
+assign _cpu_reset = rst_sel ? ~reset_out : 1'bz;
+
+// input reset from the CPU control bus
+always @(posedge clk)
+	if (~rst_sel)
+		reset <= ~_cpu_reset;
+	
 //--------------------------------------------------------------------------------------
 
 endmodule
@@ -913,39 +950,39 @@ module bank_mapper
 always @(aron or memory_config or chip0 or chip1 or chip2 or chip3 or slow0 or slow1 or slow2 or kick or cart)
 begin
 	case ({aron,memory_config})
-		5'b0_0000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  1'b0,  1'b0, chip0 | chip1}; // 0.5M CHIP
-		5'b0_0001 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  1'b0, chip1, chip0}; // 1.0M CHIP
-		5'b0_0010 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, chip2, chip1, chip0}; // 1.5M CHIP
-		5'b0_0011 : bank = {  1'b0,  1'b0, chip3,  1'b0,     kick, chip2, chip1, chip0}; // 2.0M CHIP
-		5'b0_0100 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0,  1'b0, chip0 | chip1}; // 0.5M CHIP + 0.5MB SLOW
-		5'b0_0101 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0, chip1, chip0}; // 1.0M CHIP + 0.5MB SLOW
-		5'b0_0110 : bank = {  1'b0,  1'b0,  1'b0, slow0,     kick, chip2, chip1, chip0}; // 1.5M CHIP + 0.5MB SLOW
-		5'b0_0111 : bank = {  1'b0,  1'b0, chip3, slow0,     kick, chip2, chip1, chip0}; // 2.0M CHIP + 0.5MB SLOW
-		5'b0_1000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0, slow1, chip0 | chip1}; // 0.5M CHIP + 1.0MB SLOW
-		5'b0_1001 : bank = {  1'b0,  1'b0, slow1,  1'b0,     kick, slow0, chip1, chip0}; // 1.0M CHIP + 1.0MB SLOW
-		5'b0_1010 : bank = {  1'b0,  1'b0, slow1, slow0,     kick, chip2, chip1, chip0}; // 1.5M CHIP + 1.0MB SLOW
-		5'b0_1011 : bank = { slow1,  1'b0, chip3, slow0,     kick, chip2, chip1, chip0}; // 2.0M CHIP + 1.0MB SLOW
-		5'b0_1100 : bank = {  1'b0,  1'b0,  1'b0, slow2,     kick, slow0, slow1, chip0 | chip1}; // 0.5M CHIP + 1.5MB SLOW
-		5'b0_1101 : bank = {  1'b0,  1'b0, slow1, slow2,     kick, slow0, chip1, chip0}; // 1.0M CHIP + 1.5MB SLOW
-		5'b0_1110 : bank = {  1'b0, slow2, slow1, slow0,     kick, chip2, chip1, chip0}; // 1.5M CHIP + 1.5MB SLOW
-		5'b0_1111 : bank = { slow1, slow2, chip3, slow0,     kick, chip2, chip1, chip0}; // 2.0M CHIP + 1.5MB SLOW
+		5'b0_0000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  1'b0,  1'b0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP
+		5'b0_0001 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  1'b0, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP
+		5'b0_0010 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, chip2, chip1, chip0 }; // 1.5M CHIP
+		5'b0_0011 : bank = {  1'b0,  1'b0, chip3,  1'b0,     kick, chip2, chip1, chip0 }; // 2.0M CHIP
+		5'b0_0100 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0,  1'b0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 0.5MB SLOW
+		5'b0_0101 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 0.5MB SLOW
+		5'b0_0110 : bank = {  1'b0,  1'b0,  1'b0, slow0,     kick, chip2, chip1, chip0 }; // 1.5M CHIP + 0.5MB SLOW
+		5'b0_0111 : bank = {  1'b0,  1'b0, chip3, slow0,     kick, chip2, chip1, chip0 }; // 2.0M CHIP + 0.5MB SLOW
+		5'b0_1000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick, slow0, slow1, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 1.0MB SLOW
+		5'b0_1001 : bank = {  1'b0,  1'b0, slow1,  1'b0,     kick, slow0, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 1.0MB SLOW
+		5'b0_1010 : bank = {  1'b0,  1'b0, slow1, slow0,     kick, chip2, chip1, chip0 }; // 1.5M CHIP + 1.0MB SLOW
+		5'b0_1011 : bank = { slow1,  1'b0, chip3, slow0,     kick, chip2, chip1, chip0 }; // 2.0M CHIP + 1.0MB SLOW
+		5'b0_1100 : bank = {  1'b0,  1'b0,  1'b0, slow2,     kick, slow0, slow1, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 1.5MB SLOW
+		5'b0_1101 : bank = {  1'b0,  1'b0, slow1, slow2,     kick, slow0, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 1.5MB SLOW
+		5'b0_1110 : bank = {  1'b0, slow2, slow1, slow0,     kick, chip2, chip1, chip0 }; // 1.5M CHIP + 1.5MB SLOW
+		5'b0_1111 : bank = { slow1, slow2, chip3, slow0,     kick, chip2, chip1, chip0 }; // 2.0M CHIP + 1.5MB SLOW
 		
-		5'b1_0000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart,  1'b0, chip0 | chip1}; // 0.5M CHIP
-		5'b1_0001 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart, chip1, chip0}; // 1.0M CHIP
-		5'b1_0010 : bank = {  1'b0,  1'b0,  1'b0, chip2,     kick,  cart, chip1, chip0}; // 1.5M CHIP
-		5'b1_0011 : bank = {  1'b0,  1'b0, chip3, chip2,     kick,  cart, chip1, chip0}; // 2.0M CHIP
-		5'b1_0100 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart, slow0, chip0 | chip1}; // 0.5M CHIP + 0.5MB SLOW
-		5'b1_0101 : bank = {  1'b0,  1'b0,  1'b0, slow0,     kick,  cart, chip1, chip0}; // 1.0M CHIP + 0.5MB SLOW
-		5'b1_0110 : bank = {  1'b0,  1'b0, slow0, chip2,     kick,  cart, chip1, chip0}; // 1.5M CHIP + 0.5MB SLOW
-		5'b1_0111 : bank = {  1'b0, slow0, chip3, chip2,     kick,  cart, chip1, chip0}; // 2.0M CHIP + 0.5MB SLOW
-		5'b1_1000 : bank = {  1'b0,  1'b0, slow1,  1'b0,     kick,  cart, slow0, chip0 | chip1}; // 0.5M CHIP + 1.0MB SLOW
-		5'b1_1001 : bank = {  1'b0,  1'b0, slow1, slow0,     kick,  cart, chip1, chip0}; // 1.0M CHIP + 1.0MB SLOW
-		5'b1_1010 : bank = { slow1,  1'b0, slow0, chip2,     kick,  cart, chip1, chip0}; // 1.5M CHIP + 1.0MB SLOW
-		5'b1_1011 : bank = { slow1, slow0, chip3, chip2,     kick,  cart, chip1, chip0}; // 2.0M CHIP + 1.0MB SLOW
-		5'b1_1100 : bank = {  1'b0,  1'b0, slow1, slow2,     kick,  cart, slow0, chip0 | chip1}; // 0.5M CHIP + 1.5MB SLOW
-		5'b1_1101 : bank = {  1'b0, slow2, slow1, slow0,     kick,  cart, chip1, chip0}; // 1.0M CHIP + 1.5MB SLOW
-		5'b1_1110 : bank = { slow1, slow2, slow0, chip2,     kick,  cart, chip1, chip0}; // 1.5M CHIP + 1.5MB SLOW
-		5'b1_1111 : bank = { slow1, slow0, chip3, chip2,     kick,  cart, chip1, chip0}; // 2.0M CHIP + 1.5MB SLOW
+		5'b1_0000 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart,  1'b0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP
+		5'b1_0001 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP
+		5'b1_0010 : bank = {  1'b0,  1'b0,  1'b0, chip2,     kick,  cart, chip1, chip0 }; // 1.5M CHIP
+		5'b1_0011 : bank = {  1'b0,  1'b0, chip3, chip2,     kick,  cart, chip1, chip0 }; // 2.0M CHIP
+		5'b1_0100 : bank = {  1'b0,  1'b0,  1'b0,  1'b0,     kick,  cart, slow0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 0.5MB SLOW
+		5'b1_0101 : bank = {  1'b0,  1'b0,  1'b0, slow0,     kick,  cart, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 0.5MB SLOW
+		5'b1_0110 : bank = {  1'b0,  1'b0, slow0, chip2,     kick,  cart, chip1, chip0 }; // 1.5M CHIP + 0.5MB SLOW
+		5'b1_0111 : bank = {  1'b0, slow0, chip3, chip2,     kick,  cart, chip1, chip0 }; // 2.0M CHIP + 0.5MB SLOW
+		5'b1_1000 : bank = {  1'b0,  1'b0, slow1,  1'b0,     kick,  cart, slow0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 1.0MB SLOW
+		5'b1_1001 : bank = {  1'b0,  1'b0, slow1, slow0,     kick,  cart, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 1.0MB SLOW
+		5'b1_1010 : bank = { slow1,  1'b0, slow0, chip2,     kick,  cart, chip1, chip0 }; // 1.5M CHIP + 1.0MB SLOW
+		5'b1_1011 : bank = { slow1, slow0, chip3, chip2,     kick,  cart, chip1, chip0 }; // 2.0M CHIP + 1.0MB SLOW
+		5'b1_1100 : bank = {  1'b0,  1'b0, slow1, slow2,     kick,  cart, slow0, chip0 | chip1 | chip2 | chip3 }; // 0.5M CHIP + 1.5MB SLOW
+		5'b1_1101 : bank = {  1'b0, slow2, slow1, slow0,     kick,  cart, chip1 | chip3, chip0 | chip2 }; // 1.0M CHIP + 1.5MB SLOW
+		5'b1_1110 : bank = { slow1, slow2, slow0, chip2,     kick,  cart, chip1, chip0 }; // 1.5M CHIP + 1.5MB SLOW
+		5'b1_1111 : bank = { slow1, slow0, chip3, chip2,     kick,  cart, chip1, chip0 }; // 2.0M CHIP + 1.5MB SLOW
 	endcase
 end
 
@@ -977,7 +1014,7 @@ module sram_bridge
 	input	lwr,						// bus low byte write
 	// SRAM external signals
 	output	reg _bhe = 1,				// sram upper byte
-	output	reg _ble = 1,   				// sram lower byte
+	output	reg _ble = 1,   			// sram lower byte
 	output	reg _we = 1,				// sram write enable
 	output	reg _oe = 1,				// sram output enable
 	output	reg [3:0] _ce = 4'b1111,	// sram chip enable
@@ -1119,6 +1156,7 @@ module m68k_bridge
 	input	c1,						// clock enable signal
 	input	c3,						// clock enable signal
 	input	clk,					// bus clock
+	input	cpu_clk,				// cpu clock
 	input	[9:0] eclk,				// ECLK enable signal
 	input	vpa,					// valid peripheral address (CIAs)
 	input	dbr, 					// data bus request, Gary keeps CPU off the bus (custom chips transfer data)
@@ -1128,12 +1166,13 @@ module m68k_bridge
 	output	bls,					// blitter slowdown, tells the blitter that CPU wants the bus
 	input	cck,					// colour clock enable, active when dma can access the memory bus
 	input	cpu_speed,				// CPU speed select request
+	input	[3:0] memory_config,	// system memory config
 	output	reg turbo,				// indicates current CPU speed mode
 	input	_as,					// m68k adress strobe
 	input	_lds,					// m68k lower data strobe d0-d7
 	input	_uds,					// m68k upper data strobe d8-d15
 	input	r_w,					// m68k read / write
-	output	reg _dtack,				// m68k data acknowledge to cpu
+	output	_dtack,					// m68k data acknowledge to cpu
 	output	rd,						// bus read 
 	output	hwr,					// bus high write
 	output	lwr,					// bus low write
@@ -1143,6 +1182,9 @@ module m68k_bridge
 	output	reg [15:0] data_out,	// internal data bus output
 	input	[15:0] data_in			// internal data bus input
 );
+
+localparam VCC = 1'b1;
+localparam GND = 1'b0;
 
 /*
 68000 bus timing diagram
@@ -1182,6 +1224,8 @@ wire	enable;					// enable
 reg		lr_w,l_as,l_dtack;  	// synchronised inputs
 reg		l_uds,l_lds;
 
+reg		l_as28m;				// latched address strobe in turbo mode
+
 reg		lvpa;					// latched valid peripheral address (CIAs)
 reg		vma;					// valid memory address (synchronised VPA with ECLK)
 reg		_ta;					// transfer acknowledge
@@ -1204,35 +1248,162 @@ always @(posedge clk)
 
 // latched CPU bus control signals
 always @(posedge clk)
-	{lr_w,l_as,l_uds,l_lds,l_dtack} <= {r_w,_as,_uds,_lds,_dtack};
-	
-reg	_as28m;
-always @(posedge clk28m)
-	_as28m <= _as;
+	{lr_w,l_as,l_dtack} <= {r_w,_as,_dtack};
 
-reg	l_as28m;
-always @(posedge clk)
-	l_as28m <= _as28m;
+always @(posedge clk28m)
+	{l_uds,l_lds} <= {_uds,_lds};
+
+// ------------------------------------------------------------------------------------------------------------------------------------------- //
+/*
+	VERY SIMPLE DIRECT MAPPED WRITE-THROUGH UNIFIED CACHE
+
+	Only the ROM and SLOW memory are cacheable. It's important to set SLOW memory size to the actual value, otherwise it will be falsely detected.
+	This cache is only effective during reads in turbo mode. In normal mode it only updates its contents to remain coherent.
+*/
+
+reg t_as; // sampled _as for capturing bus data
+always @(posedge cpu_clk)
+	t_as <= _as;
+
+reg t_dtack; // sampled _dtack for capturing bus data
+always @(negedge cpu_clk)
+	t_dtack <= _dtack | t_as | ~t_dtack;
 	
-// transfer acknowledge
+// cached memory ranges
+wire [3:0] cache_bank;
+assign cache_bank[0] = address[23:19] == 5'b1100_0 ? VCC : GND;	// SLOW RAM $C00000-$C7FFFF
+assign cache_bank[1] = address[23:19] == 5'b1100_1 ? VCC : GND;	// SLOW RAM $C80000-$CFFFFF	
+assign cache_bank[2] = address[23:19] == 5'b1101_0 ? VCC : GND;	// SLOW RAM $D00000-$D7FFFF	
+assign cache_bank[3] = address[23:19] == 5'b1111_1 ? VCC : GND;	// KICK ROM $F80000-$FFFFFF	
+
+// enable caching of selected memory range
+wire [3:0] bank_enable;
+assign bank_enable[0] = |memory_config[3:2];
+assign bank_enable[1] =  memory_config[3];
+assign bank_enable[2] = &memory_config[3:2];
+assign bank_enable[3] = VCC;
+				
+wire cacheable; // indicates if the selected address is cacheable	
+assign cacheable = |(cache_bank & bank_enable);	
+
+// cache tag ram
+reg [8:0] cache_tag [2047:0];
+reg [8:0] cache_tag_out;
+
+always @(negedge cpu_clk) // ram write
+	if (!t_dtack)
+		if (cacheable) // write address tag during any access to cacheable memory
+			cache_tag[address[11:1]] <= address[20:12];
+	  
+always @(negedge cpu_clk) // ram read
+	cache_tag_out <= cache_tag[address[11:1]];
+	
+// tag addres comparator
+wire tag_match; // tag address matches the current one (possible cache hit)
+assign tag_match = cache_tag_out[8:0] == address[20:12] ? VCC : GND;
+
+// cache data ram (high byte)
+reg [8:0] cache_data_hi [2047:0]; // byte valid bit + 8 data bits
+reg [8:0] cache_data_hi_out;
+
+// if accessed address is already in cache then update bytes according to uds/lds
+// if cache word is being replaced then write both bytes regardless of uds/lds
+
+always @(negedge cpu_clk) // ram write
+	if (!t_dtack)
+		if (cacheable && (!_uds || !tag_match))
+			cache_data_hi[address[11:1]] <= {~_uds, data[15:8]}; // msb as byte valid flag
+	  
+always @(negedge cpu_clk) // ram read
+	cache_data_hi_out <= cache_data_hi[address[11:1]];
+
+// cache data ram (low byte)
+reg [8:0] cache_data_lo [2047:0]; // byte valid bit + 8 data bits
+reg [8:0] cache_data_lo_out;
+
+// if accessed address is already in cache then update bytes according to uds/lds
+// if cache word is being replaced then write both bytes regardless of uds/lds
+
+always @(negedge cpu_clk) // ram write
+	if (!t_dtack)
+		if (cacheable && (!_lds || !tag_match))
+			cache_data_lo[address[11:1]] <= {~_lds, data[7:0]}; // msb as byte valid flag
+	  
+always @(negedge cpu_clk) // ram read
+	cache_data_lo_out <= cache_data_lo[address[11:1]];
+
+// cache data output
+wire [15:0] cache_out;
+assign cache_out = {cache_data_hi_out[7:0], cache_data_lo_out[7:0]};
+
+// checks if requested single byte or both bytes are in cache
+wire size_match;
+assign size_match = (cache_data_hi_out[8] | _uds) & (cache_data_lo_out[8] | _lds);	
+
+// indicates that requested data is in cache	
+wire cache_hit;
+assign cache_hit = turbo & ~_as & cacheable & tag_match & size_match & r_w;
+
+// ------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// latched _as line (active low) used in turbo mode (active only if cache missed access)
+always @(posedge clk)
+	l_as28m <= _as | cache_hit;
+	
+// data transfer acknowledge in normal mode
+reg _ta_n;
 always @(posedge clk28m or posedge _as)
 	if (_as)
-		_ta <= 1;
+		_ta_n <= VCC;
 	else if (!l_as && cck && ((!vpa && !(dbr && dbs)) || (vpa && vma && eclk[8])) && !nrdy && c1 && c3 && !turbo)
-		_ta <= 0;	
-	else if (!l_as28m && l_dtack && !(dbr && xbs) && !nrdy && !c1 && c3 && turbo)
-		_ta <= 0;
+		_ta_n <= GND;	
 
-// CPU data transfer acknowledge
-always @(negedge clk28m or posedge _as)
+/*
+                ___     ___     ___     ___     ___     ___     ___|    ___     ___   
+  cpu_clk    __/   \___/   \___/   \___/   \___/   \___/   \___/   |___/   \___/   \___  <-- 7*7.09 = 49.63 MHz (~50 MHz)
+                    ______        ______        ______        _____|        ______
+  clk28m     ______/      \______/      \______/      \______/     |\______/      \____
+                    ___________________________                    |        ___________
+  clk7m      ______/                           \___________________|_______/
+             ____________________________________                  |          _________
+  _ta_t1                                         \_________________|_________/           <--+-- deactivated by _AS going high
+             ___________________________________________           |          _________     |
+  _ta_t2                                                \__________|_________/           <--+
+             ___________________________________________________   |          _________     |
+  _ta_t                                                         \__|_________/           <--+
+                                                                   |
+                                                                  _dtack sampled here in 50 MHz turbo mode
+*/
+// data transfer acknowledge in turbo mode
+reg _ta_t1;
+always @(posedge clk28m or posedge _as)
 	if (_as)
-		_dtack <= 1;
-	else
-		_dtack <= _ta;
+		_ta_t1 <= VCC;
+	else if (!l_as28m && l_dtack && !(dbr && xbs) && !nrdy && c1 && c3 && turbo)
+		_ta_t1 <= GND;
+
+reg _ta_t2;
+always @(posedge cpu_clk or posedge _as)
+	if (_as)
+		_ta_t2 <= VCC;
+	else if (!_ta_t1)
+		_ta_t2 <= GND;
+
+reg _ta_t;
+always @(posedge cpu_clk or posedge _as)
+	if (_as)
+		_ta_t <= VCC;
+	else if (!_ta_t2)
+		_ta_t <= GND;
 		
+// actual _dtack generation (from 7MHz synchronous bus access and cache hit access)
+assign _dtack = _ta_n & _ta_t & ~cache_hit;
+
+// synchronous control signals
 assign enable = (~l_as & ~l_dtack & ~cck & ~turbo) | (~l_as28m & l_dtack & ~(dbr & xbs) & ~nrdy & turbo);
 assign rd = enable & lr_w;
-assign hwr = enable & ~lr_w & ~l_uds; 
+// in turbo mode l_uds and l_lds may be delayed by 35 ns
+assign hwr = enable & ~lr_w & ~l_uds;
 assign lwr = enable & ~lr_w & ~l_lds;
 // blitter slow down signalling, asserted whenever CPU is missing bus access to chip ram, slow ram and custom registers 
 assign bls = dbs & ~l_as & l_dtack;
@@ -1240,24 +1411,20 @@ assign bls = dbs & ~l_as & l_dtack;
 // generate data buffer output enable
 assign doe = r_w & ~_as;
 
-//--------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // data_out multiplexer and latch 	
-always @(posedge clk)
+always @(data)
 	data_out <= data;
-
-reg latch_enable;
-always @(posedge clk28m)
-	latch_enable <= !c1 && c3 && enable;
 	
-always @(latch_enable or data_in)
-	if (latch_enable)
+always @(clk or data_in)
+	if (!clk)
 		ldata_in <= data_in;
 
-//--------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-// CPU data bus tristate buffers
-assign data[15:0] = doe ? ldata_in[15:0] : 16'bz;
+// CPU data bus tristate buffers and output data multiplexer
+assign data[15:0] = doe ? cache_hit ? cache_out : ldata_in[15:0] : 16'bz;
 
 always @(posedge clk)
 	address_out[23:1] <= address[23:1];

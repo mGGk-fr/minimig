@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // 2009-10-10   - any length (any multiple of 8 bytes) fpga core file support
 // 2009-12-10   - changed command header id
+// 2010-04-14   - changed command header id
 
 #include "AT91SAM7S256.h"
 #include "stdio.h"
@@ -28,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FAT.h"
 #include "FDD.h"
 
-#define CMD_HDRID 0xAA68
+#define CMD_HDRID 0xAA69
 
 extern fileTYPE file;
 
@@ -94,6 +95,11 @@ unsigned char ConfigureFpga(void)
     unsigned long  t;
     unsigned long  n;
     unsigned char *ptr;
+
+    // set outputs
+    *AT91C_PIOA_SODR = CCLK | DIN | PROG_B;
+    // enable outputs
+    *AT91C_PIOA_OER = CCLK | DIN | PROG_B;
 
     // reset FGPA configuration sequence
     // specs: PROG_B pulse min 0.3 us
@@ -175,6 +181,8 @@ unsigned char ConfigureFpga(void)
     }
     while (t < n);
 
+    // disable outputs
+    *AT91C_PIOA_ODR = CCLK | DIN | PROG_B;
 
     printf("]\r");
     printf("FPGA bitstream loaded\r");

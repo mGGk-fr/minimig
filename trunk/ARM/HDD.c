@@ -74,7 +74,7 @@ void IdentifyDevice(unsigned short *pBuffer, unsigned char unit)
     }
     SwapBytes((char*)&pBuffer[27], 40);
 
-    pBuffer[47] = 0x8008; //maximum sectors per block in Read/Write Multiple command
+    pBuffer[47] = 0x8010; //maximum sectors per block in Read/Write Multiple command
     pBuffer[53] = 1;
     pBuffer[54] = hdf[unit].cylinders;
     pBuffer[55] = hdf[unit].heads;
@@ -161,12 +161,15 @@ void HandleHDD(unsigned char c1, unsigned char c2)
         DisableFpga();
 
         unit = tfr[6] & 0x10 ? 1 : 0; // master/slave selection
-/*
-        printf("IDE:");
-        for (i = 1; i < 7; i++)
-            printf("%02X.",tfr[i]);
-        printf("%02X\r", tfr[7]);
-*/
+
+        if (0)
+        {
+            printf("IDE:");
+            for (i = 1; i < 7; i++)
+                printf("%02X.",tfr[i]);
+            printf("%02X\r", tfr[7]);
+        }
+
         if ((tfr[7] & 0xF0) == ACMD_RECALIBRATE) // Recalibrate 0x10-0x1F (class 3 command: no data)
         {
             printf("Recalibrate\r");
@@ -234,18 +237,16 @@ void HandleHDD(unsigned char c1, unsigned char c2)
             {
                 while (!(GetFPGAStatus() & CMD_IDECMD)); // wait for empty sector buffer
 
+                WriteStatus(IDE_STATUS_IRQ);
+
                 if (hdf[unit].file.size)
                 {
                     FileRead(&hdf[unit].file, NULL);
                     FileSeek(&hdf[unit].file, 1, SEEK_CUR);
                 }
 
-                WriteStatus(IDE_STATUS_IRQ);
-
                 sector_count--; // decrease sector count
             }
-
-            WriteStatus(IDE_STATUS_END);
         }
         else if (tfr[7] == ACMD_READ_MULTIPLE) // Read Multiple Sectors (multiple sector transfer per IRQ)
         {
@@ -276,8 +277,6 @@ void HandleHDD(unsigned char c1, unsigned char c2)
 
                 sector_count -= block_count; // decrease sector count
             }
-
-            WriteStatus(IDE_STATUS_END);
         }
         else if (tfr[7] == ACMD_WRITE_SECTORS) // write sectors
         {
@@ -288,7 +287,7 @@ void HandleHDD(unsigned char c1, unsigned char c2)
             head = tfr[6] & 0x0F;
             sector_count = tfr[2];
             if (sector_count == 0)
-               sector_count = 0x100;
+                sector_count = 0x100;
 
             if (hdf[unit].file.size)
                 HardFileSeek(&hdf[unit], chs2lba(cylinder, head, sector, unit));
