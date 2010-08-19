@@ -80,7 +80,7 @@ module blitter
 (
 	input 	clk,	 					// bus clock
 	input 	reset,	 					// reset
-	input	ecsena,						// enable ECS extensions
+	input	ecs,						// enable ECS extensions
 	input	clkena,						// enables blitter operation (used to slow it down)
 	input	enadma,						// no other dma channel is granted the bus
 	output	reqdma,						// blitter requests dma cycle
@@ -247,7 +247,7 @@ assign {usea, useb, usec, used} = {bltcon0[11:9], bltcon0[8] & enad}; // DMA cha
 always @(posedge clk)
 	if (reset)
 		bltcon0[7:0] <= 0;
-	else if (reg_address_in[8:1]==BLTCON0[8:1] || reg_address_in[8:1]==BLTCON0L[8:1] && ecsena)
+	else if (reg_address_in[8:1]==BLTCON0[8:1] || reg_address_in[8:1]==BLTCON0L[8:1] && ecs)
 		bltcon0[7:0] <= data_in[7:0];
 		
 //bltcon1: BSH part
@@ -450,7 +450,7 @@ assign we = ackdma && chsel[1:0]==CHD ? 1'b1 : 1'b0;
 always @(posedge clk)
 	if (reset)
 		busy <= 0;
-	else if (reg_address_in[8:1]==BLTSIZE[8:1] || reg_address_in[8:1]==BLTSIZH[8:1] && ecsena) // set immediately after a write to BLTSIZE or BLTSIZH (ECS)
+	else if (reg_address_in[8:1]==BLTSIZE[8:1] || reg_address_in[8:1]==BLTSIZH[8:1] && ecs) // set immediately after a write to BLTSIZE or BLTSIZH (ECS)
 		busy <= 1;
 	else if (done) // cleared when the blit is done
 		busy <= 0;
@@ -469,7 +469,7 @@ always @(posedge clk)
 always @(posedge clk)
 	if (reg_address_in[8:1]==BLTSIZE[8:1]) // OCS
 		width[10:0] <= {4'b0000, ~|data_in[5:0], data_in[5:0]};
-	else if (reg_address_in[8:1]==BLTSIZH[8:1] && ecsena) // ECS
+	else if (reg_address_in[8:1]==BLTSIZH[8:1] && ecs) // ECS
 		width[10:0] <= data_in[10:0];
 
 assign width_cnt_dec = enable & next_word;
@@ -497,7 +497,7 @@ always @(posedge clk)
 always @(posedge clk)
 	if (reg_address_in[8:1]==BLTSIZE[8:1]) // OCS
 		height_cnt[14:0] <= {4'b0000, ~|data_in[15:6], data_in[15:6]};
-	else if (reg_address_in[8:1]==BLTSIZH[8:1] && ecsena) // ECS
+	else if (reg_address_in[8:1]==BLTSIZH[8:1] && ecs) // ECS
 		height_cnt[14:0] <= height[14:0];
 	else if (enable && next_word && last_word) // decrement height counter
 		height_cnt[14:0] <= height_cnt[14:0] - 1;

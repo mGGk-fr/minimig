@@ -81,10 +81,10 @@ reg		[3:0] pf2h_del;		// delayed playfield 2 horizontal scroll
 
 always @(hpos)
 	case (hpos[3:2])
-		2'b00 : extra_delay = 4'b1100;
-		2'b01 : extra_delay = 4'b1000;
-		2'b10 : extra_delay = 4'b0100;
-		2'b11 : extra_delay = 4'b0000;
+		2'b00 : extra_delay = 4'b0000;
+		2'b01 : extra_delay = 4'b1100;
+		2'b10 : extra_delay = 4'b1000;
+		2'b11 : extra_delay = 4'b0100;
 	endcase
 
 //playfield 1 effective horizontal scroll

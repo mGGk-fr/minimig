@@ -54,6 +54,7 @@
 // 2009-10-04	- implemented DIWHIGH register, pixel pipeline moved to clk28m domain, implemented super hires, changed ID to ECS
 // 2009-12-16	- added ECS enable input (only chip id is affected)
 // 2009-12-20	- DIWHIGH is written only in ECS mode
+// 2010-04-22	- ECS border blank implemented
 
 module Denise
 (
@@ -71,7 +72,7 @@ module Denise
 	output 	[3:0] red, 				// red componenent video out
 	output 	[3:0] green,  			// green component video out
 	output 	[3:0] blue,				// blue component video out
-	input	ecsena,					// enables ECS chip id
+	input	ecs,					// enables ECS chipset features
 	output	reg hires				// hires
 );
 
@@ -81,6 +82,7 @@ parameter DIWSTOP  = 9'h090;
 parameter DIWHIGH  = 9'h1E4;
 parameter BPLCON0  = 9'h100;  		
 parameter BPLCON2  = 9'h104; 
+parameter BPLCON3  = 9'h106; 
 parameter DENISEID = 9'h07C;
 parameter BPL1DAT  = 9'h110;
 
@@ -91,7 +93,10 @@ reg		homod;					// HAM mode select
 reg		dblpf;					// double playfield select
 reg		[3:0] bpu;				// bitplane enable
 reg		[3:0] l_bpu;			// latched bitplane enable
-reg		[6:0] bplcon2;			// bplcon2 (playfield video priority) register
+reg		enaecs;					// enable ECS features like border blank (bplcon0.0)
+reg		[15:0] bplcon2;			// bplcon2 (playfield video priority) register
+reg		[15:0] bplcon3;			// bplcon3 register (border blank)
+wire 	brdrblnk;				// border blank enable
 
 reg		[8:0] hdiwstrt;			// horizontal display window start position
 reg		[8:0] hdiwstop;			// horizontal display window stop position
@@ -105,25 +110,24 @@ wire	[7:0] nsprite;			// sprite 0-7 valid data signals
 wire	sprsel;					// sprite select
 
 wire	[11:0] ham_rgb;			// hold and modify mode RGB video data
-reg		[5:0] clut_data;		// color table color select in
-wire	[11:0] clut_rgb;		// color table rgb data out
+reg		[5:0] clut_data;		// colour table colour select in
+wire	[11:0] clut_rgb;		// colour table rgb data out
 wire	[11:0] out_rgb;			// final multiplexer rgb output data
 reg		window;					// window enable signal
 
 wire	[15:0] deniseid_out; 	// deniseid data_out
 wire	[15:0] col_out;			// colision detection data_out
 
-reg		sprena;					// in OCS sprites are visible between first write to BPL1DAT and end of scanline
+reg		display_ena;					// in OCS sprites are visible between first write to BPL1DAT and end of scanline
 
 //--------------------------------------------------------------------------------------
 
-//data out mulitplexer
+// data out mulitplexer
 assign data_out = col_out | deniseid_out;
 
 //--------------------------------------------------------------------------------------
 
-//Denise local horizontal beamcounter
-// Denise's horizontal counter counting range: $01-$E3 CCKs (2-455 lores pixels)
+// Denise horizontal counter counting range: $01-$E3 CCKs (2-455 lores pixels)
 always @(posedge clk)
 	if (strhor)
 		hpos <= 2;
@@ -132,20 +136,19 @@ always @(posedge clk)
 
 //--------------------------------------------------------------------------------------
 
-//sprite enable signal
-//sprites are visible after the first write to the BPL1DAT register in a scanline
+// sprite display enable signal - sprites are visible after the first write to the BPL1DAT register in a scanline
 always @(posedge clk)
 	if (reset || strhor)
-		sprena <= 0;
+		display_ena <= 0;
 	else if (reg_address_in[8:1]==BPL1DAT[8:1])
-		sprena <= 1;
+		display_ena <= 1;
 
-//bpu is updated when bpl1dat register is written
+// bpu is updated when bpl1dat register is written
 always @(posedge clk)
 	if (reg_address_in[8:1]==BPL1DAT[8:1])
 		l_bpu <= bpu;
 
-//bplcon0 register
+// BPLCON0 register
 always @(posedge clk)
 	if (reset)
 	begin
@@ -154,6 +157,7 @@ always @(posedge clk)
 		homod <= 0;
 		dblpf <= 0;
 		bpu <= 0;
+		enaecs <= 0;
 	end
 	else if (reg_address_in[8:1]==BPLCON0[8:1])
 	begin
@@ -162,19 +166,28 @@ always @(posedge clk)
 		homod <= data_in[11];
 		dblpf <= data_in[10];
 		bpu <= {data_in[4],data_in[14:12]};
+		enaecs <= data_in[0];
 	end	
 
-//bplcon2 register
+// BPLCON2 register
 always @(posedge clk)
 	if (reset)
-		bplcon2 <= 0;
+		bplcon2 <= 16'h00_00;
 	else if (reg_address_in[8:1]==BPLCON2[8:1])
-		bplcon2[6:0] <= data_in[6:0];
+		bplcon2[15:0] <= data_in[15:0];
 
+// BPLCON3 register
+always @(posedge clk)
+	if (reset)
+		bplcon3 <= 16'h00_00;
+	else if (reg_address_in[8:1]==BPLCON3[8:1])
+		bplcon3[15:0] <= data_in[15:0];
+
+assign brdrblnk = bplcon3[5];
 		
-//diwstart and diwstop registers (vertical and horizontal limits of display window)
+// DIWSTART and DIWSTOP registers (vertical and horizontal limits of display window)
 	
-//hdiwstrt
+// HDIWSTRT
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTRT[8:1])
 		hdiwstrt[7:0] <= data_in[7:0];
@@ -182,10 +195,10 @@ always @(posedge clk)
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTRT[8:1])
 		hdiwstrt[8] <= 1'b0; // diwstop H9 = 0
-	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecsena)
+	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecs)
 		hdiwstrt[8] <= data_in[5];
 
-//hdiwstop
+// HDIWSTOP
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTOP[8:1])
 		hdiwstop[7:0] <= data_in[7:0];
@@ -193,25 +206,28 @@ always @(posedge clk)
 always @(posedge clk)
 	if (reg_address_in[8:1]==DIWSTOP[8:1])
 		hdiwstop[8] <= 1'b1; // diwstop H8 = 1
-	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecsena)
+	else if (reg_address_in[8:1]==DIWHIGH[8:1] && ecs)
 		hdiwstop[8] <= data_in[13];		
 
-assign deniseid_out = reg_address_in[8:1]==DENISEID[8:1] ? ecsena ? 16'hFF_FC : 16'hFF_FF : 16'h00_00;
+assign deniseid_out = reg_address_in[8:1]==DENISEID[8:1] ? ecs ? 16'hFF_FC : 16'hFF_FF : 16'h00_00;
 
 //--------------------------------------------------------------------------------------
 
-//generate window enable signal
-//true when beamcounter satisfies horizontal diwstrt/diwstop limits
+// generate window enable signal
+// true when beamcounter satisfies horizontal diwstrt/diwstop limits
 always @(posedge clk)
 	if (hpos[8:0]==hdiwstrt[8:0])
 		window <= 1;
 	else if (hpos[8:0]==hdiwstop[8:0])
 		window <= 0;
-		
 
+reg window_ena;		
+always @(posedge clk)
+	window_ena <= window;
+	
 //--------------------------------------------------------------------------------------
 
-//instantiate bitplane module
+// instantiate bitplane module
 bitplanes bplm0 
 (
 	.clk(clk),
@@ -221,7 +237,7 @@ bitplanes bplm0
 	.reg_address_in(reg_address_in),
 	.data_in(data_in),
 	.hires(hires),
-	.shres(shres & ecsena),
+	.shres(shres & ecs),
 	.hpos(hpos),
 	.bpldata(bpldata_out)	
 );
@@ -233,7 +249,7 @@ assign bpldata[4] = l_bpu > 3 ? bpldata_out[4] : 1'b0;
 assign bpldata[5] = l_bpu > 4 ? bpldata_out[5] : 1'b0;
 assign bpldata[6] = l_bpu > 5 ? bpldata_out[6] : 1'b0;
 
-//instantiate playfield module
+// instantiate playfield module
 playfields plfm0
 (
 	.bpldata(bpldata),
@@ -243,20 +259,21 @@ playfields plfm0
 	.plfdata(plfdata)	
 );
 
-//instantiate sprite module
+// instantiate sprite module
 sprites sprm0
 (
 	.clk(clk),
 	.reset(reset),
+	.ecs(1'b0),
 	.reg_address_in(reg_address_in),
 	.hpos(hpos),
 	.data_in(data_in),
-	.sprena(sprena),
+	.sprena(display_ena),
 	.nsprite(nsprite),
 	.sprdata(sprdata)	
 );
 
-//instantiate video priority logic module
+// instantiate video priority logic module
 sprpriority spm0
 (
 	.bplcon2(bplcon2[5:0]),
@@ -276,7 +293,7 @@ colortable clut0
 	.rgb(clut_rgb) // rgb data is delayed by one clk28m clock cycle
 );
 
-//instantiate HAM (hold and modify) module
+// instantiate HAM (hold and modify) module
 hamgenerator ham0
 (
 	.clk(clk),
@@ -287,7 +304,7 @@ hamgenerator ham0
 	.rgb(ham_rgb)		
 );
 
-//instantiate collision detection module
+// instantiate collision detection module
 collision col0
 (
 	.clk(clk),
@@ -302,9 +319,9 @@ collision col0
 //--------------------------------------------------------------------------------------
 
 //
-always @(sprsel or window or sprdata or plfdata)
+always @(sprsel or window_ena or sprdata or plfdata)
 begin
-	if (!window) // we are outside of the visible window region, display border colour
+	if (!window_ena) // we are outside of the visible window region, display border colour
 		clut_data = 6'b000000;
 	else if (sprsel) // select sprites
 		clut_data = {2'b01,sprdata[3:0]};
@@ -317,58 +334,62 @@ reg sprsel_del;
 
 always @(posedge clk28m)
 begin
-	window_del <= window;
+	window_del <= window_ena;
 	sprsel_del <= sprsel;
 end
 
-//ham_rgb / clut_rgb multiplexer
-assign out_rgb = (homod && window_del && !sprsel_del) ? ham_rgb : clut_rgb; //if no HAM mode, always select normal (table selected) rgb data
+// ham_rgb / clut_rgb multiplexer
+assign out_rgb = homod && window_del && !sprsel_del ? ham_rgb : clut_rgb; //if no HAM mode, always select normal (table selected) rgb data
 
 //--------------------------------------------------------------------------------------
 
-//output
-assign {red[3:0],green[3:0],blue[3:0]} = blank ? 12'h000 : out_rgb;
+wire t_blank;
+
+assign t_blank = blank | ecs & enaecs & brdrblnk & (~window_del | ~display_ena);
+
+// RGB video output
+assign {red[3:0],green[3:0],blue[3:0]} = t_blank ? 12'h000 : out_rgb;
 
 endmodule
 
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
-//this is the 32 color color table
-//because this module also supports EHB (extra half brite) mode,
-//it actually has a 6bit color select input
-//the 6th bit selects EHB color while the lower 5 bit select the actual color register
+// this is the 32 colour colour table
+// because this module also supports EHB (extra half brite) mode,
+// it actually has a 6bit colour select input
+// the 6th bit selects EHB colour while the lower 5 bit select the actual colour register
 
 module colortable
 (
-	input 	clk,		   			//bus clock / lores pixel clock
-	input	clk28m,					//35ns pixel clock
-	input 	[8:1] reg_address_in,	//register adress inputs
-	input 	[11:0] data_in,			//bus data in
-	input	[5:0] select,			//color select input
-	output	reg [11:0] rgb			//RGB output
+	input 	clk,		   			// bus clock / lores pixel clock
+	input	clk28m,					// 35ns pixel clock
+	input 	[8:1] reg_address_in,	// register adress inputs
+	input 	[11:0] data_in,			// bus data in
+	input	[5:0] select,			// colour select input
+	output	reg [11:0] rgb			// RGB output
 );
 
-//register names and adresses		
-parameter COLORBASE = 9'h180;  		//color table base address
+// register names and adresses		
+parameter COLORBASE = 9'h180;  		// colour table base address
 
-//local signals
-reg 	[11:0] colortable [31:0];	//color table
-wire	[11:0] selcolor; 			//selected color register output
+// local signals
+reg 	[11:0] colortable [31:0];	// colour table
+wire	[11:0] selcolor; 			// selected colour register output
 
-// writing of color table from bus (implemented using dual port distributed ram)
+// writing of colour table from bus (implemented using dual port distributed ram)
 always @(posedge clk)
 	if (reg_address_in[8:6]==COLORBASE[8:6])
 		colortable[reg_address_in[5:1]] <= data_in[11:0];
 
-// reading of color table
+// reading of colour table
 assign selcolor = colortable[select[4:0]];   
 
 // extra half brite mode shifter
 always @(posedge clk28m)
 	if (select[5]) // half bright, shift every component 1 position to the right
 		rgb <= {1'b0,selcolor[11:9],1'b0,selcolor[7:5],1'b0,selcolor[3:1]};
-	else // normal color select
+	else // normal colour select
 		rgb <= selcolor;
 
 endmodule
@@ -376,31 +397,31 @@ endmodule
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
-//sprite priority logic module
-//this module checks the playfields and sprites video status and
-//determines if playfield or sprite data must be sent to the video output
-//sprite/playfield priority is configurable through the bplcon2 bits				
+// sprite priority logic module
+// this module checks the playfields and sprites video status and
+// determines if playfield or sprite data must be sent to the video output
+// sprite/playfield priority is configurable through the bplcon2 bits				
 module sprpriority
 (
-	input 	[5:0] bplcon2,		   	//playfields vs sprites priority setting
-	input	[2:1] nplayfield,		//playfields video status
-	input	[7:0] nsprite,			//sprites video status
-	output	reg sprsel				//sprites select signal output
+	input 	[5:0] bplcon2,		   	// playfields vs sprites priority setting
+	input	[2:1] nplayfield,		// playfields video status
+	input	[7:0] nsprite,			// sprites video status
+	output	reg sprsel				// sprites select signal output
 );
 
 // local signals
-reg		[2:0] sprcode;			//sprite code
-wire	[3:0] sprgroup;			//grouped sprites
-wire	pf1front;				//playfield 1 is on front of sprites
-wire	pf2front;				//playfield 2 is on front of sprites
+reg		[2:0] sprcode;			// sprite code
+wire	[3:0] sprgroup;			// grouped sprites
+wire	pf1front;				// playfield 1 is on front of sprites
+wire	pf2front;				// playfield 2 is on front of sprites
 
-//group sprites together
+// group sprites together
 assign	sprgroup[0] = (nsprite[1:0]==0) ? 0 : 1;
 assign	sprgroup[1] = (nsprite[3:2]==0) ? 0 : 1;
 assign	sprgroup[2] = (nsprite[5:4]==0) ? 0 : 1;
 assign	sprgroup[3] = (nsprite[7:6]==0) ? 0 : 1;
 
-//sprites priority encoder
+// sprites priority encoder
 always @(sprgroup)
 	if (sprgroup[0])
 		sprcode = 1;
@@ -413,20 +434,20 @@ always @(sprgroup)
 	else
 		sprcode = 7;
 
-//check if playfields are in front of sprites
+// check if playfields are in front of sprites
 assign pf1front = sprcode[2:0]>bplcon2[2:0] ? 1 : 0;
 assign pf2front = sprcode[2:0]>bplcon2[5:3] ? 1 : 0;
 
-//generate final playfield/sprite select signal
+// generate final playfield/sprite select signal
 always @(sprcode or pf1front or pf2front or nplayfield)
 begin
-	if (sprcode[2:0]==7) //if no valid sprite data, always select playfields
+	if (sprcode[2:0]==7) // if no valid sprite data, always select playfields
 		sprsel = 0;
-	else if (pf1front && nplayfield[1]) //else if pf1 in front and valid data, select playfields
+	else if (pf1front && nplayfield[1]) // else if pf1 in front and valid data, select playfields
 		sprsel = 0;
-	else if (pf2front && nplayfield[2]) //else if pf2 in front and valid data, select playfields
+	else if (pf2front && nplayfield[2]) // else if pf2 in front and valid data, select playfields
 		sprsel = 0;	 
-	else //else select sprites
+	else // else select sprites
 		sprsel = 1;
 end
 
@@ -435,9 +456,9 @@ endmodule
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
-//this module handles the hold and modify mode (HAM)
-//the module has its own color pallete bank, this is to let 
-//the sprites run simultanously with a HAM playfield
+// this module handles the hold and modify mode (HAM)
+// the module has its own colour pallete bank, this is to let 
+// the sprites run simultanously with a HAM playfield
 module hamgenerator
 (
 	input 	clk,		   			// bus clock
@@ -449,20 +470,20 @@ module hamgenerator
 );
 
 //register names and adresses		
-parameter COLORBASE = 9'h180;  		//color table base address
+parameter COLORBASE = 9'h180;  		// colour table base address
 
 //local signals
-reg 	[11:0] colortable [15:0];	//color table
-wire	[11:0] selcolor;			//selected color output from color table
+reg 	[11:0] colortable [15:0];	// colour table
+wire	[11:0] selcolor;			// selected colour output from colour table
 
 //--------------------------------------------------------------------------------------
 
-//writing of HAM color table from bus (implemented using dual port distributed ram)
+//writing of HAM colour table from bus (implemented using dual port distributed ram)
 always @(posedge clk)
 	if (reg_address_in[8:5]==COLORBASE[8:5])
 		colortable[reg_address_in[4:1]] <= data_in[11:0];
 
-//reading of color table
+//reading of colour table
 assign selcolor = colortable[bpldata[3:0]];   
 
 //--------------------------------------------------------------------------------------
@@ -471,7 +492,7 @@ assign selcolor = colortable[bpldata[3:0]];
 always @(posedge clk28m)
 begin
 	case (bpldata[5:4])
-		2'b00://load rgb output with color from table	
+		2'b00://load rgb output with colour from table	
 			rgb <= selcolor;
 		2'b01://hold green and red, modify blue
 			rgb  <= {rgb[11:4],bpldata[3:0]};	

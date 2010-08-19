@@ -60,52 +60,58 @@
 // 2009-07-21	- WORDEQUAL in DSKBYTR register is always set now
 // 2009-11-14	- changed DSKSYNC reset value (Kick 1.3 doesn't initialize this register after reset)
 //				- reduced FIFO size (to save some block rams)
+// 2009-12-26	- step enable
+// 2010-04-12	- implemented work-around for dsksync interrupt request
+// 2010-08-14	- set BYTEREADY of DSKBYTR (required by Kick Off 2 loader)
 
 module floppy
 (
-	//bus interface
-	input 	clk,		    		//bus clock
-	input 	reset,			   		//reset 
-	input	enable,					//dma enable
-	input 	[8:1] reg_address_in,	//register address inputs
-	input	[15:0] data_in,			//bus data in
-	output	[15:0] data_out,		//bus data out
-	output	dmal,					//dma request output
-	output	dmas,					//dma special output 
-	//disk control signals from cia and user
-	input	_step,					//step heads of disk
-	input	direc,					//step heads direction
-	input	[3:0] _sel,				//disk select 	
-	input	side,					//upper/lower disk head
-	input	_motor,					//disk motor control
-	output	_track0,				//track zero detect
-	output	_change,				//disk has been removed from drive
-	output	_ready,					//disk is ready
-	output	_wprot,					//disk is write-protected
-	//interrupt request and misc. control
-	output	reg blckint,			//disk dma has finished interrupt
-	output	syncint,				//disk syncword found
-	input	wordsync,				//wordsync enable
-	//flash drive host controller interface	(SPI)
-	input	_scs,					//async. serial data enable
-	input	sdi,					//async. serial data input
-	output	sdo,					//async. serial data output
-	input	sck,					//async. serial data clock
+	// system bus interface
+	input 	clk,		    		// bus clock
+	input 	reset,			   		// reset
+	input	ntsc,					// ntsc mode
+	input	sof,					// start of frame
+	input	enable,					// dma enable
+	input 	[8:1] reg_address_in,	// register address inputs
+	input	[15:0] data_in,			// bus data in
+	output	[15:0] data_out,		// bus data out
+	output	dmal,					// dma request output
+	output	dmas,					// dma special output 
+	// disk control signals from cia and user
+	input	_step,					// step heads of disk
+	input	direc,					// step heads direction
+	input	[3:0] _sel,				// disk select 	
+	input	side,					// upper/lower disk head
+	input	_motor,					// disk motor control
+	output	_track0,				// track zero detect
+	output	_change,				// disk has been removed from drive
+	output	_ready,					// disk is ready
+	output	_wprot,					// disk is write-protected
+	output	index,					// disk index pulse
+	// interrupt request and misc. control
+	output	reg blckint,			// disk dma has finished interrupt
+	output	syncint,				// disk syncword found
+	input	wordsync,				// wordsync enable
+	// flash drive host controller interface	(SPI)
+	input	_scs,					// async. serial data enable
+	input	sdi,					// async. serial data input
+	output	sdo,					// async. serial data output
+	input	sck,					// async. serial data clock
 	
-	output	disk_led,				//disk activity LED, active when DMA is on
-	input	[1:0] floppy_drives,	//floppy drive number
+	output	disk_led,				// disk activity LED, active when DMA is on
+	input	[1:0] floppy_drives,	// floppy drive number
 	
-	input	direct_scs,				//enables direct data transfer from SD card
-	input	direct_sdi,				//data line from SD card
-	input	hdd_cmd_req,			//HDD requests service (command register has been written)
-	input	hdd_dat_req,			//HDD requests data tansfer
-	output	[2:0] hdd_addr,			//task file register address
-	output	[15:0] hdd_data_out,	//data from HDD to HDC
-	input	[15:0] hdd_data_in,		//data from HDC to HDD
-	output	hdd_wr,					//task file register write strobe
-	output	hdd_status_wr,			//status register write strobe (MCU->HDD)
-	output	hdd_data_wr,			//data write strobe
-	output	hdd_data_rd				//data read strobe
+	input	direct_scs,				// enables direct data transfer from SD card
+	input	direct_sdi,				// data line from SD card
+	input	hdd_cmd_req,			// HDD requests service (command register has been written)
+	input	hdd_dat_req,			// HDD requests data tansfer
+	output	[2:0] hdd_addr,			// task file register address
+	output	[15:0] hdd_data_out,	// data from HDD to HDC
+	input	[15:0] hdd_data_in,		// data from HDC to HDD
+	output	hdd_wr,					// task file register write strobe
+	output	hdd_status_wr,			// status register write strobe (MCU->HDD)
+	output	hdd_data_wr,			// data write strobe
+	output	hdd_data_rd				// data read strobe
 );
 
 //register names and addresses
@@ -128,6 +134,7 @@ module floppy
 	reg		trackrd;				//read track (command to host)
 	
 	wire	_dsktrack0;				//disk heads are over track 0
+	wire	dsktrack79;				//disk heads are over track 0
 	
 	wire	[15:0] fifo_in;			//fifo data in
 	wire	[15:0] fifo_out; 		//fifo data out
@@ -156,6 +163,11 @@ module floppy
 
 	reg		[3:0] _disk_change;
 	reg		_step_del;
+	reg		[8:0] step_ena_cnt;
+	wire	step_ena;
+	// drive motor control
+	reg		[3:0] _sel_del;			// deleyed drive select signals for edge detection
+	reg		[3:0] motor_on;			// drive motor on
 	
 	//decoded SPI commands
 	reg		cmd_fdd;				//SPI host accesses floppy drive buffer
@@ -381,6 +393,19 @@ always @(posedge clk)
 always @(posedge clk)
 	if (reset)
 		drives <= floppy_drives;
+
+//-----------------------------------------------------------------------------------------------//
+// 300 RPM floppy disk rotation signal
+reg [3:0] rpm_pulse_cnt;
+always @(posedge clk)
+	if (sof)
+		if (rpm_pulse_cnt==11 || !ntsc && rpm_pulse_cnt==9)
+			rpm_pulse_cnt <= 0;
+		else
+			rpm_pulse_cnt <= rpm_pulse_cnt + 1;
+		
+// disk index pulses output
+assign index = |(~_sel & motor_on) & ~|rpm_pulse_cnt & sof;
 		
 //--------------------------------------------------------------------------------------
 //data out multiplexer
@@ -393,6 +418,14 @@ assign _selx = &_sel[3:0];
 // delayed step signal for detection of its rising edge	
 always @(posedge clk)
 	_step_del <= _step;
+	
+always @(posedge clk)
+	if (!step_ena)
+		step_ena_cnt <= step_ena_cnt + 1;
+	else if (_step && !_step_del)
+		step_ena_cnt <= 0;
+		
+assign step_ena = step_ena_cnt[8];
 
 // disk change latch
 // set by reset or when the disk is removed form the drive
@@ -402,6 +435,35 @@ always @(posedge clk)
 	
 //active drive number (priority encoder)
 assign sel = !_sel[0] ? 0 : !_sel[1] ? 1 : !_sel[2] ? 2 : !_sel[3] ? 3 : 0;
+
+//delayed drive select signals
+always @(posedge clk)
+	_sel_del <= _sel;
+
+//drive motor control
+always @(posedge clk)
+	if (reset)
+		motor_on[0] <= 1'b0;
+	else if (!_sel[0] && _sel_del[0])
+		motor_on[0] <= ~_motor;
+
+always @(posedge clk)
+	if (reset)
+		motor_on[1] <= 1'b0;
+	else if (!_sel[1] && _sel_del[1])
+		motor_on[1] <= ~_motor;
+
+always @(posedge clk)
+	if (reset)
+		motor_on[2] <= 1'b0;
+	else if (!_sel[2] && _sel_del[2])
+		motor_on[2] <= ~_motor;
+
+always @(posedge clk)
+	if (reset)
+		motor_on[3] <= 1'b0;
+	else if (!_sel[3] && _sel_del[3])
+		motor_on[3] <= ~_motor;
 
 //_ready,_track0 and _change signals
 assign _change = &(_sel | _disk_change);
@@ -414,11 +476,17 @@ assign  _track0 = &(_selx | _dsktrack0);
 assign track = {dsktrack[sel],~side};
 	
 always @(posedge clk)
-	if(!_selx && _step && !_step_del && !(!_dsktrack0 && direc))//track increment (direc=0) or decrement (direc=1) at rising edge of _step
-		dsktrack[sel] <= dsktrack[sel] + {direc,direc,direc,direc,direc,direc,1'b1};
+	if (!_selx && _step && !_step_del && step_ena) // track increment (direc=0) or decrement (direc=1) at rising edge of _step
+		if (!dsktrack79 && !direc)
+			dsktrack[sel] <= dsktrack[sel] + 1;
+		else if (_dsktrack0 && direc)
+			dsktrack[sel] <= dsktrack[sel] - 1;
 
-//_dsktrack0 and dsktrack79 detect
-assign _dsktrack0 = (dsktrack[sel]==7'b000_0000) ? 0 : 1;
+// _dsktrack0 detect
+assign _dsktrack0 = dsktrack[sel]==0 ? 0 : 1;
+
+// dsktrack79 detect
+assign dsktrack79 = dsktrack[sel]==82 ? 1 : 0;
 
 // drive _ready signal control
 // Amiga DD drive activates _ready whenever _sel is active and motor is off
@@ -431,9 +499,9 @@ assign _ready 	= (_sel[3] | ~(drives[1] & drives[0]))
 
 
 //--------------------------------------------------------------------------------------
-
+	
 //disk data byte and status read
-assign dskbytr = reg_address_in[8:1]==DSKBYTR[8:1] ? {1'b0,(trackrd|trackwr),dsklen[14],13'b1_0000_0000_0000} : 16'h00_00;
+assign dskbytr = reg_address_in[8:1]==DSKBYTR[8:1] ? {1'b1,(trackrd|trackwr),dsklen[14],5'b1_0000,8'h00} : 16'h00_00;
 	 
 //disk sync register
 always @(posedge clk)
@@ -498,15 +566,17 @@ always @(posedge clk)
 assign fifo_rd = (busrd & dmaon) | (trackwr & spidat);
 
 //DSKSYNC interrupt
-assign syncint = dsksync[15:0]==rx_data[15:0] && spidat && trackrd ? 1 : 0;
-//assign syncint = 16'h4489==rx_data[15:0] && spidat && trackrd ? 1 : 0;
+wire sync_match;
+assign sync_match = dsksync[15:0]==rx_data[15:0] && spidat && trackrd ? 1'b1 : 1'b0;
+
+assign syncint = sync_match | ~dmaen & |(~_sel & motor_on & disk_present) & sof;
 
 //track read enable / wait for syncword logic
 always @(posedge clk)
 	if (!trackrd)//reset
 		trackrdok <= 0;
 	else//wordsync is enabled, wait with reading untill syncword is found
-		trackrdok <= ~wordsync | syncint | trackrdok;
+		trackrdok <= ~wordsync | sync_match | trackrdok;
 
 assign fifo_reset = reset | ~dmaen;
 		
@@ -570,7 +640,8 @@ always @(posedge clk)
 	end
 
 //disk activity LED
-assign disk_led = dskstate!=DISKDMA_IDLE ? 1 : 0;
+//assign disk_led = dskstate!=DISKDMA_IDLE ? 1'b1 : 1'b0;
+assign disk_led = |motor_on;
 		
 //main disk state machine
 always @(posedge clk)

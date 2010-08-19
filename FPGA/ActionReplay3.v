@@ -50,6 +50,8 @@
 // 2009-05-24	- clean-up & renaming
 // 2009-08-16	- reg_data_in port added (thanks Sascha)
 // 2009-12-18	- code cleaned up
+// 2010-07-26	- code cleaned up
+// 2010-08-15	- int7 generation when no cartridge ROM loaded
 
 module ActionReplay
 (
@@ -72,7 +74,7 @@ module ActionReplay
 	input	freeze,
 	output	reg int7,
 	output	selmem,
-	output	reg aron = 0
+	output	reg aron = 1'b0
 );
 
 reg		freeze_del;
@@ -115,18 +117,18 @@ assign selmem = (sel_rom & boot) | (((sel_rom & cpu_rd) | sel_ram | sel_ovl));
 
 // Action Replay is activated by writing to its ROM area during bootloading
 always @(posedge clk)
-	if (boot && cpu_address_in[23:18]==6'b0100_00 && cpu_lwr)
-		aron <= 1;	// rom will miss first write but since 2 first words of rom are not readable it doesn't matter
+	if (!reset && boot && cpu_address_in[23:18]==6'b0100_00 && cpu_lwr)
+		aron <= 1'b1;	// rom will miss first write but since 2 first words of rom are not readable it doesn't matter
 
 // delayed signal for edge dettection
 always @(posedge clk)
 	freeze_del <= freeze;
 
 // freeze button has been pressed
-assign freeze_req = freeze & ~freeze_del & ~active;
+assign freeze_req = freeze & ~freeze_del & (~active | ~aron);
 
 // int7 request
-assign int7_req = aron & ~boot & (freeze_req | reset_req | break_req);
+assign int7_req = ~boot & (freeze_req | reset_req | break_req);
 
 // level7 interrupt ack cycle, on Amiga interrupt vector number is read from kickstart rom
 // A[23:4] all high, A[3:1] vector number
@@ -136,45 +138,48 @@ assign int7_ack = &cpu_address & ~_cpu_as;
 // interrupt request lines are sampled during S4->S5 transition (falling cpu clock edge)
 always @(posedge cpu_clk)
 	if (reset)
-		int7 <= 0;
+		int7 <= 1'b0;
 	else if (int7_req)
-		int7 <= 1;
+		int7 <= 1'b1;
 	else if (int7_ack)
-		int7 <= 0;
+		int7 <= 1'b0;
 		
 always @(posedge clk)
-	{l_int7_req,l_int7_ack} <= {int7_req,int7_ack};
+	l_int7_req <= int7_req;
+
+always @(posedge clk)
+	l_int7_ack <= int7_ack;
 
 always @(posedge clk)
 	if (reset)
-		l_int7 <= 0;
+		l_int7 <= 1'b0;
 	else if (l_int7_req)
-		l_int7 <= 1;
+		l_int7 <= 1'b1;
 	else if (l_int7_ack && cpu_rd)
-		l_int7 <= 0;
+		l_int7 <= 1'b0;
 		
 // triggers int7 when first CPU write after reset to memory location $8
 // AR rom checks if PC==$FC0144 or $F80160, other kickstarts need to path these values
 // _IPLx lines are sampled durring S4->S5 transition, _cpu_as is asserted during S2, 
 // if we assert _IPLx lines too late the AR rom code won't properly recognize this request
-assign reset_req = ~boot & (cpu_address[23:1]==23'h04) & ~_cpu_as & after_reset;
+assign reset_req = aron && cpu_address[23:1]==23'h04 && !_cpu_as && after_reset ? 1'b1 : 1'b0;
 
 // set after reset, cleared by first INT7 req
 always @(posedge cpu_clk)
 	if (reset)
-		after_reset <= 1;
+		after_reset <= 1'b1;
 	else if (int7_ack)
-		after_reset <= 0;
+		after_reset <= 1'b0;
 
 // chip ram overlay, when INT7 is active AR rom apears in chipram area
 // cleared by write to $400006
 always @(posedge clk)
 	if (reset)
-		ram_ovl <= 0;
+		ram_ovl <= 1'b0;
 	else if (l_int7 && l_int7_ack && cpu_rd) // once again we don't know the state of CPU's FCx signals
-		ram_ovl <= 1;
+		ram_ovl <= 1'b1;
 	else if (sel_rom && (cpu_address_in[2:1]==2'b11) && (cpu_hwr|cpu_lwr))
-		ram_ovl <= 0;
+		ram_ovl <= 1'b0;
 
 // when INT7 is activated AR's rom and ram apear in its address space ($400000-$47FFFF)
 // this flag is cleared by write to $400000 (see code at  $4013DA)
@@ -182,11 +187,11 @@ always @(posedge clk)
 // so we don't hide AR's rom and ram
 always @(posedge clk)
 	if (reset)
-		active <= 0;
+		active <= 1'b0;
 	else if (l_int7 && l_int7_ack && cpu_rd)// once again we don't know the state of CPU's FC signals
-		active <= 1;
+		active <= 1'b1;
 	else if (sel_mode && (cpu_address_in[2:1]==2'b00) && (cpu_hwr|cpu_lwr))
-		active <= 0;
+		active <= 1'b0;
 
 // override chipram decoding (externally gated with rd)
 assign ovr = ram_ovl;
@@ -254,9 +259,9 @@ reg	cpu_address_hit;
 
 // address range access $000-$3FF		
 always @(posedge _cpu_as)
-	cpu_address_hit <= cpu_address[23:10]==14'h00 ? 1 : 0;
+	cpu_address_hit <= cpu_address[23:10]==14'h00 ? 1'b1 : 1'b0;
 
 // access of $BFE001 from $000-$3FF memory range
-assign break_req = mode[1] && cpu_address_hit && cpu_address==(24'hBFE001>>1) && !_cpu_as ? 1 : 0;
+assign break_req = aron && mode[1] && cpu_address_hit && cpu_address==(24'hBFE001>>1) && !_cpu_as ? 1'b1 : 1'b0;
 
 endmodule

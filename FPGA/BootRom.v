@@ -37,6 +37,9 @@
 // 2009-09-11	- updated bootloader code
 // 2009-12-17	- updated bootloader code
 // 2009-12-24	- updated version number
+// 2010-06-03	- updated version number
+// 2010-07-28	- updated version number
+// 2010-08-18	- updated version number
  
 module bootrom
 (
@@ -70,10 +73,10 @@ begin
 		0001:	romdata[15:0] = 16'h0000;
 		0002:	romdata[15:0] = 16'h0000;
 		0003:	romdata[15:0] = 16'h0010;
-		0004:	romdata[15:0] = 16'h4141; // fpga version
-		0005:	romdata[15:0] = 16'h3030;
-		0006:	romdata[15:0] = 16'h3030;
-		0007:	romdata[15:0] = 16'h3030;
+		0004:	romdata[15:0] = 16'h5951; // fpga version
+		0005:	romdata[15:0] = 16'h3130;
+		0006:	romdata[15:0] = 16'h3038;
+		0007:	romdata[15:0] = 16'h3138;
 		0008:	romdata[15:0] = 16'h4DF9;
 		0009:	romdata[15:0] = 16'h00DF;
 		0010:	romdata[15:0] = 16'hF000;
@@ -235,7 +238,7 @@ begin
 		0166:	romdata[15:0] = 16'h0000;
 		0167:	romdata[15:0] = 16'h4000;
 		0168:	romdata[15:0] = 16'h0C58;
-		0169:	romdata[15:0] = 16'hAA68;
+		0169:	romdata[15:0] = 16'hAA69;
 		0170:	romdata[15:0] = 16'h6600;
 		0171:	romdata[15:0] = 16'h0118;
 		0172:	romdata[15:0] = 16'h3018;
@@ -590,9 +593,9 @@ begin
 		0521:	romdata[15:0] = 16'h6572;
 		0522:	romdata[15:0] = 16'h2042;
 		0523:	romdata[15:0] = 16'h5951;
-		0524:	romdata[15:0] = 16'h3039;
-		0525:	romdata[15:0] = 16'h3132;
-		0526:	romdata[15:0] = 16'h3234;
+		0524:	romdata[15:0] = 16'h3130;
+		0525:	romdata[15:0] = 16'h3034;
+		0526:	romdata[15:0] = 16'h3133;
 		0527:	romdata[15:0] = 16'h0A00;
 		0528:	romdata[15:0] = 16'h0A46;
 		0529:	romdata[15:0] = 16'h5047;

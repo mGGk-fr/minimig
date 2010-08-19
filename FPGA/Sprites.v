@@ -31,57 +31,58 @@
 // 2009-01-26	- cleanup
 //				- added sprena signal
 // 2009-05-24	- clean-up & renaming
-//
+// 2010-06-17	- improved OCS sprite attach mode
 
 module sprites
 (
-	input 	clk,					//bus clock	
-	input 	reset,		    		//reset
-	input	[8:1] reg_address_in,	//register address input
-	input	[8:0] hpos,				//horizontal beam counter
-	input 	[15:0] data_in, 		//bus data in
-	input	sprena,					//sprite enable signal
-	output 	[7:0] nsprite,		  	//sprite data valid signals 
-	output	reg [3:0] sprdata		//sprite data out
+	input 	clk,					// bus clock	
+	input 	reset,		    		// reset
+	input	ecs,					// ECS chipset features
+	input	[8:1] reg_address_in,	// register address input
+	input	[8:0] hpos,				// horizontal beam counter
+	input 	[15:0] data_in, 		// bus data in
+	input	sprena,					// sprite enable signal
+	output 	[7:0] nsprite,		  	// sprite data valid signals 
+	output	reg [3:0] sprdata		// sprite data out
 );
 
 //register names and adresses		
 parameter	SPRPOSCTLBASE = 9'h140;	//sprite data, position and control register base address
 
 //local signals
-wire		selspr0;				//select sprite 0
-wire		selspr1;				//select sprite 1
-wire		selspr2;				//select sprite 2
-wire		selspr3;				//select sprite 3
-wire		selspr4;				//select sprite 4
-wire		selspr5;				//select sprite 5
-wire		selspr6;				//select sprite 6
-wire		selspr7;				//select sprite 7
+wire		selspr0;				// select sprite 0
+wire		selspr1;				// select sprite 1
+wire		selspr2;				// select sprite 2
+wire		selspr3;				// select sprite 3
+wire		selspr4;				// select sprite 4
+wire		selspr5;				// select sprite 5
+wire		selspr6;				// select sprite 6
+wire		selspr7;				// select sprite 7
 
-wire		[1:0] sprdat0;			//data sprite 0
-wire		[1:0] sprdat1;			//data sprite 1
-wire		[1:0] sprdat2;			//data sprite 2
-wire		[1:0] sprdat3;			//data sprite 3
-wire		[1:0] sprdat4;			//data sprite 4
-wire		[1:0] sprdat5;			//data sprite 5
-wire		[1:0] sprdat6;			//data sprite 6
-wire		[1:0] sprdat7;			//data sprite 7
+wire		[1:0] sprdat0;			// data sprite 0
+wire		[1:0] sprdat1;			// data sprite 1
+wire		[1:0] sprdat2;			// data sprite 2
+wire		[1:0] sprdat3;			// data sprite 3
+wire		[1:0] sprdat4;			// data sprite 4
+wire		[1:0] sprdat5;			// data sprite 5
+wire		[1:0] sprdat6;			// data sprite 6
+wire		[1:0] sprdat7;			// data sprite 7
 
-wire		attach0;				//attach sprite 0,1
-wire		attach1;				//attach sprite 0,1
-wire		attach2;				//attach sprite 2,3
-wire		attach3;				//attach sprite 2,3
-wire		attach4;				//attach sprite 4,5
-wire		attach5;				//attach sprite 4,5
-wire		attach6;				//attach sprite 6,7
-wire		attach7;				//attach sprite 6,7
+wire		attach0;				// attach sprite 0,1
+wire		attach1;				// attach sprite 0,1
+wire		attach2;				// attach sprite 2,3
+wire		attach3;				// attach sprite 2,3
+wire		attach4;				// attach sprite 4,5
+wire		attach5;				// attach sprite 4,5
+wire		attach6;				// attach sprite 6,7
+wire		attach7;				// attach sprite 6,7
 
 //--------------------------------------------------------------------------------------
 
-//sprite register address decoder
+// sprite register address decoder
 wire	selsprx;
 
-assign selsprx = SPRPOSCTLBASE[8:6]==reg_address_in[8:6] ? 1 : 0;//base address
+assign selsprx = SPRPOSCTLBASE[8:6]==reg_address_in[8:6] ? 1 : 0; // base address
 assign selspr0 = selsprx && reg_address_in[5:3]==0 ? 1 : 0;
 assign selspr1 = selsprx && reg_address_in[5:3]==1 ? 1 : 0;
 assign selspr2 = selsprx && reg_address_in[5:3]==2 ? 1 : 0;
@@ -93,7 +94,7 @@ assign selspr7 = selsprx && reg_address_in[5:3]==7 ? 1 : 0;
 
 //--------------------------------------------------------------------------------------
 
-//instantiate sprite 0
+// instantiate sprite 0
 sprshift sps0
 (
 	.clk(clk),
@@ -106,7 +107,7 @@ sprshift sps0
 	.attach(attach0)
 );
 
-//instantiate sprite 1
+// instantiate sprite 1
 sprshift sps1
 (
 	.clk(clk),
@@ -119,7 +120,7 @@ sprshift sps1
 	.attach(attach1)
 );
 
-//instantiate sprite 2
+// instantiate sprite 2
 sprshift sps2
 (
 	.clk(clk),
@@ -132,7 +133,7 @@ sprshift sps2
 	.attach(attach2)
 );
 
-//instantiate sprite 3
+// instantiate sprite 3
 sprshift sps3
 (
 	.clk(clk),
@@ -145,7 +146,7 @@ sprshift sps3
 	.attach(attach3)
 );
 
-//instantiate sprite 4
+// instantiate sprite 4
 sprshift sps4
 (
 	.clk(clk),
@@ -158,7 +159,7 @@ sprshift sps4
 	.attach(attach4)
 );
 
-//instantiate sprite 5
+// instantiate sprite 5
 sprshift sps5
 (
 	.clk(clk),
@@ -171,7 +172,7 @@ sprshift sps5
 	.attach(attach5)
 );
 
-//instantiate sprite 6
+// instantiate sprite 6
 sprshift sps6
 (
 	.clk(clk),
@@ -184,7 +185,7 @@ sprshift sps6
 	.attach(attach6)
 );
 
-//instantiate sprite 7
+// instantiate sprite 7
 sprshift sps7
 (
 	.clk(clk),
@@ -199,7 +200,7 @@ sprshift sps7
 
 //--------------------------------------------------------------------------------------
 
-//generate sprite data valid signals
+// generate sprite data valid signals
 assign nsprite[0] = (sprena && sprdat0[1:0]!=2'b00) ? 1 : 0;//if any non-zero bit -> valid video data
 assign nsprite[1] = (sprena && sprdat1[1:0]!=2'b00) ? 1 : 0;//if any non-zero bit -> valid video data
 assign nsprite[2] = (sprena && sprdat2[1:0]!=2'b00) ? 1 : 0;//if any non-zero bit -> valid video data
@@ -211,50 +212,50 @@ assign nsprite[7] = (sprena && sprdat7[1:0]!=2'b00) ? 1 : 0;//if any non-zero bi
 
 //--------------------------------------------------------------------------------------
 
-//sprite video priority logic and color decoder
-always @( attach0 or attach1 or attach2 or attach3 or
-		attach4 or attach5 or attach6 or attach7 or
-		sprdat0 or sprdat1 or sprdat2 or sprdat3 or
-		sprdat4 or sprdat5 or sprdat6 or sprdat7 or
-		nsprite )
+// sprite video priority logic and color decoder
+always @(attach0 or attach1 or attach2 or attach3 or
+		 attach4 or attach5 or attach6 or attach7 or
+		 sprdat0 or sprdat1 or sprdat2 or sprdat3 or
+		 sprdat4 or sprdat5 or sprdat6 or sprdat7 or
+		 nsprite or ecs)
 begin
-	if (nsprite[1:0]!=2'b00) //sprites 0,1 non transparant ?
+	if (nsprite[1:0]!=2'b00) // sprites 0,1 non transparant ?
 	begin
-		if (attach0 || attach1) //sprites are attached -> 15 colors + transparant
+		if (ecs && attach0 || attach1) // sprites are attached -> 15 colors + transparant
 			sprdata[3:0] = {sprdat1[1:0],sprdat0[1:0]};
-	   	else if (nsprite[0]) //output lowered number sprite
+	   	else if (nsprite[0]) // output lowered number sprite
 			sprdata[3:0] = {2'b00,sprdat0[1:0]};
-	   	else //output higher numbered sprite
+	   	else // output higher numbered sprite
 			sprdata[3:0] = {2'b00,sprdat1[1:0]};
 	end
-	else if (nsprite[3:2]!=2'b00) //sprites 2,3 non transparant ?
+	else if (nsprite[3:2]!=2'b00) // sprites 2,3 non transparant ?
 	begin
-		if (attach2 || attach3) //sprites are attached -> 15 colors + transparant
+		if (ecs && attach2 || attach3) // sprites are attached -> 15 colors + transparant
 			sprdata[3:0] = {sprdat3[1:0],sprdat2[1:0]};
-	   	else if (nsprite[2]) //output lowered number sprite
+	   	else if (nsprite[2]) // output lowered number sprite
 			sprdata[3:0] = {2'b01,sprdat2[1:0]};
-	   	else //output higher numbered sprite
+	   	else // output higher numbered sprite
 			sprdata[3:0] = {2'b01,sprdat3[1:0]};
 	end
-	else if (nsprite[5:4]!=2'b00) //sprites 4,5 non transparant ?
+	else if (nsprite[5:4]!=2'b00) // sprites 4,5 non transparant ?
 	begin
-		if (attach4 || attach5) //sprites are attached -> 15 colors + transparant
+		if (ecs && attach4 || attach5) // sprites are attached -> 15 colors + transparant
 			sprdata[3:0] = {sprdat5[1:0],sprdat4[1:0]};
-	   	else if (nsprite[4]) //output lowered number sprite
+	   	else if (nsprite[4]) // output lowered number sprite
 			sprdata[3:0] = {2'b10,sprdat4[1:0]};
-	   	else //output higher numbered sprite
+	   	else // output higher numbered sprite
 			sprdata[3:0] = {2'b10,sprdat5[1:0]};
 	end
-	else if (nsprite[7:6]!=2'b00) //sprites 6,7 non transparant ?
+	else if (nsprite[7:6]!=2'b00) // sprites 6,7 non transparant ?
 	begin
-		if (attach6 || attach7) //sprites are attached -> 15 colors + transparant
+		if (ecs && attach6 || attach7) // sprites are attached -> 15 colors + transparant
 			sprdata[3:0] = {sprdat7[1:0],sprdat6[1:0]};
-	   	else if (nsprite[6]) //output lowered number sprite
+	   	else if (nsprite[6]) // output lowered number sprite
 			sprdata[3:0] = {2'b11,sprdat6[1:0]};
-	   	else //output higher numbered sprite
+	   	else // output higher numbered sprite
 			sprdata[3:0] = {2'b11,sprdat7[1:0]};
 	end
-	else //all sprites transparant
+	else // all sprites transparant
 	begin
 		sprdata[3:0] = 4'b0000;	
 	end	
@@ -267,31 +268,31 @@ endmodule
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
-//this is the sprite parallel to serial converter
-//clk is 7.09379 MHz (low resolution pixel clock)
-//the sprdata assign circuitry is constructed differently from the hardware
-//as described	in the amiga hardware reference manual
-//this is to make sure that the horizontal start position of a sprite
-//aligns with the bitplane/playfield start position
+// this is the sprite parallel to serial converter
+// clk is 7.09379 MHz (low resolution pixel clock)
+// the sprdata assign circuitry is constructed differently from the hardware
+// as described	in the amiga hardware reference manual
+// this is to make sure that the horizontal start position of a sprite
+// aligns with the bitplane/playfield start position
 module sprshift
 (
-	input 	clk,					//bus clock	
-	input 	reset,		    		//reset
-	input	aen,					//address enable
-	input	[1:0] address,		   	//register address input
-	input	[8:0] hpos,				//horizontal beam counter
-	input 	[15:0] data_in, 		//bus data in
-	output	[1:0] sprdata,			//serialized sprite data out
-	output	reg attach				//sprite is attached
+	input 	clk,					// bus clock	
+	input 	reset,		    		// reset
+	input	aen,					// address enable
+	input	[1:0] address,		   	// register address input
+	input	[8:0] hpos,				// horizontal beam counter
+	input 	[15:0] data_in, 		// bus data in
+	output	[1:0] sprdata,			// serialized sprite data out
+	output	reg attach				// sprite is attached
 );
 
-//register names and adresses		
+// register names and adresses		
 parameter POS  = 2'b00;  		
 parameter CTL  = 2'b01;  		
 parameter DATA = 2'b10;  		
 parameter DATB = 2'b11;  		
 
-//local signals
+// local signals
 reg		[15:0] datla;		// data register A
 reg		[15:0] datlb;		// data register B
 reg		[15:0] shifta;		// shift register A
@@ -299,6 +300,7 @@ reg		[15:0] shiftb;		// shift register B
 reg		[8:0] hstart;		// horizontal start value
 reg		armed;				// sprite "armed" signal
 reg		load;				// load shift register signal
+reg		load_del;
 
 //--------------------------------------------------------------------------------------
 
@@ -316,6 +318,9 @@ always @(posedge clk)
 // generate load signal
 always @(posedge clk)
 	load <= armed && hpos[8:0]==hstart[8:0] ? 1 : 0;
+
+always @(posedge clk)
+	load_del <= load;
 
 //--------------------------------------------------------------------------------------
 
@@ -343,7 +348,7 @@ always @(posedge clk)
 
 // sprite shift register
 always @(posedge clk)
-	if (load) // load new data into shift register
+	if (load_del) // load new data into shift register
 	begin
 		shifta[15:0] <= datla[15:0];
 		shiftb[15:0] <= datlb[15:0];

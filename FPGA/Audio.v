@@ -43,13 +43,14 @@
 // 2009-05-24	- clean-up & renaming
 // 2009-11-14	- modified audio state machine to be more cycle-exact with its real counterpart
 //				- sigma-delta modulator is clocked at 28 MHz
+// 2010-06-15	- updated description
 
 // Paula requests data from Agnus using DMAL line (high active state)
-// DMAL time slot allocation: (relative to first refresh slot referenced as $00)
-// $03,$05,$07 - all these slots are active when disk dma is inactive or there is no data in disk buffer to transfer
-// $04 - disk buffer has at least 3 words to transfer (transfer takes place in $08)
-// $06 - disk buffer has at least 2 words to transfer (transfer takes place in $0A)
-// $08 - disk buffer has at least 1 word to transfer (transfer takes place in $0C)
+// DMAL time slot allocation (relative to first refresh slot referenced as $00):
+// $03,$05,$07 - all these slots are active when disk dma is inactive or write operation is in progress
+// $04 - at least 3 words to read / at least 1 word  to write (transfer in $08)
+// $06 - at least 2 words to read / at least 2 words to write (transfer in $0A)
+// $08 - at least 1 word  to read / at least 3 words to write (transfer in $0C)
 // $09 - audio channel #0 location pointer reload request (active with data request) 
 // $0A - audio channle #0 dma data request (data transfered in slot $0E)
 // $0B - audio channel #1 location pointer reload request (active with data request) 
@@ -58,11 +59,11 @@
 // $0E - audio channle #2 dma data request (data transfered in slot $12)
 // $0F - audio channel #3 location pointer reload request (active with data request) 
 // $10 - audio channle #3 dma data request (data transfered in slot $14)
-// minimum sampling period for audio channels (in CCK's):
-// #0 : 121/120
-// #1 : 122/121
-// #2 : 123/122
-// #3 : 124/123
+// minimum sampling period for audio channels in CCKs (no length reload)
+// #0 : 121 (120) 
+// #1 : 122 (121)
+// #2 : 123 (122)
+// #3 : 124 (123)
 
 
 module audio
@@ -105,10 +106,10 @@ wire	[6:0] vol3;			//channel 3 volume
 //--------------------------------------------------------------------------------------
 
 //address decoder
-assign aen[0] = (reg_address_in[8:4]==AUD0BASE[8:4]) ? 1 : 0;
-assign aen[1] = (reg_address_in[8:4]==AUD1BASE[8:4]) ? 1 : 0;
-assign aen[2] = (reg_address_in[8:4]==AUD2BASE[8:4]) ? 1 : 0;
-assign aen[3] = (reg_address_in[8:4]==AUD3BASE[8:4]) ? 1 : 0;
+assign aen[0] = (reg_address_in[8:4]==AUD0BASE[8:4]) ? 1'b1 : 1'b0;
+assign aen[1] = (reg_address_in[8:4]==AUD1BASE[8:4]) ? 1'b1 : 1'b0;
+assign aen[2] = (reg_address_in[8:4]==AUD2BASE[8:4]) ? 1'b1 : 1'b0;
+assign aen[3] = (reg_address_in[8:4]==AUD3BASE[8:4]) ? 1'b1 : 1'b0;
 
 //--------------------------------------------------------------------------------------
 

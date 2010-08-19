@@ -53,22 +53,24 @@
 // 2009-05-29	- dma_bpl replaced with dma_ena
 // 2009-10-07	- implementation of blocked $E1 cycles
 //				- modified copper restart
+// 2010-06-16	- ECS/OCS CDANG behaviour implemented
 
 module copper
 (
 	input 	clk,	 					// bus clock
-	input 	reset,	 					// reset
+	input 	reset,	 					// system reset (synchronous)
+	input	ecs,						// enable ECS chipset features
 	output	reqdma,						// copper requests dma cycle
 	input	ackdma,						// agnus dma priority logic grants dma cycle
 	input	enadma,						// current slot is not used by any higher priority DMA channel
 	input	sof,						// start of frame input
 	input	blit_busy,					// blitter busy flag input
 	input	[7:0] vpos,					// vertical beam counter
-	input	[8:0] hpos,
-	input 	[15:0] data_in,	    		// bus data in
-	input 	[8:1] reg_address_in,		// register address inputs
-	output 	reg [8:1] reg_address_out,	// register address outputs
-	output 	reg [20:1] address_out 		// chip address outputs
+	input	[8:0] hpos,					// horizontal beam counter
+	input 	[15:0] data_in,	    		// data bus input
+	input 	[8:1] reg_address_in,		// register address input
+	output 	reg [8:1] reg_address_out,	// register address output
+	output 	reg [20:1] address_out 		// chip address output
 );
 
 // register names and adresses		
@@ -185,12 +187,12 @@ always @(posedge clk)
 
 //--------------------------------------------------------------------------------------
 
-//regaddress output select
-//if selins=1 the address of the copper instruction register
-//is sent out (not strictly necessary as we can load copins directly. However, this is 
-//more according to what happens in a real amiga... I think), else the contents of
-//ir2[8:1] is selected 
-//(if you ask yourself: IR2? is this a bug? then check how ir1/ir2 are loaded in this design)
+// regaddress output select
+// if selins=1 the address of the copper instruction register
+// is sent out (not strictly necessary as we can load copins directly. However, this is 
+// more according to what happens in a real amiga... I think), else the contents of
+// ir2[8:1] is selected 
+// (if you ask yourself: IR2? is this a bug? then check how ir1/ir2 are loaded in this design)
 always @(selins or selreg or ir2)
 	if (enable & selins) //load our instruction register
 		reg_address_out[8:1] = COPINS[8:1];
@@ -199,12 +201,15 @@ always @(selins or selreg or ir2)
 	else
 		reg_address_out[8:1] = 8'hFF;//during dummy cycle null register address is present
 
-//detect illegal register access
-always @(ir2 or cdang)
-	if((ir2[8:7] == 2'b00) && (cdang==0))//$000 -> $07E illegal if cdang=0
-		illegalreg = 1;
-	else//$080 -> $1FE always allowed
-		illegalreg = 0;
+// detect illegal register access
+// CDANG = 0 (OCS/ECS) : $080-$1FE allowed
+// CDANG = 1 (OCS)     : $040-$1FE allowed
+// CDANG = 1 (ECS)     : $000-$1FE allowed
+always @(ir2 or cdang or ecs)
+	if (ir2[8:7]==2'b00 && !cdang || ir2[8:6]==3'b000 && !ecs) // illegal access
+		illegalreg = 1'b1;
+	else // $080 -> $1FE always allowed
+		illegalreg = 1'b0;
 
 //--------------------------------------------------------------------------------------
 
@@ -292,17 +297,17 @@ WAIT: first cycle after fetch of second instruction word is a cycle when compari
 this comparision is beeing done all the time regardless of the available DMA slot
 when the comparision condition is safisfied the FSM goes to wait_wake_up state,
 it stays in this state as long as display DMA takes the DMA slots
-when display DMA doesn't use even bus cycle the FMS advances to the fetch state (the slot isn't used by the copper, DBR is deasserted)
+when display DMA doesn't use even bus cycle the FSM advances to the fetch state (the slot isn't used by the copper, DBR is deasserted)
 such a behaviour is caused by dma request pipelining in real Agnus
 
 */
 //--------------------------------------------------------------------------------------
     
-//generate request dma (reqdma) signal			 
+//generate dma request signal (reqdma)
 //copper only uses even cycles: hpos[1:0]==2'b01)
 //the last cycle of the short line is not usable by the copper
 //in PAL mode when the copper wants to access memory bus in cycle $E1 the DBR is activated 
-//(blocks the blitter and CPU) but actual transfer takes place in the next cycle
+//(blocks the blitter and CPU) but actual transfer takes place in the next cycle (DBR still asserted)
 
 always @(posedge clk)
 	if (clk_ena)

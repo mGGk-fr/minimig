@@ -25,6 +25,7 @@
 // 2008-09-23	- added c1 and c3 clock enable outputs
 // 2008-10-15	- adapted e clock enable to be in sync with cck
 // 2009-05-23	- eclk modification
+// 2010-08-18	- clean-up
 
 module clock_generator
 (
@@ -32,7 +33,7 @@ module clock_generator
 	output	clk28m,	 	// 28.37516 MHz clock output
 	output	reg c1,		// clk28m clock domain signal synchronous with clk signal
 	output	reg c3,		// clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
-	input	cck,		// colour clock from Agnus hpos[0] (3.54 MHz)
+	output	cck,		// colour clock output (3.54 MHz)
 	output 	clk, 		// 7.09379  MHz clock output
 	output	cpu_clk,
 	input	turbo,
@@ -115,7 +116,7 @@ module clock_generator
 		.CLKFX_DIVIDE(2),   // Can be any integer from 1 to 32
 		.CLKFX_MULTIPLY(14), // Can be any integer from 2 to 32
 		.CLKIN_DIVIDE_BY_2("FALSE"), // TRUE/FALSE to enable CLKIN divide by two feature
-		.CLKIN_PERIOD(35.0),  // Specify period of input clock
+		.CLKIN_PERIOD(140.0),  // Specify period of input clock
 		.CLKOUT_PHASE_SHIFT("NONE"), // Specify phase shift of NONE, FIXED or VARIABLE
 		.CLK_FEEDBACK("NONE"),  // Specify clock feedback of NONE, 1X or 2X
 		.DESKEW_ADJUST("SYSTEM_SYNCHRONOUS"), // SOURCE_SYNCHRONOUS, SYSTEM_SYNCHRONOUS or an integer from 0 to 15
@@ -136,24 +137,22 @@ module clock_generator
 	(
 		.O(cpu_clk),	// Clock MUX output
 		.I0(~clk),		// Clock0 input
-		//.I1(~clk28m),	// Clock1 input
 		.I1(~pll_cpuclk),	// Clock1 input
 		.S(turbo)		// Clock select input
 	);
 
-	reg		[3:0] e_cnt;	//used to generate e clock enable
+reg		[3:0] e_cnt;	//used to generate e clock enable
 
-//generate e in sync with cck
-always @(cck)
-	e_cnt[0] <= ~cck;
-	
+// E clock counter
 always @(posedge clk)
-	if (e_cnt[0])
-		if (e_cnt[3])	//if e_cnt==9 reset counter
-			e_cnt[3:1] <= 0;
-		else
-			e_cnt[3:1] <= e_cnt[3:1] + 1;
+	if (e_cnt[3] && e_cnt[0])
+		e_cnt[3:0] <= 0;
+	else
+		e_cnt[3:0] <= e_cnt[3:0] + 1;
 
+// CCK clock output
+assign cck = ~e_cnt[0];
+		
 assign eclk[0] = ~e_cnt[3] & ~e_cnt[2] & ~e_cnt[1] & ~e_cnt[0]; // e_cnt == 0
 assign eclk[1] = ~e_cnt[3] & ~e_cnt[2] & ~e_cnt[1] &  e_cnt[0]; // e_cnt == 1
 assign eclk[2] = ~e_cnt[3] & ~e_cnt[2] &  e_cnt[1] & ~e_cnt[0]; // e_cnt == 2
