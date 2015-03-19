@@ -1,0 +1,1 @@
+Minimig stands for Mini Amiga. Minimig is an FPGA-based re-implementation of the original Amiga 500 hardware. In it's current form, Minimig is a single PCB measuring only 12\*12cm which makes it the smallest "Amiga" ever made and the first new "Amiga" in almost 14 years! Minimig is available for download as an open-source / open-hardware design under the GNU public license.
